@@ -177,7 +177,13 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-        <div className="mt-10 text-center">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper transition hover:bg-night-light"
+          >
+            查看服務報價 →
+          </Link>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 rounded-full border border-night px-7 py-3 text-sm font-semibold text-night transition hover:bg-night hover:text-paper"

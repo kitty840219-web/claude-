@@ -29,6 +29,7 @@ export const NAV = [
   { href: "/works", label: "語錄作品" },
   { href: "/videos", label: "影音創作" },
   { href: "/shop", label: "周邊商店" },
+  { href: "/pricing", label: "服務報價" },
   { href: "/contact", label: "合作聯絡" },
 ];
 

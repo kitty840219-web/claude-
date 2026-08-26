@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
@@ -116,6 +117,14 @@ export default function ContactPage() {
                 <p className="mt-1 text-xs leading-relaxed text-ink-500">{p.desc}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-night-light"
+            >
+              查看完整服務報價 →
+            </Link>
           </div>
         </div>
       </section>
