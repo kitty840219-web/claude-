@@ -1,25 +1,55 @@
 import type { Metadata } from "next";
+import { Noto_Serif_TC, Noto_Sans_TC, Ma_Shan_Zheng } from "next/font/google";
 import "./globals.css";
-import { AppStateProvider } from "@/lib/context/AppStateContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SITE } from "@/lib/data/site";
+
+const notoSerifTC = Noto_Serif_TC({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "900"],
+  variable: "--font-noto-serif-tc",
+  display: "swap",
+});
+
+const notoSansTC = Noto_Sans_TC({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-noto-sans-tc",
+  display: "swap",
+});
+
+const maShanZheng = Ma_Shan_Zheng({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-ma-shan-zheng",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "eSIM 電話網",
-  description: "瀏覽、購買與管理各國 eSIM 上網方案",
+  title: `${SITE.brand} ｜ ${SITE.brandEn}`,
+  description: SITE.description,
+  openGraph: {
+    title: SITE.brandFull,
+    description: SITE.description,
+    images: ["/images/hero-cover.jpg"],
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="zh-Hant">
-      <body>
-        <AppStateProvider>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </AppStateProvider>
+    <html
+      lang="zh-Hant"
+      className={`${notoSerifTC.variable} ${notoSansTC.variable} ${maShanZheng.variable}`}
+    >
+      <body className="flex min-h-screen flex-col bg-paper font-sans text-ink-900 antialiased">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
