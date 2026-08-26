@@ -114,7 +114,10 @@ export default function PricingPage() {
           <div className={styles.wrap}>
             <div className={styles.svcHead}>
               <div className={styles.eyebrow}>01 · SERVICES — ILLUSTRATION &amp; QUOTES</div>
-              <h2>插畫語錄設計</h2>
+              <h2>
+                插畫語錄設計
+                <span className={styles.badge}>主力服務</span>
+              </h2>
             </div>
             <p className={styles.svcIntro}>
               艾飛樂語錄的核心服務，從單張語錄圖卡到品牌 IP 角色、周邊與 LINE 貼圖，皆可客製。
@@ -216,8 +219,11 @@ export default function PricingPage() {
         <section className={styles.svc}>
           <div className={styles.wrap}>
             <div className={styles.svcHead}>
-              <div className={styles.eyebrow}>04 · SERVICES — AI PIPELINE ｜熱門推薦</div>
-              <h2>AI 短影音方案</h2>
+              <div className={styles.eyebrow}>04 · SERVICES — AI PIPELINE</div>
+              <h2>
+                AI 短影音方案
+                <span className={styles.badge}>熱門推薦</span>
+              </h2>
             </div>
             <p className={styles.svcIntro}>從分鏡、動畫生成到剪輯後製，三個階段可單獨委託，也可整合製作。</p>
 

@@ -3,7 +3,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
+import StatBadge from "@/components/StatBadge";
+import SocialIcon from "@/components/SocialIcon";
 import { LINKS, SERVICES, SITE, TIMELINE } from "@/lib/data/site";
+import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
@@ -24,6 +27,24 @@ export default function AboutPage() {
           </div>
           <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">關於艾飛樂</h1>
           <p className="mt-4 text-paper/70">{SITE.brandFull}</p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+            <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
+            <StatBadge
+              icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />}
+              label={`${SERVICES.length} 大服務項目`}
+              light
+            />
+            <StatBadge
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
+                  <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                  <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                </svg>
+              }
+              label={`${QUOTES.length}+ 篇語錄作品`}
+              light
+            />
+          </div>
         </div>
       </section>
 

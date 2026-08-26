@@ -3,6 +3,7 @@ import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
+import TagChip from "@/components/TagChip";
 import { LINKS, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
@@ -16,17 +17,21 @@ const SHOPS = [
     key: "kusdom",
     title: "Kusdom 創作者商店",
     desc: "明信片、貼紙、飾品、生命靈數水晶等艾飛樂語錄客製化周邊商品，147+ 款設計持續更新中。",
+    meta: "147+ 款設計",
     href: LINKS.kusdom,
     icon: "shop" as const,
     cta: "前往商店選購",
+    tag: "熱銷中",
   },
   {
     key: "line",
     title: "LINE 貼圖商店",
     desc: "把艾飛樂語錄的溫柔，帶進日常對話裡。多款主題貼圖陸續上架。",
+    meta: "多款主題",
     href: LINKS.lineSticker,
     icon: "line" as const,
     cta: "查看貼圖作品",
+    tag: "持續上架",
   },
 ];
 
@@ -46,33 +51,44 @@ export default function ShopPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-2">
-          {SHOPS.map((s) => (
-            <a
-              key={s.key}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col overflow-hidden rounded-[2rem] border border-night/10 bg-paper shadow-card transition hover:-translate-y-1"
-            >
-              <div className="bg-grain relative flex h-40 items-center justify-center bg-gradient-to-br from-lavender/60 to-night-light">
-                <div className="relative h-24 w-24">
-                  <Image src={asset("/images/mascot.png")} alt="" fill className="object-contain drop-shadow-lg" />
-                </div>
-              </div>
-              <div className="p-7">
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-night text-paper">
-                  <SocialIcon type={s.icon} className="h-4 w-4" />
-                </div>
-                <h3 className="font-serif text-lg font-bold text-night">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-500">{s.desc}</p>
-                <span className="mt-5 inline-block text-xs font-semibold text-gold-dark group-hover:underline">
-                  {s.cta} →
+      {/* Shop list */}
+      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
+        <div className="overflow-hidden rounded-[1.75rem] border border-night/10 bg-paper shadow-card">
+          <div className="flex items-center justify-between border-b border-night/10 bg-paper-warm px-6 py-4">
+            <p className="text-xs font-semibold tracking-[0.25em] text-gold-dark">STORE · 商店貨架</p>
+            <span className="text-xs font-semibold text-ink-400">共 {SHOPS.length} 個商店</span>
+          </div>
+          <div className="divide-y divide-night/10">
+            {SHOPS.map((s) => (
+              <a
+                key={s.key}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 px-5 py-5 transition hover:bg-gold/5 sm:gap-6 sm:px-7"
+              >
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-night text-paper shadow-card sm:h-16 sm:w-16">
+                  <SocialIcon type={s.icon} className="h-6 w-6" />
                 </span>
-              </div>
-            </a>
-          ))}
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center gap-2">
+                    <span className="font-serif text-base font-bold text-night sm:text-lg">{s.title}</span>
+                    <TagChip tone="gold">{s.tag}</TagChip>
+                  </span>
+                  <span className="mt-1.5 block text-xs leading-relaxed text-ink-500 sm:text-sm">
+                    {s.desc}
+                  </span>
+                </span>
+                <span className="hidden shrink-0 rounded-full bg-gold px-5 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition group-hover:bg-gold-light sm:inline-block sm:text-sm">
+                  {s.cta}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-4 flex justify-end sm:hidden">
+          <p className="text-xs text-ink-400">點一下卡片即可前往商店 →</p>
         </div>
       </section>
 
@@ -90,6 +106,13 @@ export default function ShopPage() {
           >
             聯絡艾飛樂 →
           </a>
+        </div>
+      </section>
+
+      {/* Mascot band */}
+      <section className="mx-auto max-w-3xl px-4 pb-20 text-center sm:px-6">
+        <div className="relative mx-auto h-20 w-20">
+          <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
         </div>
       </section>
     </div>

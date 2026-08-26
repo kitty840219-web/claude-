@@ -16,9 +16,14 @@ export default function QuoteCard({ quote, index = 0 }: { quote: Quote; index?: 
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-60" />
       <Star className="absolute right-5 top-5 h-3 w-3 text-gold-light" />
       <Star className="absolute left-6 top-10 h-2 w-2 text-paper/70" delay="1s" />
-      <span className="relative w-fit rounded-full bg-paper/10 px-3 py-1 text-[11px] font-medium tracking-wide text-gold-light">
-        {quote.tag}
-      </span>
+      <div className="relative flex items-center justify-between">
+        <span className="w-fit rounded-full bg-paper/10 px-3 py-1 text-[11px] font-medium tracking-wide text-gold-light">
+          {quote.tag}
+        </span>
+        <span className="font-serif text-xs font-semibold tracking-widest text-paper/40">
+          #{String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
       <div className="relative">
         <p className="font-serif text-lg font-semibold leading-relaxed text-paper sm:text-xl">
           {quote.line}

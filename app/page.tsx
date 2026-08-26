@@ -4,6 +4,7 @@ import Star from "@/components/Star";
 import SectionHeading from "@/components/SectionHeading";
 import QuoteCard from "@/components/QuoteCard";
 import SocialIcon from "@/components/SocialIcon";
+import StatBadge from "@/components/StatBadge";
 import { LINKS, SERVICES, SITE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
@@ -66,6 +67,20 @@ export default function HomePage() {
             <p className="text-shadow-soft mt-4 max-w-xl text-base text-paper/90 sm:text-lg">
               {SITE.tagline}，{SITE.taglineSub}
             </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+              <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
+              <StatBadge
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
+                    <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                    <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                  </svg>
+                }
+                label={`${QUOTES.length}+ 篇語錄作品`}
+                light
+              />
+              <StatBadge icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />} label="147+ 款周邊設計" light />
+            </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/works"

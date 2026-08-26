@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
-import QuoteCard from "@/components/QuoteCard";
+import QuoteGallery from "@/components/QuoteGallery";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
@@ -37,10 +37,8 @@ export default function WorksPage() {
           title="風格語錄選粹"
           desc="以艾飛樂語錄一貫的溫柔筆調創作，完整每日更新與插畫原作，歡迎追蹤 Instagram 帳號閱讀。"
         />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {QUOTES.map((q, i) => (
-            <QuoteCard key={q.id} quote={q} index={i} />
-          ))}
+        <div className="mt-10">
+          <QuoteGallery quotes={QUOTES} />
         </div>
       </section>
 

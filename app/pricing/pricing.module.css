@@ -1,19 +1,19 @@
 .page {
-  --bg: #f7f2e6;
-  --bg-card: #efe4cd;
-  --bg-card-2: #e7d9bc;
-  --text: #1c1f18;
-  --text-muted: #6b6455;
-  --line: #c9bfa8;
-  --accent: #c43e17;
-  --forest: #2e4f39;
+  --bg: #faf6ee;
+  --bg-card: #f2e9d8;
+  --bg-card-2: #ecdfc4;
+  --text: #22213f;
+  --text-muted: #6f6a92;
+  --line: #ddd2e6;
+  --accent: #a97c2e;
+  --forest: #7e71ab;
 
-  --leader-bg: #171812;
-  --leader-text: #f4efe0;
-  --leader-muted: #b9ad93;
-  --leader-accent: #ff7a4d;
-  --leader-forest: #8fc19f;
-  --leader-line: #3a3728;
+  --leader-bg: #181542;
+  --leader-text: #faf6ee;
+  --leader-muted: rgba(250, 246, 238, 0.65);
+  --leader-accent: #ecce8f;
+  --leader-forest: #cfc6ea;
+  --leader-line: #3f3a78;
 
   background: var(--bg);
   color: var(--text);
@@ -181,6 +181,24 @@
 
 .svcHead {
   margin-bottom: 8px;
+}
+.svcHead h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: rgba(169, 124, 46, 0.08);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 12px;
 }
 .svcHead h2 {
   font-family: var(--font-dm-serif), var(--font-noto-serif-tc, serif);

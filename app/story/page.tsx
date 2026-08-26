@@ -27,18 +27,29 @@ export default function StoryPage() {
           <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">艾飛樂的故事</h1>
           <p className="mt-4 text-paper/70">一段用插畫與文字，寫給每個黑夜的旅程</p>
 
-          {/* chapter jump nav */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-            {CHAPTERS.map((c, i) => (
-              <a
-                key={c.tag}
-                href={`#chapter-${i}`}
-                className="rounded-full border border-paper/25 px-4 py-1.5 text-xs font-medium text-paper/80 transition hover:border-gold hover:text-gold-light"
-              >
-                {c.tag}
-              </a>
-            ))}
+          {/* chapter level map */}
+          <div className="mt-10 overflow-x-auto pb-2">
+            <div className="relative mx-auto flex w-max min-w-full items-start justify-center gap-1 px-4 sm:gap-2">
+              <div className="pointer-events-none absolute left-0 right-0 top-5 h-px bg-gradient-to-r from-transparent via-paper/25 to-transparent sm:top-6" />
+              {CHAPTERS.map((c, i) => (
+                <a
+                  key={c.tag}
+                  href={`#chapter-${i}`}
+                  className="group relative flex w-16 flex-col items-center gap-2 sm:w-24"
+                >
+                  <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-gold/70 bg-night-dark font-serif text-xs font-bold text-gold-light shadow-card transition group-hover:border-gold group-hover:bg-night sm:h-12 sm:w-12 sm:text-sm">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-center text-[10px] font-medium leading-tight text-paper/70 transition group-hover:text-gold-light sm:text-xs">
+                    {c.tag}
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
+          <p className="mt-4 text-[11px] tracking-widest text-paper/40">
+            全 {CHAPTERS.length} 章節・點選節點快速前往
+          </p>
         </div>
       </section>
 
@@ -67,7 +78,12 @@ export default function StoryPage() {
         <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
           {CHAPTERS.map((chapter, i) => (
             <div key={chapter.tag} id={`chapter-${i}`} className="scroll-mt-24">
-              <StoryChapter chapter={chapter} index={i} isLast={i === CHAPTERS.length - 1} />
+              <StoryChapter
+                chapter={chapter}
+                index={i}
+                total={CHAPTERS.length}
+                isLast={i === CHAPTERS.length - 1}
+              />
             </div>
           ))}
         </div>
