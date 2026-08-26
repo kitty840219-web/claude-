@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LINKS, NAV, SITE } from "@/lib/data/site";
 import SocialIcon from "@/components/SocialIcon";
+import ReplayIntroButton from "@/components/ReplayIntroButton";
 
 const SOCIALS = [
   { key: "instagram" as const, href: LINKS.instagramQuotes, label: "Instagram · 語錄" },
@@ -64,6 +65,9 @@ export default function Footer() {
             © {new Date().getFullYear()} {SITE.brandFull}
           </p>
           <p>用插畫與文字，陪你走過每個黑夜。</p>
+        </div>
+        <div className="mt-4 text-center">
+          <ReplayIntroButton />
         </div>
       </div>
     </footer>

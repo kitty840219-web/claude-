@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
+import PageTransition from "@/components/PageTransition";
+import EntryGate from "@/components/EntryGate";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
@@ -50,8 +52,11 @@ export default function RootLayout({
       className={`${notoSerifTC.variable} ${notoSansTC.variable} ${maShanZheng.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-paper font-sans text-ink-900 antialiased">
+        <EntryGate />
         <Navbar />
-        <main className="flex-1 pb-16 md:pb-0">{children}</main>
+        <main className="flex-1 pb-16 md:pb-0">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
         <BottomNav />
       </body>
