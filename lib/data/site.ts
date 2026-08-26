@@ -25,6 +25,7 @@ export const LINKS = {
 
 export const NAV = [
   { href: "/", label: "首頁" },
+  { href: "/story", label: "艾飛樂的故事" },
   { href: "/about", label: "關於艾飛樂" },
   { href: "/works", label: "語錄作品" },
   { href: "/videos", label: "影音創作" },

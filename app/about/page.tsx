@@ -76,6 +76,12 @@ export default function AboutPage() {
               >
                 PRO360 服務頁面 →
               </a>
+              <Link
+                href="/story"
+                className="rounded-full bg-night px-5 py-2 text-xs font-semibold text-paper hover:bg-night-light"
+              >
+                閱讀艾飛樂的故事 →
+              </Link>
             </div>
           </div>
         </div>

@@ -9,6 +9,11 @@ import { QUOTES } from "@/lib/data/quotes";
 
 const QUICK_NAV = [
   {
+    href: "/story",
+    title: "艾飛樂的故事",
+    desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程",
+  },
+  {
     href: "/works",
     title: "語錄作品",
     desc: "插畫語錄選粹，用一句話說出你的心事",
@@ -125,7 +130,7 @@ export default function HomePage() {
       <section className="bg-paper-warm py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="EXPLORE" title="走進艾飛樂的創作世界" center />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {QUICK_NAV.map((item) => (
               <Link
                 key={item.href}
