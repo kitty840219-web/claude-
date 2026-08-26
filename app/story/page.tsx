@@ -6,6 +6,7 @@ import SectionHeading from "@/components/SectionHeading";
 import StoryChapter from "@/components/StoryChapter";
 import { SITE } from "@/lib/data/site";
 import { CHAPTERS } from "@/lib/data/story";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `艾飛樂的故事 ｜ ${SITE.brand}`,
@@ -45,7 +46,7 @@ export default function StoryPage() {
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <div className="flex flex-col items-center gap-6 rounded-[2rem] border border-night/10 bg-paper-warm p-8 shadow-card sm:flex-row sm:text-left">
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-paper shadow-soft sm:h-28 sm:w-28">
-            <Image src="/images/profile.jpg" alt="艾飛樂創作者 Ivy" fill className="object-cover" sizes="112px" />
+            <Image src={asset("/images/profile.jpg")} alt="艾飛樂創作者 Ivy" fill className="object-cover" sizes="112px" />
           </div>
           <div className="text-center sm:text-left">
             <p className="text-xs font-semibold tracking-widest text-gold-dark">
@@ -77,7 +78,7 @@ export default function StoryPage() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-2xl px-4 sm:px-6">
           <div className="relative mx-auto mb-6 h-24 w-24">
-            <Image src="/images/mascot.png" alt="艾飛樂 IP 角色" fill className="object-contain" />
+            <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
           </div>
           <SectionHeading eyebrow="TO BE CONTINUED" title="故事，還在寫" light center />
           <p className="mt-4 text-sm leading-relaxed text-paper/70 sm:text-base">

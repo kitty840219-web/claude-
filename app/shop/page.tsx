@@ -4,6 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `周邊商店 ｜ ${SITE.brand}`,
@@ -57,7 +58,7 @@ export default function ShopPage() {
             >
               <div className="bg-grain relative flex h-40 items-center justify-center bg-gradient-to-br from-lavender/60 to-night-light">
                 <div className="relative h-24 w-24">
-                  <Image src="/images/mascot.png" alt="" fill className="object-contain drop-shadow-lg" />
+                  <Image src={asset("/images/mascot.png")} alt="" fill className="object-contain drop-shadow-lg" />
                 </div>
               </div>
               <div className="p-7">

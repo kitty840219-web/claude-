@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
 import { LINKS, SERVICES, SITE, TIMELINE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `關於艾飛樂 ｜ ${SITE.brand}`,
@@ -33,7 +34,7 @@ export default function AboutPage() {
             <div className="absolute -right-4 -top-4 h-full w-full rounded-[2rem] bg-gold/20 sm:-right-6 sm:-top-6" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-paper shadow-soft">
               <Image
-                src="/images/profile.jpg"
+                src={asset("/images/profile.jpg")}
                 alt="艾飛樂創辦人 Ivy"
                 fill
                 className="object-cover"
@@ -92,7 +93,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="grid items-center gap-10 rounded-[2rem] border border-night/10 bg-paper p-8 shadow-card sm:grid-cols-[auto_1fr] sm:p-12">
             <div className="relative mx-auto h-40 w-40 shrink-0 sm:h-48 sm:w-48">
-              <Image src="/images/mascot.png" alt="艾飛樂品牌 IP 角色" fill className="object-contain" />
+              <Image src={asset("/images/mascot.png")} alt="艾飛樂品牌 IP 角色" fill className="object-contain" />
             </div>
             <div>
               <SectionHeading eyebrow="BRAND CHARACTER" title="艾飛樂的 IP 角色" />

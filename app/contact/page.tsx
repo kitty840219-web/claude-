@@ -5,6 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `合作聯絡 ｜ ${SITE.brand}`,
@@ -69,7 +70,7 @@ export default function ContactPage() {
         <div className="grid gap-10 md:grid-cols-[1fr_1.1fr] md:items-start">
           <div>
             <div className="relative mx-auto h-32 w-32 md:mx-0">
-              <Image src="/images/mascot.png" alt="艾飛樂 IP 角色" fill className="object-contain" />
+              <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
             </div>
             <SectionHeading
               eyebrow="LET'S TALK"

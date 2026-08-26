@@ -6,6 +6,7 @@ import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `語錄作品 ｜ ${SITE.brand}`,
@@ -85,7 +86,7 @@ export default function WorksPage() {
       {/* Mascot band */}
       <section className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6">
         <div className="relative mx-auto h-28 w-28">
-          <Image src="/images/mascot.png" alt="艾飛樂 IP 角色" fill className="object-contain" />
+          <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
         </div>
         <p className="mt-6 font-serif text-lg text-night sm:text-xl">
           「{SITE.tagline}，{SITE.taglineSub}。」

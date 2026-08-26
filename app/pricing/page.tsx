@@ -4,6 +4,7 @@ import { DM_Mono, DM_Serif_Display } from "next/font/google";
 import styles from "./pricing.module.css";
 import SocialIcon from "@/components/SocialIcon";
 import { LINKS, SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 import {
   AI_CARDS,
   CHIPS,
@@ -66,12 +67,12 @@ export default function PricingPage() {
       <div className={styles.leader}>
         <div className={`${styles.wrap} ${styles.hero}`}>
           <div className={styles.heroMascot}>
-            <Image src="/images/mascot.png" alt="艾飛樂 Aifeiler 吉祥物" width={240} height={310} />
+            <Image src={asset("/images/mascot.png")} alt="艾飛樂 Aifeiler 吉祥物" width={240} height={310} />
           </div>
           <div className={styles.heroTop}>
             <div className={styles.brand}>
               <div className={styles.brandMark}>
-                <Image src="/images/mascot.png" alt="艾飛樂 Aifeiler Logo" width={44} height={44} />
+                <Image src={asset("/images/mascot.png")} alt="艾飛樂 Aifeiler Logo" width={44} height={44} />
               </div>
               <div className={styles.brandName}>
                 <strong>艾飛樂 Aifeiler</strong>

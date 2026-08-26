@@ -6,6 +6,7 @@ import QuoteCard from "@/components/QuoteCard";
 import SocialIcon from "@/components/SocialIcon";
 import { LINKS, SERVICES, SITE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
+import { asset } from "@/lib/basePath";
 
 const QUICK_NAV = [
   {
@@ -42,7 +43,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-night-dark">
         <div className="relative h-[78vh] min-h-[560px] w-full sm:h-[86vh]">
           <Image
-            src="/images/hero-cover.jpg"
+            src={asset("/images/hero-cover.jpg")}
             alt="艾飛樂語錄封面插畫 — 女孩在星空下寫字"
             fill
             priority
@@ -93,7 +94,7 @@ export default function HomePage() {
             <div className="absolute -left-4 -top-4 h-full w-full rounded-[2rem] bg-lavender/30 sm:-left-6 sm:-top-6" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-paper shadow-soft">
               <Image
-                src="/images/profile.jpg"
+                src={asset("/images/profile.jpg")}
                 alt="艾飛樂 Ivy 本人照片"
                 fill
                 className="object-cover"
@@ -102,7 +103,7 @@ export default function HomePage() {
             </div>
             <div className="absolute -bottom-6 -right-4 h-24 w-24 rotate-6 rounded-2xl bg-paper p-2 shadow-card sm:h-28 sm:w-28">
               <div className="relative h-full w-full">
-                <Image src="/images/mascot.png" alt="艾飛樂 IP 角色" fill className="object-contain" />
+                <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
               </div>
             </div>
           </div>

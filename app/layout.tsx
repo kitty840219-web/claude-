@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 const notoSerifTC = Noto_Serif_TC({
   subsets: ["latin"],
@@ -27,12 +28,13 @@ const maShanZheng = Ma_Shan_Zheng({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kitty840219-web.github.io"),
   title: `${SITE.brand} ｜ ${SITE.brandEn}`,
   description: SITE.description,
   openGraph: {
     title: SITE.brandFull,
     description: SITE.description,
-    images: ["/images/hero-cover.jpg"],
+    images: [asset("/images/hero-cover.jpg")],
   },
 };
 
