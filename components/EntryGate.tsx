@@ -41,7 +41,7 @@ export default function EntryGate() {
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-25" />
 
       <div
-        className={`relative w-full max-w-sm rounded-[2rem] border border-gold/30 bg-night-dark/70 p-8 text-center shadow-soft backdrop-blur transition-transform duration-500 sm:p-10 ${
+        className={`relative w-full max-w-sm rounded-[2rem] bg-night-dark/45 p-8 text-center shadow-soft backdrop-blur-sm transition-transform duration-500 sm:p-10 ${
           closing ? "scale-95" : "scale-100"
         }`}
       >
