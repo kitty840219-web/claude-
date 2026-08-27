@@ -27,6 +27,16 @@ const TABS = [
     ),
   },
   {
+    href: "/about",
+    label: "關於作者",
+    icon: (active: boolean) => (
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
+        <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} />
+        <path d="M5 20c.7-4 3.1-6 7-6s6.3 2 7 6" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
     href: "/story",
     label: "故事",
     icon: (active: boolean) => (
@@ -93,7 +103,7 @@ export default function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className="flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium"
+              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
             >
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${

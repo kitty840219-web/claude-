@@ -5,18 +5,46 @@ import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
 import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
-import { LINKS, SERVICES, SITE, TIMELINE } from "@/lib/data/site";
+import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
-  title: `關於艾飛樂 ｜ ${SITE.brand}`,
+  title: `關於作者 Ivy ｜ ${SITE.brand}`,
   description: SITE.description,
 };
 
 export default function AboutPage() {
   return (
     <div>
+      <section className="bg-paper-warm px-4 pb-16 pt-8">
+        <div className="mx-auto max-w-sm">
+          <div className="mb-7 text-center">
+            <p className="text-xs font-semibold tracking-[0.35em] text-gold-dark">ABOUT THE AUTHOR</p>
+            <h1 className="mt-3 font-serif text-3xl font-bold text-night">關於作者</h1>
+          </div>
+          <div className="relative">
+            <div className="absolute -left-3 -top-3 h-full w-full rounded-[2rem] bg-lavender/35" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-paper shadow-soft">
+              <Image src={asset("/images/profile.jpg")} alt="艾飛樂創辦人 Ivy" fill className="object-cover" priority />
+            </div>
+            <div className="absolute -bottom-5 -right-2 h-24 w-24 rotate-6 rounded-2xl bg-paper p-2 shadow-card">
+              <div className="relative h-full w-full">
+                <Image src={asset("/images/mascot.png")} alt="小艾 IP 角色" fill className="object-contain" />
+              </div>
+            </div>
+          </div>
+          <div className="mt-14">
+            <SectionHeading eyebrow="ABOUT AIFEILER" title={`嗨，我是 ${SITE.founder}`} />
+            <p className="mt-5 text-sm leading-loose text-ink-600">{SITE.description}</p>
+            <p className="mt-4 text-sm leading-loose text-ink-600">
+              從插畫語錄出發，延伸到品牌視覺、命理靈性設計、客製周邊與 LINE
+              貼圖，艾飛樂用溫柔而堅定的筆觸，陪每一位讀者走過屬於自己的黑夜。
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="relative overflow-hidden bg-night-dark">
         <div className="relative aspect-square w-full">
           <Image
@@ -34,7 +62,7 @@ export default function AboutPage() {
               <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">ABOUT</p>
               <Star className="h-3 w-3 text-gold-light" delay="1s" />
             </div>
-            <h1 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">關於艾飛樂</h1>
+            <h2 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">關於艾飛樂</h2>
             <p className="text-shadow-soft mt-2 text-sm text-paper/90">{SITE.brandFull}</p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
               <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
@@ -53,67 +81,6 @@ export default function AboutPage() {
                 label={`${QUOTES.length}+ 篇語錄作品`}
                 light
               />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Bio */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <div className="relative mx-auto w-full max-w-sm order-2 md:order-1">
-            <div className="absolute -right-4 -top-4 h-full w-full rounded-[2rem] bg-gold/20 sm:-right-6 sm:-top-6" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-paper shadow-soft">
-              <Image
-                src={asset("/images/profile.jpg")}
-                alt="艾飛樂創辦人 Ivy"
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 24rem, 90vw"
-              />
-            </div>
-          </div>
-
-          <div className="order-1 md:order-2">
-            <SectionHeading eyebrow="STORY" title={`${SITE.founder} × ${SITE.brand}`} />
-            <div className="mt-5 space-y-4 text-sm leading-loose text-ink-600 sm:text-base">
-              <p>
-                {SITE.brandFull}由 {SITE.founder} 於 {SITE.established}{" "}
-                年成立，是一間融合療癒與美感的數位文創工作室。
-              </p>
-              <p>
-                艾飛樂相信，文字與插畫是最溫柔的陪伴方式——把生活裡難以言說的心事，畫成一張張語錄圖卡，
-                寫下「{SITE.tagline}」的信念：即使身處低潮，依然能找到屬於自己的那顆星星。
-              </p>
-              <p>
-                目前作品涵蓋插畫語錄、命理與靈性主題視覺、品牌周邊設計、LINE
-                貼圖與短影音創作，並持續透過 Instagram、YouTube 與周邊商店，
-                將這份共鳴傳遞給更多人。
-              </p>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href={LINKS.portaly}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-night/20 px-5 py-2 text-xs font-semibold text-night hover:bg-night hover:text-paper"
-              >
-                所有連結一覽 Portaly →
-              </a>
-              <a
-                href={LINKS.pro360}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-night/20 px-5 py-2 text-xs font-semibold text-night hover:bg-night hover:text-paper"
-              >
-                PRO360 服務頁面 →
-              </a>
-              <Link
-                href="/story"
-                className="rounded-full bg-night px-5 py-2 text-xs font-semibold text-paper hover:bg-night-light"
-              >
-                閱讀艾飛樂的故事 →
-              </Link>
             </div>
           </div>
         </div>

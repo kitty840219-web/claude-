@@ -128,46 +128,6 @@ export default function HomePage() {
 
       <SocialStation />
 
-      {/* Intro / About preview */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <div className="relative mx-auto w-full max-w-sm">
-            <div className="absolute -left-4 -top-4 h-full w-full rounded-[2rem] bg-lavender/30 sm:-left-6 sm:-top-6" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-paper shadow-soft">
-              <Image
-                src={asset("/images/profile.jpg")}
-                alt="艾飛樂 Ivy 本人照片"
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 24rem, 90vw"
-              />
-            </div>
-            <div className="absolute -bottom-6 -right-4 h-24 w-24 rotate-6 rounded-2xl bg-paper p-2 shadow-card sm:h-28 sm:w-28">
-              <div className="relative h-full w-full">
-                <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <SectionHeading eyebrow="ABOUT AIFEILER" title={`嗨，我是 ${SITE.founder}`} />
-            <p className="mt-5 text-sm leading-loose text-ink-600 sm:text-base">
-              {SITE.description}
-            </p>
-            <p className="mt-4 text-sm leading-loose text-ink-600 sm:text-base">
-              從插畫語錄出發，延伸到品牌視覺、命理靈性設計、客製周邊與 LINE
-              貼圖，艾飛樂用溫柔而堅定的筆觸，陪每一位讀者走過屬於自己的黑夜。
-            </p>
-            <Link
-              href="/about"
-              className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-night underline decoration-gold decoration-2 underline-offset-4 hover:text-gold-dark"
-            >
-              閱讀完整介紹 →
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Quick nav */}
       <section className="bg-paper-warm py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
