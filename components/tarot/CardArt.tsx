@@ -1,3 +1,5 @@
+import { Court, Suit, TarotCard } from "@/lib/tarot/cards";
+
 const GOLD = "#f3d9a4";
 const GOLD_SOFT = "#f3d9a466";
 const CREAM = "#fff6e2";
@@ -454,12 +456,117 @@ function scene(id: number) {
   }
 }
 
-export default function CardArt({ id, className = "" }: { id: number; className?: string }) {
+// --- Minor arcana: small repeatable suit glyphs, arranged as pip cards ---
+
+function SuitGlyph({ cx, cy, suit, scale = 1 }: { cx: number; cy: number; suit: Suit; scale?: number }) {
+  const s = scale;
+  switch (suit) {
+    case "wands":
+      return (
+        <g transform={`translate(${cx} ${cy}) scale(${s})`} stroke={GOLD} strokeWidth={1.6} fill="none" strokeLinecap="round">
+          <line x1={0} y1={-9} x2={0} y2={9} />
+          <line x1={-3} y1={-5} x2={3} y2={-2} />
+          <line x1={3} y1={2} x2={-3} y2={5} />
+        </g>
+      );
+    case "cups":
+      return (
+        <g transform={`translate(${cx} ${cy}) scale(${s})`} stroke={GOLD} strokeWidth={1.4} fill={GOLD_SOFT} strokeLinecap="round">
+          <path d="M -6 -6 Q -6 4 0 4 Q 6 4 6 -6 Z" />
+          <line x1={0} y1={4} x2={0} y2={8} />
+          <line x1={-4} y1={9} x2={4} y2={9} />
+        </g>
+      );
+    case "swords":
+      return (
+        <g transform={`translate(${cx} ${cy}) scale(${s})`} stroke={GOLD} strokeWidth={1.6} strokeLinecap="round">
+          <line x1={0} y1={-9} x2={0} y2={7} />
+          <line x1={-4} y1={-2} x2={4} y2={-2} />
+          <path d="M -3 7 L 3 7 L 0 11 Z" fill={GOLD} />
+        </g>
+      );
+    case "pentacles":
+      return (
+        <g transform={`translate(${cx} ${cy}) scale(${s})`}>
+          <circle r={7} fill="none" stroke={GOLD} strokeWidth={1.3} />
+          <Star cx={0} cy={0} r={5.2} filled={false} />
+        </g>
+      );
+  }
+}
+
+function pipPositions(count: number): { x: number; y: number }[] {
+  if (count === 1) return [{ x: 60, y: 100 }];
+  const top = 36;
+  const bottom = 164;
+  const cols = count === 2 ? [60] : [42, 78];
+  if (count === 2) return [{ x: 60, y: top }, { x: 60, y: bottom }];
+  const rows = Math.ceil(count / 2);
+  const pts: { x: number; y: number }[] = [];
+  let placed = 0;
+  for (let r = 0; r < rows; r++) {
+    const y = rows === 1 ? (top + bottom) / 2 : top + (r * (bottom - top)) / (rows - 1);
+    for (let c = 0; c < cols.length && placed < count; c++) {
+      pts.push({ x: cols[c], y });
+      placed++;
+    }
+  }
+  return pts;
+}
+
+function CrownGlyph({ cx, cy, court }: { cx: number; cy: number; court: Court }) {
+  switch (court) {
+    case "page":
+      return <circle cx={cx} cy={cy} r={3} fill="none" stroke={GOLD} strokeWidth={1.4} />;
+    case "knight":
+      return <path d={`M ${cx - 5} ${cy + 4} L ${cx} ${cy - 6} L ${cx + 5} ${cy + 4} Z`} fill="none" stroke={GOLD} strokeWidth={1.4} />;
+    case "queen":
+      return (
+        <path
+          d={`M ${cx - 6} ${cy + 4} L ${cx - 6} ${cy - 2} L ${cx - 2} ${cy + 2} L ${cx} ${cy - 6} L ${cx + 2} ${cy + 2} L ${cx + 6} ${cy - 2} L ${cx + 6} ${cy + 4} Z`}
+          fill={GOLD_SOFT}
+          stroke={GOLD}
+          strokeWidth={1.2}
+        />
+      );
+    case "king":
+      return (
+        <g stroke={GOLD} strokeWidth={1.3} fill={GOLD_SOFT}>
+          <path d={`M ${cx - 7} ${cy + 4} L ${cx - 7} ${cy - 1} L ${cx - 3} ${cy + 2} L ${cx} ${cy - 6} L ${cx + 3} ${cy + 2} L ${cx + 7} ${cy - 1} L ${cx + 7} ${cy + 4} Z`} />
+          <line x1={cx} y1={cy - 6} x2={cx} y2={cy - 10} />
+          <line x1={cx - 2} y1={cy - 8} x2={cx + 2} y2={cy - 8} />
+        </g>
+      );
+  }
+}
+
+function minorScene(card: TarotCard) {
+  const suit = card.suit as Suit;
+  if (card.court) {
+    return (
+      <>
+        <CrownGlyph cx={60} cy={54} court={card.court} />
+        <Figure cx={60} cy={132} scale={1.35} pose={{ seated: true }} />
+        <SuitGlyph cx={60} cy={158} suit={suit} scale={1.6} />
+      </>
+    );
+  }
+  const count = card.rank ?? 1;
+  return (
+    <>
+      {pipPositions(count).map((p, i) => (
+        <SuitGlyph key={i} cx={p.x} cy={p.y} suit={suit} scale={1.3} />
+      ))}
+    </>
+  );
+}
+
+export default function CardArt({ card, className = "" }: { card: TarotCard; className?: string }) {
   return (
     <svg viewBox="0 0 120 200" className={className} role="img" aria-hidden="true">
       <rect x={0} y={0} width={120} height={200} fill={INK} />
       <Frame />
-      {scene(id)}
+      {card.suit ? minorScene(card) : scene(card.id)}
     </svg>
   );
 }

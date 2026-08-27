@@ -1,3 +1,6 @@
+export type Suit = "wands" | "cups" | "swords" | "pentacles";
+export type Court = "page" | "knight" | "queen" | "king";
+
 export type TarotCard = {
   id: number;
   numeral: string;
@@ -6,6 +9,10 @@ export type TarotCard = {
   symbol: string;
   upright: { keywords: string[]; meaning: string };
   reversed: { keywords: string[]; meaning: string };
+  /** Present only on the 56 minor arcana cards; major arcana cards omit these. */
+  suit?: Suit;
+  rank?: number; // 1-10 for pip cards
+  court?: Court; // set instead of `rank` for court cards
 };
 
 export const MAJOR_ARCANA: TarotCard[] = [
@@ -209,17 +216,84 @@ export const MAJOR_ARCANA: TarotCard[] = [
   },
 ];
 
+const CHINESE_DIGITS = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+const RANK_NAMES_EN = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+
+const SUITS: { id: Suit; name: string; nameEn: string; symbol: string; domain: string; keyword: string; verbUpright: string; verbReversed: string }[] = [
+  { id: "wands", name: "權杖", nameEn: "Wands", symbol: "🔥", domain: "事業、熱情與行動力", keyword: "行動力", verbUpright: "正被點燃，推動著你往前", verbReversed: "被澆熄，或找不到施力的方向" },
+  { id: "cups", name: "聖杯", nameEn: "Cups", symbol: "💧", domain: "情感、關係與內心世界", keyword: "情感", verbUpright: "正流動著，滋養你與他人的連結", verbReversed: "淤積著，情緒需要被好好安放" },
+  { id: "swords", name: "寶劍", nameEn: "Swords", symbol: "🗡️", domain: "思緒、溝通與決斷", verbUpright: "正變得銳利而清晰", verbReversed: "陷入混亂，或被過度的批判纏住", keyword: "決斷" },
+  { id: "pentacles", name: "錢幣", nameEn: "Pentacles", symbol: "🪙", domain: "金錢、工作與物質基礎", keyword: "務實", verbUpright: "正被你踏實地一點一滴累積", verbReversed: "出現漏洞，或被你抓得太緊" },
+];
+
+const RANK_THEMES: { keywords: string[]; upright: string; reversed: string }[] = [
+  { keywords: ["起始", "潛力", "種子"], upright: "全新的開始與純粹的潛力正在萌芽", reversed: "開始被延遲了，或一個機會正被錯過" },
+  { keywords: ["抉擇", "夥伴", "平衡"], upright: "你正站在兩個選項之間，尋求平衡", reversed: "猶豫不決，或關係中的天秤正在傾斜" },
+  { keywords: ["合作", "成長", "初成"], upright: "初步的成果正因合作而浮現", reversed: "計畫延誤，或團隊之間出現摩擦" },
+  { keywords: ["穩定", "休整", "基礎"], upright: "是時候停下來鞏固已有的基礎", reversed: "停滯不前，或安於現狀太久了" },
+  { keywords: ["衝突", "競爭", "失落"], upright: "一場挑戰或競爭正在考驗你", reversed: "衝突正在降溫，你也在從挫折中恢復" },
+  { keywords: ["和諧", "分享", "過渡"], upright: "給予與分享讓事情逐漸和諧", reversed: "付出失了衡，或你太留戀過去" },
+  { keywords: ["反思", "耐心", "策略"], upright: "先別急，這是評估與布局的時刻", reversed: "猶豫或誤判，讓你錯過了該有的判斷" },
+  { keywords: ["投入", "掌握", "效率"], upright: "全心投入後，你正掌握著節奏", reversed: "注意力被分散，或你正給自己太多限制" },
+  { keywords: ["積累", "堅持", "接近圓滿"], upright: "長期的堅持正累積出接近圓滿的成果", reversed: "過度謹慎讓你陷入焦慮與孤立" },
+  { keywords: ["圓滿", "結束", "頂點"], upright: "一個循環正走到它的頂點，圓滿收尾", reversed: "負擔沉重，或這件事其實還沒真正結束" },
+];
+
+const COURT_THEMES: Record<Court, { label: string; en: string; badge: string; keywords: string[]; upright: string; reversed: string }> = {
+  page: { label: "侍者", en: "Page", badge: "侍", keywords: ["學習", "好奇", "訊息"], upright: "一則值得留意的消息，或初學者的好奇心正在萌芽", reversed: "準備得還不夠，或消息並不可靠" },
+  knight: { label: "騎士", en: "Knight", badge: "騎", keywords: ["行動", "衝勁", "追求"], upright: "帶著衝勁全力追求一個目標", reversed: "行動太過魯莽，或一股衝勁半途而廢" },
+  queen: { label: "皇后", en: "Queen", badge: "后", keywords: ["成熟", "滋養", "直覺掌握"], upright: "以成熟而直覺的方式掌握著這個領域", reversed: "情緒化的掌控，或缺乏安全感" },
+  king: { label: "國王", en: "King", badge: "王", keywords: ["權威", "精通", "領導"], upright: "以精通與權威的姿態穩穩領導著局面", reversed: "流於專制，或權力被濫用" },
+};
+
+function buildMinorCard(id: number, suit: (typeof SUITS)[number], opts: { rank: number } | { court: Court }): TarotCard {
+  const isCourt = "court" in opts;
+  const rankTheme = isCourt ? COURT_THEMES[opts.court] : RANK_THEMES[opts.rank - 1];
+  const name = suit.name + (isCourt ? COURT_THEMES[opts.court].label : CHINESE_DIGITS[opts.rank - 1]);
+  const nameEn = `${isCourt ? COURT_THEMES[opts.court].en : RANK_NAMES_EN[opts.rank - 1]} of ${suit.nameEn}`;
+  const numeral = isCourt ? COURT_THEMES[opts.court].badge : String(opts.rank);
+
+  return {
+    id,
+    numeral,
+    name,
+    nameEn,
+    symbol: suit.symbol,
+    suit: suit.id,
+    ...(isCourt ? { court: opts.court } : { rank: opts.rank }),
+    upright: {
+      keywords: [...rankTheme.keywords.slice(0, 2), suit.keyword],
+      meaning: `${rankTheme.upright}。在${suit.domain}的面向上，這股能量${suit.verbUpright}。`,
+    },
+    reversed: {
+      keywords: [...rankTheme.keywords.slice(0, 2), suit.keyword],
+      meaning: `${rankTheme.reversed}。在${suit.domain}的面向上，這股能量${suit.verbReversed}。`,
+    },
+  };
+}
+
+export const MINOR_ARCANA: TarotCard[] = SUITS.flatMap((suit, suitIndex) => {
+  const base = 22 + suitIndex * 14;
+  const pips = Array.from({ length: 10 }, (_, i) => buildMinorCard(base + i, suit, { rank: i + 1 }));
+  const courts: Court[] = ["page", "knight", "queen", "king"];
+  const courtCards = courts.map((court, i) => buildMinorCard(base + 10 + i, suit, { court }));
+  return [...pips, ...courtCards];
+});
+
+/** The full 78-card deck: 22 major arcana + 56 minor arcana. */
+export const FULL_DECK: TarotCard[] = [...MAJOR_ARCANA, ...MINOR_ARCANA];
+
 export type CardDraw = { card: TarotCard; isReversed: boolean };
 
 export function drawRandomCard(): CardDraw {
-  const card = MAJOR_ARCANA[Math.floor(Math.random() * MAJOR_ARCANA.length)];
+  const card = FULL_DECK[Math.floor(Math.random() * FULL_DECK.length)];
   const isReversed = Math.random() < 0.35;
   return { card, isReversed };
 }
 
 /** Draws `count` distinct cards, matching how a physical deck is dealt without repeats. */
 export function drawUniqueCards(count: number): CardDraw[] {
-  const pool = [...MAJOR_ARCANA];
+  const pool = [...FULL_DECK];
   const draws: CardDraw[] = [];
   for (let i = 0; i < count && pool.length > 0; i++) {
     const idx = Math.floor(Math.random() * pool.length);

@@ -95,3 +95,22 @@ export function generateThreeCardReading(
 
   return { title, paragraphs };
 }
+
+/** Generates a reply to a follow-up question, re-reading the same drawn card(s) already on the table. */
+export function generateFollowUp(draws: CardDraw[], followUpQuestion: string, styles: ReadingStyle[]): string {
+  const seed = hashString(`${draws.map((d) => `${d.card.id}-${d.isReversed}`).join("|")}-followup-${followUpQuestion}`);
+  const activeStyles = styles.length > 0 ? styles : (["insight"] as ReadingStyle[]);
+  const opener = pick(STYLE_OPENERS[activeStyles[0]], seed + 5);
+  const closer = pick(STYLE_CLOSERS[activeStyles[activeStyles.length - 1]], seed + 17);
+
+  const cardNames = draws.map((d) => `${d.isReversed ? "逆位的" : ""}「${d.card.name}」`).join("、");
+  const meaningLine = draws.map((d) => (d.isReversed ? d.card.reversed : d.card.upright).meaning).join(" ");
+  const combinedKeywords = draws.flatMap((d) => (d.isReversed ? d.card.reversed : d.card.upright).keywords).slice(0, 4);
+
+  return [
+    opener,
+    `回到${cardNames}${draws.length > 1 ? "這幾張牌" : "這張牌"}上，關於你追問的「${followUpQuestion.trim()}」：`,
+    `${meaningLine}\n關鍵字：${combinedKeywords.map((k) => `#${k}`).join(" ")}。`,
+    closer,
+  ].join("\n\n");
+}

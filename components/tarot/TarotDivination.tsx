@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import CardArt from "@/components/tarot/CardArt";
-import { ReadingStyle, generateReading, generateThreeCardReading } from "@/lib/tarot/reading";
+import { ReadingStyle, generateFollowUp, generateReading, generateThreeCardReading } from "@/lib/tarot/reading";
 
 type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
 type SpreadSize = 1 | 3;
@@ -79,13 +79,60 @@ function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isR
         isReversed ? "rotate-180" : ""
       }`}
     >
-      <CardArt id={card.id} className="h-full w-full" />
+      <CardArt card={card} className="h-full w-full" />
       <div className={`absolute inset-0 flex flex-col items-center justify-between text-center text-amber-50 ${compact ? "p-2" : "p-3"}`}>
         <span className={`tracking-[0.3em] text-amber-200/80 ${compact ? "text-[9px]" : "text-xs"}`}>{card.numeral}</span>
         <div className="space-y-0.5">
           <div className={`font-semibold drop-shadow ${compact ? "text-xs" : "text-lg"}`}>{card.name}</div>
           {isReversed && <div className="text-[9px] tracking-widest text-amber-200/70">逆位 REVERSED</div>}
         </div>
+      </div>
+    </div>
+  );
+}
+
+type FollowUpEntry = { question: string; answer: string };
+
+function FollowUpPanel({
+  followUps,
+  draft,
+  onDraftChange,
+  onSubmit,
+}: {
+  followUps: FollowUpEntry[];
+  draft: string;
+  onDraftChange: (v: string) => void;
+  onSubmit: () => void;
+}) {
+  const canSubmit = draft.trim().length >= 10;
+  return (
+    <div className="w-full space-y-3">
+      {followUps.map((f, i) => (
+        <div key={i} className="w-full space-y-1.5 rounded-xl border border-amber-200/20 bg-white/5 p-4">
+          <p className="text-xs text-amber-200/60">追問：{f.question}</p>
+          <p className="whitespace-pre-line text-sm leading-relaxed text-amber-50/90">{f.answer}</p>
+        </div>
+      ))}
+      <div className="w-full">
+        <label className="mb-1 block text-xs text-amber-200/60">我想要追問</label>
+        <textarea
+          value={draft}
+          maxLength={200}
+          onChange={(e) => onDraftChange(e.target.value)}
+          placeholder="針對這次抽到的牌，還想多問一點什麼？"
+          className="h-20 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
+        />
+        <div className="mt-1 flex justify-between text-[11px] text-amber-200/50">
+          <span>至少 10 個字</span>
+          <span>{draft.length}/200</span>
+        </div>
+        <button
+          disabled={!canSubmit}
+          onClick={onSubmit}
+          className="mt-2 w-full rounded-xl border border-amber-200/40 py-2.5 text-sm text-amber-100 transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          送出追問
+        </button>
       </div>
     </div>
   );
@@ -99,6 +146,8 @@ export default function TarotDivination() {
   const [shuffleTick, setShuffleTick] = useState(0);
   const [pickedSlots, setPickedSlots] = useState<number[]>([]);
   const [results, setResults] = useState<CardDraw[]>([]);
+  const [followUps, setFollowUps] = useState<FollowUpEntry[]>([]);
+  const [followUpDraft, setFollowUpDraft] = useState("");
 
   const spread = useMemo(() => {
     const rand = mulberry32(101);
@@ -148,7 +197,16 @@ export default function TarotDivination() {
     setStyles([]);
     setResults([]);
     setPickedSlots([]);
+    setFollowUps([]);
+    setFollowUpDraft("");
     setStep("cover");
+  }
+
+  function handleSubmitFollowUp() {
+    if (followUpDraft.trim().length < 10) return;
+    const answer = generateFollowUp(results, followUpDraft, styles);
+    setFollowUps((prev) => [...prev, { question: followUpDraft.trim(), answer }]);
+    setFollowUpDraft("");
   }
 
   const canDraw = question.trim().length >= 10;
@@ -335,6 +393,13 @@ export default function TarotDivination() {
             {generateReading(results[0].card, results[0].isReversed, question, styles)}
           </div>
 
+          <FollowUpPanel
+            followUps={followUps}
+            draft={followUpDraft}
+            onDraftChange={setFollowUpDraft}
+            onSubmit={handleSubmitFollowUp}
+          />
+
           <div className="mt-auto flex w-full gap-2 pt-2">
             <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">
               再抽一次
@@ -372,6 +437,13 @@ export default function TarotDivination() {
               </div>
             );
           })()}
+
+          <FollowUpPanel
+            followUps={followUps}
+            draft={followUpDraft}
+            onDraftChange={setFollowUpDraft}
+            onSubmit={handleSubmitFollowUp}
+          />
 
           <div className="mt-auto flex w-full gap-2 pt-2">
             <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">
