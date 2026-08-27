@@ -23,8 +23,8 @@ export default function QuoteGallery({ quotes }: { quotes: Quote[] }) {
                 onClick={() => setActive(tag)}
                 className={`rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide transition ${
                   isActive
-                    ? "border-night bg-night text-paper"
-                    : "border-night/15 bg-paper text-ink-500 hover:border-gold/50 hover:text-night"
+                    ? "border-gold bg-gold text-night-dark"
+                    : "border-paper/20 bg-paper/10 text-paper/70 hover:border-gold/50 hover:text-paper"
                 }`}
               >
                 {tag}
@@ -32,7 +32,7 @@ export default function QuoteGallery({ quotes }: { quotes: Quote[] }) {
             );
           })}
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-paper px-3.5 py-1.5 text-xs font-semibold text-night shadow-card">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-paper/10 px-3.5 py-1.5 text-xs font-semibold text-paper shadow-card">
           收藏語錄 {filtered.length} / {quotes.length}
         </span>
       </div>

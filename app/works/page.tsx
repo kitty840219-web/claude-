@@ -46,7 +46,7 @@ export default function WorksPage() {
       <section className="relative overflow-hidden bg-night-dark py-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-          <SectionHeading eyebrow="ILLUSTRATED QUOTES" title="精選語錄" light center />
+          <SectionHeading eyebrow="ILLUSTRATED QUOTES" title="精選語錄" center />
           <div className="relative mx-auto mt-10 aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border border-paper/10 shadow-soft">
             <Image
               src={asset("/images/home-quotes.png")}
@@ -70,14 +70,14 @@ export default function WorksPage() {
         </div>
       </section>
 
-      <section className="bg-paper-warm px-4 py-12">
-        <a href={LINKS.instagramQuotes} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-[#eee6f5] to-[#f8e6e2] p-5 shadow-card">
+      <section className="bg-night-dark px-4 py-12">
+        <a href={LINKS.instagramQuotes} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card">
           <div className="relative z-10 w-[58%]">
-            <SocialIcon type="instagram" className="h-6 w-6 text-night" />
-            <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-gold-dark">INSTAGRAM</p>
-            <h2 className="mt-1 font-serif text-base font-bold text-night">每日語錄與插畫</h2>
-            <p className="mt-2 text-xs text-ink-500">@aibi_0219</p>
-            <span className="mt-4 inline-flex text-xs font-semibold text-night">打開作品牆 →</span>
+            <SocialIcon type="instagram" className="h-6 w-6 text-paper" />
+            <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-gold-light">INSTAGRAM</p>
+            <h2 className="mt-1 font-serif text-base font-bold text-paper">每日語錄與插畫</h2>
+            <p className="mt-2 text-xs text-paper/60">@aibi_0219</p>
+            <span className="mt-4 inline-flex text-xs font-semibold text-gold-light">打開作品牆 →</span>
           </div>
           <div className="pointer-events-none absolute -bottom-6 -right-5 h-44 w-44 transition duration-500 group-hover:scale-105">
             <Image src={asset("/images/home-quotes-cutout.png")} alt="小艾語錄創作" fill className="object-contain object-bottom" sizes="176px" />
@@ -97,7 +97,7 @@ export default function WorksPage() {
       </section>
 
       {/* Archive links */}
-      <section className="bg-paper-warm py-20">
+      <section className="bg-night-dark py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <SectionHeading eyebrow="FULL ARCHIVE" title="完整作品都在這裡" center />
           <div className="mt-10 grid gap-5 sm:grid-cols-3">
@@ -105,42 +105,43 @@ export default function WorksPage() {
               href={LINKS.instagramQuotes}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-night/10 bg-paper p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-paper/10 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
-              <SocialIcon type="instagram" className="h-8 w-8 text-night" />
-              <p className="font-serif text-base font-bold text-night">艾飛樂語錄</p>
-              <p className="text-xs text-ink-500">@aibi_0219 · 每日語錄與插畫日常</p>
+              <SocialIcon type="instagram" className="h-8 w-8 text-gold-light" />
+              <p className="font-serif text-base font-bold text-paper">艾飛樂語錄</p>
+              <p className="text-xs text-paper/60">@aibi_0219 · 每日語錄與插畫日常</p>
             </a>
             <a
               href={LINKS.instagramIllustration}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-night/10 bg-paper p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-paper/10 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
-              <SocialIcon type="instagram" className="h-8 w-8 text-night" />
-              <p className="font-serif text-base font-bold text-night">dreamstar_illustration</p>
-              <p className="text-xs text-ink-500">插畫創作專門帳號</p>
+              <SocialIcon type="instagram" className="h-8 w-8 text-gold-light" />
+              <p className="font-serif text-base font-bold text-paper">dreamstar_illustration</p>
+              <p className="text-xs text-paper/60">插畫創作專門帳號</p>
             </a>
             <a
               href={LINKS.kusdom}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-night/10 bg-paper p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-paper/10 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
-              <SocialIcon type="shop" className="h-8 w-8 text-night" />
-              <p className="font-serif text-base font-bold text-night">Kusdom 創作者商店</p>
-              <p className="text-xs text-ink-500">語錄作品製作成周邊商品</p>
+              <SocialIcon type="shop" className="h-8 w-8 text-gold-light" />
+              <p className="font-serif text-base font-bold text-paper">Kusdom 創作者商店</p>
+              <p className="text-xs text-paper/60">語錄作品製作成周邊商品</p>
             </a>
           </div>
         </div>
       </section>
 
       {/* Mascot band */}
-      <section className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark px-4 py-20 text-center sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto h-28 w-28">
           <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
         </div>
-        <p className="mt-6 font-serif text-lg text-night sm:text-xl">
+        <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
           「{SITE.tagline}，{SITE.taglineSub}。」
         </p>
       </section>

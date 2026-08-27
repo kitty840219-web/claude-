@@ -1,12 +1,12 @@
 .page {
-  --bg: #faf6ee;
-  --bg-card: #f2e9d8;
-  --bg-card-2: #ecdfc4;
-  --text: #22213f;
-  --text-muted: #6f6a92;
-  --line: #ddd2e6;
-  --accent: #a97c2e;
-  --forest: #7e71ab;
+  --bg: #181542;
+  --bg-card: rgba(250, 246, 238, 0.06);
+  --bg-card-2: rgba(250, 246, 238, 0.1);
+  --text: #faf6ee;
+  --text-muted: rgba(250, 246, 238, 0.65);
+  --line: rgba(250, 246, 238, 0.15);
+  --accent: #ecce8f;
+  --forest: #cfc6ea;
 
   --leader-bg: #181542;
   --leader-text: #faf6ee;
@@ -194,7 +194,7 @@
   border-radius: 999px;
   border: 1px solid var(--accent);
   color: var(--accent);
-  background: rgba(169, 124, 46, 0.08);
+  background: rgba(236, 206, 143, 0.1);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;

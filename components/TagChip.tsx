@@ -1,7 +1,5 @@
 const TONES = {
-  gold: "border-gold/40 bg-gold/10 text-gold-dark",
-  night: "border-night/20 bg-night/5 text-night",
-  lavender: "border-lavender/40 bg-lavender/10 text-lavender-dark",
+  gold: "border-gold/40 bg-gold/10 text-gold-light",
   light: "border-paper/25 bg-paper/10 text-gold-light",
 } as const;
 

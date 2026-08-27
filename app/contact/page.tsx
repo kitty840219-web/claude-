@@ -63,7 +63,7 @@ export default function ContactPage() {
       <section className="relative overflow-hidden bg-night-dark py-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-          <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" light center />
+          <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" center />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((s) => (
               <div
@@ -78,14 +78,14 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-paper-warm px-4 py-12">
-        <a href={LINKS.lineOA} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-[#e8f1e9] to-[#f7ecd9] p-5 shadow-card">
+      <section className="bg-night-dark px-4 py-12">
+        <a href={LINKS.lineOA} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card">
           <div className="relative z-10 w-[58%]">
-            <SocialIcon type="line" className="h-6 w-6 text-night" />
+            <SocialIcon type="line" className="h-6 w-6 text-paper" />
             <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-sage">OFFICIAL LINE</p>
-            <h2 className="mt-1 font-serif text-base font-bold text-night">加入小艾的好友</h2>
-            <p className="mt-2 text-xs text-ink-500">@153yhemn</p>
-            <span className="mt-4 inline-flex text-xs font-semibold text-night">開啟 LINE →</span>
+            <h2 className="mt-1 font-serif text-base font-bold text-paper">加入小艾的好友</h2>
+            <p className="mt-2 text-xs text-paper/60">@153yhemn</p>
+            <span className="mt-4 inline-flex text-xs font-semibold text-gold-light">開啟 LINE →</span>
           </div>
           <div className="pointer-events-none absolute -bottom-8 -right-5 h-48 w-48 transition duration-500 group-hover:scale-105">
             <Image src={asset("/images/home-contact.png")} alt="小艾寄出一封信" fill className="object-contain object-bottom" sizes="192px" />
@@ -113,16 +113,16 @@ export default function ContactPage() {
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group flex items-start gap-4 rounded-2xl border border-night/10 bg-paper p-5 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+                className="group flex items-start gap-4 rounded-2xl border border-paper/10 bg-night-light/20 p-5 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-night text-paper">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold text-night-dark">
                   <SocialIcon type={c.icon} className="h-4 w-4" />
                 </span>
                 <span>
-                  <span className="block text-xs font-semibold tracking-wide text-gold-dark">
+                  <span className="block text-xs font-semibold tracking-wide text-gold-light">
                     {c.label}
                   </span>
-                  <span className="mt-1 block break-all text-sm font-medium text-night">
+                  <span className="mt-1 block break-all text-sm font-medium text-paper">
                     {c.value}
                   </span>
                 </span>
@@ -132,24 +132,24 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-paper-warm py-20">
+      <section className="bg-night-dark py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <SectionHeading eyebrow="PROCESS" title="合作流程" center />
           <div className="mt-10 grid gap-6 sm:grid-cols-4">
             {PROCESS.map((p) => (
               <div key={p.step} className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-night font-serif text-lg font-bold text-gold-light">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
                   {p.step}
                 </div>
-                <h3 className="mt-4 font-serif text-sm font-bold text-night">{p.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-ink-500">{p.desc}</p>
+                <h3 className="mt-4 font-serif text-sm font-bold text-paper">{p.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
               </div>
             ))}
           </div>
           <div className="mt-10 text-center">
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-night-light"
+              className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
             >
               查看完整服務報價 →
             </Link>
@@ -158,10 +158,10 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
-        <p className="font-serif text-xl text-night sm:text-2xl">
+        <p className="font-serif text-xl text-paper sm:text-2xl">
           「{SITE.tagline}，{SITE.taglineSub}。」
         </p>
-        <p className="mt-3 text-sm text-ink-500">期待為你畫下屬於你的那顆星星。</p>
+        <p className="mt-3 text-sm text-paper/60">期待為你畫下屬於你的那顆星星。</p>
       </section>
     </div>
   );

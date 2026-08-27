@@ -113,7 +113,7 @@ export default function StoryReader({
             type="button"
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
             disabled={index === 0}
-            className="inline-flex items-center gap-2 rounded-full border border-night/20 px-5 py-2.5 text-xs font-semibold text-night transition hover:bg-night hover:text-paper disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-night sm:text-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-2.5 text-xs font-semibold text-paper transition hover:bg-paper/10 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent sm:text-sm"
           >
             ← 上一章
           </button>

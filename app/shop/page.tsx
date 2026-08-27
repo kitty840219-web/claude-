@@ -62,13 +62,14 @@ export default function ShopPage() {
       </section>
 
       {/* Shop list */}
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-        <div className="overflow-hidden rounded-[1.75rem] border border-night/10 bg-paper shadow-card">
-          <div className="flex items-center justify-between border-b border-night/10 bg-paper-warm px-6 py-4">
-            <p className="text-xs font-semibold tracking-[0.25em] text-gold-dark">STORE · 商店貨架</p>
-            <span className="text-xs font-semibold text-ink-400">共 {SHOPS.length} 個商店</span>
+      <section className="relative overflow-hidden bg-night-dark px-4 py-20 sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 shadow-card">
+          <div className="flex items-center justify-between border-b border-paper/10 px-6 py-4">
+            <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">STORE · 商店貨架</p>
+            <span className="text-xs font-semibold text-paper/50">共 {SHOPS.length} 個商店</span>
           </div>
-          <div className="divide-y divide-night/10">
+          <div className="divide-y divide-paper/10">
             {SHOPS.map((s) => (
               <a
                 key={s.key}
@@ -77,15 +78,15 @@ export default function ShopPage() {
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 px-5 py-5 transition hover:bg-gold/5 sm:gap-6 sm:px-7"
               >
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-night text-paper shadow-card sm:h-16 sm:w-16">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold text-night-dark shadow-card sm:h-16 sm:w-16">
                   <SocialIcon type={s.icon} className="h-6 w-6" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-2">
-                    <span className="font-serif text-base font-bold text-night sm:text-lg">{s.title}</span>
+                    <span className="font-serif text-base font-bold text-paper sm:text-lg">{s.title}</span>
                     <TagChip tone="gold">{s.tag}</TagChip>
                   </span>
-                  <span className="mt-1.5 block text-xs leading-relaxed text-ink-500 sm:text-sm">
+                  <span className="mt-1.5 block text-xs leading-relaxed text-paper/60 sm:text-sm">
                     {s.desc}
                   </span>
                 </span>
@@ -97,45 +98,48 @@ export default function ShopPage() {
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end sm:hidden">
-          <p className="text-xs text-ink-400">點一下卡片即可前往商店 →</p>
+        <div className="relative mt-4 flex justify-end sm:hidden">
+          <p className="text-xs text-paper/50">點一下卡片即可前往商店 →</p>
         </div>
       </section>
 
       {/* Commission services */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <SectionHeading eyebrow="SERVICES" title="接案服務項目" center />
-        <p className="mx-auto mt-4 max-w-sm text-center text-sm leading-relaxed text-ink-500">
-          除了周邊商品，也提供插畫、品牌視覺與客製設計服務。
-        </p>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.slice(0, 6).map((service, index) => (
-            <div key={service.title} className="relative overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-paper to-[#f3edf5] p-6 shadow-card">
-              <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
-                <Image
-                  src={asset(SERVICE_ART[index])}
-                  alt={`${service.title}小艾插畫`}
-                  fill
-                  className="object-contain"
-                  sizes="(min-width: 1024px) 20vw, 80vw"
-                />
+      <section className="relative overflow-hidden bg-night-dark px-4 py-20 sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative">
+          <SectionHeading eyebrow="SERVICES" title="接案服務項目" center />
+          <p className="mx-auto mt-4 max-w-sm text-center text-sm leading-relaxed text-paper/70">
+            除了周邊商品，也提供插畫、品牌視覺與客製設計服務。
+          </p>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.slice(0, 6).map((service, index) => (
+              <div key={service.title} className="relative overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-6 shadow-card">
+                <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
+                  <Image
+                    src={asset(SERVICE_ART[index])}
+                    alt={`${service.title}小艾插畫`}
+                    fill
+                    className="object-contain"
+                    sizes="(min-width: 1024px) 20vw, 80vw"
+                  />
+                </div>
+                <h3 className="font-serif text-base font-bold text-paper">{service.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-paper/70">{service.desc}</p>
               </div>
-              <h3 className="font-serif text-base font-bold text-night">{service.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-500">{service.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/pricing" className="inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper transition hover:bg-night-light">
-            查看服務報價 →
-          </Link>
-          <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-night px-7 py-3 text-sm font-semibold text-night transition hover:bg-night hover:text-paper">
-            合作與委託洽詢 →
-          </Link>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/pricing" className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light">
+              查看服務報價 →
+            </Link>
+            <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-paper/40 px-7 py-3 text-sm font-semibold text-paper transition hover:bg-paper/10">
+              合作與委託洽詢 →
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="bg-paper-warm py-16">
+      <section className="bg-night-dark py-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <SectionHeading
             eyebrow="CUSTOM ORDER"
@@ -145,7 +149,7 @@ export default function ShopPage() {
           />
           <a
             href="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper shadow-soft transition hover:bg-night-light"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
           >
             聯絡艾飛樂 →
           </a>

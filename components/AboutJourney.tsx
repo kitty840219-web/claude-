@@ -71,15 +71,15 @@ export default function AboutJourney() {
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
 
       {isFirst ? (
-        <div className="relative flex min-h-[calc(100svh-64px)] flex-col bg-paper text-night">
+        <div className="relative flex min-h-[calc(100svh-64px)] flex-col bg-night-dark text-paper">
           <div className="relative min-h-[52svh] flex-1 overflow-hidden">
             <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover object-[center_15%]" />
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-paper to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-night-dark to-transparent" />
           </div>
           <div className="relative -mt-5 px-6 pb-24 text-center">
-            <p className="text-xs font-semibold tracking-[0.35em] text-gold-dark">AIFEILER · SINCE 2022</p>
+            <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">AIFEILER · SINCE 2022</p>
             <h1 className="mt-3 font-serif text-3xl font-bold">{SITE.brand}</h1>
-            <p className="mt-3 text-sm text-ink-500">{SITE.tagline}，{SITE.taglineSub}</p>
+            <p className="mt-3 text-sm text-paper/70">{SITE.tagline}，{SITE.taglineSub}</p>
             <div className="mt-5 flex justify-center gap-2 text-[11px] font-semibold">
               <span className="rounded-full border border-gold/35 px-4 py-2">2022 年成立</span>
               <span className="rounded-full border border-gold/35 px-4 py-2">9+ 篇語錄作品</span>

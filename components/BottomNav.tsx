@@ -96,7 +96,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="主要導覽"
-      className="fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-night/10 bg-paper/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(43,42,92,0.25)] backdrop-blur md:hidden"
+      className="fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-paper/10 bg-night-dark/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.4)] backdrop-blur md:hidden"
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between px-2">
         {TABS.map((tab) => {
@@ -109,12 +109,12 @@ export default function BottomNav() {
             >
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
-                  active ? "bg-night text-gold-light" : "text-ink-400"
+                  active ? "bg-gold text-night-dark" : "text-paper/45"
                 }`}
               >
                 {tab.icon(active)}
               </span>
-              <span className={active ? "text-night" : "text-ink-400"}>{tab.label}</span>
+              <span className={active ? "text-gold-light" : "text-paper/45"}>{tab.label}</span>
             </Link>
           );
         })}

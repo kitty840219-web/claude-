@@ -29,11 +29,10 @@ export default function AboutPage() {
           <h2 className="font-serif text-3xl font-bold text-paper sm:text-4xl">關於艾飛樂</h2>
           <p className="mt-2 text-sm text-paper/80">{SITE.brandFull}</p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
+            <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} />
             <StatBadge
               icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />}
               label={`${SERVICES.length} 大服務項目`}
-              light
             />
             <StatBadge
               icon={
@@ -43,7 +42,6 @@ export default function AboutPage() {
                 </svg>
               }
               label={`${QUOTES.length}+ 篇語錄作品`}
-              light
             />
           </div>
         </div>
@@ -58,20 +56,22 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
-        <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
-        <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/60 pl-8">
-          {TIMELINE.map((t) => (
-            <div key={t.title} className="relative">
-              <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
-              <p className="text-xs font-semibold tracking-widest text-gold-dark">{t.year}</p>
-              <h3 className="mt-1 font-serif text-lg font-bold text-night">{t.title}</h3>
-              <p className="mt-1 text-sm text-ink-500">{t.desc}</p>
-            </div>
-          ))}
+      <section className="relative overflow-hidden bg-night-dark px-4 py-20 sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative mx-auto max-w-4xl">
+          <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
+          <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8">
+            {TIMELINE.map((t) => (
+              <div key={t.title} className="relative">
+                <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
+                <p className="text-xs font-semibold tracking-widest text-gold-light">{t.year}</p>
+                <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
+                <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
-
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default function VideosPage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
-        <div className="overflow-hidden rounded-[2rem] border border-night/10 bg-gradient-to-br from-night-light to-night shadow-soft">
+        <div className="overflow-hidden rounded-[2rem] border border-paper/10 bg-gradient-to-br from-night-light to-night shadow-soft">
           <div className="grid items-center gap-8 p-10 sm:grid-cols-[auto_1fr] sm:p-14">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-paper/10 text-paper sm:h-24 sm:w-24">
               <SocialIcon type="youtube" className="h-10 w-10" />
@@ -56,17 +56,17 @@ export default function VideosPage() {
         </div>
       </section>
 
-      <section className="bg-paper-warm py-20">
+      <section className="bg-night-dark py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="TOPICS" title="影片主題方向" center />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {VIDEO_TOPICS.map((v) => (
-              <div key={v.title} className="rounded-2xl border border-night/10 bg-paper p-6 shadow-card">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-night text-paper">
+              <div key={v.title} className="rounded-2xl border border-paper/10 bg-night-light/20 p-6 shadow-card">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gold text-night-dark">
                   <SocialIcon type="youtube" className="h-4 w-4" />
                 </div>
-                <h3 className="mt-4 font-serif text-sm font-bold text-night">{v.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-ink-500">{v.desc}</p>
+                <h3 className="mt-4 font-serif text-sm font-bold text-paper">{v.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-paper/60">{v.desc}</p>
               </div>
             ))}
           </div>

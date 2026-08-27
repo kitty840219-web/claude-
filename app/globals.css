@@ -4,12 +4,12 @@
 
 html {
   scroll-behavior: smooth;
-  background: #eee8dc;
+  background: #181542;
 }
 
 body {
-  background-color: #faf6ee;
-  color: #22213f;
+  background-color: #181542;
+  color: #faf6ee;
 }
 
 .floating-music {
