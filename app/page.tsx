@@ -60,7 +60,7 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-night-dark">
+      <section className="overflow-hidden bg-paper">
         <div className="relative aspect-square w-full">
           <Image
             src={asset("/images/xiaoai-05-flat.jpg")}
@@ -70,25 +70,26 @@ export default function HomePage() {
             className="object-cover object-[center_15%]"
           />
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night-dark via-night-dark/80 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-night-dark/20 to-transparent" />
+        </div>
 
-          {/* title overlay — sits in the gradient zone at the bottom of the image */}
-          <div className="absolute inset-x-0 bottom-0 px-4 pb-8 text-center sm:pb-10">
+        <div className="relative px-5 py-9 text-center">
+          <div className="pointer-events-none absolute -right-6 top-4 h-24 w-24 rounded-full bg-lavender/15 blur-2xl" />
+          <div className="pointer-events-none absolute -left-8 bottom-4 h-24 w-24 rounded-full bg-gold/10 blur-2xl" />
+          <div className="relative">
             <div className="mb-3 flex items-center justify-center gap-2">
-              <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">
+              <Star className="h-3 w-3 text-gold-dark" />
+              <p className="text-xs font-semibold tracking-[0.35em] text-gold-dark">
                 {SITE.brandEn.toUpperCase()} · SINCE {SITE.established}
               </p>
-              <Star className="h-3 w-3 text-gold-light" delay="1.2s" />
+              <Star className="h-3 w-3 text-gold-dark" delay="1.2s" />
             </div>
-            <h1 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">
-              {SITE.brand}
-            </h1>
-            <p className="text-shadow-soft mt-3 text-sm text-paper/90 sm:text-base">
+            <h1 className="font-serif text-3xl font-bold text-night sm:text-4xl">{SITE.brand}</h1>
+            <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-ink-500 sm:text-base">
               {SITE.tagline}，{SITE.taglineSub}
             </p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
+              <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} />
               <StatBadge
                 icon={
                   <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
@@ -97,14 +98,13 @@ export default function HomePage() {
                   </svg>
                 }
                 label={`${QUOTES.length}+ 篇語錄作品`}
-                light
               />
-              <StatBadge icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />} label="147+ 款周邊設計" light />
+              <StatBadge icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />} label="147+ 款周邊設計" />
             </div>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <div className="mx-auto mt-7 grid max-w-sm grid-cols-2 gap-3">
               <Link
                 href="/works"
-                className="rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
+                className="inline-flex items-center justify-center rounded-full bg-gold px-4 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
               >
                 探索語錄作品
               </Link>
@@ -112,7 +112,7 @@ export default function HomePage() {
                 href={LINKS.instagramQuotes}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-paper/40 px-5 py-2.5 text-sm font-semibold text-paper transition hover:bg-paper/10"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-night/20 bg-paper px-4 py-3 text-sm font-semibold text-night transition hover:border-gold/50 hover:bg-paper-warm"
               >
                 <SocialIcon type="instagram" className="h-4 w-4" />
                 追蹤 Instagram
