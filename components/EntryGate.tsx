@@ -121,7 +121,7 @@ export default function EntryGate() {
       >
         <div className="pointer-events-none absolute inset-x-0 bottom-[2%] h-[42%] rounded-[2rem] border border-gold/40" />
 
-        <div className="absolute inset-x-5 top-[59%] z-10 sm:inset-x-8 sm:top-[57%]">
+        <div className="absolute inset-x-5 top-[63%] z-10 sm:inset-x-8 sm:top-[61%]">
           <p className="text-[11px] font-semibold tracking-[0.35em] text-gold-light">
             {SITE.brandEn.toUpperCase()}
           </p>

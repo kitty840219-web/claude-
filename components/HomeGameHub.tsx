@@ -8,10 +8,10 @@ import { asset } from "@/lib/basePath";
 const SAVE_KEY = "aifeiler-star-journey";
 
 const QUESTS = [
-  { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/", art: "/images/home-story-cutout.png" },
-  { id: "quote", title: "收藏一張療癒語錄", reward: 8, href: "/works", art: "/images/home-quotes-cutout.png" },
-  { id: "tarot", title: "抽一張今日指引牌", reward: 12, href: "/tarot", art: "/images/home-contact.png" },
-  { id: "shop", title: "參觀小艾的星光商店", reward: 6, href: "/shop", art: "/images/home-shop.png" },
+  { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/", art: "/images/home-story-cutout.png", aspect: 1.5 },
+  { id: "quote", title: "收藏一張療癒語錄", reward: 8, href: "/works", art: "/images/home-quotes-cutout.png", aspect: 0.95 },
+  { id: "tarot", title: "抽一張今日指引牌", reward: 12, href: "/tarot", art: "/images/home-contact.png", aspect: 0.67 },
+  { id: "shop", title: "參觀小艾的星光商店", reward: 6, href: "/shop", art: "/images/home-shop.png", aspect: 0.93 },
 ];
 
 type SaveState = { stars: number; completed: string[] };
@@ -72,20 +72,29 @@ export default function HomeGameHub() {
           <div className="mt-5 space-y-3">
             {QUESTS.map((quest, index) => {
               const done = save.completed.includes(quest.id);
+              const flip = index % 2 === 1;
               return (
-                <div key={quest.id} className={`relative flex min-h-28 items-center overflow-hidden rounded-2xl border p-4 transition ${done ? "border-gold/40 bg-gold/10" : "border-paper/10 bg-night-dark/60"}`}>
-                  <div className="relative z-10 w-[67%]">
+                <div
+                  key={quest.id}
+                  className={`relative flex min-h-28 items-center overflow-hidden rounded-2xl border p-4 transition ${
+                    done ? "border-gold/40 bg-gold/10" : "border-paper/10 bg-night-dark/60"
+                  } ${flip ? "flex-row-reverse" : ""}`}
+                >
+                  <div className={`relative z-10 w-[67%] ${flip ? "text-right" : "text-left"}`}>
                     <p className="text-[10px] font-semibold tracking-widest text-gold-light">QUEST 0{index + 1}</p>
                     <h3 className="mt-1 font-serif text-sm font-bold leading-snug text-paper">{quest.title}</h3>
-                    <div className="mt-3 flex items-center gap-2">
+                    <div className={`mt-3 flex items-center gap-2 ${flip ? "justify-end" : ""}`}>
                       <Link href={quest.href} onClick={() => collect(quest.id, quest.reward)} className="rounded-full bg-gold px-3 py-1.5 text-[11px] font-semibold text-night-dark">
                         {done ? "再次前往" : "開始任務"}
                       </Link>
                       <span className="text-[10px] font-semibold text-gold-light">★ +{quest.reward}</span>
                     </div>
                   </div>
-                  <div className="pointer-events-none absolute -bottom-3 -right-3 h-32 w-32">
-                    <Image src={asset(quest.art)} alt="" fill className="object-contain object-bottom" sizes="128px" />
+                  <div
+                    className={`pointer-events-none absolute -bottom-3 h-28 ${flip ? "-left-3" : "-right-3"}`}
+                    style={{ width: `${(7 * quest.aspect).toFixed(2)}rem` }}
+                  >
+                    <Image src={asset(quest.art)} alt="" fill className="object-contain object-bottom" sizes="160px" />
                   </div>
                 </div>
               );

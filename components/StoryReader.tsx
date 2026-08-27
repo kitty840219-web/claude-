@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Chapter } from "@/lib/data/story";
 
 const PALETTES = ["from-night-light to-night-dark", "from-lavender-dark to-night-dark"];
@@ -13,12 +13,24 @@ export default function StoryReader({
   chapters: Chapter[];
   finish?: { label: string; onClick: () => void };
 }) {
+  const router = useRouter();
   const [index, setIndex] = useState(0);
   const total = chapters.length;
   const chapter = chapters[index];
   const num = String(index + 1).padStart(2, "0");
   const isLast = index === total - 1;
   const palette = PALETTES[index % PALETTES.length];
+  const finishLabel = finish?.label ?? "故事讀完了，看看語錄作品 →";
+
+  const advance = () => {
+    if (!isLast) {
+      setIndex((i) => Math.min(total - 1, i + 1));
+    } else if (finish) {
+      finish.onClick();
+    } else {
+      router.push("/works");
+    }
+  };
 
   return (
     <div>
@@ -63,7 +75,17 @@ export default function StoryReader({
       {/* reading panel */}
       <div className="mx-auto mt-10 max-w-2xl px-4 sm:px-6">
         <div
-          className={`bg-grain relative overflow-hidden rounded-[1.75rem] border border-paper/10 bg-gradient-to-br ${palette} p-6 shadow-soft sm:p-9`}
+          role="button"
+          tabIndex={0}
+          onClick={advance}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              advance();
+            }
+          }}
+          aria-label={isLast ? finishLabel : "點擊查看下一章"}
+          className={`bg-grain group relative cursor-pointer overflow-hidden rounded-[1.75rem] border border-paper/10 bg-gradient-to-br ${palette} p-6 shadow-soft transition hover:border-gold/40 sm:p-9`}
         >
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
           <div className="relative">
@@ -79,7 +101,7 @@ export default function StoryReader({
             </div>
 
             {chapter.embed && (
-              <div className="mt-5">
+              <div className="mt-5" onClick={(e) => e.stopPropagation()}>
                 <div className="relative aspect-[9/16] overflow-hidden rounded-[1.25rem] bg-black">
                   <iframe
                     title={`${chapter.title} 影音`}
@@ -105,43 +127,11 @@ export default function StoryReader({
                 「{chapter.quote}」
               </blockquote>
             )}
+
+            <p className="mt-6 text-right text-xs font-semibold text-gold-light transition group-hover:text-gold">
+              {isLast ? finishLabel : "點擊繼續下一章 →"}
+            </p>
           </div>
-        </div>
-
-        <div className="mt-6 flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={() => setIndex((i) => Math.max(0, i - 1))}
-            disabled={index === 0}
-            className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-2.5 text-xs font-semibold text-paper transition hover:bg-paper/10 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent sm:text-sm"
-          >
-            ← 上一章
-          </button>
-
-          {!isLast ? (
-            <button
-              type="button"
-              onClick={() => setIndex((i) => Math.min(total - 1, i + 1))}
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition hover:bg-gold-light sm:text-sm"
-            >
-              下一章 →
-            </button>
-          ) : finish ? (
-            <button
-              type="button"
-              onClick={finish.onClick}
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition hover:bg-gold-light sm:text-sm"
-            >
-              {finish.label}
-            </button>
-          ) : (
-            <Link
-              href="/works"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition hover:bg-gold-light sm:text-sm"
-            >
-              故事讀完了，看看語錄作品 →
-            </Link>
-          )}
         </div>
       </div>
     </div>

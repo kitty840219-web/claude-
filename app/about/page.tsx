@@ -19,6 +19,8 @@ export default function AboutPage() {
     <div>
       <AboutJourney />
 
+      <div className="border-t border-paper/10" />
+
       <section className="relative overflow-hidden bg-night-dark">
         <div className="bg-stars relative px-5 py-10 text-center">
           <div className="mb-3 flex items-center justify-center gap-2">
@@ -72,6 +74,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <div className="border-t border-paper/10" />
     </div>
   );
 }
