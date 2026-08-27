@@ -1,8 +1,14 @@
+import { LINKS } from "@/lib/data/site";
+
 export type Chapter = {
   tag: string;
   title: string;
   body: string[];
   quote?: string;
+  embed?: {
+    videoId: string;
+    channelHref: string;
+  };
 };
 
 export const CHAPTERS: Chapter[] = [
@@ -55,5 +61,14 @@ export const CHAPTERS: Chapter[] = [
       "如果你也在找一顆屬於自己的星星，或是想邀請艾飛樂一起把你的品牌、你的故事畫下來——歡迎成為這個故事的下一段。",
     ],
     quote: "願每一個讀到這裡的你，都能被自己溫柔接住。",
+  },
+  {
+    tag: "觀測站",
+    title: "小艾的社群觀測站",
+    body: ["在旅途中停留一下，看看小艾最新的影音創作。"],
+    embed: {
+      videoId: "iYy-q9ywHaA",
+      channelHref: LINKS.youtube,
+    },
   },
 ];

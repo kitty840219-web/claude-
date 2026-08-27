@@ -78,6 +78,28 @@ export default function StoryReader({
               ))}
             </div>
 
+            {chapter.embed && (
+              <div className="mt-5">
+                <div className="relative aspect-[9/16] overflow-hidden rounded-[1.25rem] bg-black">
+                  <iframe
+                    title={`${chapter.title} 影音`}
+                    src={`https://www.youtube.com/embed/${chapter.embed.videoId}?rel=0`}
+                    className="absolute inset-0 h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <a
+                  href={chapter.embed.channelHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block text-xs font-semibold text-gold-light"
+                >
+                  前往頻道 →
+                </a>
+              </div>
+            )}
+
             {chapter.quote && (
               <blockquote className="mt-6 border-l-4 border-gold py-1 pl-4 font-serif text-base italic text-gold-light sm:text-lg">
                 「{chapter.quote}」

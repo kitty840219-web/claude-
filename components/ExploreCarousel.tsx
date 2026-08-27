@@ -2,14 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { asset } from "@/lib/basePath";
-import { LINKS } from "@/lib/data/site";
 import Star from "@/components/Star";
 import StoryReader from "@/components/StoryReader";
 import { CHAPTERS } from "@/lib/data/story";
-
-const YOUTUBE_VIDEO_ID = "iYy-q9ywHaA";
 
 const STOPS = [
   { id: "story", label: "故事", eyebrow: "EXPLORE 01", title: "艾飛樂的故事", desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程" },
@@ -23,7 +20,6 @@ export default function ExploreCarousel() {
   const [index, setIndex] = useState(0);
   const stop = STOPS[index];
   const next = () => setIndex((value) => (value + 1) % STOPS.length);
-  const socialRef = useRef<HTMLDivElement>(null);
 
   return (
     <section className="relative min-h-[calc(100svh-64px)] overflow-hidden bg-night-dark text-paper">
@@ -54,25 +50,10 @@ export default function ExploreCarousel() {
                 <StoryReader
                   chapters={CHAPTERS}
                   finish={{
-                    label: "看看小艾的社群觀測站 ↓",
-                    onClick: () => socialRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+                    label: "下一站：語錄作品 →",
+                    onClick: next,
                   }}
                 />
-              </div>
-
-              <div ref={socialRef} className="relative mt-10 border-t border-paper/10 pt-8">
-                <div className="px-5 text-center">
-                  <p className="text-[11px] font-semibold tracking-[0.3em] text-gold-light">SOCIAL STATION</p>
-                  <h3 className="mt-2 font-serif text-xl font-bold text-paper">小艾的社群觀測站</h3>
-                  <p className="mt-2 text-xs text-paper/70">在旅途中停留一下，看看小艾最新的影音創作。</p>
-                </div>
-                <div className="relative mx-5 mt-5 aspect-[9/16] overflow-hidden rounded-[1.5rem] bg-black">
-                  <iframe title="艾飛樂 YouTube 影音" src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0`} className="absolute inset-0 h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
-                </div>
-                <div className="flex items-center justify-between px-6 py-4 text-[10px] text-paper/45">
-                  <a href={LINKS.youtube} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold-light">前往頻道 →</a>
-                  <button type="button" onClick={next} className="font-semibold text-gold-light">下一站：語錄作品 →</button>
-                </div>
               </div>
             </div>
           ) : (
