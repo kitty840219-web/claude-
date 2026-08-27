@@ -30,6 +30,7 @@ export default function HomeGameHub() {
     const raw = localStorage.getItem(SAVE_KEY);
     if (raw) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration from localStorage after mount, matching the SSR-rendered default until then
         setSave(JSON.parse(raw) as SaveState);
       } catch {
         localStorage.removeItem(SAVE_KEY);
