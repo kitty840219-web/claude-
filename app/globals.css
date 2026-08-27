@@ -93,11 +93,21 @@ body {
   animation: dialogue-in 0.38s ease-out both;
 }
 
+@keyframes sparkle-pop {
+  0% { opacity: 0; transform: translateY(4px) scale(0.6); }
+  30% { opacity: 1; transform: translateY(-6px) scale(1); }
+  100% { opacity: 0; transform: translateY(-22px) scale(0.8); }
+}
+.animate-sparkle-pop {
+  animation: sparkle-pop 0.9s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-page-in,
   .animate-fade-in,
   .animate-float-slow,
-  .animate-twinkle {
+  .animate-twinkle,
+  .animate-sparkle-pop {
     animation: none;
   }
 }

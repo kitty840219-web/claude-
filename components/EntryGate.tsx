@@ -21,6 +21,12 @@ export default function EntryGate() {
   const [phase, setPhase] = useState<Phase>("gate");
   const [closing, setClosing] = useState(false);
   const [line, setLine] = useState(0);
+  const [sparkle, setSparkle] = useState(false);
+
+  function poke() {
+    setSparkle(true);
+    window.setTimeout(() => setSparkle(false), 900);
+  }
 
   const isHome = pathname === "/";
 
@@ -109,21 +115,35 @@ export default function EntryGate() {
           </p>
           <h1 className="mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl">{SITE.brand}</h1>
           <p className="mt-3 text-sm leading-relaxed text-paper/75">
-            {SITE.tagline}，{SITE.taglineSub}
+            {SITE.tagline}🌟
+            <br />
+            {SITE.taglineSub}
           </p>
         </div>
 
         <div className="absolute inset-x-5 bottom-[7%] sm:inset-x-8">
-          <div className="pointer-events-none absolute -bottom-2 -left-7 z-20 h-44 w-32 sm:-left-9 sm:h-48 sm:w-36">
+          <button
+            type="button"
+            onClick={poke}
+            aria-label="逗逗小艾"
+            className="animate-float-slow absolute -bottom-1 -left-5 z-20 h-32 w-24 sm:-left-7 sm:h-36 sm:w-28"
+          >
+            {sparkle && (
+              <>
+                <span className="animate-sparkle-pop pointer-events-none absolute -top-2 left-1 text-lg" style={{ animationDelay: "0s" }}>✨</span>
+                <span className="animate-sparkle-pop pointer-events-none absolute -top-4 left-10 text-sm" style={{ animationDelay: "0.1s" }}>⭐</span>
+                <span className="animate-sparkle-pop pointer-events-none absolute -top-1 left-16 text-base" style={{ animationDelay: "0.2s" }}>✨</span>
+              </>
+            )}
             <Image
               src={asset("/images/entry-xiaoai-cutout.png")}
-              alt="小艾揮手邀請旅人開始探索"
+              alt="小艾揮手邀請旅人開始探索，點擊可以逗逗她"
               fill
               priority
-              className="object-contain object-bottom"
+              className="pointer-events-none object-contain object-bottom"
               sizes="144px"
             />
-          </div>
+          </button>
           <button
             type="button"
             onClick={enter}
