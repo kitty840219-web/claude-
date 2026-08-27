@@ -58,13 +58,14 @@ export default function EntryGate() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-45" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(118,105,184,0.38),transparent_42%)]" />
         <div className="relative mx-auto h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
-          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 pt-5 text-[10px] font-semibold tracking-[0.2em] text-paper/55">
-            <span>CHAPTER 01 · 星光的邀請</span>
-            <span>{String(line + 1).padStart(2, "0")} / {String(JOURNEY_DIALOGUE.length).padStart(2, "0")}</span>
+          <div key={dialogue.art} className="absolute inset-0 animate-fade-in">
+            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話場景`} fill priority className="object-cover" sizes="390px" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night-dark/90 via-night-dark/10 to-night-dark/50" />
           </div>
 
-          <div key={dialogue.art} className="absolute inset-x-5 top-[13%] aspect-square animate-fade-in overflow-hidden rounded-[1.5rem] border border-gold/25 shadow-soft">
-            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話場景`} fill priority className="object-cover" sizes="360px" />
+          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 pt-5 text-[10px] font-semibold tracking-[0.2em] text-paper/70">
+            <span>CHAPTER 01 · 星光的邀請</span>
+            <span>{String(line + 1).padStart(2, "0")} / {String(JOURNEY_DIALOGUE.length).padStart(2, "0")}</span>
           </div>
 
           <button type="button" onClick={nextDialogue} aria-label="點擊顯示下一段對話" className="absolute inset-x-3 bottom-3 z-20 min-h-[34%] rounded-[1.65rem] border border-gold/30 bg-[rgba(28,27,74,0.94)] p-6 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]">
