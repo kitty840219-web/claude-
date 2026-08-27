@@ -14,27 +14,51 @@ const QUICK_NAV = [
     href: "/story",
     title: "艾飛樂的故事",
     desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程",
+    image: "/images/home-story.png",
+    imageFit: "cover",
+    tone: "from-[#f4e8d7] to-[#ded9ef]",
   },
   {
     href: "/works",
     title: "語錄作品",
     desc: "插畫語錄選粹，用一句話說出你的心事",
+    image: "/images/home-quotes.png",
+    imageFit: "cover",
+    tone: "from-[#f9e8e1] to-[#e7e1f2]",
   },
   {
     href: "/videos",
     title: "影音創作",
     desc: "YouTube 頻道與短影音創作紀錄",
+    image: "/images/home-video.png",
+    imageFit: "contain",
+    tone: "from-[#e6eef4] to-[#eee7f4]",
   },
   {
     href: "/shop",
     title: "周邊商店",
     desc: "明信片、貼紙、LINE 貼圖與客製小物",
+    image: "/images/home-shop.png",
+    imageFit: "contain",
+    tone: "from-[#f7eadc] to-[#eee4f3]",
   },
   {
     href: "/contact",
     title: "合作聯絡",
     desc: "插畫委託、品牌合作與接案洽詢",
+    image: "/images/home-contact.png",
+    imageFit: "contain",
+    tone: "from-[#f8e5e4] to-[#e5eaf3]",
   },
+];
+
+const SERVICE_ART = [
+  "/images/home-quotes.png",
+  "/images/home-story.png",
+  "/images/home-shop.png",
+  "/images/home-video.png",
+  "/images/home-contact.png",
+  "/images/home-video.png",
 ];
 
 export default function HomePage() {
@@ -152,15 +176,25 @@ export default function HomePage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group flex flex-col justify-between rounded-2xl border border-night/10 bg-paper p-6 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+                className="group overflow-hidden rounded-[1.75rem] border border-night/10 bg-paper shadow-card transition duration-300 hover:-translate-y-1 hover:border-gold/50"
               >
-                <div>
+                <div className={`relative h-44 overflow-hidden bg-gradient-to-br ${item.tone}`}>
+                  <Image
+                    src={asset(item.image)}
+                    alt={`${item.title}小艾插畫`}
+                    fill
+                    className={`${item.imageFit === "cover" ? "object-cover" : "object-contain p-3"} transition duration-500 group-hover:scale-105`}
+                    sizes="(min-width: 1024px) 20vw, 100vw"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-paper/30 to-transparent" />
+                </div>
+                <div className="p-6">
                   <h3 className="font-serif text-lg font-bold text-night">{item.title}</h3>
                   <p className="mt-2 text-xs leading-relaxed text-ink-500">{item.desc}</p>
+                  <span className="mt-5 inline-flex text-xs font-semibold text-gold-dark transition group-hover:translate-x-1">
+                    前往看看 →
+                  </span>
                 </div>
-                <span className="mt-6 text-xs font-semibold text-gold-dark opacity-0 transition group-hover:opacity-100">
-                  前往看看 →
-                </span>
               </Link>
             ))}
           </div>
@@ -172,6 +206,16 @@ export default function HomePage() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="ILLUSTRATED QUOTES" title="精選語錄" light center />
+          <div className="relative mx-auto mt-10 aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border border-paper/10 shadow-soft">
+            <Image
+              src={asset("/images/home-quotes.png")}
+              alt="小艾抱著語錄卡與信件的水彩插畫"
+              fill
+              className="object-cover"
+              sizes="(min-width: 768px) 28rem, 92vw"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night-dark/20 to-transparent" />
+          </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {QUOTES.slice(0, 3).map((q, i) => (
               <QuoteCard key={q.id} quote={q} index={i} />
@@ -192,8 +236,17 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <SectionHeading eyebrow="SERVICES" title="接案服務項目" center />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.slice(0, 6).map((s) => (
-            <div key={s.title} className="rounded-2xl border border-night/10 bg-paper p-6 shadow-card">
+          {SERVICES.slice(0, 6).map((s, index) => (
+            <div key={s.title} className="relative overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-paper to-[#f3edf5] p-6 shadow-card">
+              <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
+                <Image
+                  src={asset(SERVICE_ART[index])}
+                  alt={`${s.title}小艾插畫`}
+                  fill
+                  className={index < 2 ? "rounded-2xl object-cover" : "object-contain"}
+                  sizes="(min-width: 1024px) 20vw, 80vw"
+                />
+              </div>
               <h3 className="font-serif text-base font-bold text-night">{s.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-500">{s.desc}</p>
             </div>
