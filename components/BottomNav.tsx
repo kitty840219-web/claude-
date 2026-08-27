@@ -66,6 +66,18 @@ const TABS = [
     ),
   },
   {
+    href: "/tarot",
+    label: "大眾占卜",
+    icon: (active: boolean) => (
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
+        <circle cx="12" cy="11" r="6" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} />
+        <path d="M9.5 11.5l1.6 1.5 3.4-4" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7 19h10M8.5 17h7" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} strokeLinecap="round" />
+        <path d="M12 3V1.8M5.5 5.5l-.9-.9M18.5 5.5l.9-.9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
     href: "/shop",
     label: "商店",
     icon: (active: boolean) => (
@@ -103,7 +115,7 @@ export default function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
+              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[9px] font-medium"
             >
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${

@@ -10,13 +10,16 @@ const SAVE_KEY = "aifeiler-star-journey";
 const QUESTS = [
   { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/story", art: "/images/home-story-cutout.png" },
   { id: "quote", title: "收藏一張療癒語錄", reward: 8, href: "/works", art: "/images/home-quotes-cutout.png" },
+  { id: "tarot", title: "抽一張今日指引牌", reward: 12, href: "/tarot", art: "/images/home-contact.png" },
   { id: "shop", title: "參觀小艾的星光商店", reward: 6, href: "/shop", art: "/images/home-shop.png" },
 ];
 
 const DIALOGUE = [
-  "嗨，我是小艾。歡迎來到我的星光日記。",
-  "這裡收藏著插畫、語錄，還有一路走來的溫柔故事。",
-  "完成今天的小旅程，就能收集屬於你的星星。",
+  { speaker: "小艾", text: "嗨，旅人。歡迎來到我的星光日記。", art: "/images/home-contact.png" },
+  { speaker: "小艾", text: "每一顆星星，都收藏著一段曾經沒有說出口的心情。", art: "/images/home-quotes-cutout.png" },
+  { speaker: "藍色小鳥", text: "啾！我會陪你一起尋找散落在故事裡的溫柔星光。", art: "/images/home-story-cutout.png" },
+  { speaker: "小艾", text: "你可以翻開故事、收藏語錄，也可以抽一張牌，聽聽今天的心靈指引。", art: "/images/home-shop.png" },
+  { speaker: "小艾", text: "準備好了嗎？點亮今天的第一顆星星，我們就出發吧。", art: "/images/home-contact.png" },
 ];
 
 type SaveState = { stars: number; completed: string[] };
@@ -47,6 +50,12 @@ export default function HomeGameHub() {
   }
 
   const progress = Math.round((save.completed.length / QUESTS.length) * 100);
+  const dialogue = DIALOGUE[line];
+  const isLastLine = line === DIALOGUE.length - 1;
+
+  function nextDialogue() {
+    setLine((current) => (current + 1) % DIALOGUE.length);
+  }
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#eee9f7] via-paper to-paper-warm px-4 py-8">
@@ -65,22 +74,42 @@ export default function HomeGameHub() {
 
         <div className="relative overflow-hidden rounded-[2rem] border border-gold/25 bg-night-dark shadow-soft">
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-          <div className="relative min-h-72">
-            <div className="absolute bottom-0 right-0 h-[92%] w-[62%] animate-float-slow">
-              <Image src={asset("/images/home-contact.png")} alt="小艾帶領星光旅程" fill className="object-contain object-bottom" sizes="250px" />
+          <div className="relative min-h-[430px]">
+            <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-5 text-[10px] font-semibold tracking-[0.2em] text-paper/55">
+              <span>CHAPTER 01 · 星光的邀請</span>
+              <span>{String(line + 1).padStart(2, "0")} / {String(DIALOGUE.length).padStart(2, "0")}</span>
             </div>
-            <div className="relative z-10 flex min-h-72 w-[58%] flex-col justify-end p-5">
-              <p className="mb-2 text-[10px] font-semibold tracking-[0.25em] text-gold-light">小艾 · AIFEILER</p>
-              <button
-                type="button"
-                onClick={() => setLine((current) => (current + 1) % DIALOGUE.length)}
-                className="rounded-2xl border border-paper/15 bg-night/80 p-4 text-left shadow-card backdrop-blur"
-                aria-label="繼續小艾的對話"
-              >
-                <span className="block min-h-20 text-sm leading-relaxed text-paper/90">{DIALOGUE[line]}</span>
-                <span className="mt-3 block text-right text-[10px] text-gold-light">點擊繼續 ▼</span>
-              </button>
+            <div key={dialogue.art} className="absolute inset-x-0 top-10 h-[285px] animate-fade-in">
+              <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的對話場景`} fill className="object-contain object-bottom" sizes="390px" />
             </div>
+
+            <button
+              type="button"
+              onClick={nextDialogue}
+              className="absolute inset-x-3 bottom-3 z-10 min-h-36 rounded-[1.6rem] border border-gold/25 bg-[rgba(28,27,74,0.92)] p-5 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]"
+              aria-label="點擊顯示下一段對話"
+            >
+              <span className="block font-serif text-lg font-bold text-gold-light">{dialogue.speaker}</span>
+              <span key={line} className="mt-2 block min-h-14 animate-fade-in text-[15px] font-medium leading-relaxed text-paper">
+                「{dialogue.text}」
+              </span>
+              <span className="mt-2 flex items-center justify-between">
+                <span className="flex gap-1.5">
+                  {DIALOGUE.map((_, index) => (
+                    <span key={index} className={`h-1.5 rounded-full transition-all ${index === line ? "w-5 bg-gold" : "w-1.5 bg-paper/25"}`} />
+                  ))}
+                </span>
+                <span className="animate-pulse text-[11px] font-semibold text-gold-light">
+                  {isLastLine ? "再次閱讀 ↻" : "點擊繼續 ▼"}
+                </span>
+              </span>
+            </button>
+          </div>
+          <div className="relative flex items-center justify-between border-t border-paper/10 bg-night px-5 py-3">
+            <p className="text-[10px] text-paper/55">點擊對話框，繼續小艾的旅程</p>
+            <Link href="/story" className="rounded-full border border-gold/40 px-3 py-1.5 text-[10px] font-semibold text-gold-light">
+              完整故事 →
+            </Link>
           </div>
         </div>
 

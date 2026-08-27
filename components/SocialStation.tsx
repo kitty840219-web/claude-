@@ -3,7 +3,7 @@ import { LINKS } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 import SocialIcon from "@/components/SocialIcon";
 
-const YOUTUBE_VIDEO_ID = "2MH3zN3VCn4";
+const YOUTUBE_VIDEO_ID = "iYy-q9ywHaA";
 
 export default function SocialStation() {
   return (

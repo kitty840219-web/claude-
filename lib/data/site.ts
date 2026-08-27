@@ -28,6 +28,7 @@ export const NAV = [
   { href: "/story", label: "艾飛樂的故事" },
   { href: "/about", label: "關於艾飛樂" },
   { href: "/works", label: "語錄作品" },
+  { href: "/tarot", label: "大眾占卜" },
   { href: "/videos", label: "影音創作" },
   { href: "/shop", label: "周邊商店" },
   { href: "/pricing", label: "服務報價" },

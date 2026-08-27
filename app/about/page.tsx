@@ -46,6 +46,33 @@ export default function AboutPage() {
       </section>
 
       <section className="relative overflow-hidden bg-night-dark">
+        <div className="bg-stars relative px-5 py-10 text-center">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <Star className="h-3 w-3 text-gold-light" />
+            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">ABOUT</p>
+            <Star className="h-3 w-3 text-gold-light" delay="1s" />
+          </div>
+          <h2 className="font-serif text-3xl font-bold text-paper sm:text-4xl">關於艾飛樂</h2>
+          <p className="mt-2 text-sm text-paper/80">{SITE.brandFull}</p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
+            <StatBadge
+              icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />}
+              label={`${SERVICES.length} 大服務項目`}
+              light
+            />
+            <StatBadge
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
+                  <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                  <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                </svg>
+              }
+              label={`${QUOTES.length}+ 篇語錄作品`}
+              light
+            />
+          </div>
+        </div>
         <div className="relative aspect-square w-full">
           <Image
             src={asset("/images/xiaoai-03-about-page.png")}
@@ -53,36 +80,6 @@ export default function AboutPage() {
             fill
             className="object-cover object-[center_0%]"
           />
-          <div className="bg-stars pointer-events-none absolute inset-0 opacity-20" />
-          <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-night-dark via-night-dark/70 to-transparent" />
-
-          <div className="absolute inset-x-0 top-0 px-4 pt-6 text-center sm:pt-8">
-            <div className="mb-3 flex items-center justify-center gap-2">
-              <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">ABOUT</p>
-              <Star className="h-3 w-3 text-gold-light" delay="1s" />
-            </div>
-            <h2 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">關於艾飛樂</h2>
-            <p className="text-shadow-soft mt-2 text-sm text-paper/90">{SITE.brandFull}</p>
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
-              <StatBadge
-                icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />}
-                label={`${SERVICES.length} 大服務項目`}
-                light
-              />
-              <StatBadge
-                icon={
-                  <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
-                    <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-                    <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-                  </svg>
-                }
-                label={`${QUOTES.length}+ 篇語錄作品`}
-                light
-              />
-            </div>
-          </div>
         </div>
       </section>
 
