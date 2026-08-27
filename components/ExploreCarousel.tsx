@@ -11,7 +11,7 @@ const YOUTUBE_VIDEO_ID = "iYy-q9ywHaA";
 
 const STOPS = [
   { id: "social", label: "觀測站", eyebrow: "SOCIAL STATION", title: "小艾的社群觀測站", desc: "在旅途中停留一下，看看小艾最新的影音創作。", dark: true },
-  { id: "story", label: "故事", eyebrow: "EXPLORE 01", title: "艾飛樂的故事", desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程", href: "/about#story", image: "/images/home-story-cutout.png", tone: "from-[#f4e8d7] to-[#ded9ef]" },
+  { id: "story", label: "故事", eyebrow: "EXPLORE 01", title: "艾飛樂的故事", desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程", href: "/#story", image: "/images/home-story-cutout.png", tone: "from-[#f4e8d7] to-[#ded9ef]" },
   { id: "quotes", label: "語錄", eyebrow: "EXPLORE 02", title: "語錄作品", desc: "插畫語錄選粹，用一句話說出你的心事", href: "/works", image: "/images/home-quotes-cutout.png", tone: "from-[#f9e8e1] to-[#e7e1f2]" },
   { id: "video", label: "影音", eyebrow: "EXPLORE 03", title: "影音創作", desc: "YouTube 頻道與短影音創作紀錄", href: "/videos", image: "/images/home-video.png", tone: "from-[#e6eef4] to-[#eee7f4]" },
   { id: "shop", label: "商店", eyebrow: "EXPLORE 04", title: "周邊商店", desc: "明信片、貼紙、LINE 貼圖與客製小物", href: "/shop", image: "/images/home-shop.png", tone: "from-[#f7eadc] to-[#eee4f3]" },

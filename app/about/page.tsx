@@ -5,11 +5,9 @@ import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
 import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
-import StoryReader from "@/components/StoryReader";
 import AboutJourney from "@/components/AboutJourney";
 import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
-import { CHAPTERS } from "@/lib/data/story";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
@@ -21,29 +19,6 @@ export default function AboutPage() {
   return (
     <div>
       <AboutJourney />
-
-      {/* Author story — merged from the former standalone story navigation */}
-      <section id="story" className="scroll-mt-16">
-        <div className="relative overflow-hidden bg-night-dark px-5 py-12 text-center">
-          <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-          <div className="relative">
-            <div className="mb-3 flex items-center justify-center gap-2">
-              <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">OUR STORY</p>
-              <Star className="h-3 w-3 text-gold-light" delay="1s" />
-            </div>
-            <h2 className="font-serif text-3xl font-bold text-paper">艾飛樂的故事</h2>
-            <p className="mt-3 text-sm text-paper/75">一段用插畫與文字，寫給每個黑夜的旅程</p>
-          </div>
-        </div>
-
-        <div className="relative overflow-hidden bg-night-dark py-16">
-          <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-          <div className="relative">
-            <StoryReader chapters={CHAPTERS} />
-          </div>
-        </div>
-      </section>
 
       <section className="relative overflow-hidden bg-night-dark">
         <div className="bg-stars relative px-5 py-10 text-center">

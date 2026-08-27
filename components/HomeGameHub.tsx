@@ -8,7 +8,7 @@ import { asset } from "@/lib/basePath";
 const SAVE_KEY = "aifeiler-star-journey";
 
 const QUESTS = [
-  { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/about#story", art: "/images/home-story-cutout.png" },
+  { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/#story", art: "/images/home-story-cutout.png" },
   { id: "quote", title: "收藏一張療癒語錄", reward: 8, href: "/works", art: "/images/home-quotes-cutout.png" },
   { id: "tarot", title: "抽一張今日指引牌", reward: 12, href: "/tarot", art: "/images/home-contact.png" },
   { id: "shop", title: "參觀小艾的星光商店", reward: 6, href: "/shop", art: "/images/home-shop.png" },

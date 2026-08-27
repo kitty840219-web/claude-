@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
@@ -51,6 +52,7 @@ const SCENES = [
 ];
 
 export default function AboutJourney() {
+  const router = useRouter();
   const [index, setIndex] = useState(0);
   const scene = SCENES[index];
   const isFirst = index === 0;
@@ -58,7 +60,7 @@ export default function AboutJourney() {
 
   function advance() {
     if (isLast) {
-      document.querySelector("#story")?.scrollIntoView({ behavior: "smooth" });
+      router.push("/#story");
       return;
     }
     setIndex((value) => value + 1);
