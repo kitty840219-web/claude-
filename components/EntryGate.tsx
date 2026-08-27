@@ -45,13 +45,7 @@ export default function EntryGate() {
           closing ? "scale-95" : "scale-100"
         }`}
       >
-        <div className="absolute inset-x-0 top-[11%]">
-          <div className="relative mx-auto h-16 w-16 overflow-hidden rounded-full border-2 border-gold/60 shadow-card sm:h-20 sm:w-20">
-            <Image src={asset("/images/mascot.png")} alt={SITE.brand} fill className="object-contain bg-paper p-1" />
-          </div>
-        </div>
-
-        <div className="absolute inset-x-5 top-[37%] sm:inset-x-8 sm:top-[35%]">
+        <div className="absolute inset-x-5 top-[32%] sm:inset-x-8 sm:top-[30%]">
           <p className="text-[11px] font-semibold tracking-[0.35em] text-gold-light">
             {SITE.brandEn.toUpperCase()}
           </p>
@@ -62,10 +56,20 @@ export default function EntryGate() {
         </div>
 
         <div className="absolute inset-x-5 bottom-[7%] sm:inset-x-8">
+          <div className="pointer-events-none absolute -bottom-2 -left-7 z-20 h-44 w-32 sm:-left-9 sm:h-48 sm:w-36">
+            <Image
+              src={asset("/images/entry-xiaoai-cutout.png")}
+              alt="小艾揮手邀請旅人開始探索"
+              fill
+              priority
+              className="object-contain object-bottom"
+              sizes="144px"
+            />
+          </div>
           <button
             type="button"
             onClick={enter}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
+            className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3.5 pl-24 pr-5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
           >
             開始探索艾飛樂的世界 →
           </button>
