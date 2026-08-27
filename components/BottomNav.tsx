@@ -84,7 +84,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="主要導覽"
-      className="fixed inset-x-0 bottom-0 z-40 w-full border-t border-night/10 bg-paper/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(43,42,92,0.25)] backdrop-blur md:hidden"
+      className="fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-night/10 bg-paper/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(43,42,92,0.25)] backdrop-blur md:hidden"
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between px-2">
         {TABS.map((tab) => {

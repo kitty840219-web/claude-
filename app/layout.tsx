@@ -52,7 +52,7 @@ export default function RootLayout({
       lang="zh-Hant"
       className={`${notoSerifTC.variable} ${notoSansTC.variable} ${maShanZheng.variable}`}
     >
-      <body className="flex min-h-screen w-full flex-col bg-paper font-sans text-ink-900 antialiased">
+      <body className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-paper font-sans text-ink-900 shadow-[0_0_60px_rgba(24,21,66,0.18)] antialiased">
         <EntryGate />
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">

@@ -1,36 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
-const STORAGE_KEY = "aifeiler-entered";
-
-type Phase = "checking" | "gate" | "open";
+type Phase = "gate" | "open";
 
 export default function EntryGate() {
   const pathname = usePathname();
-  const [phase, setPhase] = useState<Phase>("checking");
+  const [phase, setPhase] = useState<Phase>("gate");
   const [closing, setClosing] = useState(false);
-
-  useEffect(() => {
-    // sessionStorage only exists client-side, so the gate/open decision can't be made during render.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPhase(sessionStorage.getItem(STORAGE_KEY) ? "open" : "gate");
-  }, []);
 
   const isHome = pathname === "/";
 
   function enter() {
-    sessionStorage.setItem(STORAGE_KEY, "1");
     setClosing(true);
     window.setTimeout(() => setPhase("open"), 500);
   }
 
   if (!isHome || phase === "open") return null;
-  if (phase === "checking") return <div className="fixed inset-0 z-50 bg-night-dark" aria-hidden />;
 
   return (
     <div
