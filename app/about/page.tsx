@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
@@ -73,32 +72,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Services / resume-style skills */}
-      <section className="relative overflow-hidden bg-night-dark py-20">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-          <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" light center />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((s) => (
-              <div
-                key={s.title}
-                className="bg-grain relative overflow-hidden rounded-2xl border border-paper/10 bg-night-light/40 p-6"
-              >
-                <h3 className="font-serif text-base font-bold text-gold-light">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-paper/70">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 text-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-            >
-              我想洽談合作 →
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

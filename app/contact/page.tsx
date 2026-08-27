@@ -4,7 +4,7 @@ import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
-import { LINKS, SITE } from "@/lib/data/site";
+import { LINKS, SERVICES, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
@@ -56,6 +56,25 @@ export default function ContactPage() {
           </div>
           <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">洽談合作</h1>
           <p className="mt-4 text-paper/70">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
+        </div>
+      </section>
+
+      {/* Services / resume-style skills */}
+      <section className="relative overflow-hidden bg-night-dark py-20">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" light center />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.map((s) => (
+              <div
+                key={s.title}
+                className="bg-grain relative overflow-hidden rounded-2xl border border-paper/10 bg-night-light/40 p-6"
+              >
+                <h3 className="font-serif text-base font-bold text-gold-light">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-paper/70">{s.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
