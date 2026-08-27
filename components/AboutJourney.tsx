@@ -60,7 +60,7 @@ export default function AboutJourney() {
 
   function advance() {
     if (isLast) {
-      router.push("/#story");
+      router.push("/");
       return;
     }
     setIndex((value) => value + 1);
