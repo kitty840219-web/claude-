@@ -6,21 +6,77 @@ import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
-type Phase = "gate" | "open";
+type Phase = "gate" | "journey" | "open";
+
+const JOURNEY_DIALOGUE = [
+  { speaker: "小艾", text: "嗨，旅人。歡迎來到我的星光日記。", art: "/images/home-contact.png" },
+  { speaker: "小艾", text: "每一顆星星，都收藏著一段曾經沒有說出口的心情。", art: "/images/home-quotes-cutout.png" },
+  { speaker: "藍色小鳥", text: "啾！我會陪你一起尋找散落在故事裡的溫柔星光。", art: "/images/home-story-cutout.png" },
+  { speaker: "小艾", text: "你可以翻開故事、收藏語錄，也可以抽一張牌，聽聽今天的心靈指引。", art: "/images/home-shop.png" },
+  { speaker: "小艾", text: "準備好了嗎？點亮今天的第一顆星星，我們就出發吧。", art: "/images/home-contact.png" },
+];
 
 export default function EntryGate() {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("gate");
   const [closing, setClosing] = useState(false);
+  const [line, setLine] = useState(0);
 
   const isHome = pathname === "/";
 
   function enter() {
     setClosing(true);
+    window.setTimeout(() => {
+      setPhase("journey");
+      setClosing(false);
+    }, 500);
+  }
+
+  function nextDialogue() {
+    if (line < JOURNEY_DIALOGUE.length - 1) {
+      setLine((current) => current + 1);
+      return;
+    }
+    setClosing(true);
     window.setTimeout(() => setPhase("open"), 500);
   }
 
   if (!isHome || phase === "open") return null;
+
+  if (phase === "journey") {
+    const dialogue = JOURNEY_DIALOGUE[line];
+    const isLast = line === JOURNEY_DIALOGUE.length - 1;
+
+    return (
+      <div className={`fixed inset-0 z-50 overflow-hidden bg-night-dark px-4 py-4 transition-opacity duration-500 ${closing ? "pointer-events-none opacity-0" : "opacity-100"}`}>
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-45" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(118,105,184,0.38),transparent_42%)]" />
+        <div className="relative mx-auto h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
+          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 pt-5 text-[10px] font-semibold tracking-[0.2em] text-paper/55">
+            <span>CHAPTER 01 · 星光的邀請</span>
+            <span>{String(line + 1).padStart(2, "0")} / {String(JOURNEY_DIALOGUE.length).padStart(2, "0")}</span>
+          </div>
+
+          <div key={dialogue.art} className="absolute inset-x-0 top-[6%] h-[58%] animate-fade-in">
+            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話`} fill priority className="object-contain object-bottom" sizes="390px" />
+          </div>
+
+          <button type="button" onClick={nextDialogue} aria-label="點擊顯示下一段對話" className="absolute inset-x-3 bottom-3 z-20 min-h-[34%] rounded-[1.65rem] border border-gold/30 bg-[rgba(28,27,74,0.94)] p-6 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]">
+            <span className="block font-serif text-xl font-bold text-gold-light">{dialogue.speaker}</span>
+            <span key={line} className="mt-3 block min-h-20 animate-fade-in text-base font-medium leading-relaxed text-paper">「{dialogue.text}」</span>
+            <span className="mt-4 flex items-center justify-between">
+              <span className="flex gap-1.5">
+                {JOURNEY_DIALOGUE.map((_, index) => (
+                  <span key={index} className={`h-1.5 rounded-full transition-all ${index === line ? "w-6 bg-gold" : "w-1.5 bg-paper/25"}`} />
+                ))}
+              </span>
+              <span className="animate-pulse text-[11px] font-semibold text-gold-light">{isLast ? "進入故事 →" : "點擊繼續 ▼"}</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
