@@ -9,11 +9,11 @@ import { asset } from "@/lib/basePath";
 type Phase = "gate" | "journey" | "open";
 
 const JOURNEY_DIALOGUE = [
-  { speaker: "小艾", text: "嗨，旅人。歡迎來到我的星光日記。", art: "/images/home-contact.png" },
-  { speaker: "小艾", text: "每一顆星星，都收藏著一段曾經沒有說出口的心情。", art: "/images/home-quotes-cutout.png" },
-  { speaker: "藍色小鳥", text: "啾！我會陪你一起尋找散落在故事裡的溫柔星光。", art: "/images/home-story-cutout.png" },
-  { speaker: "小艾", text: "你可以翻開故事、收藏語錄，也可以抽一張牌，聽聽今天的心靈指引。", art: "/images/home-shop.png" },
-  { speaker: "小艾", text: "準備好了嗎？點亮今天的第一顆星星，我們就出發吧。", art: "/images/home-contact.png" },
+  { speaker: "小艾", text: "嗨，旅人。歡迎來到我的星光日記。", art: "/images/journey-camera.png" },
+  { speaker: "小艾", text: "每一顆星星，都收藏著一段曾經沒有說出口的心情。", art: "/images/journey-painting.png" },
+  { speaker: "藍色小鳥", text: "啾！我會陪你一起尋找散落在故事裡的溫柔星光。", art: "/images/journey-letter.png" },
+  { speaker: "小艾", text: "你可以翻開故事、收藏語錄，也可以抽一張牌，聽聽今天的心靈指引。", art: "/images/journey-shop.png" },
+  { speaker: "小艾", text: "準備好了嗎？點亮今天的第一顆星星，我們就出發吧。", art: "/images/journey-finale.png" },
 ];
 
 export default function EntryGate() {
@@ -63,6 +63,10 @@ export default function EntryGate() {
             <span>{String(line + 1).padStart(2, "0")} / {String(JOURNEY_DIALOGUE.length).padStart(2, "0")}</span>
           </div>
 
+          <div key={dialogue.art} className="absolute inset-x-5 top-[13%] aspect-square animate-fade-in overflow-hidden rounded-[1.5rem] border border-gold/25 shadow-soft">
+            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話場景`} fill priority className="object-cover" sizes="360px" />
+          </div>
+
           <button type="button" onClick={nextDialogue} aria-label="點擊顯示下一段對話" className="absolute inset-x-3 bottom-3 z-20 min-h-[34%] rounded-[1.65rem] border border-gold/30 bg-[rgba(28,27,74,0.94)] p-6 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]">
             <span className="block font-serif text-xl font-bold text-gold-light">{dialogue.speaker}</span>
             <span key={line} className="mt-3 block min-h-20 animate-fade-in text-base font-medium leading-relaxed text-paper">「{dialogue.text}」</span>
@@ -77,9 +81,14 @@ export default function EntryGate() {
           </button>
 
           <div className="animate-float-slow pointer-events-none absolute bottom-[30%] left-1 z-30 h-28 w-24 sm:h-32 sm:w-28">
-            <div key={dialogue.art} className="relative h-full w-full animate-fade-in">
-              <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話`} fill priority className="object-contain object-bottom drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]" sizes="112px" />
-            </div>
+            <Image
+              src={asset("/images/entry-xiaoai-cutout.png")}
+              alt="小艾"
+              fill
+              priority
+              className="object-contain object-bottom drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
+              sizes="112px"
+            />
           </div>
         </div>
       </div>
