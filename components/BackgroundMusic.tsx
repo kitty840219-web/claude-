@@ -8,7 +8,7 @@ export default function BackgroundMusic() {
   const [playing, setPlaying] = useState(true);
 
   return (
-    <div className="fixed bottom-20 right-4 z-40 md:bottom-6">
+    <div className="floating-music fixed bottom-20 z-40 md:bottom-6">
       {playing && (
         <iframe
           title="艾飛樂背景音樂"

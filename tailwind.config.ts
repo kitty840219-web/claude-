@@ -3,6 +3,15 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
+    // Keep the mobile composition at every browser width. The site is presented
+    // as a focused, app-like portfolio instead of switching to desktop grids.
+    screens: {
+      sm: "9999px",
+      md: "10000px",
+      lg: "10001px",
+      xl: "10002px",
+      "2xl": "10003px",
+    },
     extend: {
       colors: {
         ink: {

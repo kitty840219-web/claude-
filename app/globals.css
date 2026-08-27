@@ -4,11 +4,16 @@
 
 html {
   scroll-behavior: smooth;
+  background: #eee8dc;
 }
 
 body {
   background-color: #faf6ee;
   color: #22213f;
+}
+
+.floating-music {
+  right: max(1rem, calc((100vw - 430px) / 2 + 1rem));
 }
 
 ::selection {
