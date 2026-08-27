@@ -11,3 +11,13 @@ body {
   background-color: #f7f8fb;
   color: #14171f;
 }
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
