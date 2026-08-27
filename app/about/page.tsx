@@ -17,9 +17,18 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-night-dark py-24 text-center">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
-        <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark">
+        <div className="relative aspect-[4/5] w-full sm:aspect-[21/9]">
+          <Image
+            src={asset("/images/xiaoai-03-about-page.png")}
+            alt="小艾站在畫架前，手拿畫筆與水彩調色盤"
+            fill
+            className="object-cover object-center"
+          />
+          <div className="bg-stars pointer-events-none absolute inset-0 opacity-20" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night-dark to-transparent" />
+        </div>
+        <div className="relative px-4 pb-16 pt-2 text-center sm:pb-20">
           <div className="mb-4 flex items-center justify-center gap-2">
             <Star className="h-3 w-3 text-gold-light" />
             <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">ABOUT</p>

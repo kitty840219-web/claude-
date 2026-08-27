@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
 import PageTransition from "@/components/PageTransition";
 import EntryGate from "@/components/EntryGate";
+import BackgroundMusic from "@/components/BackgroundMusic";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <BottomNav />
+        <BackgroundMusic />
       </body>
     </html>
   );
