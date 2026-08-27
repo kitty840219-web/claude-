@@ -4,7 +4,6 @@
 
 html {
   scroll-behavior: smooth;
-  background: #eee8dc;
 }
 
 body {
@@ -13,7 +12,7 @@ body {
 }
 
 .floating-music {
-  right: max(1rem, calc((100vw - 430px) / 2 + 1rem));
+  right: 1rem;
 }
 
 ::selection {
