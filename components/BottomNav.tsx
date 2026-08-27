@@ -37,26 +37,6 @@ const TABS = [
     ),
   },
   {
-    href: "/story",
-    label: "故事",
-    icon: (active: boolean) => (
-      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
-        <path
-          d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z"
-          stroke="currentColor"
-          strokeWidth={active ? 2.2 : 1.6}
-          strokeLinejoin="round"
-        />
-        <path
-          d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z"
-          stroke="currentColor"
-          strokeWidth={active ? 2.2 : 1.6}
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
     href: "/works",
     label: "語錄",
     icon: (active: boolean) => (
@@ -115,7 +95,7 @@ export default function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[9px] font-medium"
+              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
             >
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${

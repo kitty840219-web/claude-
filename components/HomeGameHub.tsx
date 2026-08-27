@@ -8,7 +8,7 @@ import { asset } from "@/lib/basePath";
 const SAVE_KEY = "aifeiler-star-journey";
 
 const QUESTS = [
-  { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/story", art: "/images/home-story-cutout.png" },
+  { id: "story", title: "翻開小艾的第一篇日記", reward: 10, href: "/about#story", art: "/images/home-story-cutout.png" },
   { id: "quote", title: "收藏一張療癒語錄", reward: 8, href: "/works", art: "/images/home-quotes-cutout.png" },
   { id: "tarot", title: "抽一張今日指引牌", reward: 12, href: "/tarot", art: "/images/home-contact.png" },
   { id: "shop", title: "參觀小艾的星光商店", reward: 6, href: "/shop", art: "/images/home-shop.png" },
@@ -107,7 +107,7 @@ export default function HomeGameHub() {
           </div>
           <div className="relative flex items-center justify-between border-t border-paper/10 bg-night px-5 py-3">
             <p className="text-[10px] text-paper/55">點擊對話框，繼續小艾的旅程</p>
-            <Link href="/story" className="rounded-full border border-gold/40 px-3 py-1.5 text-[10px] font-semibold text-gold-light">
+            <Link href="/about#story" className="rounded-full border border-gold/40 px-3 py-1.5 text-[10px] font-semibold text-gold-light">
               完整故事 →
             </Link>
           </div>

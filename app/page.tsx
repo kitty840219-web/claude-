@@ -12,7 +12,7 @@ import { asset } from "@/lib/basePath";
 
 const QUICK_NAV = [
   {
-    href: "/story",
+    href: "/about#story",
     title: "艾飛樂的故事",
     desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程",
     image: "/images/home-story-cutout.png",
