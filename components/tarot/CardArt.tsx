@@ -1,9 +1,9 @@
 import { Court, Suit, TarotCard } from "@/lib/tarot/cards";
 
-const GOLD = "#ecce8f";
-const GOLD_SOFT = "#ecce8f66";
-const CREAM = "#faf6ee";
-const INK = "#181542";
+const GOLD = "#f3d9a4";
+const GOLD_SOFT = "#f3d9a466";
+const CREAM = "#fff6e2";
+const INK = "#0b0f2e";
 
 type Pose = {
   armsUp?: boolean;
