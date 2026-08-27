@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Chapter } from "@/lib/data/story";
 
-const PALETTES = ["from-night-light to-night-dark", "from-lavender-dark to-night-dark", "from-cocoa to-night-dark"];
+const PALETTES = ["from-night-light to-night-dark", "from-lavender-dark to-night-dark"];
 
 export default function StoryReader({
   chapters,

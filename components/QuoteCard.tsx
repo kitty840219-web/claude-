@@ -1,11 +1,7 @@
 import type { Quote } from "@/lib/data/quotes";
 import Star from "@/components/Star";
 
-const PALETTES = [
-  "from-night-light to-night",
-  "from-lavender-dark to-night",
-  "from-cocoa to-night-dark",
-];
+const PALETTES = ["from-night-light to-night", "from-lavender-dark to-night"];
 
 export default function QuoteCard({ quote, index = 0 }: { quote: Quote; index?: number }) {
   const palette = PALETTES[index % PALETTES.length];
