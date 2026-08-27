@@ -5,7 +5,7 @@ import { useState } from "react";
 const VIDEO_ID = "2MH3zN3VCn4";
 
 export default function BackgroundMusic() {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
 
   return (
     <div className="fixed bottom-20 right-4 z-40 md:bottom-6">
