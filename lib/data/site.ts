@@ -31,7 +31,7 @@ export const NAV = [
   { href: "/videos", label: "影音創作" },
   { href: "/shop", label: "周邊商店" },
   { href: "/pricing", label: "服務報價" },
-  { href: "/contact", label: "合作聯絡" },
+  { href: "/contact", label: "洽談合作" },
 ];
 
 export const SERVICES = [

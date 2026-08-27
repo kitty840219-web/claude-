@@ -70,7 +70,7 @@ const TABS = [
   },
   {
     href: "/contact",
-    label: "信箱",
+    label: "洽談合作",
     icon: (active: boolean) => (
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
         <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} />

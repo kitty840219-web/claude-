@@ -21,13 +21,6 @@ const CONTACTS = [
     icon: "mail" as const,
   },
   {
-    key: "line",
-    label: "LINE 官方帳號",
-    value: "@153yhemn",
-    href: LINKS.lineOA,
-    icon: "line" as const,
-  },
-  {
     key: "ig1",
     label: "Instagram · 語錄",
     value: "@aibi_0219",
@@ -61,9 +54,24 @@ export default function ContactPage() {
             <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">CONTACT</p>
             <Star className="h-3 w-3 text-gold-light" delay="1s" />
           </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">合作聯絡</h1>
+          <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">洽談合作</h1>
           <p className="mt-4 text-paper/70">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
         </div>
+      </section>
+
+      <section className="bg-paper-warm px-4 py-12">
+        <a href={LINKS.lineOA} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-[#e8f1e9] to-[#f7ecd9] p-5 shadow-card">
+          <div className="relative z-10 w-[58%]">
+            <SocialIcon type="line" className="h-6 w-6 text-night" />
+            <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-sage">OFFICIAL LINE</p>
+            <h2 className="mt-1 font-serif text-base font-bold text-night">加入小艾的好友</h2>
+            <p className="mt-2 text-xs text-ink-500">@153yhemn</p>
+            <span className="mt-4 inline-flex text-xs font-semibold text-night">開啟 LINE →</span>
+          </div>
+          <div className="pointer-events-none absolute -bottom-8 -right-5 h-48 w-48 transition duration-500 group-hover:scale-105">
+            <Image src={asset("/images/home-contact.png")} alt="小艾寄出一封信" fill className="object-contain object-bottom" sizes="192px" />
+          </div>
+        </a>
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">

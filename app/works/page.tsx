@@ -70,6 +70,21 @@ export default function WorksPage() {
         </div>
       </section>
 
+      <section className="bg-paper-warm px-4 py-12">
+        <a href={LINKS.instagramQuotes} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-[#eee6f5] to-[#f8e6e2] p-5 shadow-card">
+          <div className="relative z-10 w-[58%]">
+            <SocialIcon type="instagram" className="h-6 w-6 text-night" />
+            <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-gold-dark">INSTAGRAM</p>
+            <h2 className="mt-1 font-serif text-base font-bold text-night">每日語錄與插畫</h2>
+            <p className="mt-2 text-xs text-ink-500">@aibi_0219</p>
+            <span className="mt-4 inline-flex text-xs font-semibold text-night">打開作品牆 →</span>
+          </div>
+          <div className="pointer-events-none absolute -bottom-6 -right-5 h-44 w-44 transition duration-500 group-hover:scale-105">
+            <Image src={asset("/images/home-quotes-cutout.png")} alt="小艾語錄創作" fill className="object-contain object-bottom" sizes="176px" />
+          </div>
+        </a>
+      </section>
+
       <section id="full-gallery" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
         <SectionHeading
           eyebrow="ILLUSTRATED QUOTES"
