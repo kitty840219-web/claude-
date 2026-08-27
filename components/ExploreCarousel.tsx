@@ -53,12 +53,6 @@ export default function ExploreCarousel() {
               <div className="relative mt-6 pb-6">
                 <StoryReader chapters={CHAPTERS} finish={{ label: "前往下一站：社群觀測站 →", onClick: next }} />
               </div>
-              <div className="relative flex items-center justify-between border-t border-paper/10 px-6 py-4 text-[10px] text-paper/45">
-                <span>看完故事，或直接前往下一站</span>
-                <button type="button" onClick={next} className="font-semibold text-gold-light">
-                  下一站：社群觀測站 →
-                </button>
-              </div>
             </div>
           ) : (
             <>
