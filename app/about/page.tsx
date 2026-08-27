@@ -6,6 +6,7 @@ import Star from "@/components/Star";
 import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
 import StoryReader from "@/components/StoryReader";
+import AboutJourney from "@/components/AboutJourney";
 import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { CHAPTERS } from "@/lib/data/story";
@@ -19,33 +20,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div>
-      <section className="bg-paper-warm px-4 pb-16 pt-8">
-        <div className="mx-auto max-w-sm">
-          <div className="mb-7 text-center">
-            <p className="text-xs font-semibold tracking-[0.35em] text-gold-dark">ABOUT THE AUTHOR</p>
-            <h1 className="mt-3 font-serif text-3xl font-bold text-night">關於作者</h1>
-          </div>
-          <div className="relative">
-            <div className="absolute -left-3 -top-3 h-full w-full rounded-[2rem] bg-lavender/35" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-paper shadow-soft">
-              <Image src={asset("/images/profile.jpg")} alt="艾飛樂創辦人 Ivy" fill className="object-cover" priority />
-            </div>
-            <div className="absolute -bottom-5 -right-2 h-24 w-24 rotate-6 rounded-2xl bg-paper p-2 shadow-card">
-              <div className="relative h-full w-full">
-                <Image src={asset("/images/mascot.png")} alt="小艾 IP 角色" fill className="object-contain" />
-              </div>
-            </div>
-          </div>
-          <div className="mt-14">
-            <SectionHeading eyebrow="ABOUT AIFEILER" title={`嗨，我是 ${SITE.founder}`} />
-            <p className="mt-5 text-sm leading-loose text-ink-600">{SITE.description}</p>
-            <p className="mt-4 text-sm leading-loose text-ink-600">
-              從插畫語錄出發，延伸到品牌視覺、命理靈性設計、客製周邊與 LINE
-              貼圖，艾飛樂用溫柔而堅定的筆觸，陪每一位讀者走過屬於自己的黑夜。
-            </p>
-          </div>
-        </div>
-      </section>
+      <AboutJourney />
 
       {/* Author story — merged from the former standalone story navigation */}
       <section id="story" className="scroll-mt-16">
