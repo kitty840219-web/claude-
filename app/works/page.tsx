@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
+import QuoteCard from "@/components/QuoteCard";
 import QuoteGallery from "@/components/QuoteGallery";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
@@ -41,7 +42,35 @@ export default function WorksPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      {/* Featured quotes */}
+      <section className="relative overflow-hidden bg-night-dark py-20">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading eyebrow="ILLUSTRATED QUOTES" title="精選語錄" light center />
+          <div className="relative mx-auto mt-10 aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border border-paper/10 shadow-soft">
+            <Image
+              src={asset("/images/home-quotes.png")}
+              alt="小艾抱著語錄卡與信件的水彩插畫"
+              fill
+              className="object-cover"
+              sizes="(min-width: 768px) 28rem, 92vw"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night-dark/20 to-transparent" />
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {QUOTES.slice(0, 3).map((quote, index) => (
+              <QuoteCard key={quote.id} quote={quote} index={index} />
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <a href="#full-gallery" className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light">
+              查看完整語錄作品集 ↓
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="full-gallery" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
         <SectionHeading
           eyebrow="ILLUSTRATED QUOTES"
           title="風格語錄選粹"
