@@ -25,9 +25,9 @@ export default function ExploreCarousel() {
   const next = () => setIndex((value) => (value + 1) % STOPS.length);
 
   return (
-    <section className="fixed inset-0 z-[60] mx-auto h-[100svh] w-full max-w-[430px] overflow-hidden bg-night-dark text-paper">
+    <section className="relative min-h-[calc(100svh-64px)] overflow-hidden bg-night-dark text-paper">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-      <div className="relative flex h-full flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]">
+      <div className="relative flex min-h-[calc(100svh-64px)] flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
         <div className="mb-3 flex items-center justify-between px-1">
           <button type="button" onClick={() => router.push("/quests")} aria-label="關閉探索頁" className="flex h-11 w-11 items-center justify-center rounded-full border border-paper/15 text-3xl font-light text-paper">×</button>
           <p className="text-[10px] tracking-[0.25em] text-paper/35">AIFEILER JOURNEY</p>
