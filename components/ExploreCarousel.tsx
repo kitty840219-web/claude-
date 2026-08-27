@@ -21,11 +21,13 @@ export default function ExploreCarousel() {
   const stop = STOPS[index];
   const next = () => setIndex((value) => (value + 1) % STOPS.length);
 
+  const isStory = stop.id === "story";
+
   return (
-    <section className="relative min-h-[calc(100svh-64px)] overflow-hidden bg-night-dark text-paper">
+    <section className={`relative overflow-hidden bg-night-dark text-paper ${isStory ? "" : "min-h-[calc(100svh-64px)]"}`}>
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-      <div className="relative flex min-h-[calc(100svh-64px)] flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
-        <div className={`relative mt-4 flex flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-light/20 shadow-soft ${stop.id === "story" ? "" : "min-h-0 flex-1"}`}>
+      <div className={`relative flex flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 ${isStory ? "" : "min-h-[calc(100svh-64px)]"}`}>
+        <div className={`relative mt-4 flex flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-light/20 shadow-soft ${isStory ? "" : "min-h-0 flex-1"}`}>
           {stop.id === "story" ? (
             <div className="relative">
               <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />

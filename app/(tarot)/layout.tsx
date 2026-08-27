@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function TarotLayout({ children }: { children: React.ReactNode }) {
-  return <div className="bg-[#0b0f2e]">{children}</div>;
+  return <div className="bg-night-dark">{children}</div>;
 }
