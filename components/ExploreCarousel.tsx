@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { asset } from "@/lib/basePath";
 import { LINKS } from "@/lib/data/site";
@@ -19,7 +18,6 @@ const STOPS = [
 ];
 
 export default function ExploreCarousel() {
-  const router = useRouter();
   const [index, setIndex] = useState(0);
   const stop = STOPS[index];
   const next = () => setIndex((value) => (value + 1) % STOPS.length);
@@ -28,8 +26,7 @@ export default function ExploreCarousel() {
     <section className="relative min-h-[calc(100svh-64px)] overflow-hidden bg-night-dark text-paper">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
       <div className="relative flex min-h-[calc(100svh-64px)] flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
-        <div className="mb-3 flex items-center justify-between px-1">
-          <button type="button" onClick={() => router.push("/quests")} aria-label="關閉探索頁" className="flex h-11 w-11 items-center justify-center rounded-full border border-paper/15 text-3xl font-light text-paper">×</button>
+        <div className="mb-3 flex items-center justify-center px-1">
           <p className="text-[10px] tracking-[0.25em] text-paper/35">AIFEILER JOURNEY</p>
         </div>
         <div className="flex items-center justify-between px-3 text-[10px] font-semibold tracking-[0.18em] text-paper/55">

@@ -99,13 +99,10 @@ export default function AboutJourney() {
           <div className="relative flex flex-1 flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-light/25 shadow-soft">
             <div className="relative min-h-0 flex-1">
               {scene.portrait ? (
-                <div className="absolute inset-4 flex animate-fade-in flex-col items-center justify-center rounded-[1.75rem] border border-gold/20 bg-paper-warm px-7 text-center text-night shadow-card">
-                  <div className="relative h-36 w-36 overflow-hidden rounded-full border-4 border-paper shadow-soft">
+                <div className="absolute inset-0 flex animate-fade-in items-center justify-center">
+                  <div className="relative h-56 w-56 overflow-hidden rounded-full border-4 border-gold/40 shadow-soft">
                     <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover" />
                   </div>
-                  <p className="mt-6 text-[11px] font-semibold tracking-[0.2em] text-gold-dark">STORYTELLER · 說故事的人</p>
-                  <h2 className="mt-2 font-serif text-2xl font-bold">Ivy｜織字繪心的人</h2>
-                  <p className="mt-3 text-xs leading-relaxed text-ink-500">艾飛樂語錄｜艾飛樂數位文創個人工作室創作者</p>
                 </div>
               ) : (
                 <Image
