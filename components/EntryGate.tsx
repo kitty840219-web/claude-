@@ -28,18 +28,17 @@ export default function EntryGate() {
         closing ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <div className="bg-stars pointer-events-none absolute inset-0 opacity-60" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-full max-h-[70vh] w-full max-w-md sm:max-w-lg">
-        <Image
-          src={asset("/images/xiaoai-05-flat.jpg")}
-          alt=""
-          fill
-          priority
-          aria-hidden
-          className="object-contain object-bottom opacity-95"
-        />
-      </div>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night-dark via-night-dark/40 to-night-dark/80" />
+      <Image
+        src={asset("/images/entry-gate-background.jpg")}
+        alt=""
+        fill
+        priority
+        aria-hidden
+        sizes="100vw"
+        className="pointer-events-none object-cover object-center"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night-dark/85 via-night-dark/35 to-night-dark/60" />
+      <div className="bg-stars pointer-events-none absolute inset-0 opacity-25" />
 
       <div
         className={`relative w-full max-w-sm rounded-[2rem] border border-gold/30 bg-night-dark/70 p-8 text-center shadow-soft backdrop-blur transition-transform duration-500 sm:p-10 ${
