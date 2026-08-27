@@ -29,34 +29,36 @@ export default function Footer() {
 
           <div>
             <p className="mb-3 text-sm font-semibold text-gold-light">網站導覽</p>
-            <ul className="space-y-2 text-sm text-paper/70">
-              {NAV.map((link) => (
-                <li key={link.href}>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-sm text-paper/70">
+              {NAV.map((link, i) => (
+                <span key={link.href} className="flex items-center gap-2">
                   <Link href={link.href} className="hover:text-gold-light">
                     {link.label}
                   </Link>
-                </li>
+                  {i < NAV.length - 1 && <span className="text-paper/25">｜</span>}
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div>
             <p className="mb-3 text-sm font-semibold text-gold-light">追蹤艾飛樂</p>
-            <ul className="space-y-2 text-sm text-paper/70">
-              {SOCIALS.map((s) => (
-                <li key={s.label}>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-sm text-paper/70">
+              {SOCIALS.map((s, i) => (
+                <span key={s.label} className="flex items-center gap-2">
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 hover:text-gold-light"
+                    className="inline-flex items-center gap-1.5 hover:text-gold-light"
                   >
                     <SocialIcon type={s.key} className="h-4 w-4" />
                     {s.label}
                   </a>
-                </li>
+                  {i < SOCIALS.length - 1 && <span className="text-paper/25">｜</span>}
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
 
