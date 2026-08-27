@@ -25,14 +25,6 @@ export default function ExploreCarousel() {
     <section className="relative min-h-[calc(100svh-64px)] overflow-hidden bg-night-dark text-paper">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
       <div className="relative flex min-h-[calc(100svh-64px)] flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
-        <div className="mb-3 flex items-center justify-center px-1">
-          <p className="text-[10px] tracking-[0.25em] text-paper/35">AIFEILER JOURNEY</p>
-        </div>
-        <div className="flex items-center justify-between px-3 text-[10px] font-semibold tracking-[0.18em] text-paper/55">
-          <span>{stop.eyebrow}</span>
-          <span>{String(index + 1).padStart(2, "0")} / {String(STOPS.length).padStart(2, "0")}</span>
-        </div>
-
         <div className="relative mt-4 flex min-h-0 flex-1 flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-light/20 shadow-soft">
           {stop.id === "story" ? (
             <div className="relative">
