@@ -149,7 +149,7 @@ export default function EntryGate() {
           <button
             type="button"
             onClick={enter}
-            className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3.5 pl-24 pr-5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
+            className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3.5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
           >
             開始探索艾飛樂的世界 →
           </button>
