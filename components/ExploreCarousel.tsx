@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { asset } from "@/lib/basePath";
 import { LINKS } from "@/lib/data/site";
 import Star from "@/components/Star";
@@ -13,7 +13,6 @@ const YOUTUBE_VIDEO_ID = "iYy-q9ywHaA";
 
 const STOPS = [
   { id: "story", label: "故事", eyebrow: "EXPLORE 01", title: "艾飛樂的故事", desc: "從一個人的塗塗畫畫，到艾飛樂語錄的品牌旅程" },
-  { id: "social", label: "觀測站", eyebrow: "SOCIAL STATION", title: "小艾的社群觀測站", desc: "在旅途中停留一下，看看小艾最新的影音創作。", dark: true },
   { id: "quotes", label: "語錄", eyebrow: "EXPLORE 02", title: "語錄作品", desc: "插畫語錄選粹，用一句話說出你的心事", href: "/works", image: "/images/home-quotes-cutout.png", tone: "from-[#f9e8e1] to-[#e7e1f2]" },
   { id: "video", label: "影音", eyebrow: "EXPLORE 03", title: "影音創作", desc: "YouTube 頻道與短影音創作紀錄", href: "/videos", image: "/images/home-video.png", tone: "from-[#e6eef4] to-[#eee7f4]" },
   { id: "shop", label: "商店", eyebrow: "EXPLORE 04", title: "周邊商店", desc: "明信片、貼紙、LINE 貼圖與客製小物", href: "/shop", image: "/images/home-shop.png", tone: "from-[#f7eadc] to-[#eee4f3]" },
@@ -24,6 +23,7 @@ export default function ExploreCarousel() {
   const [index, setIndex] = useState(0);
   const stop = STOPS[index];
   const next = () => setIndex((value) => (value + 1) % STOPS.length);
+  const socialRef = useRef<HTMLDivElement>(null);
 
   return (
     <section className="relative min-h-[calc(100svh-64px)] overflow-hidden bg-night-dark text-paper">
@@ -50,23 +50,36 @@ export default function ExploreCarousel() {
                 <h2 className="font-serif text-2xl font-bold text-paper">艾飛樂的故事</h2>
                 <p className="mt-2 text-xs text-paper/70">一段用插畫與文字，寫給每個黑夜的旅程</p>
               </div>
-              <div className="relative mt-6 pb-6">
-                <StoryReader chapters={CHAPTERS} finish={{ label: "前往下一站：社群觀測站 →", onClick: next }} />
+              <div className="relative mt-6">
+                <StoryReader
+                  chapters={CHAPTERS}
+                  finish={{
+                    label: "看看小艾的社群觀測站 ↓",
+                    onClick: () => socialRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+                  }}
+                />
+              </div>
+
+              <div ref={socialRef} className="relative mt-10 border-t border-paper/10 pt-8">
+                <div className="px-5 text-center">
+                  <p className="text-[11px] font-semibold tracking-[0.3em] text-gold-light">SOCIAL STATION</p>
+                  <h3 className="mt-2 font-serif text-xl font-bold text-paper">小艾的社群觀測站</h3>
+                  <p className="mt-2 text-xs text-paper/70">在旅途中停留一下，看看小艾最新的影音創作。</p>
+                </div>
+                <div className="relative mx-5 mt-5 aspect-[9/16] overflow-hidden rounded-[1.5rem] bg-black">
+                  <iframe title="艾飛樂 YouTube 影音" src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0`} className="absolute inset-0 h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                </div>
+                <div className="flex items-center justify-between px-6 py-4 text-[10px] text-paper/45">
+                  <a href={LINKS.youtube} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold-light">前往頻道 →</a>
+                  <button type="button" onClick={next} className="font-semibold text-gold-light">下一站：語錄作品 →</button>
+                </div>
               </div>
             </div>
           ) : (
             <>
-              {stop.id === "social" ? (
-                <div className="relative min-h-0 flex-1 bg-black">
-                  <div className="absolute inset-4 overflow-hidden rounded-[1.5rem]">
-                    <iframe title="艾飛樂 YouTube 影音" src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0`} className="absolute inset-0 h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
-                  </div>
-                </div>
-              ) : (
-                <div className="relative min-h-0 flex-1 animate-fade-in">
-                  <Image src={asset(stop.image!)} alt={`${stop.title}小艾插畫`} fill priority className="object-contain p-5" />
-                </div>
-              )}
+              <div className="relative min-h-0 flex-1 animate-fade-in">
+                <Image src={asset(stop.image!)} alt={`${stop.title}小艾插畫`} fill priority className="object-contain p-5" />
+              </div>
 
               <button type="button" onClick={next} className="relative m-4 rounded-[1.65rem] border border-gold/30 bg-night-dark/95 p-6 text-left shadow-card">
                 <p className="font-serif text-xl font-bold text-gold-light">{stop.title}</p>
@@ -77,19 +90,15 @@ export default function ExploreCarousel() {
                       <span key={item.id} className={`h-1.5 rounded-full transition-all ${dot === index ? "w-7 bg-gold" : "w-1.5 bg-paper/25"}`} />
                     ))}
                   </div>
-                  <span className="text-xs font-semibold text-gold-light">{index === STOPS.length - 1 ? "回到觀測站 ↻" : "點擊繼續 →"}</span>
+                  <span className="text-xs font-semibold text-gold-light">{index === STOPS.length - 1 ? "回到故事 ↻" : "點擊繼續 →"}</span>
                 </div>
               </button>
 
               <div className="flex items-center justify-between border-t border-paper/10 px-6 py-4 text-[10px] text-paper/45">
                 <span>點擊對話框，移動到下一個窗口</span>
-                {stop.id === "social" ? (
-                  <a href={LINKS.youtube} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold-light">前往頻道 →</a>
-                ) : (
-                  <Link href={stop.href!} className="font-semibold text-gold-light">
-                    {stop.id === "quotes" ? "查看語錄 →" : stop.id === "video" ? "觀看影音 →" : stop.id === "shop" ? "前往商店 →" : "洽談合作 →"}
-                  </Link>
-                )}
+                <Link href={stop.href!} className="font-semibold text-gold-light">
+                  {stop.id === "quotes" ? "查看語錄 →" : stop.id === "video" ? "觀看影音 →" : stop.id === "shop" ? "前往商店 →" : "洽談合作 →"}
+                </Link>
               </div>
             </>
           )}
