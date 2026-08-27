@@ -45,11 +45,14 @@ export default function EntryGate() {
           closing ? "scale-95" : "scale-100"
         }`}
       >
-        <div className="absolute inset-x-5 top-[27%] sm:inset-x-8 sm:top-[25%]">
+        <div className="absolute inset-x-0 top-[11%]">
           <div className="relative mx-auto h-16 w-16 overflow-hidden rounded-full border-2 border-gold/60 shadow-card sm:h-20 sm:w-20">
             <Image src={asset("/images/mascot.png")} alt={SITE.brand} fill className="object-contain bg-paper p-1" />
           </div>
-          <p className="mt-5 text-[11px] font-semibold tracking-[0.35em] text-gold-light">
+        </div>
+
+        <div className="absolute inset-x-5 top-[37%] sm:inset-x-8 sm:top-[35%]">
+          <p className="text-[11px] font-semibold tracking-[0.35em] text-gold-light">
             {SITE.brandEn.toUpperCase()}
           </p>
           <h1 className="mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl">{SITE.brand}</h1>
