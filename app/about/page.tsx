@@ -62,21 +62,6 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="bg-paper px-4 py-12">
-          <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 rounded-[2rem] border border-night/10 bg-paper-warm p-7 shadow-card">
-            <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-paper shadow-soft">
-              <Image src={asset("/images/profile.jpg")} alt="艾飛樂創作者 Ivy" fill className="object-cover" sizes="96px" />
-            </div>
-            <div className="text-center">
-              <p className="text-xs font-semibold tracking-widest text-gold-dark">STORYTELLER · 說故事的人</p>
-              <h3 className="mt-1 font-serif text-xl font-bold text-night">{SITE.founder}｜織字繪心的人</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-500">
-                {SITE.brandFull}創作者。相信每一句心事，都值得被畫成一顆星星。
-              </p>
-            </div>
-          </div>
-        </div>
-
         <div className="relative overflow-hidden bg-night-dark py-16">
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
           <div className="relative">
