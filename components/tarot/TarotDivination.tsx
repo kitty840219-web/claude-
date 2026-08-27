@@ -72,6 +72,21 @@ function CardBack({ className = "" }: { className?: string }) {
   );
 }
 
+const ELEMENT_ICON: Record<NonNullable<TarotCard["element"]>, string> = { 火: "🔥", 水: "💧", 風: "🌬️", 土: "⛰️" };
+
+function ElementBadge({ element, compact = false }: { element: NonNullable<TarotCard["element"]>; compact?: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border border-amber-200/30 bg-white/5 text-amber-200/80 ${
+        compact ? "px-1.5 py-0 text-[9px]" : "px-2 py-0.5 text-[11px]"
+      }`}
+    >
+      <span>{ELEMENT_ICON[element]}</span>
+      {element}元素
+    </span>
+  );
+}
+
 function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isReversed: boolean; compact?: boolean }) {
   return (
     <div
@@ -381,7 +396,8 @@ export default function TarotDivination() {
             <CardFront card={results[0].card} isReversed={results[0].isReversed} />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-1.5">
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            {results[0].card.element && <ElementBadge element={results[0].card.element} />}
             {(results[0].isReversed ? results[0].card.reversed : results[0].card.upright).keywords.map((k) => (
               <span key={k} className="rounded-full border border-amber-200/30 px-2 py-0.5 text-[11px] text-amber-200/80">
                 #{k}
@@ -420,6 +436,7 @@ export default function TarotDivination() {
                   <CardFront card={r.card} isReversed={r.isReversed} compact />
                 </div>
                 <span className="text-[11px] text-amber-200/70">{POSITION_LABELS[i]}</span>
+                {r.card.element && <ElementBadge element={r.card.element} compact />}
               </div>
             ))}
           </div>
