@@ -63,10 +63,6 @@ export default function EntryGate() {
             <span>{String(line + 1).padStart(2, "0")} / {String(JOURNEY_DIALOGUE.length).padStart(2, "0")}</span>
           </div>
 
-          <div key={dialogue.art} className="absolute inset-x-0 top-[6%] h-[58%] animate-fade-in">
-            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話`} fill priority className="object-contain object-bottom" sizes="390px" />
-          </div>
-
           <button type="button" onClick={nextDialogue} aria-label="點擊顯示下一段對話" className="absolute inset-x-3 bottom-3 z-20 min-h-[34%] rounded-[1.65rem] border border-gold/30 bg-[rgba(28,27,74,0.94)] p-6 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]">
             <span className="block font-serif text-xl font-bold text-gold-light">{dialogue.speaker}</span>
             <span key={line} className="mt-3 block min-h-20 animate-fade-in text-base font-medium leading-relaxed text-paper">「{dialogue.text}」</span>
@@ -79,6 +75,12 @@ export default function EntryGate() {
               <span className="animate-pulse text-[11px] font-semibold text-gold-light">{isLast ? "進入故事 →" : "點擊繼續 ▼"}</span>
             </span>
           </button>
+
+          <div className="animate-float-slow pointer-events-none absolute left-1/2 top-[52%] z-30 h-32 w-32 -translate-x-1/2 -translate-y-1/2 sm:h-40 sm:w-40">
+            <div key={dialogue.art} className="relative h-full w-full animate-fade-in">
+              <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話`} fill priority className="object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]" sizes="180px" />
+            </div>
+          </div>
         </div>
       </div>
     );
