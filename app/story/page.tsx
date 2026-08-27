@@ -17,24 +17,29 @@ export default function StoryPage() {
   return (
     <div>
       <section className="relative overflow-hidden bg-night-dark">
-        <div className="relative aspect-[4/5] w-full sm:aspect-[21/9]">
+        <div className="relative aspect-square w-full">
           <Image
             src={asset("/images/xiaoai-02-story-page.png")}
             alt="小艾在燭光書桌前翻閱手寫故事書，窗外是星空"
             fill
-            className="object-cover object-center"
+            className="object-cover object-[center_0%]"
           />
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-20" />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night-dark to-transparent" />
-        </div>
-        <div className="relative px-4 pb-16 pt-2 text-center sm:pb-20">
-          <div className="mb-4 flex items-center justify-center gap-2">
-            <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">OUR STORY</p>
-            <Star className="h-3 w-3 text-gold-light" delay="1s" />
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night-dark via-night-dark/80 to-transparent" />
+
+          <div className="absolute inset-x-0 bottom-0 px-4 pb-8 text-center sm:pb-10">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <Star className="h-3 w-3 text-gold-light" />
+              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">OUR STORY</p>
+              <Star className="h-3 w-3 text-gold-light" delay="1s" />
+            </div>
+            <h1 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">
+              艾飛樂的故事
+            </h1>
+            <p className="text-shadow-soft mt-2 text-sm text-paper/90">
+              一段用插畫與文字，寫給每個黑夜的旅程
+            </p>
           </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">艾飛樂的故事</h1>
-          <p className="mt-4 text-paper/70">一段用插畫與文字，寫給每個黑夜的旅程</p>
         </div>
       </section>
 

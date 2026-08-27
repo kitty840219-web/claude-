@@ -42,62 +42,63 @@ export default function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-night-dark">
-        {/* image band — shown in full, not cropped by overlaid text */}
-        <div className="relative aspect-[3/4] w-full sm:aspect-[16/9]">
+        <div className="relative aspect-square w-full">
           <Image
-            src={asset("/images/xiaoai-01-star-diary.png")}
+            src={asset("/images/xiaoai-05-flat.jpg")}
             alt="小艾坐在窗邊望著星空寫日記，身旁有藍色小鳥陪伴"
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-[center_15%]"
           />
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night-dark to-transparent" />
-        </div>
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night-dark via-night-dark/80 to-transparent" />
 
-        {/* title band — separate from the image */}
-        <div className="relative px-4 pb-14 pt-2 text-center sm:pb-20">
-          <div className="mb-4 flex items-center justify-center gap-2">
-            <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">
-              {SITE.brandEn.toUpperCase()} · SINCE {SITE.established}
+          {/* title overlay — sits in the gradient zone at the bottom of the image */}
+          <div className="absolute inset-x-0 bottom-0 px-4 pb-8 text-center sm:pb-10">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <Star className="h-3 w-3 text-gold-light" />
+              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">
+                {SITE.brandEn.toUpperCase()} · SINCE {SITE.established}
+              </p>
+              <Star className="h-3 w-3 text-gold-light" delay="1.2s" />
+            </div>
+            <h1 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">
+              {SITE.brand}
+            </h1>
+            <p className="text-shadow-soft mt-3 text-sm text-paper/90 sm:text-base">
+              {SITE.tagline}，{SITE.taglineSub}
             </p>
-            <Star className="h-3 w-3 text-gold-light" delay="1.2s" />
-          </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">{SITE.brand}</h1>
-          <p className="mt-4 max-w-xl text-sm text-paper/80 sm:mx-auto sm:text-base">
-            {SITE.tagline}，{SITE.taglineSub}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
-            <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
-            <StatBadge
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
-                  <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-                  <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-                </svg>
-              }
-              label={`${QUOTES.length}+ 篇語錄作品`}
-              light
-            />
-            <StatBadge icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />} label="147+ 款周邊設計" light />
-          </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/works"
-              className="rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-            >
-              探索語錄作品
-            </Link>
-            <a
-              href={LINKS.instagramQuotes}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition hover:bg-paper/10"
-            >
-              <SocialIcon type="instagram" className="h-4 w-4" />
-              追蹤 Instagram
-            </a>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} light />
+              <StatBadge
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
+                    <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                    <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0v-13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                  </svg>
+                }
+                label={`${QUOTES.length}+ 篇語錄作品`}
+                light
+              />
+              <StatBadge icon={<SocialIcon type="shop" className="h-3.5 w-3.5" />} label="147+ 款周邊設計" light />
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/works"
+                className="rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
+              >
+                探索語錄作品
+              </Link>
+              <a
+                href={LINKS.instagramQuotes}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-paper/40 px-5 py-2.5 text-sm font-semibold text-paper transition hover:bg-paper/10"
+              >
+                <SocialIcon type="instagram" className="h-4 w-4" />
+                追蹤 Instagram
+              </a>
+            </div>
           </div>
         </div>
       </section>
