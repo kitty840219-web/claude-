@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { MAJOR_ARCANA, drawRandomCard, TarotCard } from "@/lib/tarot/cards";
-import { generateReading, ReadingStyle } from "@/lib/tarot/reading";
+import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
+import CardArt from "@/components/tarot/CardArt";
+import { ReadingStyle, generateReading, generateThreeCardReading } from "@/lib/tarot/reading";
 
-type Step = "cover" | "form" | "shuffle" | "spread" | "reveal";
+type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
+type SpreadSize = 1 | 3;
 
 const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: string }[] = [
   { id: "roast", label: "火烤", emoji: "🔥" },
@@ -13,6 +15,12 @@ const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: s
   { id: "insight", label: "洞察", emoji: "🔍", badge: "BETA" },
 ];
 
+const SPREAD_MODES: { id: SpreadSize; label: string; hint: string }[] = [
+  { id: 1, label: "單抽牌", hint: "一句直覺提醒" },
+  { id: 3, label: "三張牌", hint: "過去 · 現在 · 未來" },
+];
+
+const POSITION_LABELS = ["過去", "現在", "未來"];
 const SPREAD_COUNT = 12;
 
 // deterministic seeded RNG so server-render and client hydration match
@@ -64,18 +72,20 @@ function CardBack({ className = "" }: { className?: string }) {
   );
 }
 
-function CardFront({ card, isReversed }: { card: TarotCard; isReversed: boolean }) {
+function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isReversed: boolean; compact?: boolean }) {
   return (
     <div
-      className={`relative flex h-full w-full flex-col items-center justify-between overflow-hidden rounded-2xl border-2 border-amber-200/50 bg-gradient-to-b from-[#1c2358] to-[#0b0f2e] p-4 text-center text-amber-50 shadow-[0_0_30px_rgba(80,70,200,0.45)] ${
+      className={`relative h-full w-full overflow-hidden rounded-2xl border-2 border-amber-200/50 shadow-[0_0_30px_rgba(80,70,200,0.45)] ${
         isReversed ? "rotate-180" : ""
       }`}
     >
-      <div className="text-xs tracking-[0.3em] text-amber-200/80">{card.numeral}</div>
-      <div className="text-5xl">{card.symbol}</div>
-      <div className="space-y-1">
-        <div className="text-lg font-semibold">{card.name}</div>
-        {isReversed && <div className="text-[10px] tracking-widest text-amber-200/70">逆位 REVERSED</div>}
+      <CardArt id={card.id} className="h-full w-full" />
+      <div className={`absolute inset-0 flex flex-col items-center justify-between text-center text-amber-50 ${compact ? "p-2" : "p-3"}`}>
+        <span className={`tracking-[0.3em] text-amber-200/80 ${compact ? "text-[9px]" : "text-xs"}`}>{card.numeral}</span>
+        <div className="space-y-0.5">
+          <div className={`font-semibold drop-shadow ${compact ? "text-xs" : "text-lg"}`}>{card.name}</div>
+          {isReversed && <div className="text-[9px] tracking-widest text-amber-200/70">逆位 REVERSED</div>}
+        </div>
       </div>
     </div>
   );
@@ -83,10 +93,12 @@ function CardFront({ card, isReversed }: { card: TarotCard; isReversed: boolean 
 
 export default function TarotDivination() {
   const [step, setStep] = useState<Step>("cover");
+  const [spreadSize, setSpreadSize] = useState<SpreadSize>(1);
   const [question, setQuestion] = useState("");
   const [styles, setStyles] = useState<ReadingStyle[]>([]);
   const [shuffleTick, setShuffleTick] = useState(0);
-  const [result, setResult] = useState<{ card: TarotCard; isReversed: boolean } | null>(null);
+  const [pickedSlots, setPickedSlots] = useState<number[]>([]);
+  const [results, setResults] = useState<CardDraw[]>([]);
 
   const spread = useMemo(() => {
     const rand = mulberry32(101);
@@ -111,19 +123,31 @@ export default function TarotDivination() {
     };
   }, [step]);
 
+  useEffect(() => {
+    if (step !== "analyzing") return;
+    const timeout = setTimeout(() => setStep("reveal"), 1300);
+    return () => clearTimeout(timeout);
+  }, [step]);
+
   function toggleStyle(id: ReadingStyle) {
     setStyles((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
   }
 
-  function handlePickCard() {
-    setResult(drawRandomCard());
-    setStep("reveal");
+  function handlePickCard(slotId: number) {
+    if (pickedSlots.includes(slotId) || pickedSlots.length >= spreadSize) return;
+    const nextPicked = [...pickedSlots, slotId];
+    setPickedSlots(nextPicked);
+    if (nextPicked.length === spreadSize) {
+      setResults(drawUniqueCards(spreadSize));
+      setTimeout(() => setStep("analyzing"), 350);
+    }
   }
 
   function resetAll() {
     setQuestion("");
     setStyles([]);
-    setResult(null);
+    setResults([]);
+    setPickedSlots([]);
     setStep("cover");
   }
 
@@ -144,8 +168,23 @@ export default function TarotDivination() {
         <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
           <div>
             <h1 className="text-4xl font-bold tracking-[0.3em]">大眾占卜</h1>
-            <p className="mt-2 text-sm text-amber-200/70">單張抽牌 · 給你此刻需要的一句提醒</p>
+            <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
           </div>
+
+          <div className="flex gap-2 rounded-full border border-amber-200/20 bg-white/5 p-1">
+            {SPREAD_MODES.map((mode) => (
+              <button
+                key={mode.id}
+                onClick={() => setSpreadSize(mode.id)}
+                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+                  spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
+                }`}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
+
           <button
             onClick={() => setStep("form")}
             className="group relative h-56 w-36 cursor-pointer transition-transform duration-300 hover:-translate-y-2"
@@ -236,31 +275,56 @@ export default function TarotDivination() {
 
       {step === "spread" && (
         <div className="flex flex-1 flex-col items-center justify-center gap-6">
-          <p className="text-sm text-amber-200/70">憑直覺，選一張牌</p>
+          <p className="text-sm text-amber-200/70">
+            {spreadSize === 1
+              ? "憑直覺，選一張牌"
+              : `憑直覺依序選 ${spreadSize} 張牌 · 目前選第 ${Math.min(pickedSlots.length + 1, spreadSize)} 張：${
+                  POSITION_LABELS[pickedSlots.length] ?? ""
+                }`}
+          </p>
           <div className="flex h-52 w-full items-end justify-center">
-            {spread.map((c) => (
-              <button
-                key={c.id}
-                onClick={handlePickCard}
-                className="relative -mx-3 h-40 w-24 shrink-0 origin-bottom transition-transform duration-200 hover:-translate-y-4 hover:z-10"
-                style={{ transform: `rotate(${c.rotate}deg) translateY(${c.translateY}px)` }}
-                aria-label={`選擇第 ${c.id + 1} 張牌`}
-              >
-                <CardBack className="h-full w-full" />
-              </button>
-            ))}
+            {spread.map((c) => {
+              const pickedIndex = pickedSlots.indexOf(c.id);
+              const isPicked = pickedIndex !== -1;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => handlePickCard(c.id)}
+                  disabled={isPicked || pickedSlots.length >= spreadSize}
+                  className="relative -mx-3 h-40 w-24 shrink-0 origin-bottom transition-transform duration-200 enabled:hover:-translate-y-4 enabled:hover:z-10 disabled:cursor-default"
+                  style={{
+                    transform: `rotate(${c.rotate}deg) translateY(${isPicked ? c.translateY - 20 : c.translateY}px)`,
+                  }}
+                  aria-label={`選擇第 ${c.id + 1} 張牌`}
+                >
+                  <CardBack className={`h-full w-full ${isPicked ? "opacity-40" : ""}`} />
+                  {isPicked && (
+                    <span className="absolute -top-2 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-[#0b0f2e] text-xs font-bold text-amber-200 ring-2 ring-amber-200">
+                      {pickedIndex + 1}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
 
-      {step === "reveal" && result && (
+      {step === "analyzing" && (
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
+          <div className="animate-pulse text-4xl">🔮</div>
+          <p className="animate-pulse text-sm text-amber-200/70">牌陣已經排好，正在為你解讀⋯</p>
+        </div>
+      )}
+
+      {step === "reveal" && results.length === spreadSize && spreadSize === 1 && (
         <div className="flex flex-1 flex-col items-center gap-5 py-2">
-          <div className="h-64 w-40 [perspective:1000px]">
-            <CardFront card={result.card} isReversed={result.isReversed} />
+          <div className="h-64 w-40">
+            <CardFront card={results[0].card} isReversed={results[0].isReversed} />
           </div>
 
           <div className="flex flex-wrap justify-center gap-1.5">
-            {(result.isReversed ? result.card.reversed : result.card.upright).keywords.map((k) => (
+            {(results[0].isReversed ? results[0].card.reversed : results[0].card.upright).keywords.map((k) => (
               <span key={k} className="rounded-full border border-amber-200/30 px-2 py-0.5 text-[11px] text-amber-200/80">
                 #{k}
               </span>
@@ -268,20 +332,52 @@ export default function TarotDivination() {
           </div>
 
           <div className="w-full whitespace-pre-line rounded-xl border border-amber-200/20 bg-white/5 p-4 text-sm leading-relaxed text-amber-50/90">
-            {generateReading(result.card, result.isReversed, question, styles)}
+            {generateReading(results[0].card, results[0].isReversed, question, styles)}
           </div>
 
           <div className="mt-auto flex w-full gap-2 pt-2">
-            <button
-              onClick={resetAll}
-              className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100"
-            >
+            <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">
               再抽一次
             </button>
-            <Link
-              href="/"
-              className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]"
-            >
+            <Link href="/" className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]">
+              回首頁
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {step === "reveal" && results.length === spreadSize && spreadSize === 3 && (
+        <div className="flex flex-1 flex-col items-center gap-5 py-2">
+          <div className="grid w-full grid-cols-3 gap-2">
+            {results.map((r, i) => (
+              <div key={i} className="flex flex-col items-center gap-1.5">
+                <div className="h-36 w-full">
+                  <CardFront card={r.card} isReversed={r.isReversed} compact />
+                </div>
+                <span className="text-[11px] text-amber-200/70">{POSITION_LABELS[i]}</span>
+              </div>
+            ))}
+          </div>
+
+          {(() => {
+            const reading = generateThreeCardReading(results as [CardDraw, CardDraw, CardDraw], question, styles);
+            return (
+              <div className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-4">
+                <h3 className="mb-3 text-base font-semibold text-amber-100">{reading.title}</h3>
+                <div className="space-y-3 whitespace-pre-line text-sm leading-relaxed text-amber-50/90">
+                  {reading.paragraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
+          <div className="mt-auto flex w-full gap-2 pt-2">
+            <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">
+              再抽一次
+            </button>
+            <Link href="/" className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]">
               回首頁
             </Link>
           </div>

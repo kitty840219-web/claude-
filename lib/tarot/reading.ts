@@ -1,4 +1,4 @@
-import { TarotCard } from "./cards";
+import { CardDraw, TarotCard } from "./cards";
 
 export type ReadingStyle = "roast" | "intuitive" | "insight";
 
@@ -60,4 +60,38 @@ export function generateReading(
     .join(" ")}。`;
 
   return [opener, keywordLine, `${questionLine}${orientation.meaning}`, closer].join("\n\n");
+}
+
+const POSITIONS = ["過去", "現在", "未來"] as const;
+
+export function generateThreeCardReading(
+  draws: [CardDraw, CardDraw, CardDraw],
+  question: string,
+  styles: ReadingStyle[]
+): { title: string; paragraphs: string[] } {
+  const seed = hashString(`${draws.map((d) => `${d.card.id}-${d.isReversed}`).join("|")}-${question}`);
+  const activeStyles = styles.length > 0 ? styles : (["insight"] as ReadingStyle[]);
+  const opener = pick(STYLE_OPENERS[activeStyles[0]], seed);
+  const closer = pick(STYLE_CLOSERS[activeStyles[activeStyles.length - 1]], seed + 11);
+
+  const past = draws[0].isReversed ? draws[0].card.reversed : draws[0].card.upright;
+  const future = draws[2].isReversed ? draws[2].card.reversed : draws[2].card.upright;
+  const title = `關於${past.keywords[0]}與${future.keywords[0]}的觀照`;
+
+  const questionLine = question.trim() ? `關於你問的「${question.trim()}」，` : "";
+
+  const paragraphs = draws.map((draw, i) => {
+    const orientation = draw.isReversed ? draw.card.reversed : draw.card.upright;
+    const label = POSITIONS[i];
+    const keywordLine = `${label}對應到${draw.isReversed ? "逆位的" : ""}「${draw.card.name}」，關鍵字是${orientation.keywords
+      .map((k) => `#${k}`)
+      .join(" ")}。`;
+    const lead = i === 0 ? opener + "\n\n" : "";
+    const middle = i === 1 ? questionLine : "";
+    return `${lead}${keywordLine}${middle}${orientation.meaning}`;
+  });
+
+  paragraphs.push(closer);
+
+  return { title, paragraphs };
 }
