@@ -51,7 +51,7 @@ export default function ExploreCarousel() {
                 <p className="mt-2 text-xs text-paper/70">一段用插畫與文字，寫給每個黑夜的旅程</p>
               </div>
               <div className="relative mt-6 pb-6">
-                <StoryReader chapters={CHAPTERS} />
+                <StoryReader chapters={CHAPTERS} finish={{ label: "前往下一站：社群觀測站 →", onClick: next }} />
               </div>
               <div className="relative flex items-center justify-between border-t border-paper/10 px-6 py-4 text-[10px] text-paper/45">
                 <span>看完故事，或直接前往下一站</span>

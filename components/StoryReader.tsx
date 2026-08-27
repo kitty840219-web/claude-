@@ -6,7 +6,13 @@ import type { Chapter } from "@/lib/data/story";
 
 const PALETTES = ["from-night-light to-night-dark", "from-lavender-dark to-night-dark", "from-cocoa to-night-dark"];
 
-export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
+export default function StoryReader({
+  chapters,
+  finish,
+}: {
+  chapters: Chapter[];
+  finish?: { label: string; onClick: () => void };
+}) {
   const [index, setIndex] = useState(0);
   const total = chapters.length;
   const chapter = chapters[index];
@@ -97,6 +103,14 @@ export default function StoryReader({ chapters }: { chapters: Chapter[] }) {
               className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition hover:bg-gold-light sm:text-sm"
             >
               下一章 →
+            </button>
+          ) : finish ? (
+            <button
+              type="button"
+              onClick={finish.onClick}
+              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition hover:bg-gold-light sm:text-sm"
+            >
+              {finish.label}
             </button>
           ) : (
             <Link
