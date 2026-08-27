@@ -37,6 +37,16 @@ const TABS = [
     ),
   },
   {
+    href: "/quests",
+    label: "任務",
+    icon: (active: boolean) => (
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
+        <rect x="5" y="4" width="14" height="17" rx="2.5" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} />
+        <path d="M9 4.5V3h6v1.5M8.5 10l1.5 1.5 3-3M8.5 16l1.5 1.5 3-3M14.5 10H17M14.5 16H17" stroke="currentColor" strokeWidth={active ? 2 : 1.5} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
     href: "/works",
     label: "語錄",
     icon: (active: boolean) => (
@@ -95,7 +105,7 @@ export default function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium"
+              className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[9px] font-medium"
             >
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${

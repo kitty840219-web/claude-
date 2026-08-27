@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
-import HomeGameHub from "@/components/HomeGameHub";
 import SocialStation from "@/components/SocialStation";
 import { asset } from "@/lib/basePath";
 
@@ -46,8 +45,6 @@ const QUICK_NAV = [
 export default function HomePage() {
   return (
     <div>
-      <HomeGameHub />
-
       <SocialStation />
 
       {/* Quick nav */}
