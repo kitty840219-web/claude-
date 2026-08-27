@@ -41,11 +41,13 @@ export default function EntryGate() {
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-25" />
 
       <div
-        className={`text-shadow-soft relative h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm rounded-[2rem] border border-gold/40 text-center transition-transform duration-500 ${
+        className={`text-shadow-soft relative h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm text-center transition-transform duration-500 ${
           closing ? "scale-95" : "scale-100"
         }`}
       >
-        <div className="absolute inset-x-5 top-[32%] sm:inset-x-8 sm:top-[30%]">
+        <div className="pointer-events-none absolute inset-x-0 bottom-[2%] h-[42%] rounded-[2rem] border border-gold/40" />
+
+        <div className="absolute inset-x-5 top-[59%] z-10 sm:inset-x-8 sm:top-[57%]">
           <p className="text-[11px] font-semibold tracking-[0.35em] text-gold-light">
             {SITE.brandEn.toUpperCase()}
           </p>
