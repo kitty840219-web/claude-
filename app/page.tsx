@@ -7,7 +7,7 @@ import SocialIcon from "@/components/SocialIcon";
 import StatBadge from "@/components/StatBadge";
 import HomeGameHub from "@/components/HomeGameHub";
 import SocialStation from "@/components/SocialStation";
-import { LINKS, SERVICES, SITE } from "@/lib/data/site";
+import { LINKS, SITE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
 
@@ -47,15 +47,6 @@ const QUICK_NAV = [
     image: "/images/home-contact.png",
     tone: "from-[#f8e5e4] to-[#e5eaf3]",
   },
-];
-
-const SERVICE_ART = [
-  "/images/home-quotes-cutout.png",
-  "/images/home-story-cutout.png",
-  "/images/home-shop.png",
-  "/images/home-video.png",
-  "/images/home-contact.png",
-  "/images/home-video.png",
 ];
 
 export default function HomePage() {
@@ -192,41 +183,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services teaser */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <SectionHeading eyebrow="SERVICES" title="接案服務項目" center />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.slice(0, 6).map((s, index) => (
-            <div key={s.title} className="relative overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-paper to-[#f3edf5] p-6 shadow-card">
-              <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
-                <Image
-                  src={asset(SERVICE_ART[index])}
-                  alt={`${s.title}小艾插畫`}
-                  fill
-                  className="object-contain"
-                  sizes="(min-width: 1024px) 20vw, 80vw"
-                />
-              </div>
-              <h3 className="font-serif text-base font-bold text-night">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-500">{s.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/pricing"
-            className="inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper transition hover:bg-night-light"
-          >
-            查看服務報價 →
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-full border border-night px-7 py-3 text-sm font-semibold text-night transition hover:bg-night hover:text-paper"
-          >
-            合作與委託洽詢 →
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

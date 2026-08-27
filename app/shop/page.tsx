@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import TagChip from "@/components/TagChip";
-import { LINKS, SITE } from "@/lib/data/site";
+import { LINKS, SERVICES, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
@@ -33,6 +34,15 @@ const SHOPS = [
     cta: "查看貼圖作品",
     tag: "持續上架",
   },
+];
+
+const SERVICE_ART = [
+  "/images/home-quotes-cutout.png",
+  "/images/home-story-cutout.png",
+  "/images/home-shop.png",
+  "/images/home-video.png",
+  "/images/home-contact.png",
+  "/images/home-video.png",
 ];
 
 export default function ShopPage() {
@@ -89,6 +99,39 @@ export default function ShopPage() {
 
         <div className="mt-4 flex justify-end sm:hidden">
           <p className="text-xs text-ink-400">點一下卡片即可前往商店 →</p>
+        </div>
+      </section>
+
+      {/* Commission services */}
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <SectionHeading eyebrow="SERVICES" title="接案服務項目" center />
+        <p className="mx-auto mt-4 max-w-sm text-center text-sm leading-relaxed text-ink-500">
+          除了周邊商品，也提供插畫、品牌視覺與客製設計服務。
+        </p>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.slice(0, 6).map((service, index) => (
+            <div key={service.title} className="relative overflow-hidden rounded-[1.75rem] border border-night/10 bg-gradient-to-br from-paper to-[#f3edf5] p-6 shadow-card">
+              <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
+                <Image
+                  src={asset(SERVICE_ART[index])}
+                  alt={`${service.title}小艾插畫`}
+                  fill
+                  className="object-contain"
+                  sizes="(min-width: 1024px) 20vw, 80vw"
+                />
+              </div>
+              <h3 className="font-serif text-base font-bold text-night">{service.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-500">{service.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <Link href="/pricing" className="inline-flex items-center gap-2 rounded-full bg-night px-7 py-3 text-sm font-semibold text-paper transition hover:bg-night-light">
+            查看服務報價 →
+          </Link>
+          <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-night px-7 py-3 text-sm font-semibold text-night transition hover:bg-night hover:text-paper">
+            合作與委託洽詢 →
+          </Link>
         </div>
       </section>
 
