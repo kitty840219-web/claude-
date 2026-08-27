@@ -228,15 +228,6 @@ export default function TarotDivination() {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-6 text-amber-50">
-      <header className="mb-6 flex items-center justify-between">
-        <Link href="/" className="text-xs text-amber-200/60 hover:text-amber-200">
-          ← 回首頁
-        </Link>
-        <div className="rounded-full border border-amber-200/40 px-3 py-1 text-xs tracking-wide text-amber-200/90">
-          艾飛樂 · 塔羅
-        </div>
-      </header>
-
       {step === "cover" && (
         <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
           <div>
