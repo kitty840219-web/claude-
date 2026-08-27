@@ -1,0 +1,477 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
+import CardArt from "@/components/tarot/CardArt";
+import { ReadingStyle, generateFollowUp, generateReading, generateThreeCardReading } from "@/lib/tarot/reading";
+import Star from "@/components/Star";
+
+type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
+type SpreadSize = 1 | 3;
+
+const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: string }[] = [
+  { id: "roast", label: "火烤", emoji: "🔥" },
+  { id: "intuitive", label: "直覺式", emoji: "🖐️" },
+  { id: "insight", label: "洞察", emoji: "🔍", badge: "BETA" },
+];
+
+const SPREAD_MODES: { id: SpreadSize; label: string; hint: string }[] = [
+  { id: 1, label: "單抽牌", hint: "一句直覺提醒" },
+  { id: 3, label: "三張牌", hint: "過去 · 現在 · 未來" },
+];
+
+const POSITION_LABELS = ["過去", "現在", "未來"];
+const SPREAD_COUNT = 12;
+
+// deterministic seeded RNG so server-render and client hydration match
+function mulberry32(seed: number) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function useStarfield(count: number, seed: number) {
+  return useMemo(() => {
+    const rand = mulberry32(seed);
+    return Array.from({ length: count }, (_, i) => ({
+      id: i,
+      top: rand() * 100,
+      left: rand() * 100,
+      size: 1 + rand() * 2,
+      delay: rand() * 3,
+    }));
+  }, [count, seed]);
+}
+
+function CardBack({ className = "" }: { className?: string }) {
+  const stars = useStarfield(28, 7);
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl border-2 border-gold-light/40 bg-gradient-to-b from-night-light via-night to-night-dark shadow-[0_0_30px_rgba(43,42,92,0.45)] ${className}`}
+    >
+      {stars.map((s) => (
+        <span
+          key={s.id}
+          className="absolute rounded-full bg-gold-light"
+          style={{
+            top: `${s.top}%`,
+            left: `${s.left}%`,
+            width: `${s.size}px`,
+            height: `${s.size}px`,
+            animation: `twinkle 2.4s ease-in-out ${s.delay}s infinite`,
+          }}
+        />
+      ))}
+      <div className="absolute inset-3 rounded-xl border border-gold-light/30" />
+      <div className="absolute inset-0 flex items-center justify-center text-3xl opacity-80">✦</div>
+    </div>
+  );
+}
+
+const ELEMENT_ICON: Record<NonNullable<TarotCard["element"]>, string> = { 火: "🔥", 水: "💧", 風: "🌬️", 土: "⛰️" };
+
+function ElementBadge({ element, compact = false }: { element: NonNullable<TarotCard["element"]>; compact?: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border border-gold-light/30 bg-paper/5 text-gold-light/80 ${
+        compact ? "px-1.5 py-0 text-[9px]" : "px-2 py-0.5 text-[11px]"
+      }`}
+    >
+      <span>{ELEMENT_ICON[element]}</span>
+      {element}元素
+    </span>
+  );
+}
+
+function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isReversed: boolean; compact?: boolean }) {
+  return (
+    <div
+      className={`relative h-full w-full overflow-hidden rounded-2xl border-2 border-gold-light/50 shadow-[0_0_30px_rgba(43,42,92,0.55)] ${
+        isReversed ? "rotate-180" : ""
+      }`}
+    >
+      <CardArt card={card} className="h-full w-full" />
+      <div className={`absolute inset-0 flex flex-col items-center justify-between text-center text-paper ${compact ? "p-2" : "p-3"}`}>
+        <span className={`tracking-[0.3em] text-gold-light/80 ${compact ? "text-[9px]" : "text-xs"}`}>{card.numeral}</span>
+        <div className="space-y-0.5">
+          <div className={`font-serif font-semibold drop-shadow ${compact ? "text-xs" : "text-lg"}`}>{card.name}</div>
+          {isReversed && <div className="text-[9px] tracking-widest text-gold-light/70">逆位 REVERSED</div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type FollowUpEntry = { question: string; answer: string };
+
+function FollowUpPanel({
+  followUps,
+  draft,
+  onDraftChange,
+  onSubmit,
+}: {
+  followUps: FollowUpEntry[];
+  draft: string;
+  onDraftChange: (v: string) => void;
+  onSubmit: () => void;
+}) {
+  const canSubmit = draft.trim().length >= 10;
+  return (
+    <div className="w-full space-y-3">
+      {followUps.map((f, i) => (
+        <div key={i} className="w-full space-y-1.5 rounded-xl border border-gold-light/20 bg-paper/5 p-4">
+          <p className="text-xs text-gold-light/60">追問：{f.question}</p>
+          <p className="whitespace-pre-line text-sm leading-relaxed text-paper/90">{f.answer}</p>
+        </div>
+      ))}
+      <div className="w-full">
+        <label className="mb-1 block text-xs text-gold-light/60">我想要追問</label>
+        <textarea
+          value={draft}
+          maxLength={200}
+          onChange={(e) => onDraftChange(e.target.value)}
+          placeholder="針對這次抽到的牌，還想多問一點什麼？"
+          className="h-20 w-full resize-none rounded-xl border border-gold-light/30 bg-paper/5 p-3 text-sm text-paper placeholder:text-paper/40 focus:border-gold-light/70 focus:outline-none"
+        />
+        <div className="mt-1 flex justify-between text-[11px] text-paper/50">
+          <span>至少 10 個字</span>
+          <span>{draft.length}/200</span>
+        </div>
+        <button
+          disabled={!canSubmit}
+          onClick={onSubmit}
+          className="mt-2 w-full rounded-xl border border-gold-light/40 py-2.5 text-sm text-gold-light transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          送出追問
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function TarotDivination() {
+  const [step, setStep] = useState<Step>("cover");
+  const [spreadSize, setSpreadSize] = useState<SpreadSize>(1);
+  const [question, setQuestion] = useState("");
+  const [styles, setStyles] = useState<ReadingStyle[]>([]);
+  const [shuffleTick, setShuffleTick] = useState(0);
+  const [pickedSlots, setPickedSlots] = useState<number[]>([]);
+  const [results, setResults] = useState<CardDraw[]>([]);
+  const [followUps, setFollowUps] = useState<FollowUpEntry[]>([]);
+  const [followUpDraft, setFollowUpDraft] = useState("");
+
+  const spread = useMemo(() => {
+    const rand = mulberry32(101);
+    return Array.from({ length: SPREAD_COUNT }, (_, i) => {
+      const mid = (SPREAD_COUNT - 1) / 2;
+      const offset = i - mid;
+      return {
+        id: i,
+        rotate: offset * 6 + (rand() - 0.5) * 2,
+        translateY: Math.abs(offset) * 6,
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    if (step !== "shuffle") return;
+    const ticker = setInterval(() => setShuffleTick((t) => t + 1), 180);
+    const timeout = setTimeout(() => setStep("spread"), 1620);
+    return () => {
+      clearInterval(ticker);
+      clearTimeout(timeout);
+    };
+  }, [step]);
+
+  useEffect(() => {
+    if (step !== "analyzing") return;
+    const timeout = setTimeout(() => setStep("reveal"), 1300);
+    return () => clearTimeout(timeout);
+  }, [step]);
+
+  function toggleStyle(id: ReadingStyle) {
+    setStyles((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
+  }
+
+  function handlePickCard(slotId: number) {
+    if (pickedSlots.includes(slotId) || pickedSlots.length >= spreadSize) return;
+    const nextPicked = [...pickedSlots, slotId];
+    setPickedSlots(nextPicked);
+    if (nextPicked.length === spreadSize) {
+      setResults(drawUniqueCards(spreadSize));
+      setTimeout(() => setStep("analyzing"), 350);
+    }
+  }
+
+  function resetAll() {
+    setQuestion("");
+    setStyles([]);
+    setResults([]);
+    setPickedSlots([]);
+    setFollowUps([]);
+    setFollowUpDraft("");
+    setStep("cover");
+  }
+
+  function handleSubmitFollowUp() {
+    if (followUpDraft.trim().length < 10) return;
+    const answer = generateFollowUp(results, followUpDraft, styles);
+    setFollowUps((prev) => [...prev, { question: followUpDraft.trim(), answer }]);
+    setFollowUpDraft("");
+  }
+
+  const canDraw = question.trim().length >= 10;
+
+  return (
+    <div className="relative overflow-hidden bg-night-dark">
+      <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
+      <div className="relative mx-auto flex min-h-[70vh] w-full flex-col px-5 py-10 text-paper">
+        {step === "cover" && (
+          <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
+            <div>
+              <div className="mb-3 flex items-center justify-center gap-2">
+                <Star className="h-3 w-3 text-gold-light" />
+                <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">TAROT</p>
+                <Star className="h-3 w-3 text-gold-light" delay="1s" />
+              </div>
+              <h1 className="font-serif text-3xl font-bold tracking-[0.2em] text-paper sm:text-4xl">大眾占卜</h1>
+              <p className="mt-2 text-sm text-paper/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
+            </div>
+
+            <div className="flex gap-2 rounded-full border border-gold-light/20 bg-paper/5 p-1">
+              {SPREAD_MODES.map((mode) => (
+                <button
+                  key={mode.id}
+                  onClick={() => setSpreadSize(mode.id)}
+                  className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+                    spreadSize === mode.id ? "bg-gold text-night-dark" : "text-paper/70 hover:text-paper"
+                  }`}
+                >
+                  {mode.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setStep("form")}
+              className="group relative h-56 w-36 cursor-pointer transition-transform duration-300 hover:-translate-y-2"
+              aria-label="點擊卡牌開始"
+            >
+              <CardBack className="h-full w-full" />
+            </button>
+            <p className="animate-pulse text-sm text-paper/70">點擊卡牌開始</p>
+          </div>
+        )}
+
+        {step === "form" && (
+          <div className="flex flex-1 flex-col gap-5">
+            <div>
+              <h2 className="font-serif text-xl font-semibold text-paper">你想問些什麼？</h2>
+              <p className="mt-1 text-xs text-paper/60">寫得越具體，解讀越貼近你的處境。</p>
+            </div>
+            <div>
+              <textarea
+                value={question}
+                maxLength={200}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="例如：這段感情接下來會如何發展？"
+                className="h-36 w-full resize-none rounded-xl border border-gold-light/30 bg-paper/5 p-3 text-sm text-paper placeholder:text-paper/40 focus:border-gold-light/70 focus:outline-none"
+              />
+              <div className="mt-1 flex justify-between text-[11px] text-paper/50">
+                <span>至少 10 個字，輸入越多回答越有趣</span>
+                <span>{question.length}/200</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2">
+              {STYLE_OPTIONS.map((opt) => {
+                const active = styles.includes(opt.id);
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => toggleStyle(opt.id)}
+                    className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-xs transition-colors ${
+                      active
+                        ? "border-gold bg-gold/10 text-gold-light"
+                        : "border-gold-light/20 text-paper/70 hover:border-gold-light/40"
+                    }`}
+                  >
+                    <span className="text-lg">{opt.emoji}</span>
+                    <span>
+                      {opt.label}
+                      {opt.badge && <span className="ml-1 rounded bg-gold-light/20 px-1 text-[9px]">{opt.badge}</span>}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              disabled={!canDraw}
+              onClick={() => setStep("shuffle")}
+              className="mt-6 w-full rounded-xl bg-gold py-3 text-sm font-semibold text-night-dark transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              開始洗牌
+            </button>
+          </div>
+        )}
+
+        {step === "shuffle" && (
+          <div className="flex flex-1 flex-col items-center justify-center gap-6">
+            <p className="text-sm text-paper/70">牌正在為你重新排列⋯</p>
+            <div className="relative h-56 w-36">
+              {Array.from({ length: 7 }, (_, i) => {
+                const rand = mulberry32(i * 13 + shuffleTick);
+                const x = (rand() - 0.5) * 90;
+                const y = (rand() - 0.5) * 40;
+                const r = (rand() - 0.5) * 50;
+                return (
+                  <div
+                    key={i}
+                    className="absolute inset-0 transition-transform duration-150 ease-out"
+                    style={{ transform: `translate(${x}px, ${y}px) rotate(${r}deg)` }}
+                  >
+                    <CardBack className="h-full w-full" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {step === "spread" && (
+          <div className="flex flex-1 flex-col items-center justify-center gap-6">
+            <p className="text-sm text-paper/70">
+              {spreadSize === 1
+                ? "憑直覺，選一張牌"
+                : `憑直覺依序選 ${spreadSize} 張牌 · 目前選第 ${Math.min(pickedSlots.length + 1, spreadSize)} 張：${
+                    POSITION_LABELS[pickedSlots.length] ?? ""
+                  }`}
+            </p>
+            <div className="flex h-52 w-full items-end justify-center">
+              {spread.map((c) => {
+                const pickedIndex = pickedSlots.indexOf(c.id);
+                const isPicked = pickedIndex !== -1;
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => handlePickCard(c.id)}
+                    disabled={isPicked || pickedSlots.length >= spreadSize}
+                    className="relative -mx-3 h-40 w-24 shrink-0 origin-bottom transition-transform duration-200 enabled:hover:-translate-y-4 enabled:hover:z-10 disabled:cursor-default"
+                    style={{
+                      transform: `rotate(${c.rotate}deg) translateY(${isPicked ? c.translateY - 20 : c.translateY}px)`,
+                    }}
+                    aria-label={`選擇第 ${c.id + 1} 張牌`}
+                  >
+                    <CardBack className={`h-full w-full ${isPicked ? "opacity-40" : ""}`} />
+                    {isPicked && (
+                      <span className="absolute -top-2 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-night-dark text-xs font-bold text-gold-light ring-2 ring-gold-light">
+                        {pickedIndex + 1}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {step === "analyzing" && (
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
+            <div className="animate-pulse text-4xl">🔮</div>
+            <p className="animate-pulse text-sm text-paper/70">牌陣已經排好，正在為你解讀⋯</p>
+          </div>
+        )}
+
+        {step === "reveal" && results.length === spreadSize && spreadSize === 1 && (
+          <div className="flex flex-1 flex-col items-center gap-5 py-2">
+            <div className="h-64 w-40">
+              <CardFront card={results[0].card} isReversed={results[0].isReversed} />
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-1.5">
+              {results[0].card.element && <ElementBadge element={results[0].card.element} />}
+              {(results[0].isReversed ? results[0].card.reversed : results[0].card.upright).keywords.map((k) => (
+                <span key={k} className="rounded-full border border-gold-light/30 px-2 py-0.5 text-[11px] text-gold-light/80">
+                  #{k}
+                </span>
+              ))}
+            </div>
+
+            <div className="w-full whitespace-pre-line rounded-xl border border-gold-light/20 bg-paper/5 p-4 text-sm leading-relaxed text-paper/90">
+              {generateReading(results[0].card, results[0].isReversed, question, styles)}
+            </div>
+
+            <FollowUpPanel
+              followUps={followUps}
+              draft={followUpDraft}
+              onDraftChange={setFollowUpDraft}
+              onSubmit={handleSubmitFollowUp}
+            />
+
+            <div className="mt-6 flex w-full gap-2">
+              <button onClick={resetAll} className="flex-1 rounded-xl border border-gold-light/40 py-3 text-sm text-gold-light">
+                再抽一次
+              </button>
+              <Link href="/" className="flex-1 rounded-xl bg-gold py-3 text-center text-sm font-semibold text-night-dark">
+                回首頁
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {step === "reveal" && results.length === spreadSize && spreadSize === 3 && (
+          <div className="flex flex-1 flex-col items-center gap-5 py-2">
+            <div className="grid w-full grid-cols-3 gap-2">
+              {results.map((r, i) => (
+                <div key={i} className="flex flex-col items-center gap-1.5">
+                  <div className="h-36 w-full">
+                    <CardFront card={r.card} isReversed={r.isReversed} compact />
+                  </div>
+                  <span className="text-[11px] text-paper/70">{POSITION_LABELS[i]}</span>
+                  {r.card.element && <ElementBadge element={r.card.element} compact />}
+                </div>
+              ))}
+            </div>
+
+            {(() => {
+              const reading = generateThreeCardReading(results as [CardDraw, CardDraw, CardDraw], question, styles);
+              return (
+                <div className="w-full rounded-xl border border-gold-light/20 bg-paper/5 p-4">
+                  <h3 className="mb-3 font-serif text-base font-semibold text-gold-light">{reading.title}</h3>
+                  <div className="space-y-3 whitespace-pre-line text-sm leading-relaxed text-paper/90">
+                    {reading.paragraphs.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            <FollowUpPanel
+              followUps={followUps}
+              draft={followUpDraft}
+              onDraftChange={setFollowUpDraft}
+              onSubmit={handleSubmitFollowUp}
+            />
+
+            <div className="mt-6 flex w-full gap-2">
+              <button onClick={resetAll} className="flex-1 rounded-xl border border-gold-light/40 py-3 text-sm text-gold-light">
+                再抽一次
+              </button>
+              <Link href="/" className="flex-1 rounded-xl bg-gold py-3 text-center text-sm font-semibold text-night-dark">
+                回首頁
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
