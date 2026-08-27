@@ -6,13 +6,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { NAV, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
-
-const DARK_ROUTES = ["/", "/about", "/tarot"];
+import { isDarkRoute } from "@/lib/darkRoutes";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const isDark = DARK_ROUTES.some((route) => (route === "/" ? pathname === "/" : pathname.startsWith(route)));
+  const isDark = isDarkRoute(pathname);
 
   return (
     <header

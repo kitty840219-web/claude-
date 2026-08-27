@@ -16,7 +16,7 @@ export default function Footer() {
     <footer className="relative overflow-hidden bg-night-dark text-paper/90">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-70" />
       <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="grid gap-10 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-3 sm:gap-10">
           <div>
             <p className="font-serif text-xl font-bold text-paper">{SITE.brand}</p>
             <p className="mt-1 text-xs tracking-widest text-lavender-light">

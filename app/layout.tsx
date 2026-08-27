@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
+import MainWrapper from "@/components/MainWrapper";
 import PageTransition from "@/components/PageTransition";
 import EntryGate from "@/components/EntryGate";
 import BackgroundMusic from "@/components/BackgroundMusic";
@@ -55,9 +56,9 @@ export default function RootLayout({
       <body className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-paper font-sans text-ink-900 shadow-[0_0_60px_rgba(24,21,66,0.18)] antialiased">
         <EntryGate />
         <Navbar />
-        <main className="flex-1 pb-16 md:pb-0">
+        <MainWrapper>
           <PageTransition>{children}</PageTransition>
-        </main>
+        </MainWrapper>
         <Footer />
         <BottomNav />
         <BackgroundMusic />
