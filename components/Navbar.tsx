@@ -7,12 +7,19 @@ import { useState } from "react";
 import { NAV, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
+const DARK_ROUTES = ["/", "/about", "/tarot"];
+
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const isDark = DARK_ROUTES.some((route) => (route === "/" ? pathname === "/" : pathname.startsWith(route)));
 
   return (
-    <header className="sticky top-0 z-30 border-b border-night/10 bg-paper/90 backdrop-blur">
+    <header
+      className={`sticky top-0 z-30 ${
+        isDark ? "border-b border-paper/10 bg-night-dark" : "border-b border-night/10 bg-paper/90 backdrop-blur"
+      }`}
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <span className="relative h-9 w-9 overflow-hidden rounded-full bg-night-light shadow-card">
@@ -24,7 +31,7 @@ export default function Navbar() {
               className="object-contain p-1"
             />
           </span>
-          <span className="font-serif text-lg font-bold tracking-wide text-night">
+          <span className={`font-serif text-lg font-bold tracking-wide ${isDark ? "text-paper" : "text-night"}`}>
             {SITE.brand}
           </span>
         </Link>
@@ -38,8 +45,12 @@ export default function Navbar() {
                 href={link.href}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-night text-paper"
-                    : "text-ink-700 hover:bg-lavender/20 hover:text-night"
+                    ? isDark
+                      ? "bg-gold text-night-dark"
+                      : "bg-night text-paper"
+                    : isDark
+                      ? "text-paper/70 hover:bg-paper/10 hover:text-paper"
+                      : "text-ink-700 hover:bg-lavender/20 hover:text-night"
                 }`}
               >
                 {link.label}
@@ -51,7 +62,7 @@ export default function Navbar() {
         <button
           aria-label="開啟選單"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-night md:hidden"
+          className={`flex h-9 w-9 items-center justify-center rounded-full md:hidden ${isDark ? "text-paper" : "text-night"}`}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {open ? (
@@ -64,7 +75,11 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-night/10 bg-paper px-4 py-3 md:hidden">
+        <nav
+          className={`flex flex-col gap-1 border-t px-4 py-3 md:hidden ${
+            isDark ? "border-paper/10 bg-night-dark" : "border-night/10 bg-paper"
+          }`}
+        >
           {NAV.map((link) => (
             <Link
               key={link.href}
@@ -72,8 +87,12 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className={`rounded-lg px-3 py-2 text-sm font-medium ${
                 pathname === link.href
-                  ? "bg-night text-paper"
-                  : "text-ink-700 hover:bg-lavender/20"
+                  ? isDark
+                    ? "bg-gold text-night-dark"
+                    : "bg-night text-paper"
+                  : isDark
+                    ? "text-paper/80 hover:bg-paper/10"
+                    : "text-ink-700 hover:bg-lavender/20"
               }`}
             >
               {link.label}
