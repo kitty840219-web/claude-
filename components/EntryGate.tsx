@@ -76,9 +76,9 @@ export default function EntryGate() {
             </span>
           </button>
 
-          <div className="animate-float-slow pointer-events-none absolute left-1/2 top-[52%] z-30 h-32 w-32 -translate-x-1/2 -translate-y-1/2 sm:h-40 sm:w-40">
+          <div className="animate-float-slow pointer-events-none absolute bottom-[30%] left-1 z-30 h-28 w-24 sm:h-32 sm:w-28">
             <div key={dialogue.art} className="relative h-full w-full animate-fade-in">
-              <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話`} fill priority className="object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]" sizes="180px" />
+              <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話`} fill priority className="object-contain object-bottom drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]" sizes="112px" />
             </div>
           </div>
         </div>
