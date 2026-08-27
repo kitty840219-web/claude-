@@ -6,6 +6,7 @@ import QuoteCard from "@/components/QuoteCard";
 import SocialIcon from "@/components/SocialIcon";
 import StatBadge from "@/components/StatBadge";
 import HomeGameHub from "@/components/HomeGameHub";
+import SocialStation from "@/components/SocialStation";
 import { LINKS, SERVICES, SITE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
@@ -124,6 +125,8 @@ export default function HomePage() {
       </section>
 
       <HomeGameHub />
+
+      <SocialStation />
 
       {/* Intro / About preview */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
