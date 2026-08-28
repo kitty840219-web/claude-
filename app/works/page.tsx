@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import QuoteCard from "@/components/QuoteCard";
-import QuoteGallery from "@/components/QuoteGallery";
+import QuoteGalleryModalButton from "@/components/QuoteGalleryModalButton";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
@@ -42,6 +42,17 @@ export default function WorksPage() {
         </div>
       </section>
 
+      {/* Mascot band */}
+      <section className="relative overflow-hidden bg-night-dark px-4 py-16 text-center sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative mx-auto h-28 w-28">
+          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
+        </div>
+        <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
+          「{SITE.tagline}，{SITE.taglineSub}。」
+        </p>
+      </section>
+
       {/* Featured quotes */}
       <section className="relative overflow-hidden bg-night-dark py-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
@@ -63,15 +74,15 @@ export default function WorksPage() {
             ))}
           </div>
           <div className="mt-10 text-center">
-            <a href="#full-gallery" className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light">
+            <QuoteGalleryModalButton className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light">
               查看完整語錄作品集 ↓
-            </a>
+            </QuoteGalleryModalButton>
           </div>
         </div>
       </section>
 
       <section className="bg-night-dark px-4 py-12">
-        <a href={LINKS.instagramQuotes} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card">
+        <QuoteGalleryModalButton className="group relative mx-auto block min-h-44 w-full max-w-md overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 text-left shadow-card">
           <div className="relative z-10 w-[58%]">
             <SocialIcon type="instagram" className="h-6 w-6 text-paper" />
             <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-gold-light">INSTAGRAM</p>
@@ -82,18 +93,7 @@ export default function WorksPage() {
           <div className="pointer-events-none absolute -bottom-6 -right-5 h-44 w-44 transition duration-500 group-hover:scale-105">
             <Image src={asset("/images/home-quotes-cutout.webp")} alt="小艾語錄創作" fill className="object-contain object-bottom" sizes="176px" />
           </div>
-        </a>
-      </section>
-
-      <section id="full-gallery" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
-        <SectionHeading
-          eyebrow="ILLUSTRATED QUOTES"
-          title="風格語錄選粹"
-          desc="以艾飛樂語錄一貫的溫柔筆調創作，完整每日更新與插畫原作，歡迎追蹤 Instagram 帳號閱讀。"
-        />
-        <div className="mt-10">
-          <QuoteGallery quotes={QUOTES} />
-        </div>
+        </QuoteGalleryModalButton>
       </section>
 
       {/* Archive links */}
@@ -133,17 +133,6 @@ export default function WorksPage() {
             </a>
           </div>
         </div>
-      </section>
-
-      {/* Mascot band */}
-      <section className="relative overflow-hidden bg-night-dark px-4 py-20 text-center sm:px-6">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto h-28 w-28">
-          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
-        </div>
-        <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
-          「{SITE.tagline}，{SITE.taglineSub}。」
-        </p>
       </section>
     </div>
   );
