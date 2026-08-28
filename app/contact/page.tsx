@@ -36,6 +36,15 @@ const CONTACTS = [
   },
 ];
 
+const SERVICE_ART = [
+  "/images/home-quotes-cutout.webp",
+  "/images/home-story-cutout.webp",
+  "/images/home-shop.webp",
+  "/images/home-video.webp",
+  "/images/home-contact.webp",
+  "/images/home-video.webp",
+];
+
 const PROCESS = [
   { step: "01", title: "傳送需求", desc: "透過 Email 或 LINE 告訴我您的想法與用途" },
   { step: "02", title: "討論規劃", desc: "確認風格、尺寸、交件時間與報價" },
@@ -65,15 +74,32 @@ export default function ContactPage() {
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" center />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((s) => (
+            {SERVICES.map((s, index) => (
               <div
                 key={s.title}
                 className="bg-grain relative overflow-hidden rounded-2xl border border-paper/10 bg-night-light/40 p-6"
               >
+                <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
+                  <Image
+                    src={asset(SERVICE_ART[index])}
+                    alt={`${s.title}小艾插畫`}
+                    fill
+                    className="object-contain"
+                    sizes="(min-width: 1024px) 20vw, 80vw"
+                  />
+                </div>
                 <h3 className="font-serif text-base font-bold text-gold-light">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-paper/70">{s.desc}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
+            >
+              查看服務報價 →
+            </Link>
           </div>
         </div>
       </section>
