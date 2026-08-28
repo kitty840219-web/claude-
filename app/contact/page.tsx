@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
+import ServiceCarousel from "@/components/ServiceCarousel";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SERVICES, SITE } from "@/lib/data/site";
@@ -83,25 +84,8 @@ export default function ContactPage() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" center />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((s, index) => (
-              <div
-                key={s.title}
-                className="bg-grain relative overflow-hidden rounded-2xl border border-paper/10 bg-night-light/40 p-6"
-              >
-                <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
-                  <Image
-                    src={asset(SERVICE_ART[index])}
-                    alt={`${s.title}小艾插畫`}
-                    fill
-                    className="object-contain"
-                    sizes="(min-width: 1024px) 20vw, 80vw"
-                  />
-                </div>
-                <h3 className="font-serif text-base font-bold text-gold-light">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-paper/70">{s.desc}</p>
-              </div>
-            ))}
+          <div className="mt-10">
+            <ServiceCarousel services={SERVICES} art={SERVICE_ART} />
           </div>
           <div className="mt-10 flex justify-center">
             <Link
