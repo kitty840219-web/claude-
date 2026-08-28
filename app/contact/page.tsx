@@ -59,7 +59,7 @@ export default function ContactPage() {
   return (
     <div>
       {/* Services / resume-style skills */}
-      <section className="relative overflow-hidden bg-night-dark py-20">
+      <section className="relative overflow-hidden bg-night-dark pb-10 pt-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="SKILLS & SERVICES" title="專業能力與服務項目" center />
@@ -74,7 +74,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-night-dark py-24 text-center">
+      <section className="relative overflow-hidden bg-night-dark pb-24 pt-10 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
           <div className="mb-4 flex items-center justify-center gap-2">
