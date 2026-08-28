@@ -38,7 +38,7 @@ export default function ServiceCarousel({
         {services.map((s, i) => (
           <div
             key={s.title}
-            className="bg-grain relative w-full shrink-0 snap-center overflow-hidden rounded-2xl border border-paper/10 bg-night-light/40 p-6"
+            className="bg-grain relative w-full shrink-0 snap-center overflow-hidden rounded-2xl border border-gold/15 bg-night-light/40 p-6"
           >
             <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
               <Image

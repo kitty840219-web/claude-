@@ -46,7 +46,7 @@ export default function StoryPage() {
       {/* character card */}
       <section className="relative overflow-hidden bg-night-dark px-4 py-16 sm:px-6">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 rounded-[2rem] border border-paper/10 bg-night-light/20 p-8 shadow-card sm:flex-row sm:text-left">
+        <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 rounded-[2rem] border border-gold/15 bg-night-light/20 p-8 shadow-card sm:flex-row sm:text-left">
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-gold/40 shadow-soft sm:h-28 sm:w-28">
             <Image src={asset("/images/profile.webp")} alt="艾飛樂創作者 Ivy" fill className="object-cover" sizes="112px" />
           </div>

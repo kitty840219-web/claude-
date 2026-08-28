@@ -58,7 +58,7 @@ export default function WorksPage() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading eyebrow="ILLUSTRATED QUOTES" title="精選語錄" center />
-          <div className="relative mx-auto mt-10 aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border border-paper/10 shadow-soft">
+          <div className="relative mx-auto mt-10 aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border border-gold/15 shadow-soft">
             <Image
               src={asset("/images/home-quotes.webp")}
               alt="小艾抱著語錄卡與信件的水彩插畫"
@@ -82,7 +82,7 @@ export default function WorksPage() {
       </section>
 
       <section className="bg-night-dark px-4 py-12">
-        <QuoteGalleryModalButton className="group relative mx-auto block min-h-44 w-full max-w-md overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 text-left shadow-card">
+        <QuoteGalleryModalButton className="group relative mx-auto block min-h-44 w-full max-w-md overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-5 text-left shadow-card">
           <div className="relative z-10 w-[58%]">
             <SocialIcon type="instagram" className="h-6 w-6 text-paper" />
             <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-gold-light">INSTAGRAM</p>
@@ -105,7 +105,7 @@ export default function WorksPage() {
               href={LINKS.instagramQuotes}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-paper/10 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-gold/15 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
               <SocialIcon type="instagram" className="h-8 w-8 text-gold-light" />
               <p className="font-serif text-base font-bold text-paper">艾飛樂語錄</p>
@@ -115,7 +115,7 @@ export default function WorksPage() {
               href={LINKS.instagramIllustration}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-paper/10 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-gold/15 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
               <SocialIcon type="instagram" className="h-8 w-8 text-gold-light" />
               <p className="font-serif text-base font-bold text-paper">dreamstar_illustration</p>
@@ -125,7 +125,7 @@ export default function WorksPage() {
               href={LINKS.kusdom}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-paper/10 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-gold/15 bg-night-light/20 p-8 text-center shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
               <SocialIcon type="shop" className="h-8 w-8 text-gold-light" />
               <p className="font-serif text-base font-bold text-paper">Kusdom 創作者商店</p>

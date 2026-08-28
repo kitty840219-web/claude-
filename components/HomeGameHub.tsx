@@ -44,7 +44,7 @@ export default function HomeGameHub() {
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(214,169,79,0.16),transparent_24%),radial-gradient(circle_at_80%_30%,rgba(168,156,214,0.18),transparent_28%)]" />
       <div className="relative mx-auto max-w-md">
-        <div className="rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card backdrop-blur">
+        <div className="rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-5 shadow-card backdrop-blur">
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className="text-[10px] font-semibold tracking-[0.25em] text-gold-light">TODAY&apos;S QUEST</p>
@@ -64,7 +64,7 @@ export default function HomeGameHub() {
                 <div
                   key={quest.id}
                   className={`relative flex min-h-28 items-center overflow-hidden rounded-2xl border p-4 transition ${
-                    done ? "border-gold/40 bg-gold/10" : "border-paper/10 bg-night-dark/60"
+                    done ? "border-gold/40 bg-gold/10" : "border-gold/15 bg-night-dark/60"
                   } ${flip ? "flex-row-reverse" : ""}`}
                 >
                   <div className={`relative z-10 w-[67%] ${flip ? "text-right" : "text-left"}`}>

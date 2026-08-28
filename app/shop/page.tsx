@@ -51,8 +51,8 @@ export default function ShopPage() {
       {/* Shop list */}
       <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-6 sm:px-6">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 shadow-card">
-          <div className="flex items-center justify-between border-b border-paper/10 px-6 py-4">
+        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night-light/20 shadow-card">
+          <div className="flex items-center justify-between border-b border-gold/15 px-6 py-4">
             <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">STORE · 商店貨架</p>
             <span className="text-xs font-semibold text-paper/50">共 {SHOPS.length} 個商店</span>
           </div>

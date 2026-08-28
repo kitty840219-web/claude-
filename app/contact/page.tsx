@@ -86,7 +86,7 @@ export default function ContactPage() {
 
           <div className="mt-10 grid grid-cols-2 gap-3 text-left sm:grid-cols-4">
             {CHIPS.map((c) => (
-              <div key={c.t} className="rounded-2xl border border-paper/10 bg-night-light/20 p-4 shadow-card">
+              <div key={c.t} className="rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card">
                 <p className="text-sm font-bold text-paper">{c.t}</p>
                 <p className="mt-1 text-xs leading-relaxed text-paper/60">{c.d}</p>
               </div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
       </section>
 
       <section className="bg-night-dark px-4 py-12">
-        <a href={LINKS.lineOA} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card">
+        <a href={LINKS.lineOA} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-5 shadow-card">
           <div className="relative z-10 w-[58%]">
             <SocialIcon type="line" className="h-6 w-6 text-paper" />
             <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-sage">OFFICIAL LINE</p>
@@ -130,7 +130,7 @@ export default function ContactPage() {
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group flex items-start gap-4 rounded-2xl border border-paper/10 bg-night-light/20 p-5 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+                className="group flex items-start gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-5 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold text-night-dark">
                   <SocialIcon type={c.icon} className="h-4 w-4" />

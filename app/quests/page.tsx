@@ -17,7 +17,7 @@ export default function QuestsPage() {
       <section className="relative overflow-hidden bg-night-dark py-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="grid items-center gap-10 rounded-[2rem] border border-paper/10 bg-night-light/20 p-8 shadow-card sm:grid-cols-[auto_1fr] sm:p-12">
+          <div className="grid items-center gap-10 rounded-[2rem] border border-gold/15 bg-night-light/20 p-8 shadow-card sm:grid-cols-[auto_1fr] sm:p-12">
             <div className="relative mx-auto h-40 w-40 shrink-0 sm:h-48 sm:w-48">
               <Image src={asset("/images/mascot.webp")} alt="艾飛樂品牌 IP 角色" fill className="object-contain" />
             </div>

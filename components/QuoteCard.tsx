@@ -7,7 +7,7 @@ export default function QuoteCard({ quote, index = 0 }: { quote: Quote; index?: 
   const palette = PALETTES[index % PALETTES.length];
   return (
     <div
-      className={`bg-grain group relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br ${palette} p-6 shadow-card transition-transform duration-300 hover:-translate-y-1`}
+      className={`bg-grain group relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-2xl border border-gold/15 bg-gradient-to-br ${palette} p-6 shadow-card transition-transform duration-300 hover:-translate-y-1`}
     >
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-60" />
       <Star className="absolute right-5 top-5 h-3 w-3 text-gold-light" />

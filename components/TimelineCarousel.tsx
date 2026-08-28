@@ -34,7 +34,7 @@ export default function TimelineCarousel({
         {items.map((t) => (
           <div
             key={t.title}
-            className="bg-grain relative w-full shrink-0 snap-center overflow-hidden rounded-2xl border border-paper/10 bg-night-light/40 p-6"
+            className="bg-grain relative w-full shrink-0 snap-center overflow-hidden rounded-2xl border border-gold/15 bg-night-light/40 p-6"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold shadow">
               <span className="h-2 w-2 rounded-full bg-night-dark" />

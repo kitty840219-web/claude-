@@ -4,7 +4,7 @@
   --bg-card-2: rgba(250, 246, 238, 0.1);
   --text: #faf6ee;
   --text-muted: rgba(250, 246, 238, 0.65);
-  --line: rgba(250, 246, 238, 0.15);
+  --line: rgba(236, 206, 143, 0.2);
   --accent: #ecce8f;
   --forest: #cfc6ea;
 
@@ -13,7 +13,7 @@
   --leader-muted: rgba(250, 246, 238, 0.65);
   --leader-accent: #ecce8f;
   --leader-forest: #cfc6ea;
-  --leader-line: #3f3a78;
+  --leader-line: rgba(236, 206, 143, 0.28);
 
   background: var(--bg);
   color: var(--text);

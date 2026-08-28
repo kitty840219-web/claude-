@@ -85,7 +85,7 @@ export default function StoryReader({
             }
           }}
           aria-label={isLast ? finishLabel : "點擊查看下一章"}
-          className={`bg-grain group relative cursor-pointer overflow-hidden rounded-[1.75rem] border border-paper/10 bg-gradient-to-br ${palette} p-6 shadow-soft transition hover:border-gold/40 sm:p-9`}
+          className={`bg-grain group relative cursor-pointer overflow-hidden rounded-[1.75rem] border border-gold/15 bg-gradient-to-br ${palette} p-6 shadow-soft transition hover:border-gold/40 sm:p-9`}
         >
           <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
           <div className="relative">

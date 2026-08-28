@@ -13,7 +13,7 @@ export default function SocialStation() {
           <p className="mt-3 text-sm leading-relaxed text-paper/65">在旅途中停留一下，看看小艾最新的影音創作。</p>
         </div>
 
-        <div className="mt-8 overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night shadow-soft">
+        <div className="mt-8 overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night shadow-soft">
           <div className="relative aspect-video bg-black">
             <iframe
               title="艾飛樂 YouTube 影音"
