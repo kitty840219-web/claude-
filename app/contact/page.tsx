@@ -5,6 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SERVICES, SITE } from "@/lib/data/site";
+import { CHIPS } from "@/lib/data/pricing";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
@@ -65,6 +66,15 @@ export default function ContactPage() {
           </div>
           <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">洽談合作</h1>
           <p className="mt-4 text-paper/70">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
+
+          <div className="mt-10 grid grid-cols-2 gap-3 text-left sm:grid-cols-4">
+            {CHIPS.map((c) => (
+              <div key={c.t} className="rounded-2xl border border-paper/10 bg-night-light/20 p-4 shadow-card">
+                <p className="text-sm font-bold text-paper">{c.t}</p>
+                <p className="mt-1 text-xs leading-relaxed text-paper/60">{c.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
