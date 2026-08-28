@@ -139,29 +139,6 @@ export default function ShopPage() {
         </div>
       </section>
 
-      <section className="bg-night-dark py-16">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
-          <SectionHeading
-            eyebrow="CUSTOM ORDER"
-            title="想要獨一無二的客製周邊？"
-            desc="艾飛樂也提供品牌／個人客製化周邊設計服務，從發想到生產一站式協助，歡迎與我聯絡討論你的需求。"
-            center
-          />
-          <a
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-          >
-            聯絡艾飛樂 →
-          </a>
-        </div>
-      </section>
-
-      {/* Mascot band */}
-      <section className="mx-auto max-w-3xl px-4 pb-20 text-center sm:px-6">
-        <div className="relative mx-auto h-20 w-20">
-          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
-        </div>
-      </section>
     </div>
   );
 }
