@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { LINKS, NAV, SITE } from "@/lib/data/site";
 import SocialIcon from "@/components/SocialIcon";
 import ReplayIntroButton from "@/components/ReplayIntroButton";
@@ -11,7 +15,10 @@ const SOCIALS = [
   { key: "link" as const, href: LINKS.portaly, label: "Portaly 連結頁" },
 ];
 
-export default function Footer() {
+function FooterInner() {
+  const searchParams = useSearchParams();
+  if (searchParams.get("embed") === "1") return null;
+
   return (
     <footer className="relative overflow-hidden bg-night-dark text-paper/90">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-70" />
@@ -73,5 +80,13 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+export default function Footer() {
+  return (
+    <Suspense fallback={null}>
+      <FooterInner />
+    </Suspense>
   );
 }

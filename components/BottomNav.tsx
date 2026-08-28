@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const TABS = [
   {
@@ -90,8 +91,11 @@ const TABS = [
   },
 ];
 
-export default function BottomNav() {
+function BottomNavInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  if (searchParams.get("embed") === "1") return null;
 
   return (
     <nav
@@ -120,5 +124,13 @@ export default function BottomNav() {
         })}
       </div>
     </nav>
+  );
+}
+
+export default function BottomNav() {
+  return (
+    <Suspense fallback={null}>
+      <BottomNavInner />
+    </Suspense>
   );
 }

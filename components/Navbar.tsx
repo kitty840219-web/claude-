@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { NAV, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
-export default function Navbar() {
+function NavbarInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
+
+  if (searchParams.get("embed") === "1") return null;
 
   return (
     <header className="sticky top-0 z-30 border-b border-paper/10 bg-night-dark">
@@ -76,5 +79,13 @@ export default function Navbar() {
         </nav>
       )}
     </header>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={null}>
+      <NavbarInner />
+    </Suspense>
   );
 }
