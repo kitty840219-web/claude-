@@ -1,11 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const VIDEO_ID = "2MH3zN3VCn4";
 
-export default function BackgroundMusic() {
+function BackgroundMusicInner() {
+  const searchParams = useSearchParams();
+  const embedded = searchParams.get("embed") === "1";
   const [playing, setPlaying] = useState(true);
+
+  if (embedded) return null;
 
   return (
     <div className="floating-music fixed bottom-20 z-40 md:bottom-6">
@@ -37,5 +42,13 @@ export default function BackgroundMusic() {
         )}
       </button>
     </div>
+  );
+}
+
+export default function BackgroundMusic() {
+  return (
+    <Suspense fallback={null}>
+      <BackgroundMusicInner />
+    </Suspense>
   );
 }

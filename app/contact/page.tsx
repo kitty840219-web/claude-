@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import PricingPreviewButton from "@/components/PricingPreviewButton";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCarousel from "@/components/ServiceCarousel";
 import SocialIcon from "@/components/SocialIcon";
@@ -88,12 +89,9 @@ export default function ContactPage() {
             <ServiceCarousel services={SERVICES} art={SERVICE_ART} />
           </div>
           <div className="mt-10 flex justify-center">
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
-            >
+            <PricingPreviewButton className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light">
               查看服務報價 →
-            </Link>
+            </PricingPreviewButton>
           </div>
         </div>
       </section>
