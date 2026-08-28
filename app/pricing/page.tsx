@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { DM_Mono, DM_Serif_Display } from "next/font/google";
 import styles from "./pricing.module.css";
+import QuoteCalculator from "@/components/pricing/QuoteCalculator";
 import SocialIcon from "@/components/SocialIcon";
 import { LINKS, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
@@ -110,6 +111,20 @@ export default function PricingPage() {
       </div>
 
       <div className={styles.body}>
+        <section className={styles.svc}>
+          <div className={styles.wrap}>
+            <div className={styles.svcHead}>
+              <div className={styles.eyebrow}>00 · INSTANT QUOTE</div>
+              <h2>
+                自動報價試算
+                <span className={styles.badge}>免等待</span>
+              </h2>
+            </div>
+            <p className={styles.svcIntro}>選擇需要的項目與數量，馬上看到預估報價，可直接透過 LINE 送出詢問。</p>
+            <QuoteCalculator />
+          </div>
+        </section>
+
         <section className={styles.svc}>
           <div className={styles.wrap}>
             <div className={styles.svcHead}>
