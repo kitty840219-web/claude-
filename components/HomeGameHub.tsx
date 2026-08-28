@@ -18,7 +18,6 @@ type SaveState = { stars: number; completed: string[] };
 
 export default function HomeGameHub() {
   const [save, setSave] = useState<SaveState>({ stars: 0, completed: [] });
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem(SAVE_KEY);
@@ -30,7 +29,6 @@ export default function HomeGameHub() {
         localStorage.removeItem(SAVE_KEY);
       }
     }
-    setReady(true);
   }, []);
 
   function collect(id: string, reward: number) {
@@ -46,18 +44,7 @@ export default function HomeGameHub() {
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(214,169,79,0.16),transparent_24%),radial-gradient(circle_at_80%_30%,rgba(168,156,214,0.18),transparent_28%)]" />
       <div className="relative mx-auto max-w-md">
-        <div className="mb-4 flex items-center justify-between rounded-2xl border border-paper/10 bg-night-light/20 px-4 py-3 shadow-card backdrop-blur">
-          <div>
-            <p className="text-[10px] font-semibold tracking-[0.28em] text-gold-light">STAR JOURNEY</p>
-            <p className="mt-1 font-serif text-base font-bold text-paper">小艾的星光日記</p>
-          </div>
-          <div className="flex items-center gap-2 rounded-full bg-gold px-3 py-2 text-night-dark shadow-card">
-            <span className="animate-twinkle">★</span>
-            <span className="text-sm font-bold tabular-nums">{ready ? save.stars : 0}</span>
-          </div>
-        </div>
-
-        <div className="mt-5 rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card backdrop-blur">
+        <div className="rounded-[1.75rem] border border-paper/10 bg-night-light/20 p-5 shadow-card backdrop-blur">
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className="text-[10px] font-semibold tracking-[0.25em] text-gold-light">TODAY&apos;S QUEST</p>

@@ -13,8 +13,6 @@ export const metadata: Metadata = {
 export default function QuestsPage() {
   return (
     <div>
-      <HomeGameHub />
-
       {/* Mascot intro */}
       <section className="relative overflow-hidden bg-night-dark py-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
@@ -33,6 +31,8 @@ export default function QuestsPage() {
           </div>
         </div>
       </section>
+
+      <HomeGameHub />
     </div>
   );
 }
