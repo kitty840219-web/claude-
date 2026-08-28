@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import PricingPreviewButton from "@/components/PricingPreviewButton";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCarousel from "@/components/ServiceCarousel";
@@ -163,14 +162,6 @@ export default function ContactPage() {
                 <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
               </div>
             ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-            >
-              查看完整服務報價 →
-            </Link>
           </div>
         </div>
       </section>
