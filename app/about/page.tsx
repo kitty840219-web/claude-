@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
+import TimelineCarousel from "@/components/TimelineCarousel";
 import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
 import AboutJourney from "@/components/AboutJourney";
@@ -62,15 +63,8 @@ export default function AboutPage() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto max-w-4xl">
           <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
-          <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8">
-            {TIMELINE.map((t) => (
-              <div key={t.title} className="relative">
-                <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
-                <p className="text-xs font-semibold tracking-widest text-gold-light">{t.year}</p>
-                <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
-                <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
-              </div>
-            ))}
+          <div className="mt-10">
+            <TimelineCarousel items={TIMELINE} />
           </div>
         </div>
       </section>
