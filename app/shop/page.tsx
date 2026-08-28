@@ -48,7 +48,7 @@ const SERVICE_ART = [
 export default function ShopPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-night-dark py-24 text-center">
+      <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
           <div className="mb-4 flex items-center justify-center gap-2">
@@ -62,7 +62,7 @@ export default function ShopPage() {
       </section>
 
       {/* Shop list */}
-      <section className="relative overflow-hidden bg-night-dark px-4 py-20 sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-6 sm:px-6">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] border border-paper/10 bg-night-light/20 shadow-card">
           <div className="flex items-center justify-between border-b border-paper/10 px-6 py-4">
