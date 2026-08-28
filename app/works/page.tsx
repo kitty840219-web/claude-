@@ -20,7 +20,7 @@ export default function WorksPage() {
       <section className="relative overflow-hidden bg-night-dark">
         <div className="relative aspect-square w-full">
           <Image
-            src={asset("/images/xiaoai-04-works-page.jpg")}
+            src={asset("/images/xiaoai-04-works-page.webp")}
             alt="小艾抱著一疊語錄卡片，身邊飄著發光的星星與紙飛機"
             fill
             className="object-cover object-[center_0%]"
@@ -49,7 +49,7 @@ export default function WorksPage() {
           <SectionHeading eyebrow="ILLUSTRATED QUOTES" title="精選語錄" center />
           <div className="relative mx-auto mt-10 aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border border-paper/10 shadow-soft">
             <Image
-              src={asset("/images/home-quotes.png")}
+              src={asset("/images/home-quotes.webp")}
               alt="小艾抱著語錄卡與信件的水彩插畫"
               fill
               className="object-cover"
@@ -80,7 +80,7 @@ export default function WorksPage() {
             <span className="mt-4 inline-flex text-xs font-semibold text-gold-light">打開作品牆 →</span>
           </div>
           <div className="pointer-events-none absolute -bottom-6 -right-5 h-44 w-44 transition duration-500 group-hover:scale-105">
-            <Image src={asset("/images/home-quotes-cutout.png")} alt="小艾語錄創作" fill className="object-contain object-bottom" sizes="176px" />
+            <Image src={asset("/images/home-quotes-cutout.webp")} alt="小艾語錄創作" fill className="object-contain object-bottom" sizes="176px" />
           </div>
         </a>
       </section>
@@ -139,7 +139,7 @@ export default function WorksPage() {
       <section className="relative overflow-hidden bg-night-dark px-4 py-20 text-center sm:px-6">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto h-28 w-28">
-          <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
+          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
         </div>
         <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
           「{SITE.tagline}，{SITE.taglineSub}。」

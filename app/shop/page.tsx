@@ -37,12 +37,12 @@ const SHOPS = [
 ];
 
 const SERVICE_ART = [
-  "/images/home-quotes-cutout.png",
-  "/images/home-story-cutout.png",
-  "/images/home-shop.png",
-  "/images/home-video.png",
-  "/images/home-contact.png",
-  "/images/home-video.png",
+  "/images/home-quotes-cutout.webp",
+  "/images/home-story-cutout.webp",
+  "/images/home-shop.webp",
+  "/images/home-video.webp",
+  "/images/home-contact.webp",
+  "/images/home-video.webp",
 ];
 
 export default function ShopPage() {
@@ -159,7 +159,7 @@ export default function ShopPage() {
       {/* Mascot band */}
       <section className="mx-auto max-w-3xl px-4 pb-20 text-center sm:px-6">
         <div className="relative mx-auto h-20 w-20">
-          <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
+          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
         </div>
       </section>
     </div>

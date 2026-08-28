@@ -21,7 +21,7 @@ export default function QuestsPage() {
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
           <div className="grid items-center gap-10 rounded-[2rem] border border-paper/10 bg-night-light/20 p-8 shadow-card sm:grid-cols-[auto_1fr] sm:p-12">
             <div className="relative mx-auto h-40 w-40 shrink-0 sm:h-48 sm:w-48">
-              <Image src={asset("/images/mascot.png")} alt="艾飛樂品牌 IP 角色" fill className="object-contain" />
+              <Image src={asset("/images/mascot.webp")} alt="艾飛樂品牌 IP 角色" fill className="object-contain" />
             </div>
             <div>
               <SectionHeading eyebrow="BRAND CHARACTER" title="艾飛樂的 IP 角色" />

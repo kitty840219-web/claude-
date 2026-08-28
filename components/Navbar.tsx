@@ -17,7 +17,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <span className="relative h-9 w-9 overflow-hidden rounded-full bg-night-light shadow-card">
             <Image
-              src={asset("/images/mascot.png")}
+              src={asset("/images/mascot.webp")}
               alt={SITE.brand}
               fill
               sizes="36px"

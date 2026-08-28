@@ -9,11 +9,11 @@ import { asset } from "@/lib/basePath";
 type Phase = "gate" | "journey" | "open";
 
 const JOURNEY_DIALOGUE = [
-  { speaker: "小艾", text: "嗨，旅人。歡迎來到我的星光日記。", art: "/images/journey-camera.png" },
-  { speaker: "小艾", text: "每一顆星星，都收藏著一段曾經沒有說出口的心情。", art: "/images/journey-painting.png" },
-  { speaker: "藍色小鳥", text: "啾！我會陪你一起尋找散落在故事裡的溫柔星光。", art: "/images/journey-letter.png" },
-  { speaker: "小艾", text: "你可以翻開故事、收藏語錄，也可以抽一張牌，聽聽今天的心靈指引。", art: "/images/journey-shop.png" },
-  { speaker: "小艾", text: "準備好了嗎？點亮今天的第一顆星星，我們就出發吧。", art: "/images/journey-finale.png" },
+  { speaker: "小艾", text: "嗨，旅人。歡迎來到我的星光日記。", art: "/images/journey-camera.webp" },
+  { speaker: "小艾", text: "每一顆星星，都收藏著一段曾經沒有說出口的心情。", art: "/images/journey-painting.webp" },
+  { speaker: "藍色小鳥", text: "啾！我會陪你一起尋找散落在故事裡的溫柔星光。", art: "/images/journey-letter.webp" },
+  { speaker: "小艾", text: "你可以翻開故事、收藏語錄，也可以抽一張牌，聽聽今天的心靈指引。", art: "/images/journey-shop.webp" },
+  { speaker: "小艾", text: "準備好了嗎？點亮今天的第一顆星星，我們就出發吧。", art: "/images/journey-finale.webp" },
 ];
 
 export default function EntryGate() {
@@ -83,7 +83,7 @@ export default function EntryGate() {
 
           <div className="animate-float-slow pointer-events-none absolute bottom-[30%] left-1 z-30 h-28 w-24 sm:h-32 sm:w-28">
             <Image
-              src={asset("/images/entry-xiaoai-cutout.png")}
+              src={asset("/images/entry-xiaoai-cutout.webp")}
               alt="小艾"
               fill
               priority
@@ -103,7 +103,7 @@ export default function EntryGate() {
       }`}
     >
       <Image
-        src={asset("/images/entry-gate-background.jpg")}
+        src={asset("/images/entry-gate-background.webp")}
         alt=""
         fill
         priority
@@ -148,7 +148,7 @@ export default function EntryGate() {
               </>
             )}
             <Image
-              src={asset("/images/entry-xiaoai-cutout.png")}
+              src={asset("/images/entry-xiaoai-cutout.webp")}
               alt="小艾揮手邀請旅人開始探索，點擊可以逗逗她"
               fill
               priority

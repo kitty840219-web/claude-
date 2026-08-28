@@ -49,7 +49,7 @@ export default function AboutPage() {
         </div>
         <div className="relative aspect-square w-full">
           <Image
-            src={asset("/images/xiaoai-03-about-page.png")}
+            src={asset("/images/xiaoai-03-about-page.webp")}
             alt="小艾站在畫架前，手拿畫筆與水彩調色盤"
             fill
             className="object-cover object-[center_0%]"

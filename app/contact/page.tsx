@@ -88,7 +88,7 @@ export default function ContactPage() {
             <span className="mt-4 inline-flex text-xs font-semibold text-gold-light">開啟 LINE →</span>
           </div>
           <div className="pointer-events-none absolute -bottom-8 -right-5 h-48 w-48 transition duration-500 group-hover:scale-105">
-            <Image src={asset("/images/home-contact.png")} alt="小艾寄出一封信" fill className="object-contain object-bottom" sizes="192px" />
+            <Image src={asset("/images/home-contact.webp")} alt="小艾寄出一封信" fill className="object-contain object-bottom" sizes="192px" />
           </div>
         </a>
       </section>
@@ -97,7 +97,7 @@ export default function ContactPage() {
         <div className="grid gap-10 md:grid-cols-[1fr_1.1fr] md:items-start">
           <div>
             <div className="relative mx-auto h-32 w-32 md:mx-0">
-              <Image src={asset("/images/mascot.png")} alt="艾飛樂 IP 角色" fill className="object-contain" />
+              <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
             </div>
             <SectionHeading
               eyebrow="LET'S TALK"
