@@ -67,9 +67,6 @@ export default function PricingPage() {
     <div className={`${styles.page} ${dmSerif.variable} ${dmMono.variable}`}>
       <div className={styles.leader}>
         <div className={`${styles.wrap} ${styles.hero}`}>
-          <div className={styles.heroMascot}>
-            <Image src={asset("/images/mascot.webp")} alt="艾飛樂 Aifeiler 吉祥物" width={240} height={310} />
-          </div>
           <div className={styles.heroTop}>
             <div className={styles.brand}>
               <div className={styles.brandMark}>
