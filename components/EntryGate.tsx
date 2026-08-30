@@ -122,18 +122,32 @@ export default function EntryGate() {
         <div className="pointer-events-none absolute inset-x-0 bottom-[2%] h-[42%] rounded-[2rem] border border-gold/40" />
 
         <div className="absolute inset-x-5 top-[63%] z-10 sm:inset-x-8 sm:top-[61%]">
-          <p className="text-[11px] font-semibold tracking-[0.35em] text-gold-light">
+          <p
+            className="animate-fade-in text-[11px] font-semibold tracking-[0.35em] text-gold-light"
+            style={{ animationDelay: "0.1s" }}
+          >
             {SITE.brandEn.toUpperCase()}
           </p>
-          <h1 className="mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl">{SITE.brand}</h1>
-          <p className="mt-3 text-sm leading-relaxed text-paper/75">
+          <h1
+            className="animate-fade-in mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl"
+            style={{ animationDelay: "0.35s" }}
+          >
+            {SITE.brand}
+          </h1>
+          <p
+            className="animate-fade-in mt-3 text-sm leading-relaxed text-paper/75"
+            style={{ animationDelay: "0.6s" }}
+          >
             {SITE.tagline}🌟
             <br />
             {SITE.taglineSub}
           </p>
         </div>
 
-        <div className="absolute inset-x-5 bottom-[7%] sm:inset-x-8">
+        <div
+          className="animate-fade-in absolute inset-x-5 bottom-[7%] sm:inset-x-8"
+          style={{ animationDelay: "0.9s" }}
+        >
           <button
             type="button"
             onClick={poke}
