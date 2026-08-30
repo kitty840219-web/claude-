@@ -18,14 +18,21 @@ export default function WorksPage() {
   return (
     <div>
       {/* Mascot band */}
-      <section className="relative overflow-hidden bg-night-dark px-4 pb-10 pt-24 text-center sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto h-28 w-28">
+        <div className="animate-glow-pulse relative mx-auto h-28 w-28">
           <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
         </div>
-        <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
-          「{SITE.tagline}，{SITE.taglineSub}。」
-        </p>
+        <div className="relative mt-6 overflow-hidden">
+          <div className="animate-marquee flex w-max whitespace-nowrap">
+            <span className="pr-16 font-serif text-lg text-paper sm:text-xl">
+              「{SITE.tagline}，{SITE.taglineSub}。」
+            </span>
+            <span aria-hidden className="pr-16 font-serif text-lg text-paper sm:text-xl">
+              「{SITE.tagline}，{SITE.taglineSub}。」
+            </span>
+          </div>
+        </div>
       </section>
 
       <section className="relative overflow-hidden bg-night-dark pb-10 text-center">
