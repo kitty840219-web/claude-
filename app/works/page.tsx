@@ -17,6 +17,21 @@ export const metadata: Metadata = {
 export default function WorksPage() {
   return (
     <div>
+      <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
+        <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <Star className="h-3 w-3 text-gold-light" />
+            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">WORKS</p>
+            <Star className="h-3 w-3 text-gold-light" delay="1s" />
+          </div>
+          <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">語錄作品</h1>
+          <p className="mt-2 text-sm text-paper/80">
+            每一句語錄，都是艾飛樂想遞給讀者的一顆星星。
+          </p>
+        </div>
+      </section>
+
       <section className="relative overflow-hidden bg-night-dark">
         <div className="relative aspect-square w-full">
           <Image
@@ -25,20 +40,6 @@ export default function WorksPage() {
             fill
             className="object-cover object-[center_0%]"
           />
-          <div className="bg-stars pointer-events-none absolute inset-0 opacity-20" />
-          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night-dark via-night-dark/80 to-transparent" />
-
-          <div className="absolute inset-x-0 bottom-0 px-4 pb-8 text-center sm:pb-10">
-            <div className="mb-3 flex items-center justify-center gap-2">
-              <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">WORKS</p>
-              <Star className="h-3 w-3 text-gold-light" delay="1s" />
-            </div>
-            <h1 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">語錄作品</h1>
-            <p className="text-shadow-soft mt-2 text-sm text-paper/90">
-              每一句語錄，都是艾飛樂想遞給讀者的一顆星星。
-            </p>
-          </div>
         </div>
       </section>
 
