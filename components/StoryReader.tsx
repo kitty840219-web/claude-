@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Chapter } from "@/lib/data/story";
 
@@ -126,6 +127,16 @@ export default function StoryReader({
               <blockquote className="mt-6 border-l-4 border-gold py-1 pl-4 font-serif text-base italic text-gold-light sm:text-lg">
                 「{chapter.quote}」
               </blockquote>
+            )}
+
+            {chapter.link && (
+              <Link
+                href={chapter.link.href}
+                onClick={(e) => e.stopPropagation()}
+                className="mt-5 inline-block text-xs font-semibold text-gold-light"
+              >
+                {chapter.link.label}
+              </Link>
             )}
 
             <p className="mt-6 text-right text-xs font-semibold text-gold-light transition group-hover:text-gold">

@@ -9,6 +9,10 @@ export type Chapter = {
     videoId: string;
     channelHref: string;
   };
+  link?: {
+    label: string;
+    href: string;
+  };
 };
 
 export const CHAPTERS: Chapter[] = [
@@ -70,5 +74,29 @@ export const CHAPTERS: Chapter[] = [
       videoId: "iYy-q9ywHaA",
       channelHref: LINKS.youtube,
     },
+  },
+  {
+    tag: "第八章",
+    title: "語錄作品",
+    body: ["插畫語錄選粹，用一句話說出你的心事。"],
+    link: { label: "查看語錄作品 →", href: "/works" },
+  },
+  {
+    tag: "第九章",
+    title: "影音創作",
+    body: ["YouTube 頻道與短影音創作紀錄。"],
+    link: { label: "觀看影音 →", href: "/videos" },
+  },
+  {
+    tag: "第十章",
+    title: "周邊商店",
+    body: ["明信片、貼紙、LINE 貼圖與客製小物。"],
+    link: { label: "前往商店 →", href: "/shop" },
+  },
+  {
+    tag: "第十一章",
+    title: "合作聯絡",
+    body: ["插畫委託、品牌合作與接案洽詢。"],
+    link: { label: "洽談合作 →", href: "/contact" },
   },
 ];
