@@ -17,7 +17,18 @@ export const metadata: Metadata = {
 export default function WorksPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
+      {/* Mascot band */}
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-10 pt-24 text-center sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative mx-auto h-28 w-28">
+          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
+        </div>
+        <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
+          「{SITE.tagline}，{SITE.taglineSub}。」
+        </p>
+      </section>
+
+      <section className="relative overflow-hidden bg-night-dark pb-10 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
           <div className="mb-3 flex items-center justify-center gap-2">
@@ -41,17 +52,6 @@ export default function WorksPage() {
             className="object-cover object-[center_0%]"
           />
         </div>
-      </section>
-
-      {/* Mascot band */}
-      <section className="relative overflow-hidden bg-night-dark px-4 py-16 text-center sm:px-6">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto h-28 w-28">
-          <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
-        </div>
-        <p className="relative mt-6 font-serif text-lg text-paper sm:text-xl">
-          「{SITE.tagline}，{SITE.taglineSub}。」
-        </p>
       </section>
 
       {/* Featured quotes */}
