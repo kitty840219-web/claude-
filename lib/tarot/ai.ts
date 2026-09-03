@@ -19,18 +19,37 @@ function payloadCards(draws: CardDraw[]) {
   });
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function postReading(body: string): Promise<ReadingReport> {
+  const response = await fetch(TAROT_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body,
+  });
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(data?.error || "解牌服務暫時無法使用");
+  return data as ReadingReport;
+}
+
 export async function requestAiReading(
   draws: CardDraw[],
   question: string,
   styles: ReadingStyle[],
   followUp?: string,
 ): Promise<ReadingReport> {
-  const response = await fetch(TAROT_API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, followUp, styles, cards: payloadCards(draws) }),
-  });
-  const data = await response.json().catch(() => null);
-  if (!response.ok) throw new Error(data?.error || "解牌服務暫時無法使用");
-  return data as ReadingReport;
+  const body = JSON.stringify({ question, followUp, styles, cards: payloadCards(draws) });
+  try {
+    return await postReading(body);
+  } catch (error) {
+    // A bare "Failed to fetch" is usually a transient network/cold-start hiccup, not a real
+    // server error — retry once before surfacing it to the user.
+    if (error instanceof TypeError) {
+      await sleep(800);
+      return await postReading(body);
+    }
+    throw error;
+  }
 }

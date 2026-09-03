@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
+import { asset } from "@/lib/basePath";
 import CardArt from "@/components/tarot/CardArt";
 import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
 import { requestAiReading } from "@/lib/tarot/ai";
@@ -35,40 +36,11 @@ function mulberry32(seed: number) {
   };
 }
 
-function useStarfield(count: number, seed: number) {
-  return useMemo(() => {
-    const rand = mulberry32(seed);
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      top: rand() * 100,
-      left: rand() * 100,
-      size: 1 + rand() * 2,
-      delay: rand() * 3,
-    }));
-  }, [count, seed]);
-}
-
 function CardBack({ className = "" }: { className?: string }) {
-  const stars = useStarfield(28, 7);
   return (
-    <div
-      className={`relative overflow-hidden rounded-2xl border-2 border-amber-200/40 bg-gradient-to-b from-[#151a45] via-[#0f1338] to-[#0b0f2e] shadow-[0_0_30px_rgba(80,70,200,0.35)] ${className}`}
-    >
-      {stars.map((s) => (
-        <span
-          key={s.id}
-          className="absolute rounded-full bg-amber-200"
-          style={{
-            top: `${s.top}%`,
-            left: `${s.left}%`,
-            width: `${s.size}px`,
-            height: `${s.size}px`,
-            animation: `twinkle 2.4s ease-in-out ${s.delay}s infinite`,
-          }}
-        />
-      ))}
-      <div className="absolute inset-3 rounded-xl border border-amber-200/30" />
-      <div className="absolute inset-0 flex items-center justify-center text-3xl opacity-80">✦</div>
+    <div className={`relative overflow-hidden rounded-2xl shadow-[0_0_30px_rgba(80,70,200,0.35)] ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={asset("/images/tarot/back.webp")} alt="塔羅牌背面" loading="eager" decoding="async" className="h-full w-full object-cover" />
     </div>
   );
 }
@@ -110,11 +82,13 @@ function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isR
 type FollowUpEntry = { question: string; answer: string };
 
 function FollowUpPanel({
+  results,
   followUps,
   draft,
   onDraftChange,
   onSubmit,
 }: {
+  results: CardDraw[];
   followUps: FollowUpEntry[];
   draft: string;
   onDraftChange: (v: string) => void;
@@ -123,6 +97,13 @@ function FollowUpPanel({
   const canSubmit = draft.trim().length >= 10;
   return (
     <div className="w-full space-y-3">
+      <div className="flex justify-center gap-2">
+        {results.map((r, i) => (
+          <div key={i} className="h-20 w-14 shrink-0">
+            <CardFront card={r.card} isReversed={r.isReversed} compact />
+          </div>
+        ))}
+      </div>
       {followUps.map((f, i) => (
         <div key={i} className="w-full space-y-1.5 rounded-xl border border-amber-200/20 bg-white/5 p-4">
           <p className="text-xs text-amber-200/60">追問：{f.question}</p>
@@ -481,6 +462,7 @@ export default function TarotDivination() {
           </article>
 
           <FollowUpPanel
+            results={results}
             followUps={followUps}
             draft={followUpDraft}
             onDraftChange={setFollowUpDraft}
@@ -526,6 +508,7 @@ export default function TarotDivination() {
           </div>
 
           <FollowUpPanel
+            results={results}
             followUps={followUps}
             draft={followUpDraft}
             onDraftChange={setFollowUpDraft}
