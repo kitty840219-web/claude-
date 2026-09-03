@@ -116,6 +116,42 @@ function ReadingCard({ draw, label, children }: { draw: CardDraw; label: string;
   );
 }
 
+type TarotDomain = "感情" | "事業" | "財運";
+
+function domainFocus(card: TarotCard, domain: TarotDomain, reversed: boolean) {
+  const suitFocus: Record<TarotDomain, Record<string, string>> = {
+    感情: {
+      cups: "留意彼此的感受是否被理解，也要讓情緒有誠實流動的空間。",
+      wands: "觀察吸引力與熱情是否能化成持續的行動，而不只是一時衝動。",
+      swords: "溝通方式與真實想法是關鍵，把問題說清楚才能減少猜測與誤會。",
+      pentacles: "安全感、承諾與穩定相處是核心，應從長期行動判斷關係品質。",
+      major: "這段關係正面對重要的內在課題，需要看見彼此真正的選擇與需求。",
+    },
+    事業: {
+      cups: "工作滿足感、團隊互動與創意表達會影響接下來的發展。",
+      wands: "行動力、企圖心與執行速度是突破現況的重點。",
+      swords: "需要清楚分析資訊、溝通立場，並用理性做出決策。",
+      pentacles: "務實規劃、專業能力與穩定累積會決定成果。",
+      major: "這是職涯方向的重要提醒，應從長期目標重新評估眼前選擇。",
+    },
+    財運: {
+      cups: "消費容易受到情緒與人情影響，金錢決定要回到實際需求。",
+      wands: "財務機會來自行動與開拓，但仍需衡量風險，避免衝動投入。",
+      swords: "帳務、合約與資訊需要仔細核對，避免因判斷太快而產生損失。",
+      pentacles: "收入、儲蓄與資源管理是焦點，穩健配置比短期冒險更重要。",
+      major: "財務狀況反映目前的人生選擇，需同時考量價值觀與長期安全感。",
+    },
+  };
+  const key = card.suit || "major";
+  const closing = suitFocus[domain][key];
+  return reversed ? `目前更需要先處理阻礙與盲點。${closing}` : `目前可以順勢發揮這股能量。${closing}`;
+}
+
+function domainMeaning(card: TarotCard, domain: TarotDomain, reversed: boolean) {
+  const reading = reversed ? card.reversed : card.upright;
+  return `${card.name}${reversed ? "逆位" : "正位"}在${domain}上代表「${reading.keywords.join("、")}」。${reading.meaning}${domainFocus(card, domain, reversed)}`;
+}
+
 function TarotGuideModal({ selectedCard, onSelect, onClose }: { selectedCard: TarotCard | null; onSelect: (card: TarotCard | null) => void; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 p-4 pt-8" onClick={onClose}>
@@ -141,6 +177,19 @@ function TarotGuideModal({ selectedCard, onSelect, onClose }: { selectedCard: Ta
                 <div className="my-3 flex flex-wrap gap-1.5">{selectedCard.reversed.keywords.map((keyword) => <span key={keyword} className="rounded-full border border-amber-200/25 px-2 py-1 text-[11px] text-amber-200">#{keyword}</span>)}</div>
                 <p className="text-sm leading-7 text-amber-50/85">{selectedCard.reversed.meaning}</p>
               </section>
+              <div className="mt-6 border-t border-amber-200/25 pt-6">
+                <h3 className="text-lg font-semibold text-amber-100">不同面向的牌義</h3>
+                <p className="mt-1 text-xs text-amber-200/55">將這張牌運用在感情、事業與財運問題時的解讀</p>
+                {(["感情", "事業", "財運"] as TarotDomain[]).map((domain) => (
+                  <section key={domain} className="mt-4 rounded-xl border border-amber-200/25 bg-white/5 p-4">
+                    <h4 className="font-semibold text-amber-100">{domain}</h4>
+                    <div className="mt-3 space-y-4 text-sm leading-7 text-amber-50/85">
+                      <div><p className="mb-1 font-semibold text-amber-200">正位</p><p>{domainMeaning(selectedCard, domain, false)}</p></div>
+                      <div className="border-t border-amber-200/15 pt-4"><p className="mb-1 font-semibold text-amber-200">逆位</p><p>{domainMeaning(selectedCard, domain, true)}</p></div>
+                    </div>
+                  </section>
+                ))}
+              </div>
               <button type="button" onClick={() => onSelect(null)} className="mt-6 w-full rounded-xl border border-amber-200/40 py-3 text-sm font-semibold text-amber-100">返回全部牌卡</button>
             </article>
           ) : (
