@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Star from "@/components/Star";
 import SectionHeading from "@/components/SectionHeading";
@@ -197,83 +197,94 @@ export default function ZodiacFortune() {
     setTab("fortune");
   }
 
+  useEffect(() => {
+    if (!selected) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [selected]);
+
   return (
     <div className="relative overflow-hidden bg-night-dark pb-16 pt-24 text-paper">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-        {!selected && (
-          <>
-            <div className="mb-3 flex items-center justify-center gap-2">
-              <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">HOROSCOPE</p>
-              <Star className="h-3 w-3 text-gold-light" delay="1s" />
-            </div>
-            <SectionHeading title="星座運勢" desc="選擇你的星座，看今日運勢、個性特質，還有星座配對。" center />
+        <div className="mb-3 flex items-center justify-center gap-2">
+          <Star className="h-3 w-3 text-gold-light" />
+          <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">HOROSCOPE</p>
+          <Star className="h-3 w-3 text-gold-light" delay="1s" />
+        </div>
+        <SectionHeading title="星座運勢" desc="選擇你的星座，看今日運勢、個性特質，還有星座配對。" center />
 
-            <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4">
-              {ZODIAC_SIGNS.map((sign) => (
-                <button
-                  key={sign.id}
-                  onClick={() => selectSign(sign)}
-                  className="flex flex-col items-center gap-1.5 rounded-2xl border border-gold/15 bg-night-light/20 py-4 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+        <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {ZODIAC_SIGNS.map((sign) => (
+            <button
+              key={sign.id}
+              onClick={() => selectSign(sign)}
+              className="flex flex-col items-center gap-1.5 rounded-2xl border border-gold/15 bg-night-light/20 py-4 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+            >
+              <span className="text-3xl">{sign.symbol}</span>
+              <span className="text-xs font-semibold text-paper">{sign.name}</span>
+              <span className="text-[10px] text-paper/50">{sign.dateRange}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {selected && report && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 pt-8" onClick={resetAll}>
+          <div className="relative h-full max-h-[85svh] w-full max-w-[430px]" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={resetAll}
+              aria-label="關閉星座運勢視窗"
+              className="absolute -right-2 -top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gold text-xl font-bold text-night-dark shadow-soft transition hover:bg-gold-light"
+            >
+              ✕
+            </button>
+            <div className="h-full w-full overflow-y-auto rounded-[1.5rem] border border-gold/30 bg-night-dark p-5 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex flex-col items-center gap-2 text-center">
+                <span className="text-5xl">{selected.symbol}</span>
+                <h2 className="font-serif text-2xl font-bold text-paper">{selected.name}</h2>
+                <p className="text-xs text-paper/50">{selected.dateRange}</p>
+                <SignBadgeRow sign={selected} />
+              </div>
+
+              <div className="mt-6 flex gap-1.5 rounded-full border border-gold/15 bg-night-light/20 p-1">
+                {TABS.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setTab(t.id)}
+                    className={`flex-1 rounded-full py-2 text-xs font-semibold transition-colors ${
+                      tab === t.id ? "bg-gold text-night-dark" : "text-paper/60 hover:text-paper"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-5">
+                {tab === "fortune" && <FortunePanel report={report} />}
+                {tab === "personality" && <PersonalityPanel sign={selected} />}
+                {tab === "match" && (
+                  <MatchPanel sign={selected} partner={partner} onPickPartner={setPartner} onReset={() => setPartner(null)} />
+                )}
+              </div>
+
+              <div className="mt-6">
+                <Link
+                  href="/"
+                  className="block w-full rounded-full bg-gold py-3 text-center text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
                 >
-                  <span className="text-3xl">{sign.symbol}</span>
-                  <span className="text-xs font-semibold text-paper">{sign.name}</span>
-                  <span className="text-[10px] text-paper/50">{sign.dateRange}</span>
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {selected && report && (
-          <div className="mx-auto max-w-md">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <span className="text-5xl">{selected.symbol}</span>
-              <h2 className="font-serif text-2xl font-bold text-paper">{selected.name}</h2>
-              <p className="text-xs text-paper/50">{selected.dateRange}</p>
-              <SignBadgeRow sign={selected} />
-            </div>
-
-            <div className="mt-6 flex gap-1.5 rounded-full border border-gold/15 bg-night-light/20 p-1">
-              {TABS.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setTab(t.id)}
-                  className={`flex-1 rounded-full py-2 text-xs font-semibold transition-colors ${
-                    tab === t.id ? "bg-gold text-night-dark" : "text-paper/60 hover:text-paper"
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-5">
-              {tab === "fortune" && <FortunePanel report={report} />}
-              {tab === "personality" && <PersonalityPanel sign={selected} />}
-              {tab === "match" && (
-                <MatchPanel sign={selected} partner={partner} onPickPartner={setPartner} onReset={() => setPartner(null)} />
-              )}
-            </div>
-
-            <div className="mt-6 flex gap-2">
-              <button
-                onClick={resetAll}
-                className="flex-1 rounded-full border border-gold/40 py-3 text-sm font-semibold text-gold-light transition hover:bg-gold/10"
-              >
-                換個星座
-              </button>
-              <Link
-                href="/"
-                className="flex-1 rounded-full bg-gold py-3 text-center text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-              >
-                回首頁
-              </Link>
+                  回首頁
+                </Link>
+              </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
