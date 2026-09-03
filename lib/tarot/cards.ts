@@ -401,17 +401,20 @@ export const MINOR_ARCANA: TarotCard[] = SUITS.flatMap((suit, suitIndex) => {
 /** The full 78-card deck: 22 major arcana + 56 minor arcana. */
 export const FULL_DECK: TarotCard[] = [...MAJOR_ARCANA, ...MINOR_ARCANA];
 
+/** Cards that currently have the owner's finished artwork available on the site. */
+export const ILLUSTRATED_DECK: TarotCard[] = FULL_DECK.filter((card) => Boolean(card.image));
+
 export type CardDraw = { card: TarotCard; isReversed: boolean };
 
 export function drawRandomCard(): CardDraw {
-  const card = FULL_DECK[Math.floor(Math.random() * FULL_DECK.length)];
+  const card = ILLUSTRATED_DECK[Math.floor(Math.random() * ILLUSTRATED_DECK.length)];
   const isReversed = Math.random() < 0.35;
   return { card, isReversed };
 }
 
 /** Draws `count` distinct cards, matching how a physical deck is dealt without repeats. */
 export function drawUniqueCards(count: number): CardDraw[] {
-  const pool = [...FULL_DECK];
+  const pool = [...ILLUSTRATED_DECK];
   const draws: CardDraw[] = [];
   for (let i = 0; i < count && pool.length > 0; i++) {
     const idx = Math.floor(Math.random() * pool.length);
