@@ -45,7 +45,7 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
     commands.push((ctx) => { ctx.fillStyle = "#d8c59a"; ctx.fillRect(margin, top, contentWidth, 2); });
     y += 42;
   }
-  async function card(draw: CardDraw) {
+  async function loadCardImage(draw: CardDraw) {
     if (!draw.card.image) throw new Error(`找不到${draw.card.name}的牌圖，請稍後再試`);
     const img = new Image();
     await new Promise<void>((resolve, reject) => {
@@ -53,6 +53,10 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
       img.onerror = () => reject(new Error("牌圖載入失敗，請確認網路後重新下載"));
       img.src = asset(draw.card.image!);
     });
+    return img;
+  }
+  async function card(draw: CardDraw) {
+    const img = await loadCardImage(draw);
     const h = 350;
     const w = h * img.naturalWidth / img.naturalHeight;
     const top = y;
@@ -64,6 +68,38 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
       ctx.restore();
     });
     y += h + 26;
+  }
+  async function cardOverview(draws: CardDraw[]) {
+    const images = await Promise.all(draws.map(loadCardImage));
+    const columns = Math.min(3, draws.length);
+    const gap = 24;
+    const cellWidth = (contentWidth - gap * (columns - 1)) / columns;
+    const cardHeight = columns === 1 ? 390 : 330;
+    const labelHeight = 74;
+    const rows = Math.ceil(draws.length / columns);
+    const top = y;
+    commands.push((ctx) => {
+      draws.forEach((draw, index) => {
+        const row = Math.floor(index / columns);
+        const column = index % columns;
+        const img = images[index];
+        const cardWidth = cardHeight * img.naturalWidth / img.naturalHeight;
+        const centerX = margin + column * (cellWidth + gap) + cellWidth / 2;
+        const cardTop = top + row * (cardHeight + labelHeight);
+        ctx.save();
+        ctx.translate(centerX, cardTop + cardHeight / 2);
+        if (draw.isReversed) ctx.rotate(Math.PI);
+        ctx.drawImage(img, -cardWidth / 2, -cardHeight / 2, cardWidth, cardHeight);
+        ctx.restore();
+        ctx.font = font(23, true);
+        ctx.fillStyle = "#8a6b32";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.fillText(`${draw.card.name}（${draw.isReversed ? "逆位" : "正位"}）`, centerX, cardTop + cardHeight + 14, cellWidth);
+      });
+      ctx.textAlign = "left";
+    });
+    y += rows * (cardHeight + labelHeight) + 8;
   }
   const self = report.birthInfo.self;
   const partner = report.birthInfo.partner;
@@ -81,6 +117,7 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
   const profileTop = y;
   const profileCommand = commands.length;
   y += 18;
+  text("個案基本資料", 32, "#17213d", true);
   text(`占卜日期：${report.date}`);
   text(`個案姓名：${self.name || "未填"}${self.gender ? `（${self.gender}）` : ""}`);
   text(`出生年月日：${self.date?.replaceAll("-", ".") || "未填"}　出生時間：${self.time || "未知"}`);
@@ -98,9 +135,13 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
   text("遇到的問題", 32, "#8a6b32", true);
   text(report.question);
   divider();
-  text("解牌", 34, "#17213d", true);
+  text("個性分析", 34, "#17213d", true);
   if (report.reading.personality) text(report.reading.personality);
   const labels = report.positions?.length === report.spreadSize ? report.positions : report.spreadSize === 5 ? RELATIONSHIP_POSITION_LABELS : report.spreadSize === 3 ? ["過去", "現在", "未來"] : ["核心訊息"];
+  divider();
+  await cardOverview(report.results);
+  divider();
+  text("解牌", 34, "#17213d", true);
   for (let i = 0; i < report.results.length; i++) {
     const draw = report.results[i];
     divider();

@@ -781,6 +781,7 @@ export default function TarotDivination() {
         <div className="flex flex-1 flex-col gap-5 py-2">
           <header className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-4">
             <h2 className="text-lg font-semibold text-amber-100">艾飛樂語錄｜個人線上塔羅占卜</h2>
+            <h3 className="mt-4 font-semibold text-amber-100">個案基本資料</h3>
             <div className="mt-3 space-y-1 break-words text-xs leading-6 text-amber-50/80">
               <div>占卜日期：{readingDate}</div>
               <div>個案姓名：{selfName.trim() || "未填"}{selfGender ? `（${selfGender}）` : ""}</div>
@@ -807,12 +808,28 @@ export default function TarotDivination() {
             {exportError && <p role="alert" className="text-sm text-rose-200">{exportError}</p>}
           </div>
 
-          <h3 className="text-lg font-semibold text-amber-100">解牌：</h3>
+          <h3 className="text-lg font-semibold text-amber-100">個性分析</h3>
           {reading.personality && (
             <section className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
               <p className="whitespace-pre-line text-sm leading-7 text-amber-50/90">{reading.personality}</p>
             </section>
           )}
+
+          <section className="border-y border-amber-200/30 py-5">
+            <div className={`grid gap-3 ${results.length === 1 ? "grid-cols-1" : "grid-cols-3"}`}>
+              {results.map((draw) => (
+                <div key={`overview-${draw.card.id}`} className="text-center">
+                  <div className={`relative mx-auto overflow-hidden rounded-lg shadow-[0_0_18px_rgba(80,70,200,0.3)] ${results.length === 1 ? "h-64 w-40" : "aspect-[2/3] w-full max-w-28"}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={asset(draw.card.image!)} alt={`${draw.card.name}${draw.isReversed ? "逆位" : "正位"}`} className={`h-full w-full object-cover ${draw.isReversed ? "rotate-180" : ""}`} />
+                  </div>
+                  <p className="mt-2 text-[11px] font-semibold leading-5 text-amber-100">{draw.card.name}<br />（{draw.isReversed ? "逆位" : "正位"}）</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <h3 className="text-lg font-semibold text-amber-100">解牌</h3>
 
           {results.map((draw, index) => (
             <ReadingCard key={draw.card.id} draw={draw} label={activePositionLabels[index]}>
