@@ -152,7 +152,10 @@ function TarotGuideModal({ selectedCard, onSelect, onClose }: { selectedCard: Ta
               <div className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6">
                 {FULL_DECK.map((card) => (
                   <button key={card.id} type="button" onClick={() => onSelect(card)} className="min-w-0 text-center">
-                    <div className="aspect-[3/5] w-full"><CardArt card={card} className="h-full w-full" /></div>
+                    <div className="aspect-[2/3] w-full">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={asset(card.image!)} alt={card.name} loading="lazy" className="h-full w-full object-fill" />
+                    </div>
                     <p className="mt-2 truncate text-xs font-semibold text-amber-100">{card.name}</p>
                     <p className="mt-0.5 truncate text-[9px] text-amber-200/50">{card.nameEn}</p>
                   </button>
