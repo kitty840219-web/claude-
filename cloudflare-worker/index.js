@@ -1,5 +1,5 @@
 const ALLOWED_ORIGIN = "https://kitty840219-web.github.io";
-const GEMINI_MODELS = ["gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-flash-lite-latest"];
+const GEMINI_MODELS = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.6-flash"];
 
 const SYSTEM_PROMPT = `你是一位專業、溫柔但不迴避重點的繁體中文塔羅解讀師。
 你的工作是根據使用者的「具體問題」、每張牌的位置、正逆位、牌義與先前對話，提供真正回應問題的個人化解讀。
@@ -14,7 +14,7 @@ const SYSTEM_PROMPT = `你是一位專業、溫柔但不迴避重點的繁體中
 7. 回傳嚴格 JSON，不要 Markdown，格式固定為：
 {"title":"短標題","paragraphs":["段落一","段落二","段落三"],"summary":"一句到兩句總結"}
 
-段落一：直接回答與整體能量。段落二：結合牌陣深入分析。段落三：未來條件、觀察指標與行動建議。`;
+段落一：直接回答與整體能量。段落二：結合牌陣深入分析。段落三：未來條件、觀察指標與行動建議。每段約 80 至 140 字，避免冗長。`;
 
 function cors(origin) {
   return {
@@ -94,7 +94,7 @@ export default {
         contents: [{ role: "user", parts: [{ text: userPrompt }] }],
         generationConfig: {
           temperature: 0.7,
-          maxOutputTokens: 3000,
+          maxOutputTokens: 1600,
           responseMimeType: "application/json",
           responseSchema: {
             type: "OBJECT",
