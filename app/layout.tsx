@@ -9,6 +9,7 @@ import PageTransition from "@/components/PageTransition";
 import EntryGate from "@/components/EntryGate";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import MeteorShower from "@/components/MeteorShower";
+import StarField from "@/components/StarField";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-night-dark font-sans text-paper shadow-[0_0_60px_rgba(0,0,0,0.4)] antialiased">
         <EntryGate />
+        <StarField />
         <MeteorShower />
         <Navbar />
         <MainWrapper>
