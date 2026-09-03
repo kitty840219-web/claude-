@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
+import { CardDraw, FULL_DECK, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import { asset } from "@/lib/basePath";
 import CardArt from "@/components/tarot/CardArt";
 import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
@@ -116,6 +116,56 @@ function ReadingCard({ draw, label, children }: { draw: CardDraw; label: string;
   );
 }
 
+function TarotGuideModal({ selectedCard, onSelect, onClose }: { selectedCard: TarotCard | null; onSelect: (card: TarotCard | null) => void; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 p-4 pt-8" onClick={onClose}>
+      <div className="relative flex h-full max-h-[88svh] w-full max-w-[430px] flex-col overflow-hidden rounded-[1.5rem] border border-amber-200/30 bg-[#0b0f2e] text-amber-50" onClick={(event) => event.stopPropagation()}>
+        <button type="button" onClick={onClose} aria-label="關閉塔羅牌介紹" className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-amber-200 text-xl font-bold text-[#0b0f2e] shadow-soft">✕</button>
+        <div className="overflow-y-auto px-5 pb-8 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {selectedCard ? (
+            <article>
+              <button type="button" onClick={() => onSelect(null)} className="mb-5 pr-14 text-sm font-semibold text-amber-200">← 返回全部牌卡</button>
+              <div className="mx-auto h-96 w-60"><CardArt card={selectedCard} className="h-full w-full" /></div>
+              <div className="mt-5 text-center">
+                <p className="text-xs text-amber-200/60">{selectedCard.numeral}</p>
+                <h2 className="mt-1 text-2xl font-semibold text-amber-100">{selectedCard.name}</h2>
+                <p className="mt-1 text-sm text-amber-200/60">{selectedCard.nameEn}</p>
+              </div>
+              <section className="mt-6 rounded-xl border border-amber-200/25 bg-white/5 p-4">
+                <h3 className="font-semibold text-amber-100">正位牌義</h3>
+                <div className="my-3 flex flex-wrap gap-1.5">{selectedCard.upright.keywords.map((keyword) => <span key={keyword} className="rounded-full border border-amber-200/25 px-2 py-1 text-[11px] text-amber-200">#{keyword}</span>)}</div>
+                <p className="text-sm leading-7 text-amber-50/85">{selectedCard.upright.meaning}</p>
+              </section>
+              <section className="mt-4 rounded-xl border border-amber-200/25 bg-white/5 p-4">
+                <h3 className="font-semibold text-amber-100">逆位牌義</h3>
+                <div className="my-3 flex flex-wrap gap-1.5">{selectedCard.reversed.keywords.map((keyword) => <span key={keyword} className="rounded-full border border-amber-200/25 px-2 py-1 text-[11px] text-amber-200">#{keyword}</span>)}</div>
+                <p className="text-sm leading-7 text-amber-50/85">{selectedCard.reversed.meaning}</p>
+              </section>
+              <button type="button" onClick={() => onSelect(null)} className="mt-6 w-full rounded-xl border border-amber-200/40 py-3 text-sm font-semibold text-amber-100">返回全部牌卡</button>
+            </article>
+          ) : (
+            <section>
+              <div className="pr-14">
+                <h2 className="text-2xl font-semibold text-amber-100">塔羅牌介紹</h2>
+                <p className="mt-2 text-xs leading-6 text-amber-200/60">完整 78 張塔羅牌｜點擊牌卡查看正位與逆位含義</p>
+              </div>
+              <div className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6">
+                {FULL_DECK.map((card) => (
+                  <button key={card.id} type="button" onClick={() => onSelect(card)} className="min-w-0 text-center">
+                    <div className="aspect-[3/5] w-full"><CardArt card={card} className="h-full w-full" /></div>
+                    <p className="mt-2 truncate text-xs font-semibold text-amber-100">{card.name}</p>
+                    <p className="mt-0.5 truncate text-[9px] text-amber-200/50">{card.nameEn}</p>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 function FollowUpPanel({
   followUps,
@@ -208,6 +258,8 @@ export default function TarotDivination() {
   const [topicId, setTopicId] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
   const [readingPositions, setReadingPositions] = useState<string[]>([]);
+  const [guideOpen, setGuideOpen] = useState(false);
+  const [guideCard, setGuideCard] = useState<TarotCard | null>(null);
   const [styles, setStyles] = useState<ReadingStyle[]>([]);
   const [coupleMode, setCoupleMode] = useState(false);
   const [selfGender, setSelfGender] = useState("");
@@ -471,19 +523,24 @@ export default function TarotDivination() {
         <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-2 rounded-2xl border border-amber-200/20 bg-white/5 p-1">
-        {SPREAD_MODES.map((mode) => (
-          <button
-            key={mode.id}
-            onClick={() => { setSpreadSize(mode.id); setSelectedQuestions([]); }}
-            className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
-              spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
-            }`}
-          >
-            {mode.label}
-          </button>
-        ))}
+      <div className="flex items-center justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-2 rounded-2xl border border-amber-200/20 bg-white/5 p-1">
+          {SPREAD_MODES.map((mode) => (
+            <button
+              key={mode.id}
+              onClick={() => { setSpreadSize(mode.id); setSelectedQuestions([]); }}
+              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+                spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
+              }`}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </div>
+        <button type="button" onClick={() => { setGuideCard(null); setGuideOpen(true); }} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-amber-200/30 bg-white/5 text-xs font-semibold text-amber-100" aria-label="開啟塔羅牌介紹">牌義</button>
       </div>
+
+      {guideOpen && <TarotGuideModal selectedCard={guideCard} onSelect={setGuideCard} onClose={() => { setGuideOpen(false); setGuideCard(null); }} />}
 
       <div className="w-full space-y-2">
         <button onClick={showHistory} className="w-full rounded-xl border border-amber-200/30 py-3 text-sm text-amber-100">我的占卜紀錄</button>
