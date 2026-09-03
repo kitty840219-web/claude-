@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import SocialIcon from "@/components/SocialIcon";
+import ShopList from "@/components/shop/ShopList";
 import Star from "@/components/Star";
-import TagChip from "@/components/TagChip";
 import { LINKS, SITE } from "@/lib/data/site";
 
 export const metadata: Metadata = {
@@ -56,37 +55,11 @@ export default function ShopPage() {
             <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">STORE · 商店貨架</p>
             <span className="text-xs font-semibold text-paper/50">共 {SHOPS.length} 個商店</span>
           </div>
-          <div className="divide-y divide-paper/10">
-            {SHOPS.map((s) => (
-              <a
-                key={s.key}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-4 px-5 py-5 transition hover:bg-gold/5 sm:gap-6 sm:px-7"
-              >
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold text-night-dark shadow-card sm:h-16 sm:w-16">
-                  <SocialIcon type={s.icon} className="h-6 w-6" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-2">
-                    <span className="font-serif text-base font-bold text-paper sm:text-lg">{s.title}</span>
-                    <TagChip tone="gold">{s.tag}</TagChip>
-                  </span>
-                  <span className="mt-1.5 block text-xs leading-relaxed text-paper/60 sm:text-sm">
-                    {s.desc}
-                  </span>
-                </span>
-                <span className="hidden shrink-0 rounded-full bg-gold px-5 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition group-hover:bg-gold-light sm:inline-block sm:text-sm">
-                  {s.cta}
-                </span>
-              </a>
-            ))}
-          </div>
+          <ShopList shops={SHOPS} />
         </div>
 
         <div className="relative mt-4 flex justify-end sm:hidden">
-          <p className="text-xs text-paper/50">點一下卡片即可前往商店 →</p>
+          <p className="text-xs text-paper/50">點一下卡片查看商店詳情 →</p>
         </div>
       </section>
     </div>
