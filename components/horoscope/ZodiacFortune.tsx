@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { asset } from "@/lib/basePath";
 import Star from "@/components/Star";
 import SectionHeading from "@/components/SectionHeading";
 import { ELEMENT_ICON, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope/signs";
@@ -137,7 +138,7 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
             >
               {s.image ? (
                 <div className="relative aspect-square w-full">
-                  <Image src={s.image} alt={s.name} fill className="object-contain" sizes="140px" />
+                  <Image src={asset(s.image)} alt={s.name} fill className="object-contain" sizes="140px" />
                 </div>
               ) : (
                 <span className="pt-3 text-2xl">{s.symbol}</span>
@@ -158,7 +159,7 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
         <div className="flex flex-col items-center gap-1">
           {sign.image ? (
             <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-gold/40">
-              <Image src={sign.image} alt={sign.name} fill className="object-cover" sizes="64px" />
+              <Image src={asset(sign.image)} alt={sign.name} fill className="object-cover" sizes="64px" />
             </div>
           ) : (
             <span className="text-3xl">{sign.symbol}</span>
@@ -169,7 +170,7 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
         <div className="flex flex-col items-center gap-1">
           {partner.image ? (
             <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-gold/40">
-              <Image src={partner.image} alt={partner.name} fill className="object-cover" sizes="64px" />
+              <Image src={asset(partner.image)} alt={partner.name} fill className="object-cover" sizes="64px" />
             </div>
           ) : (
             <span className="text-3xl">{partner.symbol}</span>
@@ -245,7 +246,7 @@ export default function ZodiacFortune() {
             >
               {sign.image ? (
                 <div className="relative aspect-square w-full">
-                  <Image src={sign.image} alt={sign.name} fill className="object-contain" sizes="(min-width: 640px) 25vw, 33vw" />
+                  <Image src={asset(sign.image)} alt={sign.name} fill className="object-contain" sizes="(min-width: 640px) 25vw, 33vw" />
                 </div>
               ) : (
                 <span className="pt-4 text-3xl">{sign.symbol}</span>
@@ -272,7 +273,7 @@ export default function ZodiacFortune() {
               <div className="flex flex-col items-center gap-2 text-center">
                 {selected.image ? (
                   <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-gold/40">
-                    <Image src={selected.image} alt={selected.name} fill className="object-cover" sizes="112px" />
+                    <Image src={asset(selected.image)} alt={selected.name} fill className="object-cover" sizes="112px" />
                   </div>
                 ) : (
                   <span className="text-5xl">{selected.symbol}</span>
