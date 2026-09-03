@@ -122,6 +122,19 @@ body {
   animation: marquee 16s linear infinite;
 }
 
+@keyframes meteor-fall {
+  0% { opacity: 0; transform: rotate(35deg) translate(0, 0); }
+  10% { opacity: 1; }
+  55% { opacity: 1; }
+  70% { opacity: 0; transform: rotate(35deg) translate(150px, 105px); }
+  100% { opacity: 0; transform: rotate(35deg) translate(150px, 105px); }
+}
+.animate-meteor {
+  animation-name: meteor-fall;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-page-in,
   .animate-fade-in,
@@ -129,7 +142,8 @@ body {
   .animate-twinkle,
   .animate-sparkle-pop,
   .animate-glow-pulse,
-  .animate-marquee {
+  .animate-marquee,
+  .animate-meteor {
     animation: none;
   }
 }
