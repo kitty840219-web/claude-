@@ -264,11 +264,46 @@ const MAJOR_ARCANA_IMAGES: Record<number, string> = {
   17: "/images/tarot/17-星星.png",
   18: "/images/tarot/18-月亮.png",
   19: "/images/tarot/19-太陽.png",
+  20: "/images/tarot/20-審判.png",
+  21: "/images/tarot/21-世界.png",
 };
 MAJOR_ARCANA.forEach((card) => {
   const image = MAJOR_ARCANA_IMAGES[card.id];
   if (image) card.image = image;
 });
+
+// Minor arcana illustrated faces, added incrementally; ids follow the base+offset scheme above.
+const MINOR_ARCANA_IMAGES: Record<number, string> = {
+  22: "/images/tarot/22-權杖01.png",
+  23: "/images/tarot/23-權杖02.png",
+  24: "/images/tarot/24-權杖03.png",
+  25: "/images/tarot/25-權杖04.png",
+  26: "/images/tarot/26-權杖05.png",
+  27: "/images/tarot/27-權杖06.png",
+  28: "/images/tarot/28-權杖07.png",
+  29: "/images/tarot/29-權杖08.png",
+  30: "/images/tarot/30-權杖09.png",
+  31: "/images/tarot/31-權杖10.png",
+  36: "/images/tarot/36-聖杯01.png",
+  37: "/images/tarot/37-聖杯02.png",
+  38: "/images/tarot/38-聖杯03.png",
+  39: "/images/tarot/39-聖杯04.png",
+  40: "/images/tarot/40-聖杯05.png",
+  50: "/images/tarot/50-寶劍01.png",
+  51: "/images/tarot/51-寶劍02.png",
+  52: "/images/tarot/52-寶劍03.png",
+  53: "/images/tarot/53-寶劍04.png",
+  54: "/images/tarot/54-寶劍05.png",
+  55: "/images/tarot/55-寶劍06.png",
+  56: "/images/tarot/56-寶劍07.png",
+  57: "/images/tarot/57-寶劍08.png",
+  58: "/images/tarot/58-寶劍09.png",
+  59: "/images/tarot/59-寶劍10.png",
+  60: "/images/tarot/60-寶劍侍者.png",
+  61: "/images/tarot/61-寶劍騎士.png",
+  62: "/images/tarot/62-寶劍王后.png",
+  63: "/images/tarot/63-寶劍國王.png",
+};
 
 const CHINESE_DIGITS = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 const RANK_NAMES_EN = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
@@ -396,6 +431,10 @@ export const MINOR_ARCANA: TarotCard[] = SUITS.flatMap((suit, suitIndex) => {
   const courts: Court[] = ["page", "knight", "queen", "king"];
   const courtCards = courts.map((court, i) => buildMinorCard(base + 10 + i, suit, { court }));
   return [...pips, ...courtCards];
+});
+MINOR_ARCANA.forEach((card) => {
+  const image = MINOR_ARCANA_IMAGES[card.id];
+  if (image) card.image = image;
 });
 
 /** The full 78-card deck: 22 major arcana + 56 minor arcana. */

@@ -428,9 +428,23 @@ export default function TarotDivination() {
             ))}
           </div>
 
-          <div className="w-full whitespace-pre-line rounded-xl border border-amber-200/20 bg-white/5 p-4 text-sm leading-relaxed text-amber-50/90">
-            {generateReading(results[0].card, results[0].isReversed, question, styles)}
-          </div>
+          {(() => {
+            const reading = generateReading(results[0].card, results[0].isReversed, question, styles);
+            return (
+              <article className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-5">
+                <p className="mb-2 text-xs text-amber-200/55">你的問題</p>
+                <p className="mb-5 rounded-lg bg-black/15 p-3 text-sm leading-relaxed text-amber-50/90">{question}</p>
+                <h3 className="mb-4 text-lg font-semibold leading-relaxed text-amber-100">{reading.title}</h3>
+                <div className="space-y-4 text-sm leading-7 text-amber-50/90">
+                  {reading.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+                  <div className="border-t border-amber-200/20 pt-4">
+                    <h4 className="mb-2 font-semibold text-amber-100">總結</h4>
+                    <p>{reading.summary}</p>
+                  </div>
+                </div>
+              </article>
+            );
+          })()}
 
           <FollowUpPanel
             followUps={followUps}
@@ -473,6 +487,10 @@ export default function TarotDivination() {
                   {reading.paragraphs.map((p, i) => (
                     <p key={i}>{p}</p>
                   ))}
+                  <div className="border-t border-amber-200/20 pt-3">
+                    <h4 className="mb-2 font-semibold text-amber-100">總結</h4>
+                    <p>{reading.summary}</p>
+                  </div>
                 </div>
               </div>
             );
