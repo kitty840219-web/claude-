@@ -206,6 +206,7 @@ export default function TarotDivination() {
   const [readingDate, setReadingDate] = useState("");
   const [question, setQuestion] = useState("");
   const [topicId, setTopicId] = useState("");
+  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
   const [readingPositions, setReadingPositions] = useState<string[]>([]);
   const [styles, setStyles] = useState<ReadingStyle[]>([]);
   const [coupleMode, setCoupleMode] = useState(false);
@@ -300,10 +301,19 @@ export default function TarotDivination() {
 
   const selectedTopic = TOPIC_OPTIONS.find((topic) => topic.id === topicId);
   const activePositionLabels: readonly string[] = readingPositions.length === spreadSize ? readingPositions : defaultPositionLabels(spreadSize);
-  const canDraw = Boolean(selectedTopic);
+  const canDraw = Boolean(selectedTopic) && (spreadSize === 5 || selectedQuestions.length === spreadSize);
+  function selectTopic(id: string) {
+    setTopicId(id);
+    setSelectedQuestions([]);
+  }
+  function toggleQuestion(value: string) {
+    setSelectedQuestions((current) => current.includes(value)
+      ? current.filter((item) => item !== value)
+      : current.length < spreadSize ? [...current, value] : current);
+  }
   function startReading() {
     if (!canDraw || !selectedTopic) return;
-    const positions = selectedTopic.questions.slice(0, spreadSize);
+    const positions = spreadSize === 5 ? [...selectedTopic.questions] : selectedQuestions;
     const composed = [`占卜主題：${selectedTopic.label}`, "想問的題目：", ...positions.map((item, index) => `${index + 1}. ${item}`), question.trim() ? `補充說明：${question.trim()}` : "補充說明：未填"].join("\n");
     setQuestion(composed); setReadingPositions(positions);
     setReadingDate(new Date().toLocaleDateString("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", "."));
@@ -387,7 +397,7 @@ export default function TarotDivination() {
     requestVersion.current++; exportVersion.current++; followUpBusy.current = false;
     activeReportId.current = ""; createdAt.current = "";
     setExportUrl(""); setExportError(""); setExportBusy(false); setStorageNotice(""); setFollowUpLoading(false);
-    setQuestion(""); setTopicId(""); setReadingPositions([]);
+    setQuestion(""); setTopicId(""); setSelectedQuestions([]); setReadingPositions([]);
     setStyles([]);
     setResults([]);
     setReading(null);
@@ -465,7 +475,7 @@ export default function TarotDivination() {
         {SPREAD_MODES.map((mode) => (
           <button
             key={mode.id}
-            onClick={() => setSpreadSize(mode.id)}
+            onClick={() => { setSpreadSize(mode.id); setSelectedQuestions([]); }}
             className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
               spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
             }`}
@@ -529,17 +539,23 @@ export default function TarotDivination() {
           <section className="space-y-4 rounded-xl border border-amber-200/20 bg-white/5 p-3">
             <div>
               <label htmlFor="tarot-topic" className="mb-2 block text-xs font-semibold text-amber-100">1. 選擇占卜主題</label>
-              <select id="tarot-topic" value={topicId} onChange={(event) => setTopicId(event.target.value)} className="w-full rounded-lg border border-amber-200/30 bg-[#0b0f2e] px-3 py-2.5 text-sm text-amber-50">
+              <select id="tarot-topic" value={topicId} onChange={(event) => selectTopic(event.target.value)} className="w-full rounded-lg border border-amber-200/30 bg-[#0b0f2e] px-3 py-2.5 text-sm text-amber-50">
                 <option value="">請選擇主題</option>
                 {TOPIC_OPTIONS.map((topic) => <option key={topic.id} value={topic.id}>{topic.label}</option>)}
               </select>
             </div>
             {selectedTopic && <div>
-              <div className="mb-2 flex items-center justify-between text-xs"><span className="font-semibold text-amber-100">2. 占卜題目</span><span className="text-amber-200/60">本次解讀前 {spreadSize} 題</span></div>
+              <div className="mb-2 flex items-center justify-between text-xs"><span className="font-semibold text-amber-100">2. 占卜題目</span><span className="text-amber-200/60">{spreadSize === 5 ? "本次解讀全部 5 題" : `已選 ${selectedQuestions.length}/${spreadSize}`}</span></div>
               <div className="space-y-2">
-                {selectedTopic.questions.map((item, index) => <p key={item} className={`rounded-lg border p-3 text-xs leading-5 ${index < spreadSize ? "border-amber-300/40 bg-amber-300/10 text-amber-50" : "border-amber-200/15 text-amber-200/45"}`}>
-                  {index + 1}. {item}
-                </p>)}
+                {selectedTopic.questions.map((item, index) => {
+                  if (spreadSize === 5) return <p key={item} className="rounded-lg border border-amber-300/40 bg-amber-300/10 p-3 text-xs leading-5 text-amber-50">{index + 1}. {item}</p>;
+                  const checked = selectedQuestions.includes(item);
+                  const disabled = !checked && selectedQuestions.length >= spreadSize;
+                  return <label key={item} className={`flex items-start gap-3 rounded-lg border p-3 text-xs leading-5 ${checked ? "border-amber-300 bg-amber-300/10 text-amber-50" : "border-amber-200/15 text-amber-200/75"} ${disabled ? "opacity-40" : "cursor-pointer"}`}>
+                    <input type="checkbox" checked={checked} disabled={disabled} onChange={() => toggleQuestion(item)} className="mt-0.5 h-4 w-4 shrink-0 accent-amber-300" />
+                    <span>{index + 1}. {item}</span>
+                  </label>;
+                })}
               </div>
             </div>}
             <div>
@@ -547,7 +563,7 @@ export default function TarotDivination() {
               <textarea id="tarot-note" value={question} maxLength={2000} onChange={(e) => setQuestion(e.target.value)} placeholder="例如：認識多久、目前互動、遇到的狀況，以及你最在意的部分⋯" className="h-32 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none" />
               <div className="mt-1 flex justify-between text-[11px] text-amber-200/50"><span>請勿填寫電話、地址等敏感資料</span><span>{question.length}/2000</span></div>
             </div>
-            <p className="rounded-lg bg-black/15 p-3 text-[11px] leading-5 text-amber-200/60">說明：系統會依照上方選擇的單題、三題或五題，依序解讀清單中的前 1、3 或 5 題，每個問題對應一張牌。補充實際背景能讓解讀更貼近你的情況；不方便說明也可以留白。</p>
+            <p className="rounded-lg bg-black/15 p-3 text-[11px] leading-5 text-amber-200/60">說明：選擇單題時請勾選 1 題，選擇三題時請勾選 3 題；五題會自動解讀全部題目。每個問題對應一張牌。補充實際背景能讓解讀更貼近你的情況；不方便說明也可以留白。</p>
           </section>
 
           <div className="rounded-xl border border-amber-200/20 bg-white/5 p-3">
