@@ -26,10 +26,8 @@ export const LINKS = {
 export const NAV = [
   { href: "/", label: "首頁" },
   { href: "/about", label: "關於作者與故事" },
-  { href: "/quests", label: "任務" },
   { href: "/works", label: "語錄作品" },
-  { href: "/tarot", label: "大眾占卜" },
-  { href: "/horoscope", label: "星座運勢" },
+  { href: "/horoscope", label: "星座運勢｜大眾占卜" },
   { href: "/videos", label: "影音創作" },
   { href: "/shop", label: "周邊商店" },
   { href: "/pricing", label: "服務報價" },
