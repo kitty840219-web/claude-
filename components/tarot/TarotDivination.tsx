@@ -79,9 +79,7 @@ function ElementBadge({ element, compact = false }: { element: NonNullable<Tarot
 
 function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isReversed: boolean; compact?: boolean }) {
   return (
-    <div
-      className={`h-full w-full overflow-hidden rounded-2xl shadow-[0_0_30px_rgba(80,70,200,0.45)] ${isReversed ? "rotate-180" : ""}`}
-    >
+    <div className={`h-full w-full ${isReversed ? "rotate-180" : ""}`}>
       <CardArt card={card} className="h-full w-full" />
     </div>
   );
@@ -819,9 +817,9 @@ export default function TarotDivination() {
             <div className={`grid gap-3 ${results.length === 1 ? "grid-cols-1" : "grid-cols-6"}`}>
               {results.map((draw, index) => (
                 <div key={`overview-${draw.card.id}`} className={`text-center ${results.length === 1 ? "" : `col-span-2 ${results.length === 5 && index === 3 ? "col-start-2" : ""}`}`}>
-                  <div className={`relative mx-auto overflow-hidden rounded-lg shadow-[0_0_18px_rgba(80,70,200,0.3)] ${results.length === 1 ? "h-64 w-40" : "aspect-[2/3] w-full max-w-28"}`}>
+                  <div className={`relative mx-auto ${results.length === 1 ? "h-64 w-40" : "aspect-[2/3] w-full max-w-28"}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={asset(draw.card.image!)} alt={`${draw.card.name}${draw.isReversed ? "逆位" : "正位"}`} className={`h-full w-full object-cover ${draw.isReversed ? "rotate-180" : ""}`} />
+                    <img src={asset(draw.card.image!)} alt={`${draw.card.name}${draw.isReversed ? "逆位" : "正位"}`} className={`h-full w-full object-contain ${draw.isReversed ? "rotate-180" : ""}`} />
                   </div>
                   <p className="mt-2 text-[11px] font-semibold leading-5 text-amber-100">{draw.card.name}<br />（{draw.isReversed ? "逆位" : "正位"}）</p>
                 </div>

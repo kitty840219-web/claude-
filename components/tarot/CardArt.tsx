@@ -571,7 +571,7 @@ export default function CardArt({ card, className = "" }: { card: TarotCard; cla
         alt={card.name}
         loading="eager"
         decoding="async"
-        className={`object-cover ${className}`}
+        className={`object-contain ${className}`}
       />
     );
   }
