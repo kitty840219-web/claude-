@@ -81,10 +81,14 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
     commands.push((ctx) => {
       draws.forEach((draw, index) => {
         const row = Math.floor(index / columns);
-        const column = index % columns;
+        const rowStartIndex = row * columns;
+        const itemsInRow = Math.min(columns, draws.length - rowStartIndex);
+        const column = index - rowStartIndex;
         const img = images[index];
         const cardWidth = cardHeight * img.naturalWidth / img.naturalHeight;
-        const centerX = margin + column * (cellWidth + gap) + cellWidth / 2;
+        const rowWidth = itemsInRow * cellWidth + (itemsInRow - 1) * gap;
+        const rowLeft = margin + (contentWidth - rowWidth) / 2;
+        const centerX = rowLeft + column * (cellWidth + gap) + cellWidth / 2;
         const cardTop = top + row * (cardHeight + labelHeight);
         ctx.save();
         ctx.translate(centerX, cardTop + cardHeight / 2);

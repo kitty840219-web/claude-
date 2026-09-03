@@ -816,9 +816,9 @@ export default function TarotDivination() {
           )}
 
           <section className="border-y border-amber-200/30 py-5">
-            <div className={`grid gap-3 ${results.length === 1 ? "grid-cols-1" : "grid-cols-3"}`}>
-              {results.map((draw) => (
-                <div key={`overview-${draw.card.id}`} className="text-center">
+            <div className={`grid gap-3 ${results.length === 1 ? "grid-cols-1" : "grid-cols-6"}`}>
+              {results.map((draw, index) => (
+                <div key={`overview-${draw.card.id}`} className={`text-center ${results.length === 1 ? "" : `col-span-2 ${results.length === 5 && index === 3 ? "col-start-2" : ""}`}`}>
                   <div className={`relative mx-auto overflow-hidden rounded-lg shadow-[0_0_18px_rgba(80,70,200,0.3)] ${results.length === 1 ? "h-64 w-40" : "aspect-[2/3] w-full max-w-28"}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={asset(draw.card.image!)} alt={`${draw.card.name}${draw.isReversed ? "逆位" : "正位"}`} className={`h-full w-full object-cover ${draw.isReversed ? "rotate-180" : ""}`} />
