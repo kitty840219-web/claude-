@@ -4,6 +4,11 @@ import { ReadingReport, ReadingStyle } from "./reading";
 // Gemini 金鑰只會留在 Cloudflare Worker 的加密密鑰中，不會送到瀏覽器。
 export const TAROT_API_URL = "https://claude.kitty840219.workers.dev";
 
+export type BirthInfo = {
+  self: { name?: string; date: string; time?: string };
+  partner?: { name?: string; date: string };
+};
+
 const POSITION_LABELS = ["過去", "現在", "未來"];
 
 function payloadCards(draws: CardDraw[]) {
@@ -39,8 +44,9 @@ export async function requestAiReading(
   question: string,
   styles: ReadingStyle[],
   followUp?: string,
+  birthInfo?: BirthInfo,
 ): Promise<ReadingReport> {
-  const body = JSON.stringify({ question, followUp, styles, cards: payloadCards(draws) });
+  const body = JSON.stringify({ question, followUp, styles, cards: payloadCards(draws), birthInfo });
   try {
     return await postReading(body);
   } catch (error) {

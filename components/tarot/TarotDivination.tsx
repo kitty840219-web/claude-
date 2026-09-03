@@ -6,7 +6,7 @@ import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import { asset } from "@/lib/basePath";
 import CardArt from "@/components/tarot/CardArt";
 import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
-import { requestAiReading } from "@/lib/tarot/ai";
+import { BirthInfo, requestAiReading } from "@/lib/tarot/ai";
 
 type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
 type SpreadSize = 1 | 3;
@@ -174,6 +174,13 @@ export default function TarotDivination() {
   const [spreadSize, setSpreadSize] = useState<SpreadSize>(1);
   const [question, setQuestion] = useState("");
   const [styles, setStyles] = useState<ReadingStyle[]>([]);
+  const [useBirthInfo, setUseBirthInfo] = useState(false);
+  const [coupleMode, setCoupleMode] = useState(false);
+  const [selfName, setSelfName] = useState("");
+  const [selfBirthDate, setSelfBirthDate] = useState("");
+  const [selfBirthTime, setSelfBirthTime] = useState("");
+  const [partnerName, setPartnerName] = useState("");
+  const [partnerBirthDate, setPartnerBirthDate] = useState("");
   const [shuffleTick, setShuffleTick] = useState(0);
   const [pickedSlots, setPickedSlots] = useState<number[]>([]);
   const [results, setResults] = useState<CardDraw[]>([]);
@@ -185,6 +192,17 @@ export default function TarotDivination() {
   const [followUpQuestion, setFollowUpQuestion] = useState("");
   const [followUpCandidates, setFollowUpCandidates] = useState<CardDraw[] | null>(null);
   const [followUpPickedIndex, setFollowUpPickedIndex] = useState<number | null>(null);
+
+  const canDraw =
+    question.trim().length >= 10 &&
+    (!useBirthInfo || (selfBirthDate.trim() !== "" && (!coupleMode || partnerBirthDate.trim() !== "")));
+
+  const birthInfo: BirthInfo | undefined = useBirthInfo
+    ? {
+        self: { name: selfName.trim() || undefined, date: selfBirthDate, time: selfBirthTime || undefined },
+        partner: coupleMode ? { name: partnerName.trim() || undefined, date: partnerBirthDate } : undefined,
+      }
+    : undefined;
 
   const spread = useMemo(() => {
     const rand = mulberry32(101);
@@ -223,7 +241,7 @@ export default function TarotDivination() {
       setReadingError("");
       setStep("analyzing");
       try {
-        const nextReading = await requestAiReading(draws, question, styles);
+        const nextReading = await requestAiReading(draws, question, styles, undefined, birthInfo);
         setReading(nextReading);
         setStep("reveal");
       } catch (error) {
@@ -236,7 +254,7 @@ export default function TarotDivination() {
     if (!results.length) return;
     setReadingError("");
     try {
-      const nextReading = await requestAiReading(results, question, styles);
+      const nextReading = await requestAiReading(results, question, styles, undefined, birthInfo);
       setReading(nextReading);
       setStep("reveal");
     } catch (error) {
@@ -282,7 +300,7 @@ export default function TarotDivination() {
     setFollowUpLoading(true);
     const drawnCard = followUpCandidates[index];
     try {
-      const report = await requestAiReading([drawnCard], question, styles, followUpQuestion);
+      const report = await requestAiReading([drawnCard], question, styles, followUpQuestion, birthInfo);
       const answer = [...report.paragraphs, `總結｜${report.summary}`].join("\n\n");
       setFollowUps((prev) => [...prev, { question: followUpQuestion, answer, card: drawnCard }]);
       setFollowUpCandidates(null);
@@ -297,7 +315,6 @@ export default function TarotDivination() {
     }
   }
 
-  const canDraw = question.trim().length >= 10;
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 px-5 py-16 text-center text-amber-50">
@@ -359,6 +376,89 @@ export default function TarotDivination() {
               <span>至少 10 個字；請用暱稱或代號，勿填敏感資料</span>
               <span>{question.length}/200</span>
             </div>
+          </div>
+
+          <div className="rounded-xl border border-amber-200/20 bg-white/5 p-3">
+            <label className="flex cursor-pointer items-center justify-between gap-3 text-xs text-amber-200/80">
+              <span>加入生辰資訊，結合八字紫微命理解讀（選填）</span>
+              <input
+                type="checkbox"
+                checked={useBirthInfo}
+                onChange={(e) => setUseBirthInfo(e.target.checked)}
+                className="h-4 w-4 shrink-0 accent-amber-300"
+              />
+            </label>
+
+            {useBirthInfo && (
+              <div className="mt-3 space-y-3">
+                <p className="text-[11px] text-amber-200/50">請用暱稱或代號，勿填真實敏感資料</p>
+                <div className="flex gap-2 rounded-full border border-amber-200/20 bg-black/10 p-1 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setCoupleMode(false)}
+                    className={`flex-1 rounded-full py-1.5 transition-colors ${
+                      !coupleMode ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70"
+                    }`}
+                  >
+                    只問自己
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCoupleMode(true)}
+                    className={`flex-1 rounded-full py-1.5 transition-colors ${
+                      coupleMode ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70"
+                    }`}
+                  >
+                    雙方合問
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  <p className="text-[11px] text-amber-200/60">{coupleMode ? "你的資訊" : "你的出生資訊"}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      value={selfName}
+                      onChange={(e) => setSelfName(e.target.value)}
+                      placeholder="姓名（選填）"
+                      className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
+                    />
+                    <input
+                      type="date"
+                      value={selfBirthDate}
+                      onChange={(e) => setSelfBirthDate(e.target.value)}
+                      className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
+                    />
+                  </div>
+                  <input
+                    type="time"
+                    value={selfBirthTime}
+                    onChange={(e) => setSelfBirthTime(e.target.value)}
+                    className="w-full rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
+                  />
+                  <p className="text-[10px] text-amber-200/40">出生時間選填，不確定可以不填</p>
+                </div>
+
+                {coupleMode && (
+                  <div className="space-y-2 border-t border-amber-200/10 pt-3">
+                    <p className="text-[11px] text-amber-200/60">對方資訊（不需要時辰）</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        value={partnerName}
+                        onChange={(e) => setPartnerName(e.target.value)}
+                        placeholder="姓名（選填）"
+                        className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
+                      />
+                      <input
+                        type="date"
+                        value={partnerBirthDate}
+                        onChange={(e) => setPartnerBirthDate(e.target.value)}
+                        className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-3 gap-2">
