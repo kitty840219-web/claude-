@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import CardArt from "@/components/tarot/CardArt";
-import { ReadingStyle, generateFollowUp, generateReading, generateThreeCardReading } from "@/lib/tarot/reading";
+import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
+import { requestAiReading } from "@/lib/tarot/ai";
 
 type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
 type SpreadSize = 1 | 3;
@@ -161,6 +162,9 @@ export default function TarotDivination() {
   const [shuffleTick, setShuffleTick] = useState(0);
   const [pickedSlots, setPickedSlots] = useState<number[]>([]);
   const [results, setResults] = useState<CardDraw[]>([]);
+  const [reading, setReading] = useState<ReadingReport | null>(null);
+  const [readingError, setReadingError] = useState("");
+  const [followUpLoading, setFollowUpLoading] = useState(false);
   const [followUps, setFollowUps] = useState<FollowUpEntry[]>([]);
   const [followUpDraft, setFollowUpDraft] = useState("");
 
@@ -187,23 +191,38 @@ export default function TarotDivination() {
     };
   }, [step]);
 
-  useEffect(() => {
-    if (step !== "analyzing") return;
-    const timeout = setTimeout(() => setStep("reveal"), 1300);
-    return () => clearTimeout(timeout);
-  }, [step]);
-
   function toggleStyle(id: ReadingStyle) {
     setStyles((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
   }
 
-  function handlePickCard(slotId: number) {
+  async function handlePickCard(slotId: number) {
     if (pickedSlots.includes(slotId) || pickedSlots.length >= spreadSize) return;
     const nextPicked = [...pickedSlots, slotId];
     setPickedSlots(nextPicked);
     if (nextPicked.length === spreadSize) {
-      setResults(drawUniqueCards(spreadSize));
+      const draws = drawUniqueCards(spreadSize);
+      setResults(draws);
+      setReadingError("");
       setTimeout(() => setStep("analyzing"), 350);
+      try {
+        const nextReading = await requestAiReading(draws, question, styles);
+        setReading(nextReading);
+        setStep("reveal");
+      } catch (error) {
+        setReadingError(error instanceof Error ? error.message : "解牌服務暫時無法使用");
+      }
+    }
+  }
+
+  async function retryReading() {
+    if (!results.length) return;
+    setReadingError("");
+    try {
+      const nextReading = await requestAiReading(results, question, styles);
+      setReading(nextReading);
+      setStep("reveal");
+    } catch (error) {
+      setReadingError(error instanceof Error ? error.message : "解牌服務暫時無法使用");
     }
   }
 
@@ -211,17 +230,28 @@ export default function TarotDivination() {
     setQuestion("");
     setStyles([]);
     setResults([]);
+    setReading(null);
+    setReadingError("");
     setPickedSlots([]);
     setFollowUps([]);
     setFollowUpDraft("");
     setStep("cover");
   }
 
-  function handleSubmitFollowUp() {
-    if (followUpDraft.trim().length < 10) return;
-    const answer = generateFollowUp(results, followUpDraft, styles);
-    setFollowUps((prev) => [...prev, { question: followUpDraft.trim(), answer }]);
-    setFollowUpDraft("");
+  async function handleSubmitFollowUp() {
+    if (followUpDraft.trim().length < 10 || followUpLoading) return;
+    const nextQuestion = followUpDraft.trim();
+    setFollowUpLoading(true);
+    try {
+      const report = await requestAiReading(results, question, styles, nextQuestion);
+      const answer = [...report.paragraphs, `總結｜${report.summary}`].join("\n\n");
+      setFollowUps((prev) => [...prev, { question: nextQuestion, answer }]);
+      setFollowUpDraft("");
+    } catch (error) {
+      setReadingError(error instanceof Error ? error.message : "追問服務暫時無法使用");
+    } finally {
+      setFollowUpLoading(false);
+    }
   }
 
   const canDraw = question.trim().length >= 10;
@@ -283,7 +313,7 @@ export default function TarotDivination() {
               className="h-36 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
             />
             <div className="mt-1 flex justify-between text-[11px] text-amber-200/50">
-              <span>至少 10 個字，輸入越多回答越有趣</span>
+              <span>至少 10 個字；請用暱稱或代號，勿填敏感資料</span>
               <span>{question.length}/200</span>
             </div>
           </div>
@@ -409,11 +439,20 @@ export default function TarotDivination() {
       {step === "analyzing" && (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
           <div className="animate-pulse text-4xl">🔮</div>
-          <p className="animate-pulse text-sm text-amber-200/70">牌陣已經排好，正在為你解讀⋯</p>
+          {!readingError ? (
+            <p className="animate-pulse text-sm text-amber-200/70">牌陣已經排好，正在針對你的問題解讀⋯</p>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-sm text-rose-200">{readingError}</p>
+              <button onClick={retryReading} className="rounded-xl border border-amber-200/40 px-5 py-2 text-sm text-amber-100">
+                重新解牌
+              </button>
+            </div>
+          )}
         </div>
       )}
 
-      {step === "reveal" && results.length === spreadSize && spreadSize === 1 && (
+      {step === "reveal" && reading && results.length === spreadSize && spreadSize === 1 && (
         <div className="flex flex-1 flex-col items-center gap-5 py-2">
           <div className="h-64 w-40">
             <CardFront card={results[0].card} isReversed={results[0].isReversed} />
@@ -428,10 +467,7 @@ export default function TarotDivination() {
             ))}
           </div>
 
-          {(() => {
-            const reading = generateReading(results[0].card, results[0].isReversed, question, styles);
-            return (
-              <article className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-5">
+          <article className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-5">
                 <p className="mb-2 text-xs text-amber-200/55">你的問題</p>
                 <p className="mb-5 rounded-lg bg-black/15 p-3 text-sm leading-relaxed text-amber-50/90">{question}</p>
                 <h3 className="mb-4 text-lg font-semibold leading-relaxed text-amber-100">{reading.title}</h3>
@@ -442,9 +478,7 @@ export default function TarotDivination() {
                     <p>{reading.summary}</p>
                   </div>
                 </div>
-              </article>
-            );
-          })()}
+          </article>
 
           <FollowUpPanel
             followUps={followUps}
@@ -464,7 +498,7 @@ export default function TarotDivination() {
         </div>
       )}
 
-      {step === "reveal" && results.length === spreadSize && spreadSize === 3 && (
+      {step === "reveal" && reading && results.length === spreadSize && spreadSize === 3 && (
         <div className="flex flex-1 flex-col items-center gap-5 py-2">
           <div className="grid w-full grid-cols-3 gap-2">
             {results.map((r, i) => (
@@ -478,10 +512,7 @@ export default function TarotDivination() {
             ))}
           </div>
 
-          {(() => {
-            const reading = generateThreeCardReading(results as [CardDraw, CardDraw, CardDraw], question, styles);
-            return (
-              <div className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-4">
+          <div className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-4">
                 <h3 className="mb-3 text-base font-semibold text-amber-100">{reading.title}</h3>
                 <div className="space-y-3 whitespace-pre-line text-sm leading-relaxed text-amber-50/90">
                   {reading.paragraphs.map((p, i) => (
@@ -492,9 +523,7 @@ export default function TarotDivination() {
                     <p>{reading.summary}</p>
                   </div>
                 </div>
-              </div>
-            );
-          })()}
+          </div>
 
           <FollowUpPanel
             followUps={followUps}
