@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import ZodiacFortune from "@/components/horoscope/ZodiacFortune";
 import TarotDivination from "@/components/tarot/TarotDivination";
-import QuestsSection from "@/components/QuestsSection";
 import { SITE } from "@/lib/data/site";
 
 export const metadata: Metadata = {
   title: `星座｜塔羅 ｜ ${SITE.brand}`,
-  description: "選擇你的星座看今日運勢、抽一張塔羅牌，還有小艾的每日星光任務都在這裡。",
+  description: "選擇你的星座看今日運勢，還有抽一張塔羅牌。",
 };
 
 function Divider() {
@@ -23,8 +22,6 @@ export default function HoroscopePage() {
       <ZodiacFortune />
       <Divider />
       <TarotDivination />
-      <Divider />
-      <QuestsSection />
     </div>
   );
 }
