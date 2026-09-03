@@ -86,7 +86,6 @@ function CardCaption({ card, isReversed, label, compact = false }: { card: Tarot
 type FollowUpEntry = { question: string; answer: string; card: CardDraw };
 
 function FollowUpPanel({
-  results,
   followUps,
   draft,
   onDraftChange,
@@ -96,7 +95,6 @@ function FollowUpPanel({
   onPickCandidate,
   loading,
 }: {
-  results: CardDraw[];
   followUps: FollowUpEntry[];
   draft: string;
   onDraftChange: (v: string) => void;
@@ -109,17 +107,13 @@ function FollowUpPanel({
   const canSubmit = draft.trim().length >= 10;
   return (
     <div className="w-full space-y-3">
-      <div className="flex justify-center gap-2">
-        {results.map((r, i) => (
-          <div key={i} className="h-20 w-14 shrink-0">
-            <CardFront card={r.card} isReversed={r.isReversed} compact />
-          </div>
-        ))}
-      </div>
       {followUps.map((f, i) => (
         <div key={i} className="flex w-full gap-3 rounded-xl border border-amber-200/20 bg-white/5 p-4">
-          <div className="h-20 w-14 shrink-0">
-            <CardFront card={f.card.card} isReversed={f.card.isReversed} compact />
+          <div className="w-14 shrink-0 space-y-1">
+            <div className="h-20 w-14">
+              <CardFront card={f.card.card} isReversed={f.card.isReversed} compact />
+            </div>
+            <CardCaption card={f.card.card} isReversed={f.card.isReversed} compact />
           </div>
           <div className="min-w-0 flex-1 space-y-1.5">
             <p className="text-xs text-amber-200/60">追問：{f.question}</p>
@@ -531,7 +525,6 @@ export default function TarotDivination() {
           </article>
 
           <FollowUpPanel
-            results={results}
             followUps={followUps}
             draft={followUpDraft}
             onDraftChange={setFollowUpDraft}
@@ -581,7 +574,6 @@ export default function TarotDivination() {
           </div>
 
           <FollowUpPanel
-            results={results}
             followUps={followUps}
             draft={followUpDraft}
             onDraftChange={setFollowUpDraft}
