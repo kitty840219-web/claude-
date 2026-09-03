@@ -6,6 +6,16 @@ import Star from "@/components/Star";
 import SectionHeading from "@/components/SectionHeading";
 import { ELEMENT_ICON, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope/signs";
 import { FortuneReport, generateFortune, todayKey } from "@/lib/horoscope/reading";
+import { PERSONALITY } from "@/lib/horoscope/personality";
+import { getCompatibility } from "@/lib/horoscope/compatibility";
+
+type Tab = "fortune" | "personality" | "match";
+
+const TABS: { id: Tab; label: string }[] = [
+  { id: "fortune", label: "今日運勢" },
+  { id: "personality", label: "個性特質" },
+  { id: "match", label: "星座配對" },
+];
 
 function ScoreStars({ score }: { score: number }) {
   return (
@@ -25,21 +35,20 @@ function ScoreStars({ score }: { score: number }) {
   );
 }
 
-function FortuneCard({ sign, report }: { sign: ZodiacSign; report: FortuneReport }) {
+function SignBadgeRow({ sign }: { sign: ZodiacSign }) {
   return (
-    <div className="w-full space-y-5">
-      <div className="flex flex-col items-center gap-2 text-center">
-        <span className="text-5xl">{sign.symbol}</span>
-        <h2 className="font-serif text-2xl font-bold text-paper">{sign.name}</h2>
-        <p className="text-xs text-paper/50">{sign.dateRange}</p>
-        <div className="mt-1 flex items-center gap-2 text-xs text-paper/60">
-          <span className="inline-flex items-center gap-1 rounded-full border border-gold/15 bg-night-light/20 px-2 py-0.5">
-            {ELEMENT_ICON[sign.element]} {sign.element}象星座
-          </span>
-          <span className="rounded-full border border-gold/15 bg-night-light/20 px-2 py-0.5">守護星・{sign.ruler}</span>
-        </div>
-      </div>
+    <div className="mt-1 flex items-center gap-2 text-xs text-paper/60">
+      <span className="inline-flex items-center gap-1 rounded-full border border-gold/15 bg-night-light/20 px-2 py-0.5">
+        {ELEMENT_ICON[sign.element]} {sign.element}象星座
+      </span>
+      <span className="rounded-full border border-gold/15 bg-night-light/20 px-2 py-0.5">守護星・{sign.ruler}</span>
+    </div>
+  );
+}
 
+function FortunePanel({ report }: { report: FortuneReport }) {
+  return (
+    <div className="w-full space-y-3">
       <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-5">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">TODAY&apos;S FORTUNE</p>
@@ -48,17 +57,15 @@ function FortuneCard({ sign, report }: { sign: ZodiacSign; report: FortuneReport
         <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-paper/85">{report.overallOpener}</p>
       </div>
 
-      <div className="space-y-3">
-        {report.categories.map((c) => (
-          <div key={c.key} className="rounded-2xl border border-gold/15 bg-night-light/20 p-4">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-paper">{c.label}</p>
-              <ScoreStars score={c.score} />
-            </div>
-            <p className="mt-2 text-xs leading-relaxed text-paper/70">{c.text}</p>
+      {report.categories.map((c) => (
+        <div key={c.key} className="rounded-2xl border border-gold/15 bg-night-light/20 p-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-paper">{c.label}</p>
+            <ScoreStars score={c.score} />
           </div>
-        ))}
-      </div>
+          <p className="mt-2 text-xs leading-relaxed text-paper/70">{c.text}</p>
+        </div>
+      ))}
 
       <div className="flex gap-3">
         <div className="flex-1 rounded-2xl border border-gold/15 bg-night-light/20 p-4 text-center">
@@ -74,10 +81,114 @@ function FortuneCard({ sign, report }: { sign: ZodiacSign; report: FortuneReport
   );
 }
 
+function PersonalityPanel({ sign }: { sign: ZodiacSign }) {
+  const p = PERSONALITY[sign.id];
+  return (
+    <div className="w-full space-y-3">
+      <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-5">
+        <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">OVERVIEW</p>
+        <p className="mt-3 text-sm leading-relaxed text-paper/85">{p.overview}</p>
+      </div>
+      <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-4">
+        <p className="text-sm font-semibold text-paper">優點特質</p>
+        <ul className="mt-2 space-y-1.5">
+          {p.strengths.map((s) => (
+            <li key={s} className="flex items-start gap-1.5 text-xs leading-relaxed text-paper/70">
+              <span className="mt-0.5 text-gold-light">✦</span>
+              {s}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-4">
+        <p className="text-sm font-semibold text-paper">待調整的地方</p>
+        <ul className="mt-2 space-y-1.5">
+          {p.challenges.map((s) => (
+            <li key={s} className="flex items-start gap-1.5 text-xs leading-relaxed text-paper/70">
+              <span className="mt-0.5 text-gold-light">✦</span>
+              {s}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSign; partner: ZodiacSign | null; onPickPartner: (s: ZodiacSign) => void; onReset: () => void }) {
+  if (!partner) {
+    return (
+      <div className="w-full">
+        <p className="mb-4 text-center text-sm text-paper/70">選擇對方的星座，看看兩人的速配指數</p>
+        <div className="grid grid-cols-3 gap-2.5">
+          {ZODIAC_SIGNS.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => onPickPartner(s)}
+              className="flex flex-col items-center gap-1 rounded-2xl border border-gold/15 bg-night-light/20 py-3 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+            >
+              <span className="text-2xl">{s.symbol}</span>
+              <span className="text-[11px] font-semibold text-paper">{s.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const result = getCompatibility(sign, partner);
+
+  return (
+    <div className="w-full space-y-4">
+      <div className="flex items-center justify-center gap-4">
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-3xl">{sign.symbol}</span>
+          <span className="text-xs text-paper/70">{sign.name}</span>
+        </div>
+        <span className="text-xl text-gold-light">✦</span>
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-3xl">{partner.symbol}</span>
+          <span className="text-xs text-paper/70">{partner.name}</span>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-5 text-center">
+        <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">COMPATIBILITY</p>
+        <div className="mt-2 flex justify-center">
+          <ScoreStars score={result.score} />
+        </div>
+        <p className="mt-2 font-serif text-lg font-bold text-paper">{result.verdict}</p>
+        <p className="mt-3 text-left text-sm leading-relaxed text-paper/80">{result.desc}</p>
+      </div>
+
+      <button
+        onClick={onReset}
+        className="w-full rounded-full border border-gold/40 py-2.5 text-sm font-semibold text-gold-light transition hover:bg-gold/10"
+      >
+        換一個對象
+      </button>
+    </div>
+  );
+}
+
 export default function ZodiacFortune() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
+  const [tab, setTab] = useState<Tab>("fortune");
+  const [partner, setPartner] = useState<ZodiacSign | null>(null);
   const dateKey = useMemo(() => todayKey(), []);
   const report = useMemo(() => (selected ? generateFortune(selected, dateKey) : null), [selected, dateKey]);
+
+  function selectSign(sign: ZodiacSign) {
+    setSelected(sign);
+    setTab("fortune");
+    setPartner(null);
+  }
+
+  function resetAll() {
+    setSelected(null);
+    setPartner(null);
+    setTab("fortune");
+  }
 
   return (
     <div className="relative overflow-hidden bg-night-dark pb-16 pt-24 text-paper">
@@ -90,13 +201,13 @@ export default function ZodiacFortune() {
               <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">HOROSCOPE</p>
               <Star className="h-3 w-3 text-gold-light" delay="1s" />
             </div>
-            <SectionHeading title="星座運勢" desc="選擇你的星座，看看今天的愛情、事業、財運與健康提醒。" center />
+            <SectionHeading title="星座運勢" desc="選擇你的星座，看今日運勢、個性特質，還有星座配對。" center />
 
             <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4">
               {ZODIAC_SIGNS.map((sign) => (
                 <button
                   key={sign.id}
-                  onClick={() => setSelected(sign)}
+                  onClick={() => selectSign(sign)}
                   className="flex flex-col items-center gap-1.5 rounded-2xl border border-gold/15 bg-night-light/20 py-4 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
                 >
                   <span className="text-3xl">{sign.symbol}</span>
@@ -110,10 +221,38 @@ export default function ZodiacFortune() {
 
         {selected && report && (
           <div className="mx-auto max-w-md">
-            <FortuneCard sign={selected} report={report} />
+            <div className="flex flex-col items-center gap-2 text-center">
+              <span className="text-5xl">{selected.symbol}</span>
+              <h2 className="font-serif text-2xl font-bold text-paper">{selected.name}</h2>
+              <p className="text-xs text-paper/50">{selected.dateRange}</p>
+              <SignBadgeRow sign={selected} />
+            </div>
+
+            <div className="mt-6 flex gap-1.5 rounded-full border border-gold/15 bg-night-light/20 p-1">
+              {TABS.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTab(t.id)}
+                  className={`flex-1 rounded-full py-2 text-xs font-semibold transition-colors ${
+                    tab === t.id ? "bg-gold text-night-dark" : "text-paper/60 hover:text-paper"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-5">
+              {tab === "fortune" && <FortunePanel report={report} />}
+              {tab === "personality" && <PersonalityPanel sign={selected} />}
+              {tab === "match" && (
+                <MatchPanel sign={selected} partner={partner} onPickPartner={setPartner} onReset={() => setPartner(null)} />
+              )}
+            </div>
+
             <div className="mt-6 flex gap-2">
               <button
-                onClick={() => setSelected(null)}
+                onClick={resetAll}
                 className="flex-1 rounded-full border border-gold/40 py-3 text-sm font-semibold text-gold-light transition hover:bg-gold/10"
               >
                 換個星座
