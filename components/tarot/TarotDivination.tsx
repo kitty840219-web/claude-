@@ -203,7 +203,7 @@ export default function TarotDivination() {
       const draws = drawUniqueCards(spreadSize);
       setResults(draws);
       setReadingError("");
-      setTimeout(() => setStep("analyzing"), 350);
+      setStep("analyzing");
       try {
         const nextReading = await requestAiReading(draws, question, styles);
         setReading(nextReading);
