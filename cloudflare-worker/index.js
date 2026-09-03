@@ -62,6 +62,10 @@ function describeBirthInfo(birthInfo) {
   return [self ? `本人：${self}` : "", partner ? `對方：${partner}` : ""].filter(Boolean).join("\n");
 }
 
+function reportText(text, max) {
+  return text.replace(/\\r\\n|\\n|\\r/g, "\n").trim().slice(0, max);
+}
+
 function parseModelJson(text, cardCount) {
   const cleaned = text.trim().replace(/^```json\s*/i, "").replace(/\s*```$/, "");
   const parsed = JSON.parse(cleaned);
@@ -73,11 +77,11 @@ function parseModelJson(text, cardCount) {
   }
   const result = {
     title: parsed.title.slice(0, 80),
-    paragraphs: parsed.paragraphs.filter((p) => typeof p === "string").slice(0, 5).map((p) => p.slice(0, 900)),
-    summary: parsed.summary.slice(0, 1200),
+    paragraphs: parsed.paragraphs.map((p) => reportText(p, 1200)),
+    summary: reportText(parsed.summary, 1200),
   };
   if (typeof parsed.personality === "string" && parsed.personality.trim()) {
-    result.personality = parsed.personality.trim().slice(0, 900);
+    result.personality = reportText(parsed.personality, 1200);
   }
   return result;
 }
