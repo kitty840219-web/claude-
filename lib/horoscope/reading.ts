@@ -49,6 +49,8 @@ const OVERALL_OPENERS = [
 
 const LUCKY_COLORS = ["珊瑚粉", "薄荷綠", "鵝黃色", "靛藍色", "米白色", "焦糖棕", "薰衣草紫", "湖水藍", "玫瑰金", "霧霾藍"];
 
+const LUCKY_DIRECTIONS = ["東方", "西方", "南方", "北方", "東北方", "東南方", "西北方", "西南方"];
+
 function hashString(input: string): number {
   let hash = 0;
   for (let i = 0; i < input.length; i++) {
@@ -66,13 +68,22 @@ export function todayKey(): string {
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
+const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
+
+export function todayDisplay(): string {
+  const d = new Date();
+  return `${d.getMonth() + 1}月${d.getDate()}日 星期${WEEKDAYS[d.getDay()]}`;
+}
+
 export type FortuneReport = {
   dateKey: string;
+  dateDisplay: string;
   overallScore: number;
   overallOpener: string;
   categories: { key: FortuneCategory; label: string; score: number; text: string }[];
   luckyColor: string;
   luckyNumber: number;
+  luckyDirection: string;
 };
 
 const CATEGORY_ORDER: FortuneCategory[] = ["love", "career", "wealth", "health"];
@@ -90,10 +101,12 @@ export function generateFortune(sign: ZodiacSign, dateKey: string = todayKey()):
 
   return {
     dateKey,
+    dateDisplay: todayDisplay(),
     overallScore,
     overallOpener: pick(OVERALL_OPENERS, baseSeed),
     categories,
     luckyColor: pick(LUCKY_COLORS, baseSeed + 3),
     luckyNumber: (baseSeed % 9) + 1,
+    luckyDirection: pick(LUCKY_DIRECTIONS, baseSeed + 5),
   };
 }

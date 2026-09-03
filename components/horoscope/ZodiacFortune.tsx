@@ -51,7 +51,10 @@ function FortunePanel({ report }: { report: FortuneReport }) {
     <div className="w-full space-y-3">
       <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-5">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">TODAY&apos;S FORTUNE</p>
+          <div>
+            <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">TODAY&apos;S FORTUNE</p>
+            <p className="mt-1 text-sm font-semibold text-paper">{report.dateDisplay}</p>
+          </div>
           <ScoreStars score={report.overallScore} />
         </div>
         <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-paper/85">{report.overallOpener}</p>
@@ -75,6 +78,10 @@ function FortunePanel({ report }: { report: FortuneReport }) {
         <div className="flex-1 rounded-2xl border border-gold/15 bg-night-light/20 p-4 text-center">
           <p className="text-[10px] tracking-[0.2em] text-gold-light">幸運數字</p>
           <p className="mt-1 text-sm font-semibold text-paper">{report.luckyNumber}</p>
+        </div>
+        <div className="flex-1 rounded-2xl border border-gold/15 bg-night-light/20 p-4 text-center">
+          <p className="text-[10px] tracking-[0.2em] text-gold-light">幸運方位</p>
+          <p className="mt-1 text-sm font-semibold text-paper">{report.luckyDirection}</p>
         </div>
       </div>
     </div>
