@@ -30,27 +30,10 @@ function NavbarInner() {
           <span className="font-serif text-lg font-bold tracking-wide text-paper">{SITE.brand}</span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {NAV.map((link) => {
-            const active = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  active ? "bg-gold text-night-dark" : "text-paper/70 hover:bg-paper/10 hover:text-paper"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
-
         <button
           aria-label="開啟選單"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-paper md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-paper"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {open ? (
@@ -63,7 +46,7 @@ function NavbarInner() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-paper/10 bg-night-dark px-4 py-3 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-paper/10 bg-night-dark px-4 py-3">
           {NAV.map((link) => (
             <Link
               key={link.href}

@@ -48,7 +48,7 @@ const TABS = [
   },
   {
     href: "/horoscope",
-    label: "星座｜塔羅",
+    label: "星座運勢",
     icon: (active: boolean) => (
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
         <path
@@ -60,6 +60,16 @@ const TABS = [
         />
         <path d="M18.5 15.5l.7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7.7-1.7z" fill="currentColor" />
         <path d="M5.5 4.5l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5.5-1.3z" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    href: "/tarot",
+    label: "塔羅占卜",
+    icon: (active: boolean) => (
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
+        <rect x="6" y="3" width="13" height="18" rx="2" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6} />
+        <path d="M3 6v13a2 2 0 0 0 2 2M12.5 7l1.2 3.3L17 12l-3.3 1.7-1.2 3.3-1.2-3.3L8 12l3.3-1.7L12.5 7z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -95,7 +105,7 @@ function BottomNavInner() {
   return (
     <nav
       aria-label="主要導覽"
-      className="fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-paper/10 bg-night-dark/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.4)] backdrop-blur md:hidden"
+      className="fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-paper/10 bg-night-dark/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.4)] backdrop-blur"
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between px-2">
         {TABS.map((tab) => {
@@ -104,6 +114,7 @@ function BottomNavInner() {
             <Link
               key={tab.href}
               href={tab.href}
+              aria-current={active ? "page" : undefined}
               className="flex min-w-0 flex-1 flex-col items-center gap-1 py-2.5 text-[9px] font-medium"
             >
               <span

@@ -2,7 +2,7 @@ import { CardDraw } from "./cards";
 import { ReadingReport, ReadingStyle } from "./reading";
 
 // Gemini 金鑰只會留在 Cloudflare Worker 的加密密鑰中，不會送到瀏覽器。
-export const TAROT_API_URL = "https://claude.kitty840219.workers.dev";
+export const TAROT_API_URL = process.env.NEXT_PUBLIC_TAROT_API_URL || "https://claude.kitty840219.workers.dev";
 
 export type BirthInfo = {
   self: { name?: string; gender?: string; date: string; time?: string };

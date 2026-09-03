@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import { asset } from "@/lib/basePath";
@@ -8,7 +8,9 @@ import CardArt from "@/components/tarot/CardArt";
 import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
 import { BirthInfo, RELATIONSHIP_POSITION_LABELS, requestAiReading } from "@/lib/tarot/ai";
 
-type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
+import { FOLLOW_UP_LIMIT, FollowUpEntry, SavedReading, loadHistory, saveReading, deleteReading } from "@/lib/tarot/history";
+
+type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal" | "history";
 type SpreadSize = 1 | 3 | 5;
 
 const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: string }[] = [
@@ -85,7 +87,24 @@ function CardCaption({ card, isReversed, label, compact = false }: { card: Tarot
   );
 }
 
-type FollowUpEntry = { question: string; answer: string; card: CardDraw };
+
+function ReadingCard({ draw, label, children }: { draw: CardDraw; label: string; children: ReactNode }) {
+  return (
+    <article className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
+      <h3 className="mb-4 break-words text-sm font-semibold leading-6 text-amber-100">{label}：{draw.card.name}{draw.isReversed ? "（逆位）" : "（正位）"}</h3>
+      <div className="mx-auto mb-3 h-64 w-40"><CardFront card={draw.card} isReversed={draw.isReversed} /></div>
+      <CardCaption card={draw.card} isReversed={draw.isReversed} />
+      <div className="my-3 flex flex-wrap items-center justify-center gap-1.5">
+        {draw.card.element && <ElementBadge element={draw.card.element} />}
+        {(draw.isReversed ? draw.card.reversed : draw.card.upright).keywords.map((keyword) => (
+          <span key={keyword} className="rounded-full border border-amber-200/30 px-2 py-0.5 text-[11px] text-amber-200/80">#{keyword}</span>
+        ))}
+      </div>
+      <div className="space-y-4 whitespace-pre-line break-words text-sm leading-7 text-amber-50/90">{children}</div>
+    </article>
+  );
+}
+
 
 function FollowUpPanel({
   followUps,
@@ -106,31 +125,30 @@ function FollowUpPanel({
   onPickCandidate: (i: number) => void;
   loading: boolean;
 }) {
-  const canSubmit = draft.trim().length >= 10;
+  const atLimit = followUps.length >= FOLLOW_UP_LIMIT;
+  const canSubmit = draft.trim().length >= 10 && !atLimit && !loading;
   return (
     <div className="w-full space-y-3">
-      {followUps.map((f, i) => (
-        <div key={i} className="flex w-full gap-3 rounded-xl border border-amber-200/20 bg-white/5 p-4">
-          <div className="w-14 shrink-0 space-y-1">
-            <div className="h-20 w-14">
-              <CardFront card={f.card.card} isReversed={f.card.isReversed} compact />
-            </div>
-            <CardCaption card={f.card.card} isReversed={f.card.isReversed} compact />
-          </div>
-          <div className="min-w-0 flex-1 space-y-1.5">
-            <p className="text-xs text-amber-200/60">追問：{f.question}</p>
-            <p className="whitespace-pre-line text-sm leading-relaxed text-amber-50/90">{f.answer}</p>
-          </div>
-        </div>
-      ))}
+      <p className="text-xs text-amber-200/70">追問塔羅 · 已使用 {followUps.length} / {FOLLOW_UP_LIMIT} 次</p>
+      {followUps.map((entry, index) => {
+        const [analysis, ...summary] = entry.answer.split("\n\n總結｜");
+        return (
+          <ReadingCard key={index} draw={entry.card} label={`追問 ${index + 1}`}>
+            <p className="rounded-lg bg-black/15 p-3 text-amber-100">追問：{entry.question}</p>
+            <p>{analysis}</p>
+            {summary.length > 0 && <section className="border-t border-amber-200/20 pt-4"><h4 className="mb-2 font-semibold text-amber-100">總結與建議</h4><p>{summary.join("\n\n")}</p></section>}
+          </ReadingCard>
+        );
+      })}
 
-      {candidates ? (
+      {atLimit ? <p className="rounded-xl border border-amber-200/20 p-4 text-sm text-amber-100">本次占卜已完成 5 次追問，隨時可在歷史紀錄回顧完整報告。</p> : candidates ? (
         <div className="w-full space-y-3 rounded-xl border border-amber-200/20 bg-white/5 p-4 text-center">
           <p className="text-sm text-amber-200/70">{loading ? "正在為你解讀這張牌⋯" : "憑直覺抽一張牌，回答這次的追問"}</p>
           <div className="flex justify-center gap-3">
             {candidates.map((c, i) => (
               <button
                 key={i}
+                aria-label={`追問選擇第 ${i + 1} 張牌`}
                 onClick={() => onPickCandidate(i)}
                 disabled={pickedIndex !== null}
                 className="h-28 w-20 shrink-0 transition-transform enabled:hover:-translate-y-1 disabled:cursor-default"
@@ -149,7 +167,7 @@ function FollowUpPanel({
           <label className="mb-1 block text-xs text-amber-200/60">我想要追問</label>
           <textarea
             value={draft}
-            maxLength={2000}
+            maxLength={200}
             onChange={(e) => onDraftChange(e.target.value)}
             placeholder="針對這次抽到的牌，還想多問一點什麼？"
             className="h-20 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
@@ -197,6 +215,76 @@ export default function TarotDivination() {
   const [followUpCandidates, setFollowUpCandidates] = useState<CardDraw[] | null>(null);
   const [followUpPickedIndex, setFollowUpPickedIndex] = useState<number | null>(null);
 
+  const [history, setHistory] = useState<SavedReading[]>([]);
+  const [storageNotice, setStorageNotice] = useState("");
+  const [exportBusy, setExportBusy] = useState(false);
+  const [exportUrl, setExportUrl] = useState("");
+  const [exportError, setExportError] = useState("");
+  const activeReportId = useRef("");
+  const createdAt = useRef("");
+  const requestVersion = useRef(0);
+  const followUpBusy = useRef(false);
+  const exportVersion = useRef(0);
+
+  useEffect(() => () => { if (exportUrl) URL.revokeObjectURL(exportUrl); }, [exportUrl]);
+
+  function snapshot(report: ReadingReport, draws: CardDraw[], entries: FollowUpEntry[]): SavedReading {
+    if (!activeReportId.current) activeReportId.current = crypto.randomUUID();
+    if (!createdAt.current) createdAt.current = new Date().toISOString();
+    return {
+      id: activeReportId.current, createdAt: createdAt.current, date: readingDate,
+      question, spreadSize, styles, coupleMode,
+      birthInfo: {
+        self: { name: selfName.trim(), gender: selfGender, date: selfBirthDate, time: selfBirthTime },
+        partner: coupleMode ? { name: partnerName.trim(), gender: partnerGender, date: partnerBirthDate } : undefined,
+      },
+      results: draws, reading: report, followUps: entries,
+    };
+  }
+  function persist(report: ReadingReport, draws: CardDraw[], entries: FollowUpEntry[]) {
+    try {
+      saveReading(snapshot(report, draws, entries));
+      setStorageNotice("已儲存至此瀏覽器的占卜紀錄");
+    } catch {
+      setStorageNotice("紀錄未能儲存，可能是瀏覽器儲存空間不足或禁止儲存。請先下載 JPG 報告備份。");
+    }
+  }
+  function showHistory() {
+    try { setHistory(loadHistory()); setStorageNotice(""); }
+    catch { setHistory([]); setStorageNotice("無法讀取此瀏覽器的紀錄，原始資料尚未刪除。"); }
+    setStep("history");
+  }
+  function openHistory(entry: SavedReading) {
+    resetAll();
+    activeReportId.current = entry.id;
+    createdAt.current = entry.createdAt;
+    setReadingDate(entry.date); setQuestion(entry.question); setSpreadSize(entry.spreadSize);
+    setStyles(entry.styles); setCoupleMode(entry.coupleMode);
+    setSelfName(entry.birthInfo.self.name || ""); setSelfGender(entry.birthInfo.self.gender || "");
+    setSelfBirthDate(entry.birthInfo.self.date || ""); setSelfBirthTime(entry.birthInfo.self.time || "");
+    setPartnerName(entry.birthInfo.partner?.name || ""); setPartnerGender(entry.birthInfo.partner?.gender || "");
+    setPartnerBirthDate(entry.birthInfo.partner?.date || "");
+    setResults(entry.results); setReading(entry.reading); setFollowUps(entry.followUps);
+    setStorageNotice("正在閱讀已儲存的占卜紀錄"); setStep("reveal");
+  }
+  function removeHistory(id: string) {
+    if (!window.confirm("確定刪除這筆占卜紀錄？此操作無法復原，建議先下載 JPG 備份。")) return;
+    try { setHistory(deleteReading(id)); }
+    catch { setStorageNotice("刪除失敗，請稍後重試。"); }
+  }
+  async function exportReport() {
+    if (!reading || exportBusy) return;
+    const version = ++exportVersion.current;
+    setExportBusy(true); setExportError(""); setExportUrl("");
+    try {
+      const { createReportJpg } = await import("@/lib/tarot/reportImage");
+      const blob = await createReportJpg(snapshot(reading, results, followUps));
+      if (version === exportVersion.current) setExportUrl(URL.createObjectURL(blob));
+    } catch (error) {
+      if (version === exportVersion.current) setExportError(error instanceof Error ? error.message : "圖片製作失敗，請重試");
+    } finally { if (version === exportVersion.current) setExportBusy(false); }
+  }
+
   const canDraw = question.trim().length >= 10;
 
   const birthInfo: BirthInfo | undefined = selfName.trim() || selfGender || selfBirthDate || (coupleMode && (partnerName.trim() || partnerGender || partnerBirthDate))
@@ -235,6 +323,7 @@ export default function TarotDivination() {
 
   async function handlePickCard(slotId: number) {
     if (pickedSlots.includes(slotId) || pickedSlots.length >= spreadSize) return;
+    const version = requestVersion.current;
     const nextPicked = [...pickedSlots, slotId];
     setPickedSlots(nextPicked);
     if (nextPicked.length === spreadSize) {
@@ -244,9 +333,12 @@ export default function TarotDivination() {
       setStep("analyzing");
       try {
         const nextReading = await requestAiReading(draws, question, styles, undefined, birthInfo);
+        if (version !== requestVersion.current) return;
         setReading(nextReading);
+        persist(nextReading, draws, []);
         setStep("reveal");
       } catch (error) {
+        if (version !== requestVersion.current) return;
         setReadingError(error instanceof Error ? error.message : "解牌服務暫時無法使用");
       }
     }
@@ -254,17 +346,24 @@ export default function TarotDivination() {
 
   async function retryReading() {
     if (!results.length) return;
+    const version = requestVersion.current;
     setReadingError("");
     try {
       const nextReading = await requestAiReading(results, question, styles, undefined, birthInfo);
+      if (version !== requestVersion.current) return;
       setReading(nextReading);
+      persist(nextReading, results, []);
       setStep("reveal");
     } catch (error) {
+      if (version !== requestVersion.current) return;
       setReadingError(error instanceof Error ? error.message : "解牌服務暫時無法使用");
     }
   }
 
   function resetAll() {
+    requestVersion.current++; exportVersion.current++; followUpBusy.current = false;
+    activeReportId.current = ""; createdAt.current = "";
+    setExportUrl(""); setExportError(""); setExportBusy(false); setStorageNotice(""); setFollowUpLoading(false);
     setQuestion("");
     setStyles([]);
     setResults([]);
@@ -280,7 +379,12 @@ export default function TarotDivination() {
   }
 
   function handleSubmitFollowUp() {
-    if (followUpDraft.trim().length < 10) return;
+    if (followUpDraft.trim().length < 10 || followUps.length >= FOLLOW_UP_LIMIT || followUpBusy.current || followUpCandidates) return;
+    try {
+      const saved = loadHistory().find((entry) => entry.id === activeReportId.current);
+      if (saved && saved.followUps.length > followUps.length) { openHistory(saved); return; }
+    } catch { /* Allow the current unsaved report to remain usable. */ }
+    setReadingError("");
     const usedIds = new Set([...results.map((r) => r.card.id), ...followUps.map((f) => f.card.card.id)]);
     const candidates: CardDraw[] = [];
     let guard = 0;
@@ -297,23 +401,32 @@ export default function TarotDivination() {
   }
 
   async function handlePickFollowUpCard(index: number) {
-    if (followUpPickedIndex !== null || !followUpCandidates) return;
+    if (followUpPickedIndex !== null || !followUpCandidates || followUpBusy.current || followUps.length >= FOLLOW_UP_LIMIT) return;
+    const version = requestVersion.current;
+    followUpBusy.current = true;
     setFollowUpPickedIndex(index);
     setFollowUpLoading(true);
     const drawnCard = followUpCandidates[index];
     try {
       const report = await requestAiReading([drawnCard], question, styles, followUpQuestion, birthInfo);
+      if (version !== requestVersion.current) return;
       const answer = [...report.paragraphs, `總結｜${report.summary}`].join("\n\n");
-      setFollowUps((prev) => [...prev, { question: followUpQuestion, answer, card: drawnCard }]);
+      const entries = [...followUps, { question: followUpQuestion, answer, card: drawnCard }];
+      setFollowUps(entries);
+      exportVersion.current++; setExportBusy(false);
+      if (reading) persist(reading, results, entries);
+      setExportUrl("");
       setFollowUpCandidates(null);
       setFollowUpPickedIndex(null);
       setFollowUpQuestion("");
     } catch (error) {
+      if (version !== requestVersion.current) return;
+      setFollowUpDraft(followUpQuestion);
       setReadingError(error instanceof Error ? error.message : "追問服務暫時無法使用");
       setFollowUpCandidates(null);
       setFollowUpPickedIndex(null);
     } finally {
-      setFollowUpLoading(false);
+      if (version === requestVersion.current) { followUpBusy.current = false; setFollowUpLoading(false); }
     }
   }
 
@@ -339,6 +452,11 @@ export default function TarotDivination() {
         ))}
       </div>
 
+      <div className="w-full space-y-2">
+        <button onClick={showHistory} className="w-full rounded-xl border border-amber-200/30 py-3 text-sm text-amber-100">我的占卜紀錄</button>
+        <p className="text-[11px] leading-5 text-amber-200/55">紀錄儲存在此裝置的瀏覽器，清除瀏覽資料後會消失，不會跨裝置同步。可下載 JPG 留存。</p>
+      </div>
+
       <button
         onClick={() => setStep("form")}
         className="group relative h-56 w-36 cursor-pointer transition-transform duration-300 hover:-translate-y-2"
@@ -360,6 +478,25 @@ export default function TarotDivination() {
               ✕
             </button>
             <div className="flex h-full w-full flex-col overflow-y-auto rounded-[1.5rem] border border-amber-200/30 bg-[#0b0f2e] p-5 text-left [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {step === "history" && (
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold text-amber-100">我的占卜紀錄</h2>
+          <p className="text-xs leading-6 text-amber-200/60">點選紀錄可回顧牌面、解讀與追問，並下載 JPG。紀錄只保留在此瀏覽器。</p>
+          {storageNotice && <p role="status" className="text-sm text-amber-100">{storageNotice}</p>}
+          {!history.length && !storageNotice && <p className="py-12 text-center text-sm text-amber-200/70">還沒有占卜紀錄。完成第一次解牌後，報告會自動保存在這裡。</p>}
+          {history.map((entry) => (
+            <div key={entry.id} className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
+              <button onClick={() => openHistory(entry)} className="w-full text-left">
+                <p className="text-xs text-amber-200/60">{entry.date} · {entry.spreadSize} 張牌 · 追問 {entry.followUps.length}/5</p>
+                <p className="mt-2 line-clamp-3 break-words text-sm leading-6 text-amber-50">{entry.question}</p>
+                <span className="mt-3 block text-xs text-amber-200">開啟完整報告 →</span>
+              </button>
+              <button onClick={() => removeHistory(entry.id)} className="mt-3 text-xs text-rose-200/80" aria-label={`刪除 ${entry.date} 的占卜紀錄`}>刪除紀錄</button>
+            </div>
+          ))}
+        </section>
+      )}
+
       {step === "form" && (
         <div className="flex flex-1 flex-col gap-5">
           <div>
@@ -620,6 +757,21 @@ export default function TarotDivination() {
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-7">{question}</p>
           </header>
 
+          <div className="space-y-3 rounded-xl border border-amber-200/30 bg-amber-200/5 p-4">
+            <p className="text-xs leading-5 text-amber-200/70">{storageNotice}</p>
+            <button onClick={exportReport} disabled={exportBusy || followUpLoading} className="w-full rounded-xl bg-amber-200 py-3 text-sm font-semibold text-[#0b0f2e] disabled:opacity-50">{exportBusy ? "正在設計報告圖片⋯" : "製作 JPG 報告"}</button>
+            <p className="text-[11px] leading-5 text-amber-200/60">含個人資料、完整牌面與解讀，以及已完成的追問。</p>
+            {exportUrl && <div className="space-y-3 text-sm text-amber-100">
+              <a href={exportUrl} download={`艾飛樂塔羅報告-${readingDate.replaceAll(".", "-")}.jpg`} className="block rounded-lg border border-amber-200/40 py-2 text-center">下載 JPG</a>
+              <details className="rounded-lg border border-amber-200/30 p-3">
+                <summary className="cursor-pointer">預覽 JPG 報告</summary>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={exportUrl} alt="完整塔羅報告 JPG 預覽" className="mt-3 h-auto w-full rounded" />
+              </details>
+            </div>}
+            {exportError && <p role="alert" className="text-sm text-rose-200">{exportError}</p>}
+          </div>
+
           <h3 className="text-lg font-semibold text-amber-100">解牌：</h3>
           {reading.personality && (
             <section className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
@@ -628,20 +780,9 @@ export default function TarotDivination() {
           )}
 
           {results.map((draw, index) => (
-            <article key={draw.card.id} className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
-              <h3 className="mb-4 text-sm font-semibold text-amber-100">{positionLabels(spreadSize)[index]}：{draw.card.name}{draw.isReversed ? "（逆位）" : "（正位）"}</h3>
-              <div className="mx-auto mb-3 h-64 w-40">
-                <CardFront card={draw.card} isReversed={draw.isReversed} />
-              </div>
-              <CardCaption card={draw.card} isReversed={draw.isReversed} />
-              <div className="my-3 flex flex-wrap items-center justify-center gap-1.5">
-                {draw.card.element && <ElementBadge element={draw.card.element} />}
-                {(draw.isReversed ? draw.card.reversed : draw.card.upright).keywords.map((keyword) => (
-                  <span key={keyword} className="rounded-full border border-amber-200/30 px-2 py-0.5 text-[11px] text-amber-200/80">#{keyword}</span>
-                ))}
-              </div>
-              <p className="whitespace-pre-line text-sm leading-7 text-amber-50/90">{reading.paragraphs[index]}</p>
-            </article>
+            <ReadingCard key={draw.card.id} draw={draw} label={positionLabels(spreadSize)[index]}>
+              <p>{reading.paragraphs[index]}</p>
+            </ReadingCard>
           ))}
 
           <section className="rounded-xl border border-amber-200/30 bg-amber-200/5 p-4">
