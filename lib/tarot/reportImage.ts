@@ -100,7 +100,7 @@ export async function createReportJpg(report: SavedReading): Promise<Blob> {
   divider();
   text("解牌", 34, "#17213d", true);
   if (report.reading.personality) text(report.reading.personality);
-  const labels = report.spreadSize === 5 ? RELATIONSHIP_POSITION_LABELS : report.spreadSize === 3 ? ["過去", "現在", "未來"] : ["核心訊息"];
+  const labels = report.positions?.length === report.spreadSize ? report.positions : report.spreadSize === 5 ? RELATIONSHIP_POSITION_LABELS : report.spreadSize === 3 ? ["過去", "現在", "未來"] : ["核心訊息"];
   for (let i = 0; i < report.results.length; i++) {
     const draw = report.results[i];
     divider();

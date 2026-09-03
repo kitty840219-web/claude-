@@ -111,7 +111,7 @@ const worker = {
     if (question.length < 10 || cards.length < 1) return json({ error: "問題或牌面資料不完整" }, 400, origin);
 
     const cardLines = cards.map((item, index) => {
-      const position = cleanText(item.position, 20) || `第 ${index + 1} 張`;
+      const position = cleanText(item.position, 80) || `第 ${index + 1} 張`;
       const name = cleanText(item.name, 40);
       const orientation = item.isReversed ? "逆位" : "正位";
       const keywords = Array.isArray(item.keywords) ? item.keywords.slice(0, 5).map((x) => cleanText(x, 30)).join("、") : "";
@@ -145,7 +145,7 @@ const worker = {
             properties: {
               title: { type: "STRING" },
               personality: { type: "STRING" },
-              ...Object.fromEntries(cards.map((card, index) => [`card${index + 1}`, { type: "STRING", description: `只分析第 ${index + 1} 張：${cleanText(card.position, 20)}，${cleanText(card.name, 40)}（${card.isReversed ? "逆位" : "正位"}）。先解釋牌義，再針對問題深入分析，約 180 至 320 字，分成 2 至 3 段。` }])),
+              ...Object.fromEntries(cards.map((card, index) => [`card${index + 1}`, { type: "STRING", description: `只分析第 ${index + 1} 張：${cleanText(card.position, 80)}，${cleanText(card.name, 40)}（${card.isReversed ? "逆位" : "正位"}）。先解釋牌義，再針對問題深入分析，約 180 至 320 字，分成 2 至 3 段。` }])),
               summary: { type: "STRING" },
             },
           },

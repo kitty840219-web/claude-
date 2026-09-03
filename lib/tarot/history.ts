@@ -11,6 +11,7 @@ export type SavedReading = {
   createdAt: string;
   question: string;
   spreadSize: 1 | 3 | 5;
+  positions: string[];
   styles: ReadingStyle[];
   birthInfo: BirthInfo;
   coupleMode: boolean;
@@ -37,11 +38,12 @@ export function loadHistory(): SavedReading[] {
   const data = JSON.parse(raw) as PackedReading[];
   if (!Array.isArray(data)) throw new Error("紀錄格式無法讀取");
   return data.map((entry) => {
-    if (!entry || typeof entry.id !== "string" || typeof entry.date !== "string" || typeof entry.createdAt !== "string" || typeof entry.question !== "string" || ![1, 3, 5].includes(entry.spreadSize) || !Array.isArray(entry.results) || entry.results.length !== entry.spreadSize || !Array.isArray(entry.styles) || !entry.birthInfo?.self || typeof entry.birthInfo.self.date !== "string" || !entry.reading || typeof entry.reading.title !== "string" || typeof entry.reading.summary !== "string" || !Array.isArray(entry.reading.paragraphs) || entry.reading.paragraphs.length !== entry.spreadSize || !entry.reading.paragraphs.every((p) => typeof p === "string") || !Array.isArray(entry.followUps) || entry.followUps.length > FOLLOW_UP_LIMIT) {
+    if (!entry || typeof entry.id !== "string" || typeof entry.date !== "string" || typeof entry.createdAt !== "string" || typeof entry.question !== "string" || ![1, 3, 5].includes(entry.spreadSize) || (entry.positions !== undefined && (!Array.isArray(entry.positions) || entry.positions.length !== entry.spreadSize || !entry.positions.every((p) => typeof p === "string"))) || !Array.isArray(entry.results) || entry.results.length !== entry.spreadSize || !Array.isArray(entry.styles) || !entry.birthInfo?.self || typeof entry.birthInfo.self.date !== "string" || !entry.reading || typeof entry.reading.title !== "string" || typeof entry.reading.summary !== "string" || !Array.isArray(entry.reading.paragraphs) || entry.reading.paragraphs.length !== entry.spreadSize || !entry.reading.paragraphs.every((p) => typeof p === "string") || !Array.isArray(entry.followUps) || entry.followUps.length > FOLLOW_UP_LIMIT) {
       throw new Error("紀錄格式無法讀取，原始紀錄仍保留在此瀏覽器");
     }
     return {
       ...entry,
+      positions: entry.positions || (entry.spreadSize === 5 ? ["目前關係能量高低", "未來三個月感情運勢", "對方對你的看法", "對方對這段關係的想法", "目前阻礙和關鍵點"] : entry.spreadSize === 3 ? ["過去", "現在", "未來"] : ["核心訊息"]),
       results: entry.results.map(unpackDraw),
       followUps: entry.followUps.map((followUp) => {
         if (typeof followUp.question !== "string" || typeof followUp.answer !== "string") throw new Error("追問紀錄格式無法讀取");

@@ -20,13 +20,26 @@ const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: s
 ];
 
 const SPREAD_MODES: { id: SpreadSize; label: string; hint: string }[] = [
-  { id: 1, label: "單抽牌", hint: "一句直覺提醒" },
-  { id: 3, label: "三張牌", hint: "過去 · 現在 · 未來" },
-  { id: 5, label: "感情五張牌", hint: "關係 · 走向 · 想法 · 阻礙" },
+  { id: 1, label: "單題", hint: "聚焦一個問題，獲得清楚指引" },
+  { id: 3, label: "三題", hint: "從三個角度，看見事情全貌" },
+  { id: 5, label: "五題", hint: "完整分析現況、想法與未來走向" },
 ];
 
+const TOPIC_OPTIONS = [
+  { id: "reconcile", label: "復合", questions: ["目前對方對我的真實想法", "目前對方對復合的想法", "分開後真正的問題點", "未來三個月的復合機會", "我該如何提升復合可能性"] },
+  { id: "relationship", label: "感情發展", questions: ["目前這段關係的能量狀態", "未來三個月的感情走勢", "對方現在如何看待我", "對方如何看待這段關係", "這段關係的阻礙與關鍵點"] },
+  { id: "ambiguous", label: "曖昧關係", questions: ["目前對方對我的感覺", "對方是否有喜歡我的傾向", "未來是否有機會正式交往", "目前關係停滯的主要原因", "我該如何拉近彼此的距離"] },
+  { id: "single", label: "脫單桃花", questions: ["目前影響我脫單的原因", "近期三個月的桃花運勢", "下一段對象可能具備的特質", "未來三個月的脫單機會", "我該如何提升戀愛能量"] },
+  { id: "breakup", label: "分手斷聯", questions: ["我們分手或斷聯的核心原因", "對方目前對我的想法與感受", "對方是否可能主動聯繫我", "未來三個月是否有復合機會", "我該如何做才能增加轉機"] },
+  { id: "career", label: "工作事業", questions: ["目前三個月的工作運勢", "這份工作是否適合我繼續發展", "主管或重要合作對象如何看待我", "目前職場最需要留意的人際關係", "我該如何提升工作運與發展機會"] },
+  { id: "money", label: "金錢財運", questions: ["目前的財運能量與狀態", "未來三個月的財運趨勢", "近期主要的財源與機會", "目前容易漏財或破財的原因", "我該如何改善並提升財運"] },
+  { id: "family", label: "家庭人際", questions: ["目前家庭或人際關係的狀態", "彼此之間尚未說開的課題", "未來三個月關係會如何變化", "目前溝通最需要注意的地方", "我可以如何改善這段關係"] },
+  { id: "study", label: "學業考試", questions: ["目前的學習能量與狀態", "近期考試或評量的整體趨勢", "目前最容易卡關的地方", "接下來的讀書效率與進展", "我該如何調整以提升表現"] },
+  { id: "growth", label: "自我成長", questions: ["目前我的內在狀態與核心需求", "我現在最值得發揮的優勢與天賦", "目前限制我前進的信念或習慣", "未來三個月適合發展的方向", "我該如何提升並整合自己的能量"] },
+] as const;
+
 const POSITION_LABELS = ["過去", "現在", "未來"];
-const positionLabels = (size: SpreadSize) => size === 5 ? RELATIONSHIP_POSITION_LABELS : size === 3 ? POSITION_LABELS : ["核心訊息"];
+const defaultPositionLabels = (size: SpreadSize): readonly string[] => size === 5 ? RELATIONSHIP_POSITION_LABELS : size === 3 ? POSITION_LABELS : ["核心訊息"];
 const SPREAD_COUNT = 40;
 
 // deterministic seeded RNG so server-render and client hydration match
@@ -194,6 +207,9 @@ export default function TarotDivination() {
   const [spreadSize, setSpreadSize] = useState<SpreadSize>(1);
   const [readingDate, setReadingDate] = useState("");
   const [question, setQuestion] = useState("");
+  const [topicId, setTopicId] = useState("");
+  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
+  const [readingPositions, setReadingPositions] = useState<string[]>([]);
   const [styles, setStyles] = useState<ReadingStyle[]>([]);
   const [coupleMode, setCoupleMode] = useState(false);
   const [selfGender, setSelfGender] = useState("");
@@ -233,7 +249,7 @@ export default function TarotDivination() {
     if (!createdAt.current) createdAt.current = new Date().toISOString();
     return {
       id: activeReportId.current, createdAt: createdAt.current, date: readingDate,
-      question, spreadSize, styles, coupleMode,
+      question, spreadSize, positions: readingPositions, styles, coupleMode,
       birthInfo: {
         self: { name: selfName.trim(), gender: selfGender, date: selfBirthDate, time: selfBirthTime },
         partner: coupleMode ? { name: partnerName.trim(), gender: partnerGender, date: partnerBirthDate } : undefined,
@@ -258,7 +274,7 @@ export default function TarotDivination() {
     resetAll();
     activeReportId.current = entry.id;
     createdAt.current = entry.createdAt;
-    setReadingDate(entry.date); setQuestion(entry.question); setSpreadSize(entry.spreadSize);
+    setReadingDate(entry.date); setQuestion(entry.question); setSpreadSize(entry.spreadSize); setReadingPositions(entry.positions);
     setStyles(entry.styles); setCoupleMode(entry.coupleMode);
     setSelfName(entry.birthInfo.self.name || ""); setSelfGender(entry.birthInfo.self.gender || "");
     setSelfBirthDate(entry.birthInfo.self.date || ""); setSelfBirthTime(entry.birthInfo.self.time || "");
@@ -285,7 +301,21 @@ export default function TarotDivination() {
     } finally { if (version === exportVersion.current) setExportBusy(false); }
   }
 
-  const canDraw = question.trim().length >= 10;
+  const selectedTopic = TOPIC_OPTIONS.find((topic) => topic.id === topicId);
+  const activePositionLabels: readonly string[] = readingPositions.length === spreadSize ? readingPositions : defaultPositionLabels(spreadSize);
+  const canDraw = selectedQuestions.length === spreadSize;
+  function selectTopic(id: string) { setTopicId(id); setSelectedQuestions([]); }
+  function toggleQuestion(value: string) {
+    setSelectedQuestions((current) => current.includes(value) ? current.filter((item) => item !== value) : current.length < spreadSize ? [...current, value] : current);
+  }
+  function startReading() {
+    if (!canDraw || !selectedTopic) return;
+    const positions = selectedQuestions.slice(0, spreadSize);
+    const composed = [`占卜主題：${selectedTopic.label}`, "想問的題目：", ...positions.map((item, index) => `${index + 1}. ${item}`), question.trim() ? `補充說明：${question.trim()}` : "補充說明：未填"].join("\n");
+    setQuestion(composed); setReadingPositions(positions);
+    setReadingDate(new Date().toLocaleDateString("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", "."));
+    setStep("shuffle");
+  }
 
   const birthInfo: BirthInfo | undefined = selfName.trim() || selfGender || selfBirthDate || (coupleMode && (partnerName.trim() || partnerGender || partnerBirthDate))
     ? {
@@ -332,7 +362,7 @@ export default function TarotDivination() {
       setReadingError("");
       setStep("analyzing");
       try {
-        const nextReading = await requestAiReading(draws, question, styles, undefined, birthInfo);
+        const nextReading = await requestAiReading(draws, question, styles, undefined, birthInfo, readingPositions);
         if (version !== requestVersion.current) return;
         setReading(nextReading);
         persist(nextReading, draws, []);
@@ -349,7 +379,7 @@ export default function TarotDivination() {
     const version = requestVersion.current;
     setReadingError("");
     try {
-      const nextReading = await requestAiReading(results, question, styles, undefined, birthInfo);
+      const nextReading = await requestAiReading(results, question, styles, undefined, birthInfo, readingPositions);
       if (version !== requestVersion.current) return;
       setReading(nextReading);
       persist(nextReading, results, []);
@@ -364,7 +394,7 @@ export default function TarotDivination() {
     requestVersion.current++; exportVersion.current++; followUpBusy.current = false;
     activeReportId.current = ""; createdAt.current = "";
     setExportUrl(""); setExportError(""); setExportBusy(false); setStorageNotice(""); setFollowUpLoading(false);
-    setQuestion("");
+    setQuestion(""); setTopicId(""); setSelectedQuestions([]); setReadingPositions([]);
     setStyles([]);
     setResults([]);
     setReading(null);
@@ -442,7 +472,7 @@ export default function TarotDivination() {
         {SPREAD_MODES.map((mode) => (
           <button
             key={mode.id}
-            onClick={() => { setSpreadSize(mode.id); if (mode.id === 5) setCoupleMode(true); }}
+            onClick={() => { setSpreadSize(mode.id); setSelectedQuestions((items) => items.slice(0, mode.id)); }}
             className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
               spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
             }`}
@@ -487,7 +517,7 @@ export default function TarotDivination() {
           {history.map((entry) => (
             <div key={entry.id} className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
               <button onClick={() => openHistory(entry)} className="w-full text-left">
-                <p className="text-xs text-amber-200/60">{entry.date} · {entry.spreadSize} 張牌 · 追問 {entry.followUps.length}/5</p>
+                <p className="text-xs text-amber-200/60">{entry.date} · {entry.spreadSize} 題 · 追問 {entry.followUps.length}/5</p>
                 <p className="mt-2 line-clamp-3 break-words text-sm leading-6 text-amber-50">{entry.question}</p>
                 <span className="mt-3 block text-xs text-amber-200">開啟完整報告 →</span>
               </button>
@@ -503,19 +533,34 @@ export default function TarotDivination() {
             <h2 className="text-xl font-semibold">你想問些什麼？</h2>
             <p className="mt-1 text-xs text-amber-200/60">寫得越具體，解讀越貼近你的處境。</p>
           </div>
-          <div>
-            <textarea
-              value={question}
-              maxLength={2000}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="例如：這段感情接下來會如何發展？"
-              className="h-36 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
-            />
-            <div className="mt-1 flex justify-between text-[11px] text-amber-200/50">
-              <span>至少 10 個字；請用暱稱或代號，勿填敏感資料</span>
-              <span>{question.length}/2000</span>
+          <section className="space-y-4 rounded-xl border border-amber-200/20 bg-white/5 p-3">
+            <div>
+              <label htmlFor="tarot-topic" className="mb-2 block text-xs font-semibold text-amber-100">1. 選擇占卜主題</label>
+              <select id="tarot-topic" value={topicId} onChange={(event) => selectTopic(event.target.value)} className="w-full rounded-lg border border-amber-200/30 bg-[#0b0f2e] px-3 py-2.5 text-sm text-amber-50">
+                <option value="">請選擇主題</option>
+                {TOPIC_OPTIONS.map((topic) => <option key={topic.id} value={topic.id}>{topic.label}</option>)}
+              </select>
             </div>
-          </div>
+            {selectedTopic && <div>
+              <div className="mb-2 flex items-center justify-between text-xs"><span className="font-semibold text-amber-100">2. 勾選想問的題目</span><span className="text-amber-200/60">已選 {selectedQuestions.length}/{spreadSize}</span></div>
+              <div className="space-y-2">
+                {selectedTopic.questions.map((item, index) => {
+                  const checked = selectedQuestions.includes(item);
+                  const disabled = !checked && selectedQuestions.length >= spreadSize;
+                  return <label key={item} className={`flex items-start gap-3 rounded-lg border p-3 text-xs leading-5 ${checked ? "border-amber-300 bg-amber-300/10 text-amber-50" : "border-amber-200/15 text-amber-200/75"} ${disabled ? "opacity-40" : "cursor-pointer"}`}>
+                    <input type="checkbox" checked={checked} disabled={disabled} onChange={() => toggleQuestion(item)} className="mt-0.5 h-4 w-4 shrink-0 accent-amber-300" />
+                    <span>{index + 1}. {item}</span>
+                  </label>;
+                })}
+              </div>
+            </div>}
+            <div>
+              <label htmlFor="tarot-note" className="mb-2 block text-xs font-semibold text-amber-100">3. 補充說明（選填）</label>
+              <textarea id="tarot-note" value={question} maxLength={2000} onChange={(e) => setQuestion(e.target.value)} placeholder="例如：認識多久、目前互動、遇到的狀況，以及你最在意的部分⋯" className="h-32 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none" />
+              <div className="mt-1 flex justify-between text-[11px] text-amber-200/50"><span>請勿填寫電話、地址等敏感資料</span><span>{question.length}/2000</span></div>
+            </div>
+            <p className="rounded-lg bg-black/15 p-3 text-[11px] leading-5 text-amber-200/60">說明：上方選擇的是本次占卜要回答的題目數量，每個問題會對應一張牌。補充實際背景能讓解讀更貼近你的情況；不方便說明也可以留白。</p>
+          </section>
 
           <div className="rounded-xl border border-amber-200/20 bg-white/5 p-3">
               <p className="text-xs text-amber-200/80">如果想要更精準解牌，請幫我填寫基本資料（選填）</p>
@@ -634,7 +679,7 @@ export default function TarotDivination() {
 
           <button
             disabled={!canDraw}
-            onClick={() => { setReadingDate(new Date().toLocaleDateString("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".")); setStep("shuffle"); }}
+            onClick={startReading}
             className="mt-auto w-full rounded-xl bg-amber-200 py-3 text-sm font-semibold text-[#0b0f2e] transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
           >
             開始洗牌
@@ -671,7 +716,7 @@ export default function TarotDivination() {
             {spreadSize === 1
               ? "憑直覺，選一張牌"
               : `憑直覺依序選 ${spreadSize} 張牌 · 目前選第 ${Math.min(pickedSlots.length + 1, spreadSize)} 張：${
-                  positionLabels(spreadSize)[pickedSlots.length] ?? ""
+                  activePositionLabels[pickedSlots.length] ?? ""
                 }`}
           </p>
           <p className="text-[10px] text-amber-200/40">↕ 上下滑動查看全部的牌</p>
@@ -780,7 +825,7 @@ export default function TarotDivination() {
           )}
 
           {results.map((draw, index) => (
-            <ReadingCard key={draw.card.id} draw={draw} label={positionLabels(spreadSize)[index]}>
+            <ReadingCard key={draw.card.id} draw={draw} label={activePositionLabels[index]}>
               <p>{reading.paragraphs[index]}</p>
             </ReadingCard>
           ))}

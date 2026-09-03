@@ -18,8 +18,8 @@ function positionLabels(count: number) {
   return ["核心訊息"];
 }
 
-function payloadCards(draws: CardDraw[]) {
-  const labels = positionLabels(draws.length);
+function payloadCards(draws: CardDraw[], customPositions?: string[]) {
+  const labels = customPositions?.length === draws.length ? customPositions : positionLabels(draws.length);
   return draws.map((draw, index) => {
     const orientation = draw.isReversed ? draw.card.reversed : draw.card.upright;
     return {
@@ -53,8 +53,9 @@ export async function requestAiReading(
   styles: ReadingStyle[],
   followUp?: string,
   birthInfo?: BirthInfo,
+  positions?: string[],
 ): Promise<ReadingReport> {
-  const body = JSON.stringify({ question, followUp, styles, cards: payloadCards(draws), birthInfo });
+  const body = JSON.stringify({ question, followUp, styles, cards: payloadCards(draws, positions), birthInfo });
   try {
     return await postReading(body);
   } catch (error) {
