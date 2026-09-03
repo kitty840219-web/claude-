@@ -6,10 +6,10 @@ import { CardDraw, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import { asset } from "@/lib/basePath";
 import CardArt from "@/components/tarot/CardArt";
 import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
-import { BirthInfo, requestAiReading } from "@/lib/tarot/ai";
+import { BirthInfo, RELATIONSHIP_POSITION_LABELS, requestAiReading } from "@/lib/tarot/ai";
 
 type Step = "cover" | "form" | "shuffle" | "spread" | "analyzing" | "reveal";
-type SpreadSize = 1 | 3;
+type SpreadSize = 1 | 3 | 5;
 
 const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: string }[] = [
   { id: "roast", label: "火烤", emoji: "🔥" },
@@ -20,9 +20,11 @@ const STYLE_OPTIONS: { id: ReadingStyle; label: string; emoji: string; badge?: s
 const SPREAD_MODES: { id: SpreadSize; label: string; hint: string }[] = [
   { id: 1, label: "單抽牌", hint: "一句直覺提醒" },
   { id: 3, label: "三張牌", hint: "過去 · 現在 · 未來" },
+  { id: 5, label: "感情五張牌", hint: "關係 · 走向 · 想法 · 阻礙" },
 ];
 
 const POSITION_LABELS = ["過去", "現在", "未來"];
+const positionLabels = (size: SpreadSize) => size === 5 ? RELATIONSHIP_POSITION_LABELS : size === 3 ? POSITION_LABELS : ["核心訊息"];
 const SPREAD_COUNT = 40;
 
 // deterministic seeded RNG so server-render and client hydration match
@@ -147,7 +149,7 @@ function FollowUpPanel({
           <label className="mb-1 block text-xs text-amber-200/60">我想要追問</label>
           <textarea
             value={draft}
-            maxLength={200}
+            maxLength={2000}
             onChange={(e) => onDraftChange(e.target.value)}
             placeholder="針對這次抽到的牌，還想多問一點什麼？"
             className="h-20 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
@@ -172,10 +174,12 @@ function FollowUpPanel({
 export default function TarotDivination() {
   const [step, setStep] = useState<Step>("cover");
   const [spreadSize, setSpreadSize] = useState<SpreadSize>(1);
+  const [readingDate, setReadingDate] = useState("");
   const [question, setQuestion] = useState("");
   const [styles, setStyles] = useState<ReadingStyle[]>([]);
-  const [useBirthInfo, setUseBirthInfo] = useState(false);
   const [coupleMode, setCoupleMode] = useState(false);
+  const [selfGender, setSelfGender] = useState("");
+  const [partnerGender, setPartnerGender] = useState("");
   const [selfName, setSelfName] = useState("");
   const [selfBirthDate, setSelfBirthDate] = useState("");
   const [selfBirthTime, setSelfBirthTime] = useState("");
@@ -193,14 +197,12 @@ export default function TarotDivination() {
   const [followUpCandidates, setFollowUpCandidates] = useState<CardDraw[] | null>(null);
   const [followUpPickedIndex, setFollowUpPickedIndex] = useState<number | null>(null);
 
-  const canDraw =
-    question.trim().length >= 10 &&
-    (!useBirthInfo || (selfBirthDate.trim() !== "" && (!coupleMode || partnerBirthDate.trim() !== "")));
+  const canDraw = question.trim().length >= 10;
 
-  const birthInfo: BirthInfo | undefined = useBirthInfo
+  const birthInfo: BirthInfo | undefined = selfName.trim() || selfGender || selfBirthDate || (coupleMode && (partnerName.trim() || partnerGender || partnerBirthDate))
     ? {
-        self: { name: selfName.trim() || undefined, date: selfBirthDate, time: selfBirthTime || undefined },
-        partner: coupleMode ? { name: partnerName.trim() || undefined, date: partnerBirthDate } : undefined,
+        self: { name: selfName.trim() || undefined, gender: selfGender || undefined, date: selfBirthDate, time: selfBirthTime || undefined },
+        partner: coupleMode ? { name: partnerName.trim() || undefined, gender: partnerGender || undefined, date: partnerBirthDate } : undefined,
       }
     : undefined;
 
@@ -323,11 +325,11 @@ export default function TarotDivination() {
         <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
       </div>
 
-      <div className="flex gap-2 rounded-full border border-amber-200/20 bg-white/5 p-1">
+      <div className="flex flex-wrap justify-center gap-2 rounded-2xl border border-amber-200/20 bg-white/5 p-1">
         {SPREAD_MODES.map((mode) => (
           <button
             key={mode.id}
-            onClick={() => setSpreadSize(mode.id)}
+            onClick={() => { setSpreadSize(mode.id); if (mode.id === 5) setCoupleMode(true); }}
             className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
               spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
             }`}
@@ -367,29 +369,19 @@ export default function TarotDivination() {
           <div>
             <textarea
               value={question}
-              maxLength={200}
+              maxLength={2000}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="例如：這段感情接下來會如何發展？"
               className="h-36 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
             />
             <div className="mt-1 flex justify-between text-[11px] text-amber-200/50">
               <span>至少 10 個字；請用暱稱或代號，勿填敏感資料</span>
-              <span>{question.length}/200</span>
+              <span>{question.length}/2000</span>
             </div>
           </div>
 
           <div className="rounded-xl border border-amber-200/20 bg-white/5 p-3">
-            <label className="flex cursor-pointer items-center justify-between gap-3 text-xs text-amber-200/80">
-              <span>如果想要更精準解牌，請幫我填寫基本資料</span>
-              <input
-                type="checkbox"
-                checked={useBirthInfo}
-                onChange={(e) => setUseBirthInfo(e.target.checked)}
-                className="h-4 w-4 shrink-0 accent-amber-300"
-              />
-            </label>
-
-            {useBirthInfo && (
+              <p className="text-xs text-amber-200/80">如果想要更精準解牌，請幫我填寫基本資料（選填）</p>
               <div className="mt-3 space-y-3">
                 <p className="text-[11px] text-amber-200/50">請用暱稱或代號，勿填真實敏感資料</p>
                 <div className="flex gap-2 rounded-full border border-amber-200/20 bg-black/10 p-1 text-xs">
@@ -417,25 +409,35 @@ export default function TarotDivination() {
                   <p className="text-[11px] text-amber-200/60">{coupleMode ? "你的資訊" : "你的出生資訊"}</p>
                   <div className="grid grid-cols-2 gap-2">
                     <input
+                      aria-label="你的姓名（選填）"
                       value={selfName}
                       onChange={(e) => setSelfName(e.target.value)}
                       placeholder="姓名（選填）"
-                      className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
+                      className="min-w-0 w-full rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
                     />
                     <input
                       type="date"
+                      aria-label="你的出生日期（選填）"
                       value={selfBirthDate}
                       onChange={(e) => setSelfBirthDate(e.target.value)}
-                      className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
+                      className="min-w-0 w-full rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
                     />
                   </div>
+                  <select aria-label="你的性別（選填）" value={selfGender} onChange={(e) => setSelfGender(e.target.value)} className="w-full rounded-lg border border-amber-200/30 bg-[#0b0f2e] px-3 py-2 text-xs text-amber-50">
+                    <option value="">性別（選填）</option>
+                    <option value="女">女</option>
+                    <option value="男">男</option>
+                    <option value="其他">其他</option>
+                    <option value="不透露">不透露</option>
+                  </select>
                   <input
                     type="time"
+                    aria-label="你的出生時間（選填）"
                     value={selfBirthTime}
                     onChange={(e) => setSelfBirthTime(e.target.value)}
                     className="w-full rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
                   />
-                  <p className="text-[10px] text-amber-200/40">出生時間選填，不確定可以不填</p>
+                  <p className="text-[10px] text-amber-200/40">姓名、出生日期與時間都可不填，不確定可留白</p>
                 </div>
 
                 {coupleMode && (
@@ -443,22 +445,30 @@ export default function TarotDivination() {
                     <p className="text-[11px] text-amber-200/60">對方資訊（不需要時辰）</p>
                     <div className="grid grid-cols-2 gap-2">
                       <input
+                        aria-label="對方姓名（選填）"
                         value={partnerName}
                         onChange={(e) => setPartnerName(e.target.value)}
                         placeholder="姓名（選填）"
-                        className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
+                        className="min-w-0 w-full rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
                       />
                       <input
                         type="date"
+                        aria-label="對方出生日期（選填）"
                         value={partnerBirthDate}
                         onChange={(e) => setPartnerBirthDate(e.target.value)}
-                        className="rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
+                        className="min-w-0 w-full rounded-lg border border-amber-200/30 bg-white/5 px-3 py-2 text-xs text-amber-50 [color-scheme:dark] focus:border-amber-200/70 focus:outline-none"
                       />
                     </div>
+                  <select aria-label="對方性別（選填）" value={partnerGender} onChange={(e) => setPartnerGender(e.target.value)} className="w-full rounded-lg border border-amber-200/30 bg-[#0b0f2e] px-3 py-2 text-xs text-amber-50">
+                    <option value="">性別（選填）</option>
+                    <option value="女">女</option>
+                    <option value="男">男</option>
+                    <option value="其他">其他</option>
+                    <option value="不透露">不透露</option>
+                  </select>
                   </div>
                 )}
               </div>
-            )}
           </div>
 
           <div className="grid grid-cols-3 gap-2">
@@ -487,7 +497,7 @@ export default function TarotDivination() {
 
           <button
             disabled={!canDraw}
-            onClick={() => setStep("shuffle")}
+            onClick={() => { setReadingDate(new Date().toLocaleDateString("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".")); setStep("shuffle"); }}
             className="mt-auto w-full rounded-xl bg-amber-200 py-3 text-sm font-semibold text-[#0b0f2e] transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
           >
             開始洗牌
@@ -524,7 +534,7 @@ export default function TarotDivination() {
             {spreadSize === 1
               ? "憑直覺，選一張牌"
               : `憑直覺依序選 ${spreadSize} 張牌 · 目前選第 ${Math.min(pickedSlots.length + 1, spreadSize)} 張：${
-                  POSITION_LABELS[pickedSlots.length] ?? ""
+                  positionLabels(spreadSize)[pickedSlots.length] ?? ""
                 }`}
           </p>
           <p className="text-[10px] text-amber-200/40">↕ 上下滑動查看全部的牌</p>
@@ -595,84 +605,50 @@ export default function TarotDivination() {
         </div>
       )}
 
-      {step === "reveal" && reading && results.length === spreadSize && spreadSize === 1 && (
-        <div className="flex flex-1 flex-col items-center gap-5 py-2">
-          <div className="h-64 w-40">
-            <CardFront card={results[0].card} isReversed={results[0].isReversed} />
-          </div>
-          <CardCaption card={results[0].card} isReversed={results[0].isReversed} />
+      {step === "reveal" && reading && results.length === spreadSize && (
+        <div className="flex flex-1 flex-col gap-5 py-2">
+          <header className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-4">
+            <h2 className="text-lg font-semibold text-amber-100">艾飛樂語錄｜個人線上塔羅占卜</h2>
+            <div className="mt-3 space-y-1 break-words text-xs leading-6 text-amber-50/80">
+              <div>占卜日期：{readingDate}</div>
+              <div>個案姓名：{selfName.trim() || "未填"}{selfGender ? `（${selfGender}）` : ""}</div>
+              <div>出生年月日：{selfBirthDate.replaceAll("-", ".") || "未填"}</div>
+              <div>出生時間：{selfBirthTime || "未知"}</div>
+              {coupleMode && <><div>對方姓名：{partnerName.trim() || "未填"}{partnerGender ? `（${partnerGender}）` : ""}</div><div>對方出生年月日：{partnerBirthDate.replaceAll("-", ".") || "未填"}</div></>}
+            </div>
+            <h3 className="mt-4 text-xs text-amber-200/60">遇到的問題（越詳細越準唷）：</h3>
+            <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-7">{question}</p>
+          </header>
 
-          <div className="flex flex-wrap items-center justify-center gap-1.5">
-            {results[0].card.element && <ElementBadge element={results[0].card.element} />}
-            {(results[0].isReversed ? results[0].card.reversed : results[0].card.upright).keywords.map((k) => (
-              <span key={k} className="rounded-full border border-amber-200/30 px-2 py-0.5 text-[11px] text-amber-200/80">
-                #{k}
-              </span>
-            ))}
-          </div>
+          <h3 className="text-lg font-semibold text-amber-100">解牌：</h3>
+          {reading.personality && (
+            <section className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
+              <p className="whitespace-pre-line text-sm leading-7 text-amber-50/90">{reading.personality}</p>
+            </section>
+          )}
 
-          <article className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-5">
-                <p className="mb-2 text-xs text-amber-200/55">你的問題</p>
-                <p className="mb-5 rounded-lg bg-black/15 p-3 text-sm leading-relaxed text-amber-50/90">{question}</p>
-                <h3 className="mb-4 text-lg font-semibold leading-relaxed text-amber-100">{reading.title}</h3>
-                <div className="space-y-4 text-sm leading-7 text-amber-50/90">
-                  {reading.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-                  <div className="border-t border-amber-200/20 pt-4">
-                    <h4 className="mb-2 font-semibold text-amber-100">總結</h4>
-                    <p>{reading.summary}</p>
-                  </div>
-                </div>
-          </article>
-
-          <FollowUpPanel
-            followUps={followUps}
-            draft={followUpDraft}
-            onDraftChange={setFollowUpDraft}
-            onSubmit={handleSubmitFollowUp}
-            candidates={followUpCandidates}
-            pickedIndex={followUpPickedIndex}
-            onPickCandidate={handlePickFollowUpCard}
-            loading={followUpLoading}
-          />
-
-          <div className="mt-auto flex w-full gap-2 pt-2">
-            <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">
-              再抽一次
-            </button>
-            <Link href="/" className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]">
-              回首頁
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {step === "reveal" && reading && results.length === spreadSize && spreadSize === 3 && (
-        <div className="flex flex-1 flex-col items-center gap-5 py-2">
-          <div className="grid w-full grid-cols-3 gap-2">
-            {results.map((r, i) => (
-              <div key={i} className="flex flex-col items-center gap-1.5">
-                <div className="h-36 w-full">
-                  <CardFront card={r.card} isReversed={r.isReversed} compact />
-                </div>
-                <CardCaption card={r.card} isReversed={r.isReversed} label={POSITION_LABELS[i]} compact />
-                {r.card.element && <ElementBadge element={r.card.element} compact />}
+          {results.map((draw, index) => (
+            <article key={draw.card.id} className="rounded-xl border border-amber-200/20 bg-white/5 p-4">
+              <h3 className="mb-4 text-sm font-semibold text-amber-100">{positionLabels(spreadSize)[index]}：{draw.card.name}{draw.isReversed ? "（逆位）" : "（正位）"}</h3>
+              <div className="mx-auto mb-3 h-64 w-40">
+                <CardFront card={draw.card} isReversed={draw.isReversed} />
               </div>
-            ))}
-          </div>
+              <CardCaption card={draw.card} isReversed={draw.isReversed} />
+              <div className="my-3 flex flex-wrap items-center justify-center gap-1.5">
+                {draw.card.element && <ElementBadge element={draw.card.element} />}
+                {(draw.isReversed ? draw.card.reversed : draw.card.upright).keywords.map((keyword) => (
+                  <span key={keyword} className="rounded-full border border-amber-200/30 px-2 py-0.5 text-[11px] text-amber-200/80">#{keyword}</span>
+                ))}
+              </div>
+              <p className="whitespace-pre-line text-sm leading-7 text-amber-50/90">{reading.paragraphs[index]}</p>
+            </article>
+          ))}
 
-          <div className="w-full rounded-xl border border-amber-200/20 bg-white/5 p-4">
-                <h3 className="mb-3 text-base font-semibold text-amber-100">{reading.title}</h3>
-                <div className="space-y-3 whitespace-pre-line text-sm leading-relaxed text-amber-50/90">
-                  {reading.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                  <div className="border-t border-amber-200/20 pt-3">
-                    <h4 className="mb-2 font-semibold text-amber-100">總結</h4>
-                    <p>{reading.summary}</p>
-                  </div>
-                </div>
-          </div>
-
+          <section className="rounded-xl border border-amber-200/30 bg-amber-200/5 p-4">
+            <h3 className="mb-3 font-semibold text-amber-100">總結與建議</h3>
+            <p className="whitespace-pre-line text-sm leading-7 text-amber-50/90">{reading.summary}</p>
+          </section>
+          {readingError && <p role="alert" className="text-sm text-rose-200">{readingError}</p>}
           <FollowUpPanel
             followUps={followUps}
             draft={followUpDraft}
@@ -683,14 +659,9 @@ export default function TarotDivination() {
             onPickCandidate={handlePickFollowUpCard}
             loading={followUpLoading}
           />
-
           <div className="mt-auto flex w-full gap-2 pt-2">
-            <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">
-              再抽一次
-            </button>
-            <Link href="/" className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]">
-              回首頁
-            </Link>
+            <button onClick={resetAll} className="flex-1 rounded-xl border border-amber-200/40 py-3 text-sm text-amber-100">再抽一次</button>
+            <Link href="/" className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]">回首頁</Link>
           </div>
         </div>
       )}

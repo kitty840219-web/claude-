@@ -1,7 +1,7 @@
 import { CardDraw, TarotCard } from "./cards";
 
 export type ReadingStyle = "roast" | "intuitive" | "insight";
-export type ReadingReport = { title: string; paragraphs: string[]; summary: string };
+export type ReadingReport = { title: string; personality?: string; paragraphs: string[]; summary: string };
 
 type Domain = "感情" | "工作" | "金錢" | "人際" | "自我";
 type Intent = "想法感受" | "未來發展" | "復合可能" | "行動建議" | "結果判斷";

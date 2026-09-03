@@ -5,17 +5,25 @@ import { ReadingReport, ReadingStyle } from "./reading";
 export const TAROT_API_URL = "https://claude.kitty840219.workers.dev";
 
 export type BirthInfo = {
-  self: { name?: string; date: string; time?: string };
-  partner?: { name?: string; date: string };
+  self: { name?: string; gender?: string; date: string; time?: string };
+  partner?: { name?: string; gender?: string; date: string };
 };
 
 const POSITION_LABELS = ["過去", "現在", "未來"];
+export const RELATIONSHIP_POSITION_LABELS = ["目前關係能量高低", "未來三個月感情運勢", "對方對你的看法", "對方對這段關係的想法", "目前阻礙和關鍵點"];
+
+function positionLabels(count: number) {
+  if (count === 5) return RELATIONSHIP_POSITION_LABELS;
+  if (count === 3) return POSITION_LABELS;
+  return ["核心訊息"];
+}
 
 function payloadCards(draws: CardDraw[]) {
+  const labels = positionLabels(draws.length);
   return draws.map((draw, index) => {
     const orientation = draw.isReversed ? draw.card.reversed : draw.card.upright;
     return {
-      position: draws.length === 1 ? "核心訊息" : POSITION_LABELS[index],
+      position: labels[index] ?? `第 ${index + 1} 張`,
       name: draw.card.name,
       isReversed: draw.isReversed,
       keywords: orientation.keywords,
