@@ -55,9 +55,9 @@ function mulberry32(seed: number) {
 
 function CardBack({ className = "" }: { className?: string }) {
   return (
-    <div className={`relative overflow-hidden rounded-2xl shadow-[0_0_30px_rgba(80,70,200,0.35)] ${className}`}>
+    <div className={`relative ${className}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={asset("/images/tarot/back.webp")} alt="塔羅牌背面" loading="eager" decoding="async" className="h-full w-full object-cover" />
+      <img src={asset("/images/tarot/back.webp")} alt="塔羅牌背面" loading="eager" decoding="async" className="h-full w-full object-contain" />
     </div>
   );
 }
