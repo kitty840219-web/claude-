@@ -562,6 +562,10 @@ function minorScene(card: TarotCard) {
 }
 
 export default function CardArt({ card, className = "" }: { card: TarotCard; className?: string }) {
+  if (card.image) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={card.image} alt={card.name} className={`object-cover ${className}`} />;
+  }
   return (
     <svg viewBox="0 0 120 200" className={className} role="img" aria-hidden="true">
       <rect x={0} y={0} width={120} height={200} fill={INK} />

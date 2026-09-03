@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Star from "@/components/Star";
 import SectionHeading from "@/components/SectionHeading";
@@ -132,9 +133,15 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
             <button
               key={s.id}
               onClick={() => onPickPartner(s)}
-              className="flex flex-col items-center gap-1 rounded-2xl border border-gold/15 bg-night-light/20 py-3 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="flex flex-col items-center gap-1 overflow-hidden rounded-2xl border border-gold/15 bg-night-light/20 pb-2 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
-              <span className="text-2xl">{s.symbol}</span>
+              {s.image ? (
+                <div className="relative aspect-square w-full">
+                  <Image src={s.image} alt={s.name} fill className="object-contain" sizes="140px" />
+                </div>
+              ) : (
+                <span className="pt-3 text-2xl">{s.symbol}</span>
+              )}
               <span className="text-[11px] font-semibold text-paper">{s.name}</span>
             </button>
           ))}
@@ -149,12 +156,24 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
     <div className="w-full space-y-4">
       <div className="flex items-center justify-center gap-4">
         <div className="flex flex-col items-center gap-1">
-          <span className="text-3xl">{sign.symbol}</span>
+          {sign.image ? (
+            <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-gold/40">
+              <Image src={sign.image} alt={sign.name} fill className="object-cover" sizes="64px" />
+            </div>
+          ) : (
+            <span className="text-3xl">{sign.symbol}</span>
+          )}
           <span className="text-xs text-paper/70">{sign.name}</span>
         </div>
         <span className="text-xl text-gold-light">✦</span>
         <div className="flex flex-col items-center gap-1">
-          <span className="text-3xl">{partner.symbol}</span>
+          {partner.image ? (
+            <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-gold/40">
+              <Image src={partner.image} alt={partner.name} fill className="object-cover" sizes="64px" />
+            </div>
+          ) : (
+            <span className="text-3xl">{partner.symbol}</span>
+          )}
           <span className="text-xs text-paper/70">{partner.name}</span>
         </div>
       </div>
@@ -222,9 +241,15 @@ export default function ZodiacFortune() {
             <button
               key={sign.id}
               onClick={() => selectSign(sign)}
-              className="flex flex-col items-center gap-1.5 rounded-2xl border border-gold/15 bg-night-light/20 py-4 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+              className="flex flex-col items-center gap-1.5 overflow-hidden rounded-2xl border border-gold/15 bg-night-light/20 pb-3 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
             >
-              <span className="text-3xl">{sign.symbol}</span>
+              {sign.image ? (
+                <div className="relative aspect-square w-full">
+                  <Image src={sign.image} alt={sign.name} fill className="object-contain" sizes="(min-width: 640px) 25vw, 33vw" />
+                </div>
+              ) : (
+                <span className="pt-4 text-3xl">{sign.symbol}</span>
+              )}
               <span className="text-xs font-semibold text-paper">{sign.name}</span>
               <span className="text-[10px] text-paper/50">{sign.dateRange}</span>
             </button>
@@ -245,7 +270,13 @@ export default function ZodiacFortune() {
             </button>
             <div className="h-full w-full overflow-y-auto rounded-[1.5rem] border border-gold/30 bg-night-dark p-5 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex flex-col items-center gap-2 text-center">
-                <span className="text-5xl">{selected.symbol}</span>
+                {selected.image ? (
+                  <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-gold/40">
+                    <Image src={selected.image} alt={selected.name} fill className="object-cover" sizes="112px" />
+                  </div>
+                ) : (
+                  <span className="text-5xl">{selected.symbol}</span>
+                )}
                 <h2 className="font-serif text-2xl font-bold text-paper">{selected.name}</h2>
                 <p className="text-xs text-paper/50">{selected.dateRange}</p>
                 <SignBadgeRow sign={selected} />

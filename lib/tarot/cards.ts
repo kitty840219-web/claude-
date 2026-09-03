@@ -15,6 +15,8 @@ export type TarotCard = {
   suit?: Suit;
   rank?: number; // 1-10 for pip cards
   court?: Court; // set instead of `rank` for court cards
+  /** Illustrated card face; falls back to the generated SVG art when absent. */
+  image?: string;
 };
 
 export const MAJOR_ARCANA: TarotCard[] = [
@@ -239,6 +241,34 @@ export const MAJOR_ARCANA: TarotCard[] = [
     reversed: { keywords: ["未完結", "最後一步受阻", "缺乏成就感"], meaning: "還有未完結的事，最後一步受阻，讓這份成果始終缺乏該有的成就感。" },
   },
 ];
+
+// Illustrated card faces, added incrementally as they're produced; the rest fall back to generated SVG art.
+const MAJOR_ARCANA_IMAGES: Record<number, string> = {
+  0: "/images/tarot/0.png",
+  1: "/images/tarot/1.png",
+  2: "/images/tarot/2.png",
+  3: "/images/tarot/3.png",
+  4: "/images/tarot/4.png",
+  5: "/images/tarot/5.png",
+  6: "/images/tarot/6.png",
+  7: "/images/tarot/7.png",
+  8: "/images/tarot/8.png",
+  9: "/images/tarot/9.png",
+  10: "/images/tarot/10.png",
+  11: "/images/tarot/11.png",
+  12: "/images/tarot/12.png",
+  13: "/images/tarot/13.png",
+  14: "/images/tarot/14.png",
+  15: "/images/tarot/15.png",
+  16: "/images/tarot/16.png",
+  17: "/images/tarot/17.png",
+  18: "/images/tarot/18.png",
+  19: "/images/tarot/19.png",
+};
+MAJOR_ARCANA.forEach((card) => {
+  const image = MAJOR_ARCANA_IMAGES[card.id];
+  if (image) card.image = image;
+});
 
 const CHINESE_DIGITS = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 const RANK_NAMES_EN = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];

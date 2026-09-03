@@ -21,7 +21,7 @@ const SPREAD_MODES: { id: SpreadSize; label: string; hint: string }[] = [
 ];
 
 const POSITION_LABELS = ["過去", "現在", "未來"];
-const SPREAD_COUNT = 12;
+const SPREAD_COUNT = 40;
 
 // deterministic seeded RNG so server-render and client hydration match
 function mulberry32(seed: number) {
@@ -346,38 +346,62 @@ export default function TarotDivination() {
       )}
 
       {step === "spread" && (
-        <div className="flex flex-1 flex-col items-center justify-center gap-6">
-          <p className="text-sm text-amber-200/70">
+        <div className="flex min-h-0 flex-1 flex-col items-center gap-1.5">
+          <p className="text-xs text-amber-200/70">
             {spreadSize === 1
               ? "憑直覺，選一張牌"
               : `憑直覺依序選 ${spreadSize} 張牌 · 目前選第 ${Math.min(pickedSlots.length + 1, spreadSize)} 張：${
                   POSITION_LABELS[pickedSlots.length] ?? ""
                 }`}
           </p>
-          <div className="flex h-52 w-full items-end justify-center">
-            {spread.map((c) => {
-              const pickedIndex = pickedSlots.indexOf(c.id);
-              const isPicked = pickedIndex !== -1;
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => handlePickCard(c.id)}
-                  disabled={isPicked || pickedSlots.length >= spreadSize}
-                  className="relative -mx-3 h-40 w-24 shrink-0 origin-bottom transition-transform duration-200 enabled:hover:-translate-y-4 enabled:hover:z-10 disabled:cursor-default"
-                  style={{
-                    transform: `rotate(${c.rotate}deg) translateY(${isPicked ? c.translateY - 20 : c.translateY}px)`,
-                  }}
-                  aria-label={`選擇第 ${c.id + 1} 張牌`}
-                >
-                  <CardBack className={`h-full w-full ${isPicked ? "opacity-40" : ""}`} />
-                  {isPicked && (
-                    <span className="absolute -top-2 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-[#0b0f2e] text-xs font-bold text-amber-200 ring-2 ring-amber-200">
-                      {pickedIndex + 1}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+          <p className="text-[10px] text-amber-200/40">↕ 上下滑動查看全部的牌</p>
+          <div className="relative -mx-5 -mb-5 w-[calc(100%+2.5rem)] min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white/95 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="relative flex flex-col gap-[2px]">
+              <div className="pointer-events-none absolute inset-y-0 left-[32%] border-l-2 border-dotted border-amber-400/80" />
+              <div className="pointer-events-none absolute inset-y-0 left-[68%] border-l-2 border-dotted border-amber-400/80" />
+              {spread.map((c, i) => {
+                const pickedIndex = pickedSlots.indexOf(c.id);
+                const isPicked = pickedIndex !== -1;
+                const isLast = i === spread.length - 1;
+                if (isLast) {
+                  return (
+                    <button
+                      key={c.id}
+                      onClick={() => handlePickCard(c.id)}
+                      disabled={isPicked || pickedSlots.length >= spreadSize}
+                      aria-label={`選擇第 ${c.id + 1} 張牌`}
+                      className={`relative h-24 w-full shrink-0 overflow-hidden rounded-[2px] transition-opacity disabled:cursor-default ${
+                        isPicked ? "opacity-35" : ""
+                      }`}
+                    >
+                      <CardBack className="h-full w-full rounded-none border-0" />
+                      {isPicked && (
+                        <span className="absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full bg-[#0b0f2e] text-xs font-bold text-amber-200 ring-2 ring-amber-200">
+                          {pickedIndex + 1}
+                        </span>
+                      )}
+                    </button>
+                  );
+                }
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => handlePickCard(c.id)}
+                    disabled={isPicked || pickedSlots.length >= spreadSize}
+                    aria-label={`選擇第 ${c.id + 1} 張牌`}
+                    className={`relative h-3 w-full shrink-0 rounded-[1px] bg-[#1a35a8] transition-colors enabled:hover:bg-[#2b48c9] disabled:cursor-default ${
+                      isPicked ? "bg-amber-400" : ""
+                    }`}
+                  >
+                    {isPicked && (
+                      <span className="absolute right-1 top-1/2 -translate-y-1/2 text-[8px] font-bold leading-none text-[#0b0f2e]">
+                        {pickedIndex + 1}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
