@@ -227,39 +227,47 @@ export default function TarotDivination() {
   const canDraw = question.trim().length >= 10;
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-6 text-amber-50">
-      {step === "cover" && (
-        <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
-          <div>
-            <h1 className="text-4xl font-bold tracking-[0.3em]">大眾占卜</h1>
-            <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
-          </div>
+    <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 px-5 py-16 text-center text-amber-50">
+      <div>
+        <h1 className="text-4xl font-bold tracking-[0.3em]">大眾占卜</h1>
+        <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
+      </div>
 
-          <div className="flex gap-2 rounded-full border border-amber-200/20 bg-white/5 p-1">
-            {SPREAD_MODES.map((mode) => (
-              <button
-                key={mode.id}
-                onClick={() => setSpreadSize(mode.id)}
-                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
-                  spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
-                }`}
-              >
-                {mode.label}
-              </button>
-            ))}
-          </div>
-
+      <div className="flex gap-2 rounded-full border border-amber-200/20 bg-white/5 p-1">
+        {SPREAD_MODES.map((mode) => (
           <button
-            onClick={() => setStep("form")}
-            className="group relative h-56 w-36 cursor-pointer transition-transform duration-300 hover:-translate-y-2"
-            aria-label="點擊卡牌開始"
+            key={mode.id}
+            onClick={() => setSpreadSize(mode.id)}
+            className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+              spreadSize === mode.id ? "bg-amber-200 text-[#0b0f2e]" : "text-amber-200/70 hover:text-amber-100"
+            }`}
           >
-            <CardBack className="h-full w-full" />
+            {mode.label}
           </button>
-          <p className="animate-pulse text-sm text-amber-200/70">點擊卡牌開始</p>
-        </div>
-      )}
+        ))}
+      </div>
 
+      <button
+        onClick={() => setStep("form")}
+        className="group relative h-56 w-36 cursor-pointer transition-transform duration-300 hover:-translate-y-2"
+        aria-label="點擊卡牌開始"
+      >
+        <CardBack className="h-full w-full" />
+      </button>
+      <p className="animate-pulse text-sm text-amber-200/70">點擊卡牌開始</p>
+
+      {step !== "cover" && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 pt-8" onClick={resetAll}>
+          <div className="relative h-full max-h-[85svh] w-full max-w-[430px]" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={resetAll}
+              aria-label="關閉大眾占卜視窗"
+              className="absolute -right-2 -top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-amber-200 text-xl font-bold text-[#0b0f2e] shadow-soft transition hover:bg-amber-100"
+            >
+              ✕
+            </button>
+            <div className="flex h-full w-full flex-col overflow-y-auto rounded-[1.5rem] border border-amber-200/30 bg-[#0b0f2e] p-5 text-left [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {step === "form" && (
         <div className="flex flex-1 flex-col gap-5">
           <div>
@@ -460,6 +468,10 @@ export default function TarotDivination() {
             <Link href="/" className="flex-1 rounded-xl bg-amber-200 py-3 text-center text-sm font-semibold text-[#0b0f2e]">
               回首頁
             </Link>
+          </div>
+        </div>
+      )}
+            </div>
           </div>
         </div>
       )}
