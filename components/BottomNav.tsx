@@ -7,7 +7,7 @@ import { Suspense } from "react";
 const TABS = [
   {
     href: "/",
-    label: "旅程",
+    label: "首頁",
     icon: (active: boolean) => (
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
         <path
@@ -39,7 +39,7 @@ const TABS = [
   },
   {
     href: "/works",
-    label: "語錄",
+    label: "最新文章",
     icon: (active: boolean) => (
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
         <path d="M12 3l2.1 6.3H20l-5 3.9 1.9 6.3L12 15.6l-4.9 3.9 1.9-6.3-5-3.9h5.9L12 3z" fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth={active ? 1.4 : 1.6} strokeLinejoin="round" />
