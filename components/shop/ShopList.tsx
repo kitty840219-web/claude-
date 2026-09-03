@@ -12,51 +12,7 @@ type Shop = {
   icon: "shop" | "line";
   cta: string;
   tag: string;
-  mode: "link" | "embed";
 };
-
-function ShopCard({ s, onOpen }: { s: Shop; onOpen: () => void }) {
-  const inner = (
-    <>
-      <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold text-night-dark shadow-card sm:h-16 sm:w-16">
-        <SocialIcon type={s.icon} className="h-6 w-6" />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="flex flex-wrap items-center gap-2">
-          <span className="font-serif text-base font-bold text-paper sm:text-lg">{s.title}</span>
-          <TagChip tone="gold">{s.tag}</TagChip>
-        </span>
-        <span className="mt-1.5 block text-xs leading-relaxed text-paper/60 sm:text-sm">{s.desc}</span>
-      </span>
-      <span className="hidden shrink-0 rounded-full bg-gold px-5 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition group-hover:bg-gold-light sm:inline-block sm:text-sm">
-        {s.cta}
-      </span>
-    </>
-  );
-
-  if (s.mode === "link") {
-    return (
-      <a
-        href={s.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex items-center gap-4 px-5 py-5 transition hover:bg-gold/5 sm:gap-6 sm:px-7"
-      >
-        {inner}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group flex w-full items-center gap-4 px-5 py-5 text-left transition hover:bg-gold/5 sm:gap-6 sm:px-7"
-    >
-      {inner}
-    </button>
-  );
-}
 
 export default function ShopList({ shops }: { shops: Shop[] }) {
   const [selected, setSelected] = useState<Shop | null>(null);
@@ -74,7 +30,28 @@ export default function ShopList({ shops }: { shops: Shop[] }) {
     <>
       <div className="divide-y divide-paper/10">
         {shops.map((s) => (
-          <ShopCard key={s.key} s={s} onOpen={() => setSelected(s)} />
+          <button
+            key={s.key}
+            type="button"
+            onClick={() => setSelected(s)}
+            className="group flex w-full items-center gap-4 px-5 py-5 text-left transition hover:bg-gold/5 sm:gap-6 sm:px-7"
+          >
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold text-night-dark shadow-card sm:h-16 sm:w-16">
+              <SocialIcon type={s.icon} className="h-6 w-6" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="flex flex-wrap items-center gap-2">
+                <span className="font-serif text-base font-bold text-paper sm:text-lg">{s.title}</span>
+                <TagChip tone="gold">{s.tag}</TagChip>
+              </span>
+              <span className="mt-1.5 block text-xs leading-relaxed text-paper/60 sm:text-sm">
+                {s.desc}
+              </span>
+            </span>
+            <span className="hidden shrink-0 rounded-full bg-gold px-5 py-2.5 text-xs font-semibold text-night-dark shadow-soft transition group-hover:bg-gold-light sm:inline-block sm:text-sm">
+              {s.cta}
+            </span>
+          </button>
         ))}
       </div>
 

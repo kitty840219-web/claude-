@@ -18,7 +18,6 @@ const SHOPS = [
     icon: "shop" as const,
     cta: "前往商店選購",
     tag: "熱銷中",
-    mode: "link" as const,
   },
   {
     key: "line",
@@ -29,7 +28,6 @@ const SHOPS = [
     icon: "line" as const,
     cta: "查看貼圖作品",
     tag: "持續上架",
-    mode: "embed" as const,
   },
 ];
 
