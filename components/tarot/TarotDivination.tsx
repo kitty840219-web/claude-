@@ -198,6 +198,16 @@ function TarotGuideModal({ selectedCard, onSelect, onClose }: { selectedCard: Ta
                 <h2 className="text-2xl font-semibold text-amber-100">塔羅牌介紹</h2>
                 <p className="mt-2 text-xs leading-6 text-amber-200/60">完整 78 張塔羅牌｜點擊牌卡查看正位與逆位含義</p>
               </div>
+              <section className="mt-6 rounded-xl border border-amber-200/25 bg-white/5 p-4">
+                <h3 className="text-lg font-semibold text-amber-100">塔羅牌的由來</h3>
+                <div className="mt-3 space-y-3 text-sm leading-7 text-amber-50/85">
+                  <p>塔羅牌最早並不是占卜工具。現存文獻顯示，它在十五世紀的義大利北部發展成一種紙牌遊戲，當時常見於米蘭、威尼斯與佛羅倫斯等地。早期華麗的手繪牌組多由貴族委託製作，用來進行帶有王牌規則的娛樂遊戲。</p>
+                  <p>後來逐漸形成今日熟悉的 78 張結構：22 張大阿爾克那，包括愚者與 21 張王牌；以及 56 張小阿爾克那，分為權杖、聖杯、寶劍、錢幣四個牌組。每個牌組包含數字牌一至十，以及侍者、騎士、皇后、國王。</p>
+                  <p>直到十八世紀後期，歐洲才開始將塔羅牌系統性地運用於占卜；十九世紀的神祕學發展又加入象徵、數字與靈性詮釋，使塔羅成為探索處境與內在心理的工具。</p>
+                  <p>二十世紀初出版的偉特－史密斯牌，由 Pamela Colman Smith 繪製圖像，讓小阿爾克那也具有完整情境畫面。這套視覺語言深深影響現代塔羅，許多新牌組仍以它的象徵架構重新創作。</p>
+                </div>
+                <p className="mt-3 text-[10px] leading-5 text-amber-200/45">歷史資料參考：Victoria and Albert Museum、The Metropolitan Museum of Art</p>
+              </section>
               <div className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6">
                 {FULL_DECK.map((card) => (
                   <button key={card.id} type="button" onClick={() => onSelect(card)} className="min-w-0 text-center">
