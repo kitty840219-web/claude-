@@ -380,7 +380,7 @@ export default function TarotDivination() {
 
           <div className="rounded-xl border border-amber-200/20 bg-white/5 p-3">
             <label className="flex cursor-pointer items-center justify-between gap-3 text-xs text-amber-200/80">
-              <span>加入生辰資訊，結合八字紫微命理解讀（選填）</span>
+              <span>如果想要更精準解牌，請幫我填寫基本資料</span>
               <input
                 type="checkbox"
                 checked={useBirthInfo}
