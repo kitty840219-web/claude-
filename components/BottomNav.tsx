@@ -69,6 +69,23 @@ const TABS = [
     ),
   },
   {
+    href: "/horoscope",
+    label: "星座運勢",
+    icon: (active: boolean) => (
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
+        <path
+          d="M12 3c.6 3 2.1 5.5 4.5 6.5-2.4 1-3.9 3.5-4.5 6.5-.6-3-2.1-5.5-4.5-6.5C9.9 8.5 11.4 6 12 3z"
+          fill={active ? "currentColor" : "none"}
+          stroke="currentColor"
+          strokeWidth={active ? 1.4 : 1.6}
+          strokeLinejoin="round"
+        />
+        <path d="M18.5 15.5l.7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7.7-1.7z" fill="currentColor" />
+        <path d="M5.5 4.5l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5.5-1.3z" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
     href: "/shop",
     label: "商店",
     icon: (active: boolean) => (

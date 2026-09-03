@@ -29,6 +29,7 @@ export const NAV = [
   { href: "/quests", label: "任務" },
   { href: "/works", label: "語錄作品" },
   { href: "/tarot", label: "大眾占卜" },
+  { href: "/horoscope", label: "星座運勢" },
   { href: "/videos", label: "影音創作" },
   { href: "/shop", label: "周邊商店" },
   { href: "/pricing", label: "服務報價" },
