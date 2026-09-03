@@ -15,12 +15,12 @@ export default function MeteorShower() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed left-1/2 top-0 z-[25] h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
+      className="pointer-events-none fixed left-1/2 top-0 -z-10 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
     >
       {METEORS.map((m, i) => (
         <span
           key={i}
-          className="animate-meteor absolute h-px rounded-full bg-gradient-to-r from-transparent via-gold-light to-paper"
+          className="animate-meteor absolute h-px rounded-full bg-gradient-to-r from-transparent via-white/40 to-white/70"
           style={{
             top: m.top,
             left: m.left,
