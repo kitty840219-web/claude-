@@ -63,23 +63,27 @@ function ElementBadge({ element, compact = false }: { element: NonNullable<Tarot
 function CardFront({ card, isReversed, compact = false }: { card: TarotCard; isReversed: boolean; compact?: boolean }) {
   return (
     <div
-      className={`relative h-full w-full overflow-hidden rounded-2xl border-2 border-amber-200/50 shadow-[0_0_30px_rgba(80,70,200,0.45)] ${
-        isReversed ? "rotate-180" : ""
-      }`}
+      className={`h-full w-full overflow-hidden rounded-2xl shadow-[0_0_30px_rgba(80,70,200,0.45)] ${isReversed ? "rotate-180" : ""}`}
     >
       <CardArt card={card} className="h-full w-full" />
-      <div className={`absolute inset-0 flex flex-col items-center justify-between text-center text-amber-50 ${compact ? "p-2" : "p-3"}`}>
-        <span className={`tracking-[0.3em] text-amber-200/80 ${compact ? "text-[9px]" : "text-xs"}`}>{card.numeral}</span>
-        <div className="space-y-0.5">
-          <div className={`font-semibold drop-shadow ${compact ? "text-xs" : "text-lg"}`}>{card.name}</div>
-          {isReversed && <div className="text-[9px] tracking-widest text-amber-200/70">逆位 REVERSED</div>}
-        </div>
-      </div>
     </div>
   );
 }
 
-type FollowUpEntry = { question: string; answer: string };
+function CardCaption({ card, isReversed, label, compact = false }: { card: TarotCard; isReversed: boolean; label?: string; compact?: boolean }) {
+  return (
+    <div className="space-y-0.5 text-center">
+      {label && <p className="text-[11px] text-amber-200/70">{label}</p>}
+      <p className={`font-semibold text-amber-100 ${compact ? "text-xs" : "text-sm"}`}>{card.name}</p>
+      <p className={`text-amber-200/50 ${compact ? "text-[9px]" : "text-[10px]"}`}>
+        {card.nameEn}
+        {isReversed && "（逆位）"}
+      </p>
+    </div>
+  );
+}
+
+type FollowUpEntry = { question: string; answer: string; card: CardDraw };
 
 function FollowUpPanel({
   results,
@@ -87,12 +91,20 @@ function FollowUpPanel({
   draft,
   onDraftChange,
   onSubmit,
+  candidates,
+  pickedIndex,
+  onPickCandidate,
+  loading,
 }: {
   results: CardDraw[];
   followUps: FollowUpEntry[];
   draft: string;
   onDraftChange: (v: string) => void;
   onSubmit: () => void;
+  candidates: CardDraw[] | null;
+  pickedIndex: number | null;
+  onPickCandidate: (i: number) => void;
+  loading: boolean;
 }) {
   const canSubmit = draft.trim().length >= 10;
   return (
@@ -105,32 +117,60 @@ function FollowUpPanel({
         ))}
       </div>
       {followUps.map((f, i) => (
-        <div key={i} className="w-full space-y-1.5 rounded-xl border border-amber-200/20 bg-white/5 p-4">
-          <p className="text-xs text-amber-200/60">追問：{f.question}</p>
-          <p className="whitespace-pre-line text-sm leading-relaxed text-amber-50/90">{f.answer}</p>
+        <div key={i} className="flex w-full gap-3 rounded-xl border border-amber-200/20 bg-white/5 p-4">
+          <div className="h-20 w-14 shrink-0">
+            <CardFront card={f.card.card} isReversed={f.card.isReversed} compact />
+          </div>
+          <div className="min-w-0 flex-1 space-y-1.5">
+            <p className="text-xs text-amber-200/60">追問：{f.question}</p>
+            <p className="whitespace-pre-line text-sm leading-relaxed text-amber-50/90">{f.answer}</p>
+          </div>
         </div>
       ))}
-      <div className="w-full">
-        <label className="mb-1 block text-xs text-amber-200/60">我想要追問</label>
-        <textarea
-          value={draft}
-          maxLength={200}
-          onChange={(e) => onDraftChange(e.target.value)}
-          placeholder="針對這次抽到的牌，還想多問一點什麼？"
-          className="h-20 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
-        />
-        <div className="mt-1 flex justify-between text-[11px] text-amber-200/50">
-          <span>至少 10 個字</span>
-          <span>{draft.length}/200</span>
+
+      {candidates ? (
+        <div className="w-full space-y-3 rounded-xl border border-amber-200/20 bg-white/5 p-4 text-center">
+          <p className="text-sm text-amber-200/70">{loading ? "正在為你解讀這張牌⋯" : "憑直覺抽一張牌，回答這次的追問"}</p>
+          <div className="flex justify-center gap-3">
+            {candidates.map((c, i) => (
+              <button
+                key={i}
+                onClick={() => onPickCandidate(i)}
+                disabled={pickedIndex !== null}
+                className="h-28 w-20 shrink-0 transition-transform enabled:hover:-translate-y-1 disabled:cursor-default"
+              >
+                {pickedIndex === i ? (
+                  <CardFront card={c.card} isReversed={c.isReversed} compact />
+                ) : (
+                  <CardBack className={`h-full w-full ${pickedIndex !== null ? "opacity-40" : ""}`} />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
-        <button
-          disabled={!canSubmit}
-          onClick={onSubmit}
-          className="mt-2 w-full rounded-xl border border-amber-200/40 py-2.5 text-sm text-amber-100 transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
-        >
-          送出追問
-        </button>
-      </div>
+      ) : (
+        <div className="w-full">
+          <label className="mb-1 block text-xs text-amber-200/60">我想要追問</label>
+          <textarea
+            value={draft}
+            maxLength={200}
+            onChange={(e) => onDraftChange(e.target.value)}
+            placeholder="針對這次抽到的牌，還想多問一點什麼？"
+            className="h-20 w-full resize-none rounded-xl border border-amber-200/30 bg-white/5 p-3 text-sm text-amber-50 placeholder:text-amber-200/40 focus:border-amber-200/70 focus:outline-none"
+          />
+          <div className="mt-1 flex justify-between text-[11px] text-amber-200/50">
+            <span>至少 10 個字</span>
+            <span>{draft.length}/200</span>
+          </div>
+          <button
+            disabled={!canSubmit}
+            onClick={onSubmit}
+            className="mt-2 w-full rounded-xl border border-amber-200/40 py-2.5 text-sm text-amber-100 transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            送出追問，抽一張牌
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -148,6 +188,9 @@ export default function TarotDivination() {
   const [followUpLoading, setFollowUpLoading] = useState(false);
   const [followUps, setFollowUps] = useState<FollowUpEntry[]>([]);
   const [followUpDraft, setFollowUpDraft] = useState("");
+  const [followUpQuestion, setFollowUpQuestion] = useState("");
+  const [followUpCandidates, setFollowUpCandidates] = useState<CardDraw[] | null>(null);
+  const [followUpPickedIndex, setFollowUpPickedIndex] = useState<number | null>(null);
 
   const spread = useMemo(() => {
     const rand = mulberry32(101);
@@ -216,20 +259,45 @@ export default function TarotDivination() {
     setPickedSlots([]);
     setFollowUps([]);
     setFollowUpDraft("");
+    setFollowUpQuestion("");
+    setFollowUpCandidates(null);
+    setFollowUpPickedIndex(null);
     setStep("cover");
   }
 
-  async function handleSubmitFollowUp() {
-    if (followUpDraft.trim().length < 10 || followUpLoading) return;
-    const nextQuestion = followUpDraft.trim();
+  function handleSubmitFollowUp() {
+    if (followUpDraft.trim().length < 10) return;
+    const usedIds = new Set([...results.map((r) => r.card.id), ...followUps.map((f) => f.card.card.id)]);
+    const candidates: CardDraw[] = [];
+    let guard = 0;
+    while (candidates.length < 3 && guard < 100) {
+      guard++;
+      const [draw] = drawUniqueCards(1);
+      if (usedIds.has(draw.card.id) || candidates.some((c) => c.card.id === draw.card.id)) continue;
+      candidates.push(draw);
+    }
+    setFollowUpQuestion(followUpDraft.trim());
+    setFollowUpCandidates(candidates);
+    setFollowUpPickedIndex(null);
+    setFollowUpDraft("");
+  }
+
+  async function handlePickFollowUpCard(index: number) {
+    if (followUpPickedIndex !== null || !followUpCandidates) return;
+    setFollowUpPickedIndex(index);
     setFollowUpLoading(true);
+    const drawnCard = followUpCandidates[index];
     try {
-      const report = await requestAiReading(results, question, styles, nextQuestion);
+      const report = await requestAiReading([drawnCard], question, styles, followUpQuestion);
       const answer = [...report.paragraphs, `總結｜${report.summary}`].join("\n\n");
-      setFollowUps((prev) => [...prev, { question: nextQuestion, answer }]);
-      setFollowUpDraft("");
+      setFollowUps((prev) => [...prev, { question: followUpQuestion, answer, card: drawnCard }]);
+      setFollowUpCandidates(null);
+      setFollowUpPickedIndex(null);
+      setFollowUpQuestion("");
     } catch (error) {
       setReadingError(error instanceof Error ? error.message : "追問服務暫時無法使用");
+      setFollowUpCandidates(null);
+      setFollowUpPickedIndex(null);
     } finally {
       setFollowUpLoading(false);
     }
@@ -438,6 +506,7 @@ export default function TarotDivination() {
           <div className="h-64 w-40">
             <CardFront card={results[0].card} isReversed={results[0].isReversed} />
           </div>
+          <CardCaption card={results[0].card} isReversed={results[0].isReversed} />
 
           <div className="flex flex-wrap items-center justify-center gap-1.5">
             {results[0].card.element && <ElementBadge element={results[0].card.element} />}
@@ -467,6 +536,10 @@ export default function TarotDivination() {
             draft={followUpDraft}
             onDraftChange={setFollowUpDraft}
             onSubmit={handleSubmitFollowUp}
+            candidates={followUpCandidates}
+            pickedIndex={followUpPickedIndex}
+            onPickCandidate={handlePickFollowUpCard}
+            loading={followUpLoading}
           />
 
           <div className="mt-auto flex w-full gap-2 pt-2">
@@ -488,7 +561,7 @@ export default function TarotDivination() {
                 <div className="h-36 w-full">
                   <CardFront card={r.card} isReversed={r.isReversed} compact />
                 </div>
-                <span className="text-[11px] text-amber-200/70">{POSITION_LABELS[i]}</span>
+                <CardCaption card={r.card} isReversed={r.isReversed} label={POSITION_LABELS[i]} compact />
                 {r.card.element && <ElementBadge element={r.card.element} compact />}
               </div>
             ))}
@@ -513,6 +586,10 @@ export default function TarotDivination() {
             draft={followUpDraft}
             onDraftChange={setFollowUpDraft}
             onSubmit={handleSubmitFollowUp}
+            candidates={followUpCandidates}
+            pickedIndex={followUpPickedIndex}
+            onPickCandidate={handlePickFollowUpCard}
+            loading={followUpLoading}
           />
 
           <div className="mt-auto flex w-full gap-2 pt-2">
