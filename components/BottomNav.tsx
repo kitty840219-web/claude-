@@ -48,7 +48,7 @@ const TABS = [
   },
   {
     href: "/horoscope",
-    label: "星座運勢｜大眾占卜",
+    label: "星座｜塔羅",
     icon: (active: boolean) => (
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
         <path

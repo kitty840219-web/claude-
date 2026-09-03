@@ -5,7 +5,7 @@ import QuestsSection from "@/components/QuestsSection";
 import { SITE } from "@/lib/data/site";
 
 export const metadata: Metadata = {
-  title: `星座運勢｜大眾占卜 ｜ ${SITE.brand}`,
+  title: `星座｜塔羅 ｜ ${SITE.brand}`,
   description: "選擇你的星座看今日運勢、抽一張塔羅牌，還有小艾的每日星光任務都在這裡。",
 };
 
