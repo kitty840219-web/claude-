@@ -77,9 +77,9 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     tag: "第八章",
-    title: "語錄作品",
+    title: "最新文章",
     body: ["插畫語錄選粹，用一句話說出你的心事。"],
-    link: { label: "查看語錄作品 →", href: "/works" },
+    link: { label: "查看最新文章 →", href: "/works" },
   },
   {
     tag: "第九章",

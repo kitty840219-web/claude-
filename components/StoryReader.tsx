@@ -21,7 +21,7 @@ export default function StoryReader({
   const num = String(index + 1).padStart(2, "0");
   const isLast = index === total - 1;
   const palette = PALETTES[index % PALETTES.length];
-  const finishLabel = finish?.label ?? "故事讀完了，看看語錄作品 →";
+  const finishLabel = finish?.label ?? "故事讀完了，看看最新文章 →";
 
   const advance = () => {
     if (!isLast) {

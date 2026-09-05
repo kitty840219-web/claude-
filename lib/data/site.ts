@@ -24,9 +24,8 @@ export const LINKS = {
 };
 
 export const NAV = [
-  { href: "/", label: "首頁" },
   { href: "/about", label: "關於作者與故事" },
-  { href: "/works", label: "語錄作品" },
+  { href: "/works", label: "最新文章" },
   { href: "/horoscope", label: "星座運勢" },
   { href: "/tarot", label: "塔羅占卜" },
   { href: "/videos", label: "影音創作" },

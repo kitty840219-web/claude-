@@ -1,5 +1,5 @@
-import ExploreCarousel from "@/components/ExploreCarousel";
+import AboutPage from "./about/page";
 
 export default function HomePage() {
-  return <ExploreCarousel />;
+  return <AboutPage />;
 }

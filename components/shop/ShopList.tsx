@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import SocialIcon from "@/components/SocialIcon";
 import TagChip from "@/components/TagChip";
+import Image from "next/image";
+import { asset } from "@/lib/basePath";
 
 type Shop = {
   key: string;
@@ -72,15 +74,22 @@ export default function ShopList({ shops }: { shops: Shop[] }) {
             >
               ✕
             </button>
-            <div className="flex h-full w-full flex-col overflow-hidden rounded-[1.5rem] border border-gold/30 bg-paper shadow-soft">
-              <iframe title={selected.title} src={selected.href} className="h-full w-full flex-1 border-0 bg-paper" />
+            <div className="flex h-full w-full flex-col overflow-y-auto rounded-[1.5rem] border border-gold/30 bg-night-dark p-6 text-paper shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="relative mt-4 aspect-square w-full overflow-hidden rounded-2xl bg-night-light/20">
+                <Image src={asset("/images/home-shop.webp")} alt={`${selected.title}商店預覽`} fill className="object-cover" sizes="380px" />
+              </div>
+              <div className="py-6 text-center">
+                <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gold text-night-dark"><SocialIcon type={selected.icon} className="h-8 w-8" /></span>
+                <div className="mt-4 flex items-center justify-center gap-2"><h2 className="font-serif text-xl font-bold">{selected.title}</h2><TagChip tone="gold">{selected.tag}</TagChip></div>
+                <p className="mt-4 text-left text-sm leading-7 text-paper/75">{selected.desc}</p>
+              </div>
               <a
                 href={selected.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shrink-0 border-t border-gold/20 bg-night-dark px-4 py-3 text-center text-xs font-semibold text-gold-light transition hover:bg-night-light/40"
+                className="mt-auto shrink-0 rounded-full bg-gold px-4 py-3 text-center text-sm font-semibold text-night-dark transition hover:bg-gold-light"
               >
-                畫面顯示不出來嗎？點此在新分頁開啟 →
+                {selected.cta} →
               </a>
             </div>
           </div>

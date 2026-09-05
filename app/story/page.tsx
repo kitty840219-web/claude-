@@ -90,7 +90,7 @@ export default function StoryPage() {
               href="/works"
               className="rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
             >
-              看看語錄作品
+              看看最新文章
             </Link>
             <Link
               href="/contact"

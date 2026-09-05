@@ -6,28 +6,6 @@ import { Suspense } from "react";
 
 const TABS = [
   {
-    href: "/",
-    label: "首頁",
-    icon: (active: boolean) => (
-      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
-        <path
-          d="M4 11.5L12 4l8 7.5"
-          stroke="currentColor"
-          strokeWidth={active ? 2.2 : 1.6}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M6 10v9a1 1 0 001 1h3.5v-5a1.5 1.5 0 013 0v5H17a1 1 0 001-1v-9"
-          stroke="currentColor"
-          strokeWidth={active ? 2.2 : 1.6}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
     href: "/about",
     label: "關於作者",
     icon: (active: boolean) => (
@@ -109,7 +87,7 @@ function BottomNavInner() {
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between px-2">
         {TABS.map((tab) => {
-          const active = tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
+          const active = tab.href === "/about" ? pathname === "/" || pathname.startsWith("/about") : pathname.startsWith(tab.href);
           return (
             <Link
               key={tab.href}
