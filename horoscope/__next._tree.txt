@@ -1,0 +1,7 @@
+:HL["/claude-/_next/static/chunks/3_1wpc5h0-3m3.css","style"]
+:HL["/claude-/_next/static/chunks/3w1hogg-x9ag6.css","style"]
+:HL["/claude-/_next/static/chunks/0vc3z8v_gr9wj.css","style"]
+:HL["/claude-/_next/static/media/a62dbdd646e89cfa-s.p.1gyhrhf92e9m1.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/claude-/_next/static/media/b7f3a346e7dd7646-s.p.008ltwfzupux4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/claude-/_next/static/media/fb4edce8a3cbfef3-s.p.3ep0ejxd-rul1.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"horoscope","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"dcVhFAKO5FRV2lFeX0qEv"}

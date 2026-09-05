@@ -1,0 +1,37 @@
+1:"$Sreact.fragment"
+2:I[97367,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+7:I[97367,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"ViewportBoundary"]
+8:I[97367,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"MetadataBoundary"]
+9:I[27201,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"IconMark"]
+b:I[39756,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+c:I[37457,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+f:I[93501,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+10:I[37388,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+11:I[487,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+12:I[62319,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+13:I[66357,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+:HL["/claude-/_next/static/chunks/3_1wpc5h0-3m3.css","style"]
+:HL["/claude-/_next/static/chunks/3w1hogg-x9ag6.css","style"]
+:HL["/claude-/_next/static/chunks/0vc3z8v_gr9wj.css","style"]
+6:X
+e:X
+e:C
+0:{"buildId":"dcVhFAKO5FRV2lFeX0qEv","data":[{"rsc":["$","$1","c",{"children":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":"$@5","staleTime":"$6","varyParams":null},{"rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L7",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L8",null,{"children":["$","$3",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"艾飛樂語錄 ｜ Aifeiler"}],["$","meta","1",{"name":"description","content":"艾飛樂數位文創個人工作室，由 Ivy 於 2022 年成立。用插畫與文字記錄生活裡的溫柔片刻，把每一句共鳴都畫成一顆星星，陪讀者度過黑夜、走向下一段日子。"}],["$","meta","2",{"property":"og:title","content":"艾飛樂語錄｜艾飛樂數位文創個人工作室"}],["$","meta","3",{"property":"og:description","content":"艾飛樂數位文創個人工作室，由 Ivy 於 2022 年成立。用插畫與文字記錄生活裡的溫柔片刻，把每一句共鳴都畫成一顆星星，陪讀者度過黑夜、走向下一段日子。"}],["$","meta","4",{"property":"og:image","content":"https://kitty840219-web.github.io/claude-/images/hero-cover.webp"}],["$","meta","5",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","6",{"name":"twitter:title","content":"艾飛樂語錄｜艾飛樂數位文創個人工作室"}],["$","meta","7",{"name":"twitter:description","content":"艾飛樂數位文創個人工作室，由 Ivy 於 2022 年成立。用插畫與文字記錄生活裡的溫柔片刻，把每一句共鳴都畫成一顆星星，陪讀者度過黑夜、走向下一段日子。"}],["$","meta","8",{"name":"twitter:image","content":"https://kitty840219-web.github.io/claude-/images/hero-cover.webp"}],["$","link","9",{"rel":"icon","href":"/claude-/icon.png?icon.3zgdwab-a-5ov.png","sizes":"256x256","type":"image/png"}],["$","$L9","10",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":"$@a","staleTime":"$6","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lb",null,{"parallelRouterKey":"children","template":["$","$Lc",null,{}]}]]}],"isPartial":"$@d","staleTime":"$6","varyParams":"$e"},{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/claude-/_next/static/chunks/3_1wpc5h0-3m3.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/claude-/_next/static/chunks/3w1hogg-x9ag6.css","precedence":"next"}],["$","link","2",{"rel":"stylesheet","href":"/claude-/_next/static/chunks/0vc3z8v_gr9wj.css","precedence":"next"}],["$","script","script-0",{"src":"/claude-/_next/static/chunks/2gwrn_5kond4s.js","async":true}],["$","script","script-1",{"src":"/claude-/_next/static/chunks/30josip8i3wj8.js","async":true}]],["$","html",null,{"lang":"zh-Hant","className":"noto_serif_tc_e435cb07-module__Jr5VhW__variable noto_sans_tc_54855560-module__0ozRQW__variable ma_shan_zheng_c8abde42-module__Vrdksa__variable","children":["$","body",null,{"className":"mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-night-dark font-sans text-paper shadow-[0_0_60px_rgba(0,0,0,0.4)] antialiased","children":[["$","$Lf",null,{}],["$","$L10",null,{}],["$","$L11",null,{}],["$","$L12",null,{}],["$","main",null,{"className":"flex-1 bg-night-dark pb-20","children":["$","$L13",null,{"children":["$","$Lb",null,{"parallelRouterKey":"children","template":["$","$Lc",null,{}],"notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":"$0:data:0:rsc:props:children:0:1:props:style","children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],"$L14","$L15"]}]}]],[]]}]}]}],"$L16","$L17","$L18"]}]}]]}],"isPartial":"$@19","staleTime":"$6","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@1a","rootVaryParams":null,"needsRuntimeRequest":"$@1b"}
+1c:I[56691,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+1d:I[99788,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+1e:I[23060,["/claude-/_next/static/chunks/2gwrn_5kond4s.js","/claude-/_next/static/chunks/30josip8i3wj8.js"],"default"]
+4:null
+14:["$","h1",null,{"className":"next-error-h1","style":"$0:data:0:rsc:props:children:0:1:props:children:props:children:1:props:style","children":404}]
+15:["$","div",null,{"style":"$0:data:0:rsc:props:children:0:1:props:children:props:children:2:props:style","children":["$","h2",null,{"style":"$0:data:0:rsc:props:children:0:1:props:children:props:children:2:props:children:props:style","children":"This page could not be found."}]}]
+16:["$","$L1c",null,{}]
+17:["$","$L1d",null,{}]
+18:["$","$L1e",null,{}]
+6:300
+1b:true
+6:C
+1a:0
+a:"$undefined"
+d:"$undefined"
+19:"$undefined"
+5:"$undefined"
