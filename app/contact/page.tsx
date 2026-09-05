@@ -146,14 +146,17 @@ export default function ContactPage() {
       <section className="bg-night-dark py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <SectionHeading eyebrow="PROCESS" title="合作流程" center />
-          <div className="mt-10 grid gap-6 sm:grid-cols-4">
+          <div className="relative mt-10 grid gap-4">
+            <div className="pointer-events-none absolute bottom-10 left-7 top-10 w-px bg-gold/25" />
             {PROCESS.map((p) => (
-              <div key={p.step} className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
+              <div key={p.step} className="relative grid grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4 text-left shadow-card">
+                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
                   {p.step}
                 </div>
-                <h3 className="mt-4 font-serif text-sm font-bold text-paper">{p.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
+                <div className="min-w-0">
+                  <h3 className="font-serif text-base font-bold text-paper">{p.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
+                </div>
               </div>
             ))}
           </div>
