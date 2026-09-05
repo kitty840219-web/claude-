@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `影音創作 ｜ ${SITE.brand}`,
@@ -19,16 +21,22 @@ const VIDEO_TOPICS = [
 export default function VideosPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-night-dark py-24 text-center">
+      <section className="relative overflow-hidden bg-night-dark pb-12 pt-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-          <div className="mb-4 flex items-center justify-center gap-2">
-            <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">VIDEOS</p>
-            <Star className="h-3 w-3 text-gold-light" delay="1s" />
+          <div className="grid grid-cols-[minmax(0,1fr)_130px] items-center gap-4 rounded-[2rem] bg-night-light/15 px-6 py-7">
+            <div>
+              <div className="mb-4 flex items-center gap-2">
+                <Star className="h-3 w-3 text-gold-light" />
+                <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">VIDEOS</p>
+              </div>
+              <h1 className="font-serif text-3xl font-bold text-paper">影音創作</h1>
+              <p className="mt-3 text-sm leading-6 text-paper/70">用影像記錄插畫誕生的每個瞬間</p>
+            </div>
+            <div className="animate-float-slow relative h-44 w-full">
+              <Image src={asset("/images/video-creator-cutout.webp")} alt="小艾正在拍攝創作影片" fill className="object-contain" sizes="130px" />
+            </div>
           </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">影音創作</h1>
-          <p className="mt-4 text-paper/70">用影像記錄插畫誕生的每個瞬間</p>
         </div>
       </section>
 

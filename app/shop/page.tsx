@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import ShopList from "@/components/shop/ShopList";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `周邊商店 ｜ ${SITE.brand}`,
@@ -34,16 +36,22 @@ const SHOPS = [
 export default function ShopPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
+      <section className="relative overflow-hidden bg-night-dark pb-10 pt-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-          <div className="mb-4 flex items-center justify-center gap-2">
-            <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">SHOP</p>
-            <Star className="h-3 w-3 text-gold-light" delay="1s" />
+          <div className="grid grid-cols-[minmax(0,1fr)_130px] items-center gap-4 rounded-[2rem] bg-night-light/15 px-6 py-7">
+            <div>
+              <div className="mb-4 flex items-center gap-2">
+                <Star className="h-3 w-3 text-gold-light" />
+                <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">SHOP</p>
+              </div>
+              <h1 className="font-serif text-3xl font-bold text-paper">周邊商店</h1>
+              <p className="mt-3 text-sm leading-6 text-paper/70">把語錄裡的溫柔，變成隨身攜帶的小物件</p>
+            </div>
+            <div className="animate-float-slow relative h-44 w-full">
+              <Image src={asset("/images/shop-hero-cutout.webp")} alt="小艾帶著艾飛樂周邊商品" fill className="object-contain" sizes="130px" />
+            </div>
           </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">周邊商店</h1>
-          <p className="mt-4 text-paper/70">把語錄裡的溫柔，變成隨身攜帶的小物件</p>
         </div>
       </section>
 
