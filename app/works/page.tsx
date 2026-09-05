@@ -10,7 +10,7 @@ export default function WorksPage() {
   return <div className="min-h-screen bg-night-dark">
     <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-      <div className="animate-glow-pulse relative mx-auto h-28 w-28"><Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" /></div>
+      <div className="animate-glow-pulse relative mx-auto h-36 w-36"><Image src={asset("/images/latest-articles-cutout.webp")} alt="小艾正在撰寫最新文章" fill className="object-contain" sizes="144px" /></div>
       <div className="relative mt-6 overflow-hidden"><div className="animate-marquee flex w-max whitespace-nowrap">
         <span className="pr-16 font-serif text-lg text-paper sm:text-xl">「{SITE.tagline}，{SITE.taglineSub}。」</span>
         <span aria-hidden className="pr-16 font-serif text-lg text-paper sm:text-xl">「{SITE.tagline}，{SITE.taglineSub}。」</span>

@@ -77,7 +77,7 @@ export default function StoryPage() {
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-2xl px-4 sm:px-6">
           <div className="relative mx-auto mb-6 h-24 w-24">
-            <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
+            <Image src={asset("/images/story-journey-cutout.webp")} alt="小艾帶著故事出發" fill className="object-contain" sizes="112px" />
           </div>
           <SectionHeading eyebrow="TO BE CONTINUED" title="故事，還在寫" center />
           <p className="mt-4 text-sm leading-relaxed text-paper/70 sm:text-base">

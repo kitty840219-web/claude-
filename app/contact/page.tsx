@@ -57,7 +57,7 @@ const SERVICE_ART = [
   "/images/home-quotes-cutout.webp",
   "/images/home-story-cutout.webp",
   "/images/home-shop.webp",
-  "/images/mascot.webp",
+  "/images/contact-line-stickers-cutout.webp",
   "/images/home-contact.webp",
   "/images/home-video.webp",
 ];
@@ -136,7 +136,7 @@ export default function ContactPage() {
                   <span className="mt-2 block break-all text-sm text-paper/60">{c.value}</span>
                   <span className="mt-5 block text-xs font-semibold text-gold-light">{c.cta}</span>
                 </span>
-                {c.key === "line" && <span className="animate-float-slow pointer-events-none absolute -bottom-5 -right-2 h-44 w-36 transition duration-500 group-hover:scale-105"><Image src={asset("/images/mascot.webp")} alt="小艾" fill className="object-contain object-bottom" sizes="144px" /></span>}
+                {c.key === "line" && <span className="animate-float-slow pointer-events-none absolute -bottom-5 -right-2 h-44 w-36 transition duration-500 group-hover:scale-105"><Image src={asset("/images/contact-line-friend-cutout.webp")} alt="小艾邀請你加入 LINE 好友" fill className="object-contain object-bottom" sizes="144px" /></span>}
               </a>
             ))}
           </div>

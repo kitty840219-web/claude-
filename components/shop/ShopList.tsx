@@ -76,7 +76,7 @@ export default function ShopList({ shops }: { shops: Shop[] }) {
             </button>
             <div className="flex h-full w-full flex-col overflow-y-auto rounded-[1.5rem] border border-gold/30 bg-night-dark p-6 text-paper shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="relative mt-4 aspect-square w-full overflow-hidden rounded-2xl bg-night-light/20">
-                <Image src={asset("/images/home-shop.webp")} alt={`${selected.title}商店預覽`} fill className="object-cover" sizes="380px" />
+                <Image src={asset("/images/shop-preview-cutout.webp")} alt={`${selected.title}商店預覽`} fill className="object-contain p-3" sizes="380px" />
               </div>
               <div className="py-6 text-center">
                 <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gold text-night-dark"><SocialIcon type={selected.icon} className="h-8 w-8" /></span>
