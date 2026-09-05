@@ -42,7 +42,7 @@ const SERVICE_ART = [
   "/images/home-quotes-cutout.webp",
   "/images/home-story-cutout.webp",
   "/images/home-shop.webp",
-  "/images/home-video.webp",
+  "/images/mascot.webp",
   "/images/home-contact.webp",
   "/images/home-video.webp",
 ];
