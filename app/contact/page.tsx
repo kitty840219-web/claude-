@@ -16,24 +16,39 @@ export const metadata: Metadata = {
 
 const CONTACTS = [
   {
+    key: "line",
+    label: "OFFICIAL LINE",
+    title: "加入小艾的好友",
+    value: "@153yhemn",
+    href: LINKS.lineOA,
+    cta: "開啟 LINE →",
+    icon: "line" as const,
+  },
+  {
     key: "mail",
-    label: "Email",
+    label: "EMAIL",
+    title: "電子郵件",
     value: LINKS.email,
     href: `mailto:${LINKS.email}`,
+    cta: "寄送 EMAIL →",
     icon: "mail" as const,
   },
   {
     key: "ig1",
-    label: "Instagram · 語錄",
+    label: "INSTAGRAM · 語錄",
+    title: "艾飛樂語錄",
     value: "@aibi_0219",
     href: LINKS.instagramQuotes,
+    cta: "開啟 INSTAGRAM →",
     icon: "instagram" as const,
   },
   {
     key: "ig2",
-    label: "Instagram · 插畫",
+    label: "INSTAGRAM · 插畫",
+    title: "插畫創作帳號",
     value: "dreamstar_illustration",
     href: LINKS.instagramIllustration,
+    cta: "開啟 INSTAGRAM →",
     icon: "instagram" as const,
   },
 ];
@@ -95,21 +110,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-night-dark px-4 py-12">
-        <a href={LINKS.lineOA} target="_blank" rel="noopener noreferrer" className="group relative mx-auto block min-h-44 max-w-md overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-5 shadow-card">
-          <div className="relative z-10 w-[58%]">
-            <SocialIcon type="line" className="h-6 w-6 text-paper" />
-            <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-sage">OFFICIAL LINE</p>
-            <h2 className="mt-1 font-serif text-base font-bold text-paper">加入小艾的好友</h2>
-            <p className="mt-2 text-xs text-paper/60">@153yhemn</p>
-            <span className="mt-4 inline-flex text-xs font-semibold text-gold-light">開啟 LINE →</span>
-          </div>
-          <div className="pointer-events-none absolute -bottom-8 -right-5 h-48 w-48 transition duration-500 group-hover:scale-105">
-            <Image src={asset("/images/home-contact.webp")} alt="小艾寄出一封信" fill className="object-contain object-bottom" sizes="192px" />
-          </div>
-        </a>
-      </section>
-
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
         <div className="grid gap-10 md:grid-cols-[1fr_1.1fr] md:items-start">
           <div>
@@ -120,26 +120,23 @@ export default function ContactPage() {
             />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4">
             {CONTACTS.map((c) => (
               <a
                 key={c.key}
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group flex items-start gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-5 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+                className="group relative min-h-44 overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-6 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold text-night-dark">
-                  <SocialIcon type={c.icon} className="h-4 w-4" />
+                <span className={`relative z-10 block ${c.key === "line" ? "w-[62%]" : "w-full"}`}>
+                  <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
+                  <span className="mt-4 block text-[10px] font-semibold tracking-[0.22em] text-sage">{c.label}</span>
+                  <span className="mt-2 block font-serif text-lg font-bold text-paper">{c.title}</span>
+                  <span className="mt-2 block break-all text-sm text-paper/60">{c.value}</span>
+                  <span className="mt-5 block text-xs font-semibold text-gold-light">{c.cta}</span>
                 </span>
-                <span>
-                  <span className="block text-xs font-semibold tracking-wide text-gold-light">
-                    {c.label}
-                  </span>
-                  <span className="mt-1 block break-all text-sm font-medium text-paper">
-                    {c.value}
-                  </span>
-                </span>
+                {c.key === "line" && <span className="animate-float-slow pointer-events-none absolute -bottom-5 -right-2 h-44 w-36 transition duration-500 group-hover:scale-105"><Image src={asset("/images/mascot.webp")} alt="小艾" fill className="object-contain object-bottom" sizes="144px" /></span>}
               </a>
             ))}
           </div>
