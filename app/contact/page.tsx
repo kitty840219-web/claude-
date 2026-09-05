@@ -166,12 +166,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
-        <p className="font-serif text-xl text-paper sm:text-2xl">
-          「{SITE.tagline}，{SITE.taglineSub}。」
-        </p>
-        <p className="mt-3 text-sm text-paper/60">期待為你畫下屬於你的那顆星星。</p>
-      </section>
     </div>
   );
 }
