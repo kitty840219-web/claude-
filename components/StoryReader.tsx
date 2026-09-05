@@ -36,9 +36,8 @@ export default function StoryReader({
   return (
     <div>
       {/* level map */}
-      <div className="overflow-x-auto pb-2">
-        <div className="relative mx-auto flex w-max min-w-full items-start justify-center gap-1 px-4 sm:gap-2">
-          <div className="pointer-events-none absolute left-0 right-0 top-5 h-px bg-gradient-to-r from-transparent via-paper/25 to-transparent sm:top-6" />
+      <div className="pb-2">
+        <div className="relative mx-auto grid w-full grid-cols-6 justify-items-center gap-x-1 gap-y-5 px-2 sm:gap-x-2 sm:px-4">
           {chapters.map((c, i) => {
             const active = i === index;
             return (
@@ -46,7 +45,7 @@ export default function StoryReader({
                 key={c.tag}
                 type="button"
                 onClick={() => setIndex(i)}
-                className="group relative flex w-16 flex-col items-center gap-2 sm:w-24"
+                className="group relative flex min-w-0 flex-col items-center gap-2"
               >
                 <span
                   className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 font-serif text-xs font-bold shadow-card transition sm:h-12 sm:w-12 sm:text-sm ${

@@ -138,15 +138,14 @@ function pick<T>(arr: T[], seed: number): T {
 }
 
 export function todayKey(): string {
-  const d = new Date();
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
 }
 
-const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
-
 export function todayDisplay(): string {
-  const d = new Date();
-  return `${d.getMonth() + 1}月${d.getDate()}日 星期${WEEKDAYS[d.getDay()]}`;
+  const parts = new Intl.DateTimeFormat("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", weekday: "short" }).formatToParts(new Date());
+  const value = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value || "";
+  const weekday = value("weekday").replace("週", "");
+  return `${value("month")}月${value("day")}日 星期${weekday}`;
 }
 
 export type FortuneReport = {
@@ -158,6 +157,9 @@ export type FortuneReport = {
   luckyColor: string;
   luckyNumber: number;
   luckyDirection: string;
+  luckySign?: string;
+  advice?: string;
+  source?: "local" | "gemini";
 };
 
 const CATEGORY_ORDER: FortuneCategory[] = ["love", "career", "wealth", "health"];
@@ -185,5 +187,6 @@ export function generateFortune(sign: ZodiacSign, dateKey: string = todayKey()):
     luckyColor: pick(LUCKY_COLORS, baseSeed + 3),
     luckyNumber: (baseSeed % 9) + 1,
     luckyDirection: pick(LUCKY_DIRECTIONS, baseSeed + 5),
+    source: "local",
   };
 }

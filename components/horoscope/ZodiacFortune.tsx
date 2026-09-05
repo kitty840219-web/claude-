@@ -10,6 +10,7 @@ import { ELEMENT_ICON, ZODIAC_SIGNS, ZodiacSign } from "@/lib/horoscope/signs";
 import { FortuneReport, generateFortune, todayKey } from "@/lib/horoscope/reading";
 import { PERSONALITY } from "@/lib/horoscope/personality";
 import { getCompatibility } from "@/lib/horoscope/compatibility";
+import { AiCompatibility, requestCompatibility, requestDailyFortune } from "@/lib/horoscope/api";
 
 type Tab = "fortune" | "personality" | "match";
 
@@ -86,6 +87,8 @@ function FortunePanel({ report }: { report: FortuneReport }) {
           <p className="mt-1 text-sm font-semibold text-paper">{report.luckyDirection}</p>
         </div>
       </div>
+      {report.luckySign && <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-4 text-center"><p className="text-[10px] tracking-[0.2em] text-gold-light">今日速配星座</p><p className="mt-1 text-sm font-semibold text-paper">{report.luckySign}</p></div>}
+      {report.advice && <div className="rounded-2xl border border-gold/25 bg-gold/5 p-4"><p className="text-sm font-semibold text-gold-light">今日提醒</p><p className="mt-2 text-xs leading-relaxed text-paper/75">{report.advice}</p></div>}
     </div>
   );
 }
@@ -94,6 +97,10 @@ function PersonalityPanel({ sign }: { sign: ZodiacSign }) {
   const p = PERSONALITY[sign.id];
   return (
     <div className="w-full space-y-3">
+      <div className="grid grid-cols-2 gap-2">
+        {[['掌管宮位', sign.house], ['守護星', sign.ruler], ['代表色', sign.luckyColor], ['幸運數字', String(sign.luckyNumber)]].map(([label, value]) => <div key={label} className="rounded-xl border border-gold/15 bg-night-light/20 p-3 text-center"><p className="text-[10px] text-gold-light">{label}</p><p className="mt-1 text-xs font-semibold text-paper">{value}</p></div>)}
+      </div>
+      <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-4"><p className="text-sm font-semibold text-paper">星座特徵</p><p className="mt-2 text-xs leading-relaxed text-paper/70">{sign.feature}</p></div>
       <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-5">
         <p className="text-xs font-semibold tracking-[0.25em] text-gold-light">OVERVIEW</p>
         <p className="mt-3 text-sm leading-relaxed text-paper/85">{p.overview}</p>
@@ -125,6 +132,17 @@ function PersonalityPanel({ sign }: { sign: ZodiacSign }) {
 }
 
 function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSign; partner: ZodiacSign | null; onPickPartner: (s: ZodiacSign) => void; onReset: () => void }) {
+  const [aiState, setAiState] = useState<{ key: string; result: AiCompatibility } | null>(null);
+  const matchKey = partner ? `${sign.id}:${partner.id}` : "";
+  const aiResult = aiState?.key === matchKey ? aiState.result : null;
+  const loading = Boolean(partner && !aiResult);
+  useEffect(() => {
+    if (!partner) return;
+    let active = true;
+    const key = `${sign.id}:${partner.id}`;
+    requestCompatibility(sign, partner).then((value) => { if (active) setAiState({ key, result: value }); }).catch(() => {});
+    return () => { active = false; };
+  }, [sign, partner]);
   if (!partner) {
     return (
       <div className="w-full">
@@ -151,7 +169,8 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
     );
   }
 
-  const result = getCompatibility(sign, partner);
+  const fallback = getCompatibility(sign, partner);
+  const result = aiResult || fallback;
 
   return (
     <div className="w-full space-y-4">
@@ -186,7 +205,14 @@ function MatchPanel({ sign, partner, onPickPartner, onReset }: { sign: ZodiacSig
         </div>
         <p className="mt-2 font-serif text-lg font-bold text-paper">{result.verdict}</p>
         <p className="mt-3 text-left text-sm leading-relaxed text-paper/80">{result.desc}</p>
+        {loading && <p className="mt-3 animate-pulse text-xs text-gold-light">Gemini 正在整理兩人的相處重點⋯</p>}
       </div>
+
+      {aiResult && <div className="space-y-3">
+        <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-4"><p className="text-sm font-semibold text-paper">彼此吸引力</p><p className="mt-2 text-xs leading-relaxed text-paper/70">{aiResult.attraction}</p></div>
+        <div className="rounded-2xl border border-gold/15 bg-night-light/20 p-4"><p className="text-sm font-semibold text-paper">需要磨合</p><p className="mt-2 text-xs leading-relaxed text-paper/70">{aiResult.challenge}</p></div>
+        <div className="rounded-2xl border border-gold/25 bg-gold/5 p-4"><p className="text-sm font-semibold text-gold-light">相處建議</p><p className="mt-2 text-xs leading-relaxed text-paper/75">{aiResult.advice}</p></div>
+      </div>}
 
       <button
         onClick={onReset}
@@ -203,7 +229,20 @@ export default function ZodiacFortune() {
   const [tab, setTab] = useState<Tab>("fortune");
   const [partner, setPartner] = useState<ZodiacSign | null>(null);
   const dateKey = useMemo(() => todayKey(), []);
-  const report = useMemo(() => (selected ? generateFortune(selected, dateKey) : null), [selected, dateKey]);
+  const fallbackReport = useMemo(() => (selected ? generateFortune(selected, dateKey) : null), [selected, dateKey]);
+  const [dailyState, setDailyState] = useState<{ key: string; report: FortuneReport } | null>(null);
+  const dailyKey = selected ? `${dateKey}:${selected.id}` : "";
+  const dailyReport = dailyState?.key === dailyKey ? dailyState.report : null;
+  const dailyLoading = Boolean(selected && !dailyReport);
+  const report = dailyReport || fallbackReport;
+
+  useEffect(() => {
+    if (!selected || !fallbackReport) return;
+    let active = true;
+    const key = `${dateKey}:${selected.id}`;
+    requestDailyFortune(selected, dateKey, fallbackReport.dateDisplay).then((value) => { if (active) setDailyState({ key, report: value }); }).catch(() => {});
+    return () => { active = false; };
+  }, [selected, dateKey, fallbackReport]);
 
   function selectSign(sign: ZodiacSign) {
     setSelected(sign);
@@ -298,7 +337,7 @@ export default function ZodiacFortune() {
               </div>
 
               <div className="mt-5">
-                {tab === "fortune" && <FortunePanel report={report} />}
+                {tab === "fortune" && <><div className="mb-3 text-center text-[11px] text-gold-light">{dailyLoading ? "Gemini 正在更新今日運勢⋯" : dailyReport?.source === "gemini" ? "今日內容已更新" : "顯示今日基本運勢"}</div><FortunePanel report={report} /></>}
                 {tab === "personality" && <PersonalityPanel sign={selected} />}
                 {tab === "match" && (
                   <MatchPanel sign={selected} partner={partner} onPickPartner={setPartner} onReset={() => setPartner(null)} />

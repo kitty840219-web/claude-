@@ -7,6 +7,7 @@ import { asset } from "@/lib/basePath";
 import CardArt from "@/components/tarot/CardArt";
 import { ReadingReport, ReadingStyle } from "@/lib/tarot/reading";
 import { BirthInfo, RELATIONSHIP_POSITION_LABELS, requestAiReading } from "@/lib/tarot/ai";
+import { getCardOrigin } from "@/lib/tarot/origins";
 
 import { FOLLOW_UP_LIMIT, FollowUpEntry, SavedReading, loadHistory, saveReading, deleteReading } from "@/lib/tarot/history";
 
@@ -167,6 +168,10 @@ function TarotGuideModal({ selectedCard, onSelect, onClose }: { selectedCard: Ta
                 <h2 className="mt-1 text-2xl font-semibold text-amber-100">{selectedCard.name}</h2>
                 <p className="mt-1 text-sm text-amber-200/60">{selectedCard.nameEn}</p>
               </div>
+              <section className="mt-6 rounded-xl border border-amber-200/25 bg-white/5 p-4">
+                <h3 className="font-semibold text-amber-100">牌卡的由來與象徵</h3>
+                <p className="mt-3 text-sm leading-7 text-amber-50/85">{getCardOrigin(selectedCard)}</p>
+              </section>
               <section className="mt-6 rounded-xl border border-amber-200/25 bg-white/5 p-4">
                 <h3 className="font-semibold text-amber-100">正位牌義</h3>
                 <div className="my-3 flex flex-wrap gap-1.5">{selectedCard.upright.keywords.map((keyword) => <span key={keyword} className="rounded-full border border-amber-200/25 px-2 py-1 text-[11px] text-amber-200">#{keyword}</span>)}</div>

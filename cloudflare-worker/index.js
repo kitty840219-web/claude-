@@ -65,6 +65,53 @@ function reportText(text, max) {
   return text.replace(/\\r\\n|\\n|\\r/g, "\n").trim().slice(0, max);
 }
 
+async function generateGeminiJson(env, prompt, schema, maxOutputTokens = 2400) {
+  const requestBody = JSON.stringify({
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: { temperature: 0.65, maxOutputTokens, responseMimeType: "application/json", responseSchema: schema },
+  });
+  for (const model of GEMINI_MODELS) {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY }, body: requestBody,
+    });
+    if (!response.ok) { if ([404, 429, 503].includes(response.status)) continue; break; }
+    const data = await response.json();
+    const text = data?.candidates?.[0]?.content?.parts?.filter((part) => !part.thought).map((part) => part.text || "").join("");
+    if (text) return JSON.parse(text.trim().replace(/^```json\s*/i, "").replace(/\s*```$/, ""));
+  }
+  throw new Error("Gemini unavailable");
+}
+
+const SCORE = { type: "INTEGER", minimum: 1, maximum: 5 };
+const TEXT = { type: "STRING" };
+
+async function horoscopeResponse(input, env, origin) {
+  const type = cleanText(input.type, 30);
+  const sign = cleanText(input.sign, 20);
+  const date = cleanDate(input.date);
+  const validSigns = ["牡羊座", "金牛座", "雙子座", "巨蟹座", "獅子座", "處女座", "天秤座", "天蠍座", "射手座", "摩羯座", "水瓶座", "雙魚座"];
+  if (!validSigns.includes(sign)) return json({ error: "星座資料不完整" }, 400, origin);
+
+  if (type === "horoscope_daily") {
+    if (!date) return json({ error: "日期資料不完整" }, 400, origin);
+    const required = ["overallScore", "overview", "loveScore", "love", "careerScore", "career", "wealthScore", "wealth", "healthScore", "health", "luckyColor", "luckyNumber", "luckyDirection", "luckySign", "advice"];
+    const schema = { type: "OBJECT", required, properties: { overallScore: SCORE, overview: TEXT, loveScore: SCORE, love: TEXT, careerScore: SCORE, career: TEXT, wealthScore: SCORE, wealth: TEXT, healthScore: SCORE, health: TEXT, luckyColor: TEXT, luckyNumber: { type: "INTEGER", minimum: 1, maximum: 99 }, luckyDirection: TEXT, luckySign: { type: "STRING", enum: validSigns }, advice: TEXT } };
+    const prompt = `你是專業星座內容編輯。請為 ${date}（台灣時間）的${sign}撰寫每日星座運勢。使用自然、溫暖、具體的台灣繁體中文，不提及AI，不保證事件一定發生。因為沒有提供即時星曆資料，不可聲稱月亮、行星或宮位在當日發生特定移動或相位。overview 80至140字；愛情、事業、財運、健康各80至130字，內容要有當日情境與可執行建議；advice 50至90字。評分為1至5。幸運色寫常見中文色名，並提供幸運數字、方位與今日速配星座。回傳指定JSON。`;
+    try { return json(await generateGeminiJson(env, prompt, schema, 3200), 200, origin); }
+    catch { return json({ error: "今日星座運勢暫時無法更新" }, 502, origin); }
+  }
+
+  if (type === "horoscope_match") {
+    const partner = cleanText(input.partner, 20);
+    if (!validSigns.includes(partner)) return json({ error: "配對星座資料不完整" }, 400, origin);
+    const schema = { type: "OBJECT", required: ["score", "verdict", "desc", "attraction", "challenge", "advice"], properties: { score: SCORE, verdict: TEXT, desc: TEXT, attraction: TEXT, challenge: TEXT, advice: TEXT } };
+    const prompt = `請以西洋占星的太陽星座特質，分析${sign}與${partner}的感情配對。使用台灣繁體中文，不做命定或保證式斷言。verdict 4至8字；desc 100至180字；attraction、challenge、advice 各60至110字，具體說明吸引力、磨合點與相處建議。score為1至5。回傳指定JSON。`;
+    try { return json(await generateGeminiJson(env, prompt, schema, 2200), 200, origin); }
+    catch { return json({ error: "星座配對暫時無法更新" }, 502, origin); }
+  }
+  return null;
+}
+
 function parseModelJson(text, cardCount) {
   const cleaned = text.trim().replace(/^```json\s*/i, "").replace(/\s*```$/, "");
   const parsed = JSON.parse(cleaned);
@@ -102,6 +149,10 @@ const worker = {
       input = await request.json();
     } catch {
       return json({ error: "請求格式錯誤" }, 400, origin);
+    }
+
+    if (input?.type === "horoscope_daily" || input?.type === "horoscope_match") {
+      return horoscopeResponse(input, env, origin);
     }
 
     const question = cleanText(input.question, 2000);
