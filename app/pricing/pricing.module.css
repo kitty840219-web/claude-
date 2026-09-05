@@ -110,6 +110,21 @@
 .hero h1 span {
   color: var(--leader-accent);
 }
+.heroArt {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: -8px auto 14px;
+  animation: pricing-float 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(236, 206, 143, 0.28));
+}
+.heroArt img {
+  object-fit: contain;
+}
+@keyframes pricing-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
 .heroSub {
   font-size: 16px;
   color: var(--leader-muted);

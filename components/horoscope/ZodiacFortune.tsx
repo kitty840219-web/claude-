@@ -269,14 +269,20 @@ export default function ZodiacFortune() {
     <div className="relative overflow-hidden bg-night-dark pb-16 pt-24 text-paper">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-        <div className="mb-3 flex items-center justify-center gap-2">
-          <Star className="h-3 w-3 text-gold-light" />
-          <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">HOROSCOPE</p>
-          <Star className="h-3 w-3 text-gold-light" delay="1s" />
+        <div className="grid grid-cols-[minmax(0,1fr)_120px] items-center gap-3 rounded-[2rem] bg-night-light/15 px-5 py-6">
+          <div>
+            <div className="mb-3 flex items-center gap-2">
+              <Star className="h-3 w-3 text-gold-light" />
+              <p className="text-xs font-semibold tracking-[0.3em] text-gold-light">HOROSCOPE</p>
+            </div>
+            <SectionHeading title="星座運勢" desc="選擇你的星座，看今日運勢、個性特質，還有星座配對。" />
+          </div>
+          <div className="animate-float-slow relative h-40 w-full">
+            <Image src={asset("/images/horoscope-guide-cutout.webp")} alt="小艾觀察十二星座" fill className="object-contain" sizes="120px" />
+          </div>
         </div>
-        <SectionHeading title="星座運勢" desc="選擇你的星座，看今日運勢、個性特質，還有星座配對。" center />
 
-        <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-4">
+        <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-4">
           {ZODIAC_SIGNS.map((sign) => (
             <button
               key={sign.id}

@@ -71,7 +71,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="animate-float-slow relative h-44 w-full self-start sm:h-60">
-              <Image src={asset("/images/mascot.webp")} alt="艾飛樂品牌 IP 角色" fill className="animate-glow-pulse object-contain object-top" sizes="(min-width: 640px) 180px, 112px" />
+              <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾在畫架前創作品牌插畫" fill className="animate-glow-pulse object-contain object-top" sizes="(min-width: 640px) 180px, 112px" />
             </div>
           </div>
         </div>

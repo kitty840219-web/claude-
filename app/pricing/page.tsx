@@ -88,6 +88,9 @@ export default function PricingPage() {
             <br />
             一站服務報價
           </h1>
+          <div className={styles.heroArt}>
+            <Image src={asset("/images/pricing-guide-cutout.webp")} alt="小艾介紹服務規劃" fill sizes="190px" />
+          </div>
           <p className={styles.heroSub}>
             語錄插畫、周邊設計、短影音剪輯、品牌視覺一手包辦。個人工作室接案，溝通直接、報價透明。
           </p>

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { CardDraw, FULL_DECK, TarotCard, drawUniqueCards } from "@/lib/tarot/cards";
 import { asset } from "@/lib/basePath";
 import CardArt from "@/components/tarot/CardArt";
@@ -585,9 +586,15 @@ export default function TarotDivination() {
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 px-5 py-16 text-center text-amber-50">
-      <div>
-        <h1 className="text-4xl font-bold tracking-[0.3em]">塔羅占卜</h1>
-        <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
+      <div className="grid w-full grid-cols-[minmax(0,1fr)_118px] items-center gap-3 rounded-[2rem] bg-white/[0.04] px-5 py-5 text-left">
+        <div>
+          <p className="text-[10px] font-semibold tracking-[0.3em] text-amber-200/70">TAROT READING</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-[0.18em]">塔羅占卜</h1>
+          <p className="mt-2 text-xs leading-5 text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
+        </div>
+        <div className="animate-float-slow relative h-36 w-full">
+          <Image src={asset("/images/tarot-reader-cutout.webp")} alt="小艾進行塔羅占卜" fill className="object-contain" sizes="118px" />
+        </div>
       </div>
 
       <div className="flex items-center justify-center gap-3">
