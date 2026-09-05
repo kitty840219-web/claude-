@@ -70,8 +70,8 @@ export default function AboutPage() {
                 像是在傾聽每個人的心事——這份安靜而溫暖的陪伴感，正是艾飛樂語錄想帶給每位讀者的感受。
               </p>
             </div>
-            <div className="relative h-44 w-full self-start sm:h-60">
-              <Image src={asset("/images/mascot.webp")} alt="艾飛樂品牌 IP 角色" fill className="object-contain object-top" sizes="(min-width: 640px) 180px, 112px" />
+            <div className="animate-float-slow relative h-44 w-full self-start sm:h-60">
+              <Image src={asset("/images/mascot.webp")} alt="艾飛樂品牌 IP 角色" fill className="animate-glow-pulse object-contain object-top" sizes="(min-width: 640px) 180px, 112px" />
             </div>
           </div>
         </div>
