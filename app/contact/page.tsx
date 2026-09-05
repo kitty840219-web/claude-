@@ -113,9 +113,6 @@ export default function ContactPage() {
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
         <div className="grid gap-10 md:grid-cols-[1fr_1.1fr] md:items-start">
           <div>
-            <div className="relative mx-auto h-32 w-32 md:mx-0">
-              <Image src={asset("/images/mascot.webp")} alt="艾飛樂 IP 角色" fill className="object-contain" />
-            </div>
             <SectionHeading
               eyebrow="LET'S TALK"
               title="期待與你合作"
