@@ -59,7 +59,7 @@ export default function EntryGate() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(118,105,184,0.38),transparent_42%)]" />
         <div className="relative mx-auto h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
           <div key={dialogue.art} className="absolute inset-0 animate-fade-in">
-            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話場景`} fill priority className="object-cover" sizes="390px" />
+            <Image src={asset(dialogue.art)} alt={`${dialogue.speaker}的星光對話場景`} fill className="object-cover" sizes="390px" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night-dark/90 via-night-dark/10 to-night-dark/50" />
           </div>
 

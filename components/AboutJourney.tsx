@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
@@ -51,6 +52,7 @@ const SCENES = [
 ];
 
 export default function AboutJourney() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(true);
   const [index, setIndex] = useState(0);
   const scene = SCENES[index];
@@ -65,7 +67,7 @@ export default function AboutJourney() {
     setIndex((value) => value + 1);
   }
 
-  if (!open) return null;
+  if (pathname === "/" || !open) return null;
 
   return (
     <div
