@@ -586,7 +586,7 @@ export default function TarotDivination() {
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 px-5 py-16 text-center text-amber-50">
       <div>
-        <h1 className="text-4xl font-bold tracking-[0.3em]">大眾占卜</h1>
+        <h1 className="text-4xl font-bold tracking-[0.3em]">塔羅占卜</h1>
         <p className="mt-2 text-sm text-amber-200/70">{SPREAD_MODES.find((m) => m.id === spreadSize)?.hint}</p>
       </div>
 
@@ -629,7 +629,7 @@ export default function TarotDivination() {
             <button
               type="button"
               onClick={resetAll}
-              aria-label="關閉大眾占卜視窗"
+              aria-label="關閉塔羅占卜視窗"
               className="absolute -right-2 -top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-amber-200 text-xl font-bold text-[#0b0f2e] shadow-soft transition hover:bg-amber-100"
             >
               ✕
