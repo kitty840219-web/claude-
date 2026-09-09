@@ -33,6 +33,7 @@ export const NAV = [
   { href: "/shop", label: "周邊商店" },
   { href: "/phone-cases", label: "手機殼系列" },
   { href: "/pricing", label: "服務報價" },
+  { href: "/line-guide", label: "如何使用LINE" },
   { href: "/contact", label: "洽談合作" },
 ];
 
