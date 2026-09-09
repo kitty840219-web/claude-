@@ -114,28 +114,41 @@ async function horoscopeResponse(input, env, origin) {
 
 const ACCOUNTING_TOOLS = ["利潤小幫手", "成本小幫手", "分潤小幫手", "發票小幫手", "營業稅小幫手", "薪資小幫手", "勞健保小幫手", "公司設立小幫手"];
 
+const ACCOUNTING_RESOURCES = [
+  { name: "勞動部", note: "勞動法規、勞資爭議申訴" },
+  { name: "勞工保險局", note: "勞保、勞退投保與給付" },
+  { name: "衛生福利部中央健康保險署", note: "健保投保與費率" },
+  { name: "全國法規資料庫", note: "查詢現行法規原文" },
+  { name: "財政部稅務入口網", note: "發票、營業稅、所得稅申報" },
+];
+
 async function accountingQaResponse(input, env, origin) {
   const question = cleanText(input.question, 500);
   if (question.length < 2) return json({ error: "請輸入想詢問的問題" }, 400, origin);
   const schema = {
     type: "OBJECT",
-    required: ["answer", "suggestedTool"],
+    required: ["answer", "suggestedTool", "suggestedResource"],
     properties: {
       answer: TEXT,
       suggestedTool: { type: "STRING", enum: [...ACCOUNTING_TOOLS, ""] },
+      suggestedResource: { type: "STRING", enum: [...ACCOUNTING_RESOURCES.map((r) => r.name), ""] },
     },
   };
-  const prompt = `你是一位親切、專業的台灣中小企業與個人工作室記帳／稅務入門顧問，名叫「艾飛樂」。使用者是插畫接案／周邊商品／占卜服務等個人工作室經營者，會用口語問你會計、記帳、發票、營業稅、薪資、勞健保、公司設立相關的入門問題。
+  const prompt = `你是一位親切、專業的台灣中小企業與個人工作室記帳／稅務／勞資入門顧問，名叫「艾飛樂」。使用者是插畫接案／周邊商品／占卜服務等個人工作室經營者，會用口語問你會計、記帳、發票、營業稅、薪資、勞健保、公司設立、勞資關係（例如請假規定、加班費、資遣、勞動契約）、以及基礎法律入門問題。
 
 使用者的問題：「${question}」
 
-請用溫暖、清楚、口語化的繁體中文簡短回答（120 至 220 字），可以條列重點，但不要用 Markdown 符號（不要 * 或 #）。內容只做入門說明與方向指引，不做個案的精確稅額或金額計算（那部分請引導使用者改用下方對應的小幫手工具實際試算）、不做醫療法律保證，遇到複雜或特殊情況要建議諮詢專業會計師或記帳士。
+請用溫暖、清楚、口語化的繁體中文簡短回答（120 至 220 字），可以條列重點，但不要用 Markdown 符號（不要 * 或 #）。內容只做入門說明與方向指引，不做個案的精確稅額或金額計算（那部分請引導使用者改用下方對應的小幫手工具實際試算）、不做醫療保證、不做個案法律判斷或保證訴訟結果，遇到複雜、特殊或有爭議的情況，要建議諮詢專業會計師、記帳士、律師或直接洽詢對應的政府機關窗口。
 
-如果使用者的問題明顯對應到下面某一個小幫手工具，把它填入 suggestedTool（完全比對這些名稱之一）；如果問題比較籠統、綜合性、或不屬於任何一個，suggestedTool 留空字串：""。
-可選工具：${ACCOUNTING_TOOLS.join("、")}`;
+如果使用者的問題明顯對應到下面某一個小幫手工具，把它填入 suggestedTool（完全比對這些名稱之一）；不屬於任何一個則留空字串 ""。
+可選工具：${ACCOUNTING_TOOLS.join("、")}
+
+如果使用者的問題適合去查詢某個官方機關網站取得更完整或最新資訊，把它填入 suggestedResource（完全比對這些名稱之一）；不需要則留空字串 ""。
+可選機關：${ACCOUNTING_RESOURCES.map((r) => r.name).join("、")}`;
   try {
     const result = await generateGeminiJson(env, prompt, schema, 900);
     if (!ACCOUNTING_TOOLS.includes(result.suggestedTool)) result.suggestedTool = "";
+    if (!ACCOUNTING_RESOURCES.some((r) => r.name === result.suggestedResource)) result.suggestedResource = "";
     return json(result, 200, origin);
   } catch {
     return json({ error: "小幫手暫時無法回答，請稍後再試" }, 502, origin);

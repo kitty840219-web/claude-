@@ -1,12 +1,15 @@
 import { TAROT_API_URL } from "@/lib/tarot/ai";
 import { ACCOUNTING_TOOLS, type AccountingToolId } from "./tools";
+import { ACCOUNTING_RESOURCES } from "./resources";
 
 export type AccountingAnswer = {
   answer: string;
   suggestedTool: AccountingToolId | "";
+  suggestedResource: string;
 };
 
 const TOOL_LABEL_TO_ID = Object.fromEntries(ACCOUNTING_TOOLS.map((t) => [t.label, t.id])) as Record<string, AccountingToolId>;
+const RESOURCE_NAMES = new Set(ACCOUNTING_RESOURCES.map((r) => r.name));
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -21,9 +24,11 @@ async function post(question: string): Promise<AccountingAnswer> {
   const data = await response.json().catch(() => null);
   if (!response.ok) throw new Error(data?.error || "小幫手暫時無法回答，請稍後再試");
   const suggestedLabel = typeof data?.suggestedTool === "string" ? data.suggestedTool : "";
+  const suggestedResource = typeof data?.suggestedResource === "string" && RESOURCE_NAMES.has(data.suggestedResource) ? data.suggestedResource : "";
   return {
     answer: typeof data?.answer === "string" ? data.answer : "",
     suggestedTool: TOOL_LABEL_TO_ID[suggestedLabel] || "",
+    suggestedResource,
   };
 }
 

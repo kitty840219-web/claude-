@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { asset } from "@/lib/basePath";
 import { askAccountingAi } from "@/lib/accounting/ai";
 import {
   calcBusinessTax,
@@ -15,18 +17,9 @@ import {
   type SplitShare,
 } from "@/lib/accounting/calculators";
 import { loadAccountingHistory, saveAccountingRecord, type AccountingRecord } from "@/lib/accounting/history";
+import { ACCOUNTING_RESOURCES } from "@/lib/accounting/resources";
 import { ACCOUNTING_TOOLS, type AccountingToolId } from "@/lib/accounting/tools";
-
-const TONE_STYLES: Record<string, string> = {
-  green: "bg-[#dcefe0] text-[#2f7a4f]",
-  purple: "bg-[#eae1f7] text-[#6b46a8]",
-  orange: "bg-[#fbe7d0] text-[#c46a1f]",
-  pink: "bg-[#fbe0e6] text-[#c24468]",
-  blue: "bg-[#dce8f7] text-[#2b5fa8]",
-  teal: "bg-[#d9efe9] text-[#1f7a68]",
-  rose: "bg-[#fbe3e3] text-[#b24b4b]",
-  mint: "bg-[#dff4e8] text-[#2e8b5b]",
-};
+import Star from "@/components/Star";
 
 const fmt = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
@@ -42,18 +35,18 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 pt-8" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 pt-8" onClick={onClose}>
       <div className="relative h-full max-h-[85svh] w-full max-w-[430px]" onClick={(e) => e.stopPropagation()}>
         <button
           type="button"
           onClick={onClose}
           aria-label="關閉小幫手"
-          className="absolute -right-2 -top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-[#e8a33d] text-xl font-bold text-white shadow-lg transition hover:bg-[#dc9530]"
+          className="absolute -right-2 -top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gold text-xl font-bold text-night-dark shadow-soft transition hover:bg-gold-light"
         >
           ✕
         </button>
-        <div className="flex h-full w-full flex-col overflow-y-auto rounded-[1.5rem] border border-[#f0dcb8] bg-white p-5 text-[#4a3f2e] shadow-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <h3 className="font-serif text-lg font-bold">{title}</h3>
+        <div className="flex h-full w-full flex-col overflow-y-auto rounded-[1.5rem] border border-gold/30 bg-night-dark p-5 text-paper shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <h3 className="font-serif text-lg font-bold text-paper">{title}</h3>
           <div className="mt-4">{children}</div>
         </div>
       </div>
@@ -64,17 +57,17 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 function NumberField({ label, value, onChange, suffix }: { label: string; value: string; onChange: (v: string) => void; suffix?: string }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-semibold text-[#8b7e68]">{label}</span>
-      <div className="flex items-center gap-2 rounded-xl border border-[#e8dfc9] bg-[#fdfbf5] px-3 py-2.5">
+      <span className="mb-1.5 block text-xs font-semibold text-paper/60">{label}</span>
+      <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5">
         <input
           type="number"
           inputMode="decimal"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-transparent text-sm text-[#4a3f2e] outline-none"
+          className="w-full bg-transparent text-sm text-paper outline-none"
           placeholder="0"
         />
-        {suffix && <span className="shrink-0 text-xs text-[#8b7e68]">{suffix}</span>}
+        {suffix && <span className="shrink-0 text-xs text-paper/50">{suffix}</span>}
       </div>
     </label>
   );
@@ -82,8 +75,8 @@ function NumberField({ label, value, onChange, suffix }: { label: string; value:
 
 function ResultRow({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
   return (
-    <div className={`flex items-center justify-between py-1.5 ${strong ? "text-base font-bold text-[#c46a1f]" : "text-sm text-[#4a3f2e]"}`}>
-      <span className={strong ? "" : "text-[#8b7e68]"}>{label}</span>
+    <div className={`flex items-center justify-between py-1.5 ${strong ? "text-base font-bold text-gold-light" : "text-sm text-paper"}`}>
+      <span className={strong ? "" : "text-paper/60"}>{label}</span>
       <span className="font-mono">{value}</span>
     </div>
   );
@@ -109,7 +102,7 @@ function ProfitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
       <NumberField label="平台抽成" value={feePercent} onChange={setFeePercent} suffix="%" />
       <NumberField label="物流費" value={shipping} onChange={setShipping} suffix="元" />
       <NumberField label="廣告費" value={ad} onChange={setAd} suffix="元" />
-      <div className="mt-4 rounded-xl bg-[#fbf3e6] p-4">
+      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="平台抽成金額" value={fmt(result.platformFee)} />
         <ResultRow label="實際利潤" value={fmt(result.profit)} strong />
         <ResultRow label="利潤率" value={`${result.margin}%`} strong />
@@ -125,7 +118,7 @@ function ProfitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
             resultValue: `${fmt(result.profit)}（${result.margin}%）`,
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -148,31 +141,31 @@ function CostTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date"
 
   return (
     <div className="space-y-3">
-      <p className="text-xs font-semibold text-[#8b7e68]">成本項目</p>
+      <p className="text-xs font-semibold text-paper/60">成本項目</p>
       {items.map((item, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
             value={item.label}
             onChange={(e) => updateItem(i, { label: e.target.value })}
-            className="w-1/2 rounded-xl border border-[#e8dfc9] bg-[#fdfbf5] px-3 py-2.5 text-sm text-[#4a3f2e] outline-none"
+            className="w-1/2 rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
           />
           <input
             type="number"
             value={item.amount}
             onChange={(e) => updateItem(i, { amount: num(e.target.value) })}
-            className="w-1/2 rounded-xl border border-[#e8dfc9] bg-[#fdfbf5] px-3 py-2.5 text-sm text-[#4a3f2e] outline-none"
+            className="w-1/2 rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
           />
         </div>
       ))}
       <button
         type="button"
         onClick={() => setItems((prev) => [...prev, { label: "新項目", amount: 0 }])}
-        className="text-xs font-semibold text-[#c46a1f]"
+        className="text-xs font-semibold text-gold-light"
       >
         ＋ 新增一項
       </button>
       <NumberField label="商品售價（選填，用來算成本率）" value={price} onChange={setPrice} suffix="元" />
-      <div className="mt-4 rounded-xl bg-[#fbf3e6] p-4">
+      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="總成本" value={fmt(result.total)} strong />
         {num(price) > 0 && <ResultRow label="成本率" value={`${result.ratio}%`} />}
       </div>
@@ -187,7 +180,7 @@ function CostTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date"
             resultValue: fmt(result.total),
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -212,34 +205,34 @@ function SplitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date
   return (
     <div className="space-y-3">
       <NumberField label="總金額" value={total} onChange={setTotal} suffix="元" />
-      <p className="text-xs font-semibold text-[#8b7e68]">分潤比例</p>
+      <p className="text-xs font-semibold text-paper/60">分潤比例</p>
       {shares.map((s, i) => (
         <div key={i} className="flex items-center gap-2">
           <input
             value={s.label}
             onChange={(e) => updateShare(i, { label: e.target.value })}
-            className="w-1/2 rounded-xl border border-[#e8dfc9] bg-[#fdfbf5] px-3 py-2.5 text-sm text-[#4a3f2e] outline-none"
+            className="w-1/2 rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
           />
-          <div className="flex w-1/2 items-center gap-1 rounded-xl border border-[#e8dfc9] bg-[#fdfbf5] px-3 py-2.5">
+          <div className="flex w-1/2 items-center gap-1 rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5">
             <input
               type="number"
               value={s.percent}
               onChange={(e) => updateShare(i, { percent: num(e.target.value) })}
-              className="w-full bg-transparent text-sm text-[#4a3f2e] outline-none"
+              className="w-full bg-transparent text-sm text-paper outline-none"
             />
-            <span className="text-xs text-[#8b7e68]">%</span>
+            <span className="text-xs text-paper/50">%</span>
           </div>
         </div>
       ))}
       <button
         type="button"
         onClick={() => setShares((prev) => [...prev, { label: `成員 ${prev.length + 1}`, percent: 0 }])}
-        className="text-xs font-semibold text-[#c46a1f]"
+        className="text-xs font-semibold text-gold-light"
       >
         ＋ 新增一位
       </button>
-      {result.percentSum !== 100 && <p className="text-xs text-[#b24b4b]">目前比例總和 {result.percentSum}%，建議調整到 100%</p>}
-      <div className="mt-4 space-y-1 rounded-xl bg-[#fbf3e6] p-4">
+      {result.percentSum !== 100 && <p className="text-xs text-rose-300">目前比例總和 {result.percentSum}%，建議調整到 100%</p>}
+      <div className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
         {result.results.map((r) => (
           <ResultRow key={r.label} label={`${r.label}（${r.percent}%）`} value={fmt(r.amount)} />
         ))}
@@ -255,7 +248,7 @@ function SplitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date
             resultValue: `${fmt(num(total))}（${shares.length} 位成員）`,
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -271,33 +264,33 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
 
   return (
     <div className="space-y-3">
-      <div className="flex rounded-xl border border-[#e8dfc9] p-1">
+      <div className="flex rounded-xl border border-gold/20 p-1">
         <button
           type="button"
           onClick={() => setMode("taxIncluded")}
-          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${mode === "taxIncluded" ? "bg-[#fbe7d0] text-[#c46a1f]" : "text-[#8b7e68]"}`}
+          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${mode === "taxIncluded" ? "bg-gold text-night-dark" : "text-paper/60"}`}
         >
           已知含稅金額
         </button>
         <button
           type="button"
           onClick={() => setMode("untaxed")}
-          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${mode === "untaxed" ? "bg-[#fbe7d0] text-[#c46a1f]" : "text-[#8b7e68]"}`}
+          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${mode === "untaxed" ? "bg-gold text-night-dark" : "text-paper/60"}`}
         >
           已知未稅金額
         </button>
       </div>
       <NumberField label={mode === "taxIncluded" ? "含稅金額" : "未稅金額"} value={amount} onChange={setAmount} suffix="元" />
       <label className="block">
-        <span className="mb-1.5 block text-xs font-semibold text-[#8b7e68]">買受人統編（選填，三聯式發票用）</span>
+        <span className="mb-1.5 block text-xs font-semibold text-paper/60">買受人統編（選填，三聯式發票用）</span>
         <input
           value={buyerId}
           onChange={(e) => setBuyerId(e.target.value)}
           placeholder="12345678"
-          className="w-full rounded-xl border border-[#e8dfc9] bg-[#fdfbf5] px-3 py-2.5 text-sm text-[#4a3f2e] outline-none"
+          className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
         />
       </label>
-      <div className="mt-4 rounded-xl bg-[#fbf3e6] p-4">
+      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="未稅金額" value={fmt(result.untaxed)} />
         <ResultRow label="營業稅額（5%）" value={fmt(result.tax)} />
         <ResultRow label="含稅總額" value={fmt(result.taxIncluded)} strong />
@@ -314,7 +307,7 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
             resultValue: fmt(result.taxIncluded),
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -331,7 +324,7 @@ function TaxTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">
     <div className="space-y-3">
       <NumberField label="銷項稅額（本期銷貨）" value={salesTax} onChange={setSalesTax} suffix="元" />
       <NumberField label="進項稅額（本期進貨／費用）" value={purchaseTax} onChange={setPurchaseTax} suffix="元" />
-      <div className="mt-4 rounded-xl bg-[#fbf3e6] p-4">
+      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
         {result.payable > 0 ? (
           <ResultRow label="本期應繳稅額" value={fmt(result.payable)} strong />
         ) : (
@@ -349,7 +342,7 @@ function TaxTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">
             resultValue: fmt(result.payable || result.refundable),
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -370,7 +363,7 @@ function PayrollTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
       <NumberField label="加班費／獎金" value={bonus} onChange={setBonus} suffix="元" />
       <NumberField label="勞健保自付額" value={insurance} onChange={setInsurance} suffix="元" />
       <NumberField label="代扣所得稅" value={tax} onChange={setTax} suffix="元" />
-      <div className="mt-4 rounded-xl bg-[#fbf3e6] p-4">
+      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="應發薪資" value={fmt(result.gross)} />
         <ResultRow label="實領薪資" value={fmt(result.netPay)} strong />
       </div>
@@ -385,7 +378,7 @@ function PayrollTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
             resultValue: fmt(result.netPay),
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -402,15 +395,15 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
     <div className="space-y-3">
       <NumberField label="投保薪資" value={salary} onChange={setSalary} suffix="元" />
       <NumberField label="健保眷屬人數" value={dependents} onChange={setDependents} suffix="人" />
-      <div className="mt-4 space-y-1 rounded-xl bg-[#fbf3e6] p-4">
+      <div className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="勞保費（員工負擔）" value={fmt(result.laborEmployee)} />
         <ResultRow label="健保費（員工負擔）" value={fmt(result.healthEmployee)} />
         <ResultRow label="員工自付合計" value={fmt(result.employeeTotal)} strong />
-        <div className="my-2 h-px bg-[#e8dfc9]" />
+        <div className="my-2 h-px bg-gold/15" />
         <ResultRow label="勞退提撥（雇主 6%）" value={fmt(result.pensionEmployer)} />
         <ResultRow label="公司負擔合計" value={fmt(result.employerTotal)} strong />
       </div>
-      <p className="text-[11px] leading-5 text-[#8b7e68]">＊簡化參考費率，實際請以勞保局／健保署最新公告費率與級距為準。</p>
+      <p className="text-[11px] leading-5 text-paper/50">＊簡化參考費率，實際請以勞保局／健保署最新公告費率與級距為準。</p>
       <button
         type="button"
         onClick={() =>
@@ -422,7 +415,7 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
             resultValue: fmt(result.employeeTotal),
           })
         }
-        className="w-full rounded-full bg-[#e8a33d] py-3 text-sm font-semibold text-white transition hover:bg-[#dc9530]"
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
       >
         儲存這筆試算
       </button>
@@ -443,14 +436,14 @@ const COMPANY_STEPS = [
 function CompanyGuide() {
   return (
     <div className="space-y-3">
-      <p className="text-xs leading-5 text-[#8b7e68]">7 個步驟，帶你了解成立公司的大致流程（實際文件與規定請以最新公告為準）。</p>
+      <p className="text-xs leading-5 text-paper/60">7 個步驟，帶你了解成立公司的大致流程（實際文件與規定請以最新公告為準）。</p>
       <ol className="space-y-3">
         {COMPANY_STEPS.map((s, i) => (
           <li key={s.title} className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#d9efe9] text-xs font-bold text-[#1f7a68]">{i + 1}</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/15 text-xs font-bold text-gold-light">{i + 1}</span>
             <div>
-              <p className="text-sm font-semibold text-[#4a3f2e]">{s.title}</p>
-              <p className="mt-0.5 text-xs leading-5 text-[#8b7e68]">{s.desc}</p>
+              <p className="text-sm font-semibold text-paper">{s.title}</p>
+              <p className="mt-0.5 text-xs leading-5 text-paper/60">{s.desc}</p>
             </div>
           </li>
         ))}
@@ -476,7 +469,7 @@ export default function AccountingHelper() {
   const [history, setHistory] = useState<AccountingRecord[]>([]);
   const [question, setQuestion] = useState("");
   const [asking, setAsking] = useState(false);
-  const [answer, setAnswer] = useState<{ text: string; suggested: AccountingToolId | "" } | null>(null);
+  const [answer, setAnswer] = useState<{ text: string; suggested: AccountingToolId | ""; resource: string } | null>(null);
   const [askError, setAskError] = useState("");
 
   useEffect(() => {
@@ -496,7 +489,7 @@ export default function AccountingHelper() {
     setAnswer(null);
     try {
       const result = await askAccountingAi(text);
-      setAnswer({ text: result.answer, suggested: result.suggestedTool });
+      setAnswer({ text: result.answer, suggested: result.suggestedTool, resource: result.suggestedResource });
     } catch (e) {
       setAskError(e instanceof Error ? e.message : "小幫手暫時無法回答，請稍後再試");
     } finally {
@@ -507,164 +500,210 @@ export default function AccountingHelper() {
   const openToolMeta = openTool ? ACCOUNTING_TOOLS.find((t) => t.id === openTool) : null;
 
   return (
-    <div className="bg-[#fbf3e6]">
-      <div className="mx-auto w-full max-w-md px-5 pb-16 pt-6 text-[#4a3f2e]">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-xl shadow-sm">🧑‍🌾</span>
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-night-dark pb-8 pt-20">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
+        <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="grid grid-cols-[minmax(0,1fr)_130px] items-center gap-4 rounded-[2rem] bg-night-light/15 px-6 py-7">
             <div>
-              <p className="font-serif text-base font-bold leading-tight">艾飛樂 會計小幫手</p>
-              <p className="text-[11px] text-[#a08b5e]">簡單．快速．專業．安心 ❤️</p>
+              <div className="mb-4 flex items-center gap-2">
+                <Star className="h-3 w-3 text-gold-light" />
+                <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">ACCOUNTING</p>
+              </div>
+              <h1 className="font-serif text-2xl font-bold text-paper">會計小幫手</h1>
+              <p className="mt-3 text-sm leading-6 text-paper/70">簡單．快速．專業．安心 ❤️</p>
+            </div>
+            <div className="animate-float-slow relative h-40 w-full">
+              <Image src={asset("/images/pricing-guide-cutout.webp")} alt="小艾拿著清單，準備幫你試算" fill className="object-contain" sizes="130px" />
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="mt-4 flex gap-2 rounded-full bg-white/70 p-1">
-          <button
-            type="button"
-            onClick={() => setView("home")}
-            className={`flex-1 rounded-full py-2 text-xs font-semibold transition ${view === "home" ? "bg-[#e8a33d] text-white" : "text-[#8b7e68]"}`}
-          >
-            首頁
-          </button>
-          <button
-            type="button"
-            onClick={() => setView("howto")}
-            className={`flex-1 rounded-full py-2 text-xs font-semibold transition ${view === "howto" ? "bg-[#e8a33d] text-white" : "text-[#8b7e68]"}`}
-          >
-            使用說明
-          </button>
-        </div>
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-4 sm:px-6">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative mx-auto max-w-3xl">
+          <div className="flex gap-2 rounded-full border border-gold/15 bg-night-light/10 p-1">
+            <button
+              type="button"
+              onClick={() => setView("home")}
+              className={`flex-1 rounded-full py-2 text-xs font-semibold transition ${view === "home" ? "bg-gold text-night-dark" : "text-paper/60"}`}
+            >
+              首頁
+            </button>
+            <button
+              type="button"
+              onClick={() => setView("howto")}
+              className={`flex-1 rounded-full py-2 text-xs font-semibold transition ${view === "howto" ? "bg-gold text-night-dark" : "text-paper/60"}`}
+            >
+              使用說明
+            </button>
+          </div>
 
-        {view === "home" ? (
-          <>
-            {/* AI hero */}
-            <section className="mt-5 rounded-[1.75rem] bg-white p-5 shadow-sm">
-              <p className="font-serif text-lg font-bold">嗨！我是艾飛樂</p>
-              <p className="mt-1 text-xs text-[#8b7e68]">有任何會計問題，都可以問我喔！</p>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleAsk();
-                }}
-                className="mt-3 flex items-center gap-2 rounded-2xl border border-[#e8dfc9] bg-[#fdfbf5] px-4 py-3"
-              >
-                <input
-                  value={question}
-                  onChange={(e) => setQuestion(e.target.value)}
-                  placeholder="例如：我要算利潤、如何開發票、營業稅怎麼算？"
-                  className="min-w-0 flex-1 bg-transparent text-sm text-[#4a3f2e] outline-none placeholder:text-[#b3a582]"
-                />
-                <button
-                  type="submit"
-                  disabled={asking}
-                  aria-label="送出問題"
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8a33d] text-white disabled:opacity-50"
+          {view === "home" ? (
+            <>
+              {/* AI hero */}
+              <section className="mt-5 rounded-[1.75rem] border border-gold/15 bg-night-light/15 p-5 shadow-card">
+                <p className="font-serif text-lg font-bold text-paper">嗨！我是艾飛樂</p>
+                <p className="mt-1 text-xs text-paper/60">有任何會計問題，都可以問我喔！</p>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleAsk();
+                  }}
+                  className="mt-3 flex items-center gap-2 rounded-2xl border border-gold/20 bg-night-light/20 px-4 py-3"
                 >
-                  {asking ? "…" : "➤"}
-                </button>
-              </form>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {SUGGESTED_PROMPTS.map((p) => (
+                  <input
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="例如：我要算利潤、如何開發票、營業稅怎麼算？"
+                    className="min-w-0 flex-1 bg-transparent text-sm text-paper outline-none placeholder:text-paper/40"
+                  />
                   <button
-                    key={p}
-                    type="button"
-                    onClick={() => {
-                      setQuestion(p);
-                      handleAsk(p);
-                    }}
-                    className="rounded-full border border-[#e8dfc9] px-3 py-1.5 text-xs text-[#8b7e68] transition hover:border-[#e8a33d] hover:text-[#c46a1f]"
+                    type="submit"
+                    disabled={asking}
+                    aria-label="送出問題"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold text-night-dark disabled:opacity-50"
                   >
-                    {p}
+                    {asking ? "…" : "➤"}
                   </button>
-                ))}
-              </div>
-
-              {asking && <p className="mt-4 text-xs text-[#8b7e68]">艾飛樂正在想...</p>}
-              {askError && <p className="mt-4 text-xs text-[#b24b4b]">{askError}</p>}
-              {answer && (
-                <div className="mt-4 rounded-2xl bg-[#fbf3e6] p-4">
-                  <p className="text-sm leading-6 text-[#4a3f2e]">{answer.text}</p>
-                  {answer.suggested && (
+                </form>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {SUGGESTED_PROMPTS.map((p) => (
                     <button
+                      key={p}
                       type="button"
-                      onClick={() => setOpenTool(answer.suggested as AccountingToolId)}
-                      className="mt-3 rounded-full bg-[#e8a33d] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#dc9530]"
+                      onClick={() => {
+                        setQuestion(p);
+                        handleAsk(p);
+                      }}
+                      className="rounded-full border border-gold/20 px-3 py-1.5 text-xs text-paper/60 transition hover:border-gold/50 hover:text-gold-light"
                     >
-                      打開 {ACCOUNTING_TOOLS.find((t) => t.id === answer.suggested)?.label} →
+                      {p}
                     </button>
-                  )}
+                  ))}
                 </div>
-              )}
-            </section>
 
-            {/* Tool grid */}
-            <section className="mt-6">
-              <p className="mb-3 text-xs font-semibold text-[#a08b5e]">★ 常用小幫手．點擊下方功能，讓艾飛樂幫你快速計算與解答</p>
-              <div className="grid grid-cols-2 gap-3">
-                {ACCOUNTING_TOOLS.map((tool) => (
-                  <button
-                    key={tool.id}
-                    type="button"
-                    onClick={() => setOpenTool(tool.id)}
-                    className="flex flex-col items-start gap-2 rounded-2xl bg-white p-4 text-left shadow-sm transition hover:shadow-md"
-                  >
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg ${TONE_STYLES[tool.tone]}`}>{tool.icon}</span>
-                    <span className="text-sm font-bold">{tool.label}</span>
-                    <span className="text-[11px] leading-4 text-[#8b7e68]">{tool.desc}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            {/* Recent records */}
-            {history.length > 0 && (
-              <section className="mt-6">
-                <p className="mb-3 text-xs font-semibold text-[#a08b5e]">🕐 最近的試算紀錄</p>
-                <div className="space-y-2">
-                  {history.map((r) => (
-                    <div key={r.id} className="rounded-xl bg-white p-3.5 shadow-sm">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-semibold text-[#c46a1f]">{r.toolLabel}</span>
-                        <span className="text-[11px] text-[#b3a582]">{r.date}</span>
-                      </div>
-                      <p className="mt-1 text-sm font-semibold">{r.title}</p>
-                      <p className="mt-0.5 text-xs text-[#8b7e68]">
-                        {r.resultLabel} <span className="font-mono font-semibold text-[#4a3f2e]">{r.resultValue}</span>
-                      </p>
+                {asking && <p className="mt-4 text-xs text-paper/60">艾飛樂正在想...</p>}
+                {askError && <p className="mt-4 text-xs text-rose-300">{askError}</p>}
+                {answer && (
+                  <div className="mt-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4">
+                    <p className="text-sm leading-6 text-paper/90">{answer.text}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {answer.suggested && (
+                        <button
+                          type="button"
+                          onClick={() => setOpenTool(answer.suggested as AccountingToolId)}
+                          className="rounded-full bg-gold px-4 py-2 text-xs font-semibold text-night-dark transition hover:bg-gold-light"
+                        >
+                          打開 {ACCOUNTING_TOOLS.find((t) => t.id === answer.suggested)?.label} →
+                        </button>
+                      )}
+                      {answer.resource && (
+                        <a
+                          href={ACCOUNTING_RESOURCES.find((r) => r.name === answer.resource)?.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-full border border-gold/30 px-4 py-2 text-xs font-semibold text-gold-light transition hover:border-gold/60"
+                        >
+                          前往 {answer.resource} →
+                        </a>
+                      )}
                     </div>
+                  </div>
+                )}
+              </section>
+
+              {/* Tool grid */}
+              <section className="mt-6">
+                <p className="mb-3 text-xs font-semibold tracking-[0.15em] text-gold-light">★ 常用小幫手．點擊下方功能，讓艾飛樂幫你快速計算與解答</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {ACCOUNTING_TOOLS.map((tool) => (
+                    <button
+                      key={tool.id}
+                      type="button"
+                      onClick={() => setOpenTool(tool.id)}
+                      className="flex flex-col items-start gap-2 rounded-2xl border border-gold/15 bg-night-light/15 p-4 text-left shadow-card transition hover:border-gold/40"
+                    >
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold text-lg text-night-dark">{tool.icon}</span>
+                      <span className="text-sm font-bold text-paper">{tool.label}</span>
+                      <span className="text-[11px] leading-4 text-paper/60">{tool.desc}</span>
+                    </button>
                   ))}
                 </div>
               </section>
-            )}
-          </>
-        ) : (
-          <section className="mt-5 space-y-5">
-            <div className="rounded-[1.75rem] bg-white p-5 text-center shadow-sm">
-              <p className="font-serif text-xl font-bold">使用說明</p>
-              <p className="mt-1 text-xs text-[#8b7e68]">四個步驟，輕鬆完成各項會計試算</p>
-            </div>
-            {[
-              { n: 1, title: "選擇想使用的小幫手", desc: "點選常用小幫手裡的任一功能卡片，開始試算。" },
-              { n: 2, title: "輸入資料", desc: "依畫面提示輸入售價、成本、金額等資訊即可，不用一次填齊所有欄位。" },
-              { n: 3, title: "自動計算", desc: "系統會即時算出利潤、成本率、稅額、分潤金額等結果。" },
-              { n: 4, title: "查看並儲存結果", desc: "確認試算結果，按下「儲存這筆試算」就會出現在首頁的最近紀錄裡。" },
-            ].map((s) => (
-              <div key={s.n} className="rounded-2xl bg-white p-5 shadow-sm">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#fbe7d0] text-xs font-bold text-[#c46a1f]">{s.n}</span>
-                  <p className="text-sm font-bold">{s.title}</p>
+
+              {/* Official resources */}
+              <section className="mt-6">
+                <p className="mb-3 text-xs font-semibold tracking-[0.15em] text-gold-light">🏛 官方資源．勞資與稅務問題可直接查詢</p>
+                <div className="space-y-2">
+                  {ACCOUNTING_RESOURCES.map((r) => (
+                    <a
+                      key={r.name}
+                      href={r.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between gap-3 rounded-xl border border-gold/15 bg-night-light/15 px-4 py-3 shadow-card transition hover:border-gold/40"
+                    >
+                      <span>
+                        <span className="block text-sm font-semibold text-paper">{r.name}</span>
+                        <span className="mt-0.5 block text-[11px] text-paper/50">{r.note}</span>
+                      </span>
+                      <span className="shrink-0 text-gold-light">→</span>
+                    </a>
+                  ))}
                 </div>
-                <p className="mt-2 text-xs leading-5 text-[#8b7e68]">{s.desc}</p>
+              </section>
+
+              {/* Recent records */}
+              {history.length > 0 && (
+                <section className="mt-6">
+                  <p className="mb-3 text-xs font-semibold tracking-[0.15em] text-gold-light">🕐 最近的試算紀錄</p>
+                  <div className="space-y-2">
+                    {history.map((r) => (
+                      <div key={r.id} className="rounded-xl border border-gold/15 bg-night-light/15 p-3.5 shadow-card">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-semibold text-gold-light">{r.toolLabel}</span>
+                          <span className="text-[11px] text-paper/40">{r.date}</span>
+                        </div>
+                        <p className="mt-1 text-sm font-semibold text-paper">{r.title}</p>
+                        <p className="mt-0.5 text-xs text-paper/60">
+                          {r.resultLabel} <span className="font-mono font-semibold text-paper">{r.resultValue}</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </>
+          ) : (
+            <section className="mt-5 space-y-4">
+              <div className="rounded-[1.75rem] border border-gold/15 bg-night-light/15 p-5 text-center shadow-card">
+                <p className="font-serif text-xl font-bold text-paper">使用說明</p>
+                <p className="mt-1 text-xs text-paper/60">四個步驟，輕鬆完成各項會計試算</p>
               </div>
-            ))}
-            <div className="rounded-2xl bg-[#fbe7d0]/60 p-4 text-xs leading-6 text-[#8b6a3a]">
-              💡 所有試算皆為參考結果，實際金額請以帳務資料為準；遇到特殊會計或稅務問題，建議再與專業會計師確認。
-            </div>
-          </section>
-        )}
-      </div>
+              {[
+                { n: 1, title: "選擇想使用的小幫手", desc: "點選常用小幫手裡的任一功能卡片，開始試算。" },
+                { n: 2, title: "輸入資料", desc: "依畫面提示輸入售價、成本、金額等資訊即可，不用一次填齊所有欄位。" },
+                { n: 3, title: "自動計算", desc: "系統會即時算出利潤、成本率、稅額、分潤金額等結果。" },
+                { n: 4, title: "查看並儲存結果", desc: "確認試算結果，按下「儲存這筆試算」就會出現在首頁的最近紀錄裡。" },
+              ].map((s) => (
+                <div key={s.n} className="rounded-2xl border border-gold/15 bg-night-light/15 p-5 shadow-card">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/15 text-xs font-bold text-gold-light">{s.n}</span>
+                    <p className="text-sm font-bold text-paper">{s.title}</p>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-paper/60">{s.desc}</p>
+                </div>
+              ))}
+              <div className="rounded-2xl border border-gold/15 bg-night-light/10 p-4 text-xs leading-6 text-paper/60">
+                💡 所有試算皆為參考結果，實際金額請以帳務資料為準；遇到特殊會計或稅務問題，建議再與專業會計師確認。
+              </div>
+            </section>
+          )}
+        </div>
+      </section>
 
       {openTool && openToolMeta && (
         <Modal title={openToolMeta.label} onClose={() => setOpenTool(null)}>
