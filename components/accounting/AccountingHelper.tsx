@@ -518,6 +518,13 @@ export default function AccountingHelper() {
               <Image src={asset("/images/pricing-guide-cutout.webp")} alt="小艾拿著清單，準備幫你試算" fill className="object-contain" sizes="130px" />
             </div>
           </div>
+
+          <div className="relative mt-5 overflow-hidden">
+            <div className="animate-marquee flex w-max whitespace-nowrap">
+              <span className="pr-16 font-serif text-base text-gold-light sm:text-lg">✨ 會計小幫手持續更新中，敬請期待更多功能上線．有任何想法歡迎告訴艾飛樂 ✨</span>
+              <span aria-hidden className="pr-16 font-serif text-base text-gold-light sm:text-lg">✨ 會計小幫手持續更新中，敬請期待更多功能上線．有任何想法歡迎告訴艾飛樂 ✨</span>
+            </div>
+          </div>
         </div>
       </section>
 
