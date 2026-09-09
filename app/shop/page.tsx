@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import ShopList from "@/components/shop/ShopList";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
@@ -52,6 +53,23 @@ export default function ShopPage() {
               <Image src={asset("/images/shop-hero-cutout.webp")} alt="小艾帶著艾飛樂周邊商品" fill className="object-contain" sizes="130px" />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Phone cases promo */}
+      <section className="relative overflow-hidden bg-night-dark px-4 pt-6 sm:px-6">
+        <div className="relative mx-auto max-w-3xl">
+          <Link
+            href="/phone-cases"
+            className="group flex items-center gap-4 rounded-[1.5rem] border border-gold/20 bg-gradient-to-r from-night-light/25 to-night-light/10 px-5 py-4 transition hover:border-gold/40"
+          >
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold text-2xl">📱</span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-serif text-base font-bold text-paper">療癒插畫手機殼系列</span>
+              <span className="mt-1 block text-xs leading-relaxed text-paper/60">9 款透明防撞殼新上市，把溫柔的插畫日常帶著走</span>
+            </span>
+            <span className="shrink-0 text-gold-light transition group-hover:translate-x-1">→</span>
+          </Link>
         </div>
       </section>
 

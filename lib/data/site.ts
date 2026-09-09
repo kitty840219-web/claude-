@@ -30,6 +30,7 @@ export const NAV = [
   { href: "/tarot", label: "塔羅占卜" },
   { href: "/videos", label: "影音創作" },
   { href: "/shop", label: "周邊商店" },
+  { href: "/phone-cases", label: "手機殼系列" },
   { href: "/pricing", label: "服務報價" },
   { href: "/contact", label: "洽談合作" },
 ];
