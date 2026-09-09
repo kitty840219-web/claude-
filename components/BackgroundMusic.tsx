@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 const VIDEO_ID = "2MH3zN3VCn4";
@@ -8,7 +8,31 @@ const VIDEO_ID = "2MH3zN3VCn4";
 function BackgroundMusicInner() {
   const searchParams = useSearchParams();
   const embedded = searchParams.get("embed") === "1";
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (embedded) return;
+
+    function startOnFirstInteraction() {
+      if (startedRef.current) return;
+      startedRef.current = true;
+      setPlaying(true);
+      document.removeEventListener("click", startOnFirstInteraction);
+      document.removeEventListener("touchstart", startOnFirstInteraction);
+      document.removeEventListener("keydown", startOnFirstInteraction);
+    }
+
+    document.addEventListener("click", startOnFirstInteraction);
+    document.addEventListener("touchstart", startOnFirstInteraction);
+    document.addEventListener("keydown", startOnFirstInteraction);
+
+    return () => {
+      document.removeEventListener("click", startOnFirstInteraction);
+      document.removeEventListener("touchstart", startOnFirstInteraction);
+      document.removeEventListener("keydown", startOnFirstInteraction);
+    };
+  }, [embedded]);
 
   if (embedded) return null;
 
@@ -25,7 +49,10 @@ function BackgroundMusicInner() {
       )}
       <button
         type="button"
-        onClick={() => setPlaying((p) => !p)}
+        onClick={() => {
+          startedRef.current = true;
+          setPlaying((p) => !p);
+        }}
         aria-label={playing ? "關閉背景音樂" : "播放背景音樂"}
         className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/30 bg-night text-gold-light shadow-soft transition hover:bg-night-light"
       >
