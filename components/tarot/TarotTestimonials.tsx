@@ -50,18 +50,18 @@ export default function TarotTestimonials() {
       <h3 className="mb-1 text-xs font-semibold tracking-[0.2em] text-amber-200/70">客戶真實回饋</h3>
       <p className="mb-4 text-[11px] text-amber-200/50">真實好評持續累積中．點一下可滑動瀏覽</p>
 
-      <div className="grid grid-cols-3 gap-2">
-        {TAROT_TESTIMONIAL_PHOTOS.map((src, i) => (
-          <button
-            key={src}
-            type="button"
-            onClick={() => open(i)}
-            className="relative aspect-square overflow-hidden rounded-lg border border-amber-200/20 bg-white/[0.03] transition hover:border-amber-200/50"
-          >
-            <Image src={asset(src)} alt="塔羅占卜客戶回饋截圖" fill className="object-cover" sizes="120px" />
-          </button>
-        ))}
-      </div>
+      <button
+        type="button"
+        onClick={() => open(0)}
+        className="group relative block aspect-square w-full overflow-hidden rounded-xl border border-amber-200/20 bg-white/[0.03] transition hover:border-amber-200/50"
+      >
+        <Image src={asset(TAROT_TESTIMONIAL_PHOTOS[0])} alt="塔羅占卜客戶回饋截圖" fill className="object-cover" sizes="400px" />
+        <div className="absolute inset-0 flex items-end bg-gradient-to-t from-[#0b0f2e]/85 via-transparent to-transparent p-4">
+          <p className="text-sm font-semibold text-amber-100">
+            查看全部 {TAROT_TESTIMONIAL_PHOTOS.length} 則真實回饋 →
+          </p>
+        </div>
+      </button>
 
       <a
         href={LINKS.googleReviews}
