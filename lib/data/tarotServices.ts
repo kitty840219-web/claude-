@@ -57,3 +57,14 @@ export const TAROT_PACKAGES: TarotPackage[] = [
   },
 ];
 
+export const SERVICE_NOTES = [
+  "預約後 48 小時內回覆（依單量調整）",
+  "文字解析為主，忙碌時會依序回覆",
+  "若需急件 +$300，會盡快為您處理",
+  "內容皆為指引，最終決定權在你手上",
+];
+
+export const PAYMENT_METHODS = {
+  domestic: "銀行轉帳、街口、蝦皮支付",
+  overseas: "PayPal（限台灣以外）",
+};

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { asset } from "@/lib/basePath";
 import { LINKS } from "@/lib/data/site";
-import { TAROT_PACKAGES, type TarotPackage } from "@/lib/data/tarotServices";
+import { PAYMENT_METHODS, SERVICE_NOTES, TAROT_PACKAGES, type TarotPackage } from "@/lib/data/tarotServices";
 
 const SERVICE_OVERVIEW_IMAGE = "/images/tarot-services/service-overview.webp";
 
@@ -62,6 +62,26 @@ export default function TarotServiceMenu() {
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Service notes */}
+      <section className="mt-8 rounded-xl border border-amber-200/20 bg-white/[0.03] p-4">
+        <h3 className="mb-3 text-xs font-semibold tracking-[0.2em] text-amber-200/70">服務說明</h3>
+        <ul className="space-y-1.5">
+          {SERVICE_NOTES.map((n) => (
+            <li key={n} className="flex items-start gap-2 text-xs leading-5 text-amber-50/80">
+              <span className="mt-0.5 text-amber-300">・</span>
+              <span>{n}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Payment */}
+      <section className="mt-6 rounded-xl border border-amber-200/20 bg-white/[0.03] p-4">
+        <h3 className="mb-2 text-xs font-semibold tracking-[0.2em] text-amber-200/70">付款方式</h3>
+        <p className="text-xs leading-6 text-amber-50/80">國內支付：{PAYMENT_METHODS.domestic}</p>
+        <p className="text-xs leading-6 text-amber-50/80">海外支付：{PAYMENT_METHODS.overseas}</p>
       </section>
 
       {/* Booking CTA */}
