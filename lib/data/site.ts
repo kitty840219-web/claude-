@@ -20,6 +20,7 @@ export const LINKS = {
   portaly: "https://portaly.cc/aibi_0219",
   kusdom: "https://kusdom.com/aibi_0219",
   pro360: "https://www.pro360.com.tw/service/288626",
+  googleReviews: "https://maps.app.goo.gl/HjjBmdTg4mrfU4FYA?g_st=ic",
   email: "kitty840219@gmail.com",
 };
 
