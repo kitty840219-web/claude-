@@ -112,6 +112,36 @@ async function horoscopeResponse(input, env, origin) {
   return null;
 }
 
+const ACCOUNTING_TOOLS = ["利潤小幫手", "成本小幫手", "分潤小幫手", "發票小幫手", "營業稅小幫手", "薪資小幫手", "勞健保小幫手", "公司設立小幫手"];
+
+async function accountingQaResponse(input, env, origin) {
+  const question = cleanText(input.question, 500);
+  if (question.length < 2) return json({ error: "請輸入想詢問的問題" }, 400, origin);
+  const schema = {
+    type: "OBJECT",
+    required: ["answer", "suggestedTool"],
+    properties: {
+      answer: TEXT,
+      suggestedTool: { type: "STRING", enum: [...ACCOUNTING_TOOLS, ""] },
+    },
+  };
+  const prompt = `你是一位親切、專業的台灣中小企業與個人工作室記帳／稅務入門顧問，名叫「艾飛樂」。使用者是插畫接案／周邊商品／占卜服務等個人工作室經營者，會用口語問你會計、記帳、發票、營業稅、薪資、勞健保、公司設立相關的入門問題。
+
+使用者的問題：「${question}」
+
+請用溫暖、清楚、口語化的繁體中文簡短回答（120 至 220 字），可以條列重點，但不要用 Markdown 符號（不要 * 或 #）。內容只做入門說明與方向指引，不做個案的精確稅額或金額計算（那部分請引導使用者改用下方對應的小幫手工具實際試算）、不做醫療法律保證，遇到複雜或特殊情況要建議諮詢專業會計師或記帳士。
+
+如果使用者的問題明顯對應到下面某一個小幫手工具，把它填入 suggestedTool（完全比對這些名稱之一）；如果問題比較籠統、綜合性、或不屬於任何一個，suggestedTool 留空字串：""。
+可選工具：${ACCOUNTING_TOOLS.join("、")}`;
+  try {
+    const result = await generateGeminiJson(env, prompt, schema, 900);
+    if (!ACCOUNTING_TOOLS.includes(result.suggestedTool)) result.suggestedTool = "";
+    return json(result, 200, origin);
+  } catch {
+    return json({ error: "小幫手暫時無法回答，請稍後再試" }, 502, origin);
+  }
+}
+
 function parseModelJson(text, cardCount) {
   const cleaned = text.trim().replace(/^```json\s*/i, "").replace(/\s*```$/, "");
   const parsed = JSON.parse(cleaned);
@@ -153,6 +183,9 @@ const worker = {
 
     if (input?.type === "horoscope_daily" || input?.type === "horoscope_match") {
       return horoscopeResponse(input, env, origin);
+    }
+    if (input?.type === "accounting_qa") {
+      return accountingQaResponse(input, env, origin);
     }
 
     const question = cleanText(input.question, 2000);

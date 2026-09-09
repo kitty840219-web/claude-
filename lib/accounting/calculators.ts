@@ -1,0 +1,82 @@
+// 所有試算皆為簡化參考版本，實際金額請以正式帳務／稅務資料為準。
+
+export function calcProfit(price: number, cost: number, platformFeePercent: number, shippingFee: number, adFee: number) {
+  const platformFee = Math.round((price * platformFeePercent) / 100);
+  const profit = price - cost - platformFee - shippingFee - adFee;
+  const margin = price > 0 ? (profit / price) * 100 : 0;
+  return { platformFee, profit, margin: Math.round(margin * 10) / 10 };
+}
+
+export type CostItem = { label: string; amount: number };
+
+export function calcCost(items: CostItem[], sellingPrice: number) {
+  const total = items.reduce((sum, item) => sum + (item.amount || 0), 0);
+  const ratio = sellingPrice > 0 ? (total / sellingPrice) * 100 : 0;
+  return { total, ratio: Math.round(ratio * 10) / 10 };
+}
+
+export type SplitShare = { label: string; percent: number };
+
+export function calcSplit(total: number, shares: SplitShare[]) {
+  const percentSum = shares.reduce((sum, s) => sum + (s.percent || 0), 0);
+  const results = shares.map((s) => ({ label: s.label, percent: s.percent, amount: Math.round((total * s.percent) / 100) }));
+  return { results, percentSum };
+}
+
+const TAIWAN_VAT_RATE = 0.05;
+
+export function calcInvoiceFromTaxIncluded(taxIncluded: number) {
+  const untaxed = Math.round(taxIncluded / (1 + TAIWAN_VAT_RATE));
+  const tax = taxIncluded - untaxed;
+  return { untaxed, tax, taxIncluded };
+}
+
+export function calcInvoiceFromUntaxed(untaxed: number) {
+  const tax = Math.round(untaxed * TAIWAN_VAT_RATE);
+  const taxIncluded = untaxed + tax;
+  return { untaxed, tax, taxIncluded };
+}
+
+export function calcBusinessTax(salesTax: number, purchaseTax: number) {
+  const payable = Math.max(0, salesTax - purchaseTax);
+  const refundable = Math.max(0, purchaseTax - salesTax);
+  return { payable, refundable };
+}
+
+// 簡化參考費率（一般型上班族／負責人適用，實際請以勞保局、健保署最新公告費率為準）。
+const LABOR_INSURANCE_RATE = 0.115; // 勞保（含就業保險）
+const LABOR_EMPLOYEE_SHARE = 0.2;
+const LABOR_EMPLOYER_SHARE = 0.7;
+const HEALTH_INSURANCE_RATE = 0.0517;
+const HEALTH_EMPLOYEE_SHARE = 0.3;
+const HEALTH_EMPLOYER_SHARE = 0.6;
+const PENSION_EMPLOYER_RATE = 0.06; // 勞退雇主提撥（強制最低 6%）
+
+export function calcLaborInsurance(insuredSalary: number, dependents = 0) {
+  const laborTotal = Math.round(insuredSalary * LABOR_INSURANCE_RATE);
+  const laborEmployee = Math.round(laborTotal * LABOR_EMPLOYEE_SHARE);
+  const laborEmployer = Math.round(laborTotal * LABOR_EMPLOYER_SHARE);
+
+  const healthUnits = 1 + dependents;
+  const healthTotal = Math.round(insuredSalary * HEALTH_INSURANCE_RATE * Math.min(healthUnits, 4));
+  const healthEmployee = Math.round(healthTotal * HEALTH_EMPLOYEE_SHARE);
+  const healthEmployer = Math.round(healthTotal * HEALTH_EMPLOYER_SHARE);
+
+  const pensionEmployer = Math.round(insuredSalary * PENSION_EMPLOYER_RATE);
+
+  const employeeTotal = laborEmployee + healthEmployee;
+  const employerTotal = laborEmployer + healthEmployer + pensionEmployer;
+
+  return {
+    laborTotal, laborEmployee, laborEmployer,
+    healthTotal, healthEmployee, healthEmployer,
+    pensionEmployer,
+    employeeTotal, employerTotal,
+  };
+}
+
+export function calcPayroll(baseSalary: number, bonus: number, insuranceDeduction: number, incomeTaxWithheld: number) {
+  const gross = baseSalary + bonus;
+  const netPay = gross - insuranceDeduction - incomeTaxWithheld;
+  return { gross, netPay };
+}

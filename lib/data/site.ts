@@ -34,6 +34,7 @@ export const NAV = [
   { href: "/phone-cases", label: "手機殼系列" },
   { href: "/pricing", label: "服務報價" },
   { href: "/line-guide", label: "如何使用LINE" },
+  { href: "/accounting", label: "會計小幫手" },
   { href: "/contact", label: "洽談合作" },
 ];
 
