@@ -61,14 +61,21 @@ export default function ShopPage() {
         <div className="relative mx-auto max-w-3xl">
           <Link
             href="/phone-cases"
-            className="group flex items-center gap-4 rounded-[1.5rem] border border-gold/20 bg-gradient-to-r from-night-light/25 to-night-light/10 px-5 py-4 transition hover:border-gold/40"
+            className="group relative block aspect-square w-full overflow-hidden rounded-[1.5rem] border border-gold/20 transition hover:border-gold/40"
           >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold text-2xl">📱</span>
-            <span className="min-w-0 flex-1">
-              <span className="block font-serif text-base font-bold text-paper">療癒插畫手機殼系列</span>
-              <span className="mt-1 block text-xs leading-relaxed text-paper/60">9 款透明防撞殼新上市，把溫柔的插畫日常帶著走</span>
-            </span>
-            <span className="shrink-0 text-gold-light transition group-hover:translate-x-1">→</span>
+            <Image
+              src={asset("/images/phone-cases/collection-banner.webp")}
+              alt="療癒插畫手機殼系列，9款透明防撞殼新上市"
+              fill
+              className="object-cover"
+              sizes="430px"
+            />
+            <div className="absolute inset-0 flex items-end bg-gradient-to-t from-night-dark/85 via-transparent to-transparent p-4">
+              <span className="flex w-full items-center justify-between">
+                <span className="font-serif text-base font-bold text-paper">療癒插畫手機殼系列</span>
+                <span className="shrink-0 text-gold-light transition group-hover:translate-x-1">→</span>
+              </span>
+            </div>
           </Link>
         </div>
       </section>
