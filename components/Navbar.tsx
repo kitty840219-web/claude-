@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { NAV, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
+import { playTwinkleSound } from "@/lib/sound";
 
 function NavbarInner() {
   const pathname = usePathname();
@@ -54,9 +55,12 @@ function NavbarInner() {
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => setOpen(false)}
-              className={`rounded-lg px-3 py-2 text-sm font-medium ${
-                pathname === link.href ? "bg-gold text-night-dark" : "text-paper/80 hover:bg-paper/10"
+              onClick={() => {
+                playTwinkleSound();
+                setOpen(false);
+              }}
+              className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+                pathname === link.href ? "bg-gold text-night-dark" : "text-paper/80 hover:bg-paper/10 active:bg-gold/20 active:text-gold-light"
               }`}
             >
               {link.label}
