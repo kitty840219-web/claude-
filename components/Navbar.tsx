@@ -17,17 +17,20 @@ function NavbarInner() {
   return (
     <header className="sticky top-0 z-30 border-b border-paper/10 bg-night-dark">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="relative h-9 w-9 overflow-hidden rounded-full bg-night-light shadow-card">
+        <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-gold-light bg-night-light shadow-card">
             <Image
               src={asset("/images/mascot.webp")}
               alt={SITE.brand}
               fill
-              sizes="36px"
-              className="object-contain p-1"
+              sizes="40px"
+              className="object-cover"
             />
           </span>
-          <span className="font-serif text-lg font-bold tracking-wide text-paper">{SITE.brand}</span>
+          <span className="leading-tight">
+            <span className="block font-serif text-base font-bold text-paper">艾飛樂 {SITE.brandEn}</span>
+            <span className="block text-xs text-paper/60">數位文創工作室</span>
+          </span>
         </Link>
 
         <button
