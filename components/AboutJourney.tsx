@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
 const SCENES = [
@@ -11,8 +10,8 @@ const SCENES = [
     chapter: "CHAPTER 01 · 品牌的起點",
     speaker: "艾飛樂語錄",
     text: "天空越黑，星星越亮。這裡收藏著 Ivy 用插畫與文字寫下的每一份共鳴。",
-    image: "/images/xiaoai-05-flat.webp",
-    alt: "小艾坐在窗邊寫日記",
+    image: "/images/about-brand-poster.webp",
+    alt: "艾飛樂語錄品牌宣傳圖：天空越黑，星星越亮，寫出我們的共鳴",
     cover: true,
     portrait: false,
   },
@@ -92,19 +91,15 @@ export default function AboutJourney() {
         {isFirst ? (
           <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark text-paper shadow-soft">
             <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-            <div className="relative min-h-[52%] flex-1 overflow-hidden">
-              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover object-[center_28%]" />
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-night-dark to-transparent" />
+            <div className="relative min-h-0 flex-1 overflow-hidden">
+              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-contain" />
             </div>
-            <div className="relative -mt-5 px-6 pb-6 text-center">
-              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">AIFEILER · SINCE 2022</p>
-              <h1 className="mt-3 font-serif text-3xl font-bold">{SITE.brand}</h1>
-              <p className="mt-3 text-sm text-paper/70">{SITE.tagline}，{SITE.taglineSub}</p>
-              <div className="mt-5 flex justify-center gap-2 text-[11px] font-semibold">
+            <div className="relative px-6 pb-6 text-center">
+              <div className="flex justify-center gap-2 text-[11px] font-semibold">
                 <span className="rounded-full border border-gold/35 px-4 py-2">2022 年成立</span>
                 <span className="rounded-full border border-gold/35 px-4 py-2">9+ 篇語錄作品</span>
               </div>
-              <button onClick={advance} className="mt-7 w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
+              <button onClick={advance} className="mt-4 w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
                 點擊繼續 →
               </button>
             </div>
