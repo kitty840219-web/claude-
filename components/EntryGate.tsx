@@ -54,7 +54,7 @@ export default function EntryGate() {
     const isLast = line === JOURNEY_DIALOGUE.length - 1;
 
     return (
-      <div className={`fixed inset-0 z-50 overflow-hidden bg-night-dark px-4 py-4 transition-opacity duration-500 ${closing ? "pointer-events-none opacity-0" : "opacity-100"}`}>
+      <div className={`theme-invariant-dark fixed inset-0 z-50 overflow-hidden px-4 py-4 transition-opacity duration-500 ${closing ? "pointer-events-none opacity-0" : "opacity-100"}`}>
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-45" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(118,105,184,0.38),transparent_42%)]" />
         <div className="relative mx-auto h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
@@ -98,7 +98,7 @@ export default function EntryGate() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-night-dark px-4 py-4 transition-opacity duration-500 ${
+      className={`theme-invariant-dark fixed inset-0 z-50 flex items-center justify-center overflow-hidden px-4 py-4 transition-opacity duration-500 ${
         closing ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
