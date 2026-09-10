@@ -47,6 +47,7 @@ const SCENES = [
     text: "準備好了嗎？接下來，一起翻開艾飛樂從第一顆星星開始的故事。",
     image: "/images/xiaoai-02-story-page.webp",
     alt: "小艾抱著故事與信件",
+    cover: true,
     portrait: false,
   },
 ];
@@ -91,7 +92,7 @@ export default function AboutJourney() {
           <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark text-paper shadow-soft">
             <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
             <div className="relative min-h-[52%] flex-1 overflow-hidden">
-              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover object-[center_15%]" />
+              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover object-[center_28%]" />
               <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-night-dark to-transparent" />
             </div>
             <div className="relative -mt-5 px-6 pb-6 text-center">
@@ -114,7 +115,7 @@ export default function AboutJourney() {
               <span>{String(index + 1).padStart(2, "0")} / {String(SCENES.length).padStart(2, "0")}</span>
             </div>
 
-            <div className="relative flex flex-1 flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-light/25 shadow-soft">
+            <div className="relative flex flex-1 flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
               <div className="relative min-h-0 flex-1">
                 {scene.portrait ? (
                   <div className="absolute inset-0 flex animate-fade-in items-center justify-center">

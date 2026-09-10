@@ -50,6 +50,28 @@ body {
   display: none;
 }
 
+/* Some reading-tool UIs (tarot, etc.) use a fixed amber-on-dark palette that
+   isn't part of the theme token system, so they stay dark regardless of the
+   site-wide light/dark toggle to keep their text readable. */
+.theme-invariant-dark {
+  --color-night-dark: 24 21 66;
+  --color-night: 43 42 92;
+  --color-night-light: 63 58 120;
+  --color-paper: 250 246 238;
+  --color-paper-dark: 242 233 216;
+  --color-gold: 214 169 79;
+  --color-gold-light: 236 206 143;
+  --color-gold-dark: 169 124 46;
+  --color-lavender: 168 156 214;
+  --color-lavender-light: 207 198 234;
+  --color-lavender-dark: 126 113 171;
+  --color-sage: 107 122 86;
+  --color-cocoa: 138 95 60;
+  --color-blush: 240 182 163;
+  background: rgb(var(--color-night-dark));
+  color: rgb(var(--color-paper));
+}
+
 [data-theme="light"] .bg-stars {
   opacity: 0 !important;
 }
