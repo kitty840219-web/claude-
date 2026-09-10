@@ -102,8 +102,8 @@
 
 .hero h1 {
   font-family: var(--font-dm-serif), var(--font-noto-serif-tc, serif);
-  font-size: clamp(32px, 6vw, 54px);
-  line-height: 1.2;
+  font-size: clamp(26px, 7vw, 36px);
+  line-height: 1.25;
   margin: 0 0 18px;
   font-weight: 400;
   letter-spacing: 0.01em;
