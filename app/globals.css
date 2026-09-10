@@ -2,14 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-night-dark: 24 21 66;
+  --color-night: 43 42 92;
+  --color-night-light: 63 58 120;
+  --color-paper: 250 246 238;
+  --color-paper-dark: 242 233 216;
+  --color-gold: 214 169 79;
+  --color-gold-light: 236 206 143;
+  --color-gold-dark: 169 124 46;
+  --color-lavender: 168 156 214;
+  --color-lavender-light: 207 198 234;
+  --color-lavender-dark: 126 113 171;
+  --color-sage: 107 122 86;
+  --color-cocoa: 138 95 60;
+  --color-blush: 240 182 163;
+}
+
+[data-theme="light"] {
+  --color-night-dark: 253 249 240;
+  --color-night: 246 238 221;
+  --color-night-light: 236 224 198;
+  --color-paper: 58 53 100;
+  --color-paper-dark: 44 40 80;
+  --color-gold: 169 124 46;
+  --color-gold-light: 138 96 32;
+  --color-gold-dark: 122 88 28;
+  --color-lavender: 126 113 171;
+  --color-lavender-light: 148 133 196;
+  --color-lavender-dark: 94 84 134;
+  --color-sage: 79 92 63;
+  --color-cocoa: 122 84 53;
+  --color-blush: 196 108 87;
+}
+
 html {
   scroll-behavior: smooth;
-  background: #181542;
+  background: rgb(var(--color-night-dark));
 }
 
 body {
-  background-color: #181542;
-  color: #faf6ee;
+  background-color: rgb(var(--color-night-dark));
+  color: rgb(var(--color-paper));
+}
+
+[data-theme="light"] .night-only-decor {
+  display: none;
+}
+
+[data-theme="light"] .bg-stars {
+  opacity: 0 !important;
 }
 
 .floating-music {

@@ -20,6 +20,24 @@
   line-height: 1.6;
 }
 
+:global([data-theme="light"]) .page {
+  --bg: #fdf9f0;
+  --bg-card: rgba(58, 53, 100, 0.05);
+  --bg-card-2: rgba(58, 53, 100, 0.08);
+  --text: #3a3564;
+  --text-muted: rgba(58, 53, 100, 0.65);
+  --line: rgba(169, 124, 46, 0.25);
+  --accent: #8a5f3c;
+  --forest: #7e71ab;
+
+  --leader-bg: #f6eedd;
+  --leader-text: #3a3564;
+  --leader-muted: rgba(58, 53, 100, 0.65);
+  --leader-accent: #8a5f3c;
+  --leader-forest: #7e71ab;
+  --leader-line: rgba(169, 124, 46, 0.3);
+}
+
 .page * {
   box-sizing: border-box;
 }

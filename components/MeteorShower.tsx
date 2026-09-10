@@ -15,7 +15,7 @@ export default function MeteorShower() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed left-1/2 top-0 -z-10 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
+      className="night-only-decor pointer-events-none fixed left-1/2 top-0 -z-10 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
     >
       {METEORS.map((m, i) => (
         <span

@@ -187,7 +187,7 @@ function BackgroundMusicInner() {
   }
 
   return (
-    <div className="relative">
+    <>
       <div ref={mountRef} className="pointer-events-none absolute h-px w-px opacity-0" aria-hidden />
 
       {showPlaylist && (
@@ -268,17 +268,16 @@ function BackgroundMusicInner() {
         </div>
       )}
 
-      <div className="flex items-center overflow-hidden rounded-full border border-gold/30 bg-night text-gold-light shadow-soft">
-        <button
-          type="button"
-          onClick={() => {
-            setShowPlaylist((v) => !v);
-            setShowVolume(false);
-          }}
-          aria-label={showPlaylist ? "關閉播放清單" : "選擇歌曲"}
-          aria-expanded={showPlaylist}
-          className="flex h-9 w-8 items-center justify-center transition hover:bg-night-light"
-        >
+      <button
+        type="button"
+        onClick={() => {
+          setShowPlaylist((v) => !v);
+          setShowVolume(false);
+        }}
+        aria-label={showPlaylist ? "關閉播放清單" : "選擇歌曲"}
+        aria-expanded={showPlaylist}
+        className="flex h-9 w-8 items-center justify-center transition hover:bg-night-light"
+      >
           <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
             <path
               d="M4 6h11M4 12h11M4 18h6"
@@ -321,7 +320,7 @@ function BackgroundMusicInner() {
             });
           }}
           aria-label={playing ? "關閉背景音樂" : "播放背景音樂"}
-          className="flex h-9 w-9 items-center justify-center transition hover:bg-night-light"
+          className="flex h-9 w-9 items-center justify-center rounded-r-full transition hover:bg-night-light"
         >
           {playing ? (
             <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
@@ -335,8 +334,7 @@ function BackgroundMusicInner() {
             </svg>
           )}
         </button>
-      </div>
-    </div>
+    </>
   );
 }
 

@@ -8,6 +8,7 @@ import { NAV, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 import { playTwinkleSound } from "@/lib/sound";
 import BackgroundMusic from "@/components/BackgroundMusic";
+import ThemeToggle from "@/components/ThemeToggle";
 
 function NavbarInner() {
   const pathname = usePathname();
@@ -36,7 +37,11 @@ function NavbarInner() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <BackgroundMusic />
+          <div className="relative flex items-center rounded-full border border-gold/30 bg-night text-gold-light shadow-soft">
+            <ThemeToggle />
+            <span className="h-5 w-px bg-gold/20" aria-hidden />
+            <BackgroundMusic />
+          </div>
           <button
             aria-label="開啟選單"
             onClick={() => setOpen((v) => !v)}
