@@ -73,7 +73,7 @@ body {
 }
 
 [data-theme="light"] .bg-stars {
-  opacity: 0 !important;
+  background-image: none;
 }
 
 .floating-music {
