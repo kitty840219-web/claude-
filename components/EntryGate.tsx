@@ -121,63 +121,62 @@ export default function EntryGate() {
       >
         <div className="pointer-events-none absolute inset-x-0 bottom-[2%] h-[42%] rounded-[2rem] border border-gold/40" />
 
-        <div className="absolute inset-x-5 top-[63%] z-10 sm:inset-x-8 sm:top-[61%]">
-          <p
-            className="animate-fade-in text-[11px] font-semibold tracking-[0.35em] text-gold-light"
-            style={{ animationDelay: "0.1s" }}
-          >
-            {SITE.brandEn.toUpperCase()}
-          </p>
-          <h1
-            className="animate-fade-in mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl"
-            style={{ animationDelay: "0.35s" }}
-          >
-            {SITE.brand}
-          </h1>
-          <p
-            className="animate-fade-in mt-3 text-sm leading-relaxed text-paper/75"
-            style={{ animationDelay: "0.6s" }}
-          >
-            {SITE.tagline}🌟
-            <br />
-            {SITE.taglineSub}
-          </p>
-        </div>
+        <div className="absolute inset-x-5 top-[56%] bottom-[4%] z-10 flex flex-col justify-between sm:inset-x-8">
+          <div>
+            <p
+              className="animate-fade-in text-[11px] font-semibold tracking-[0.35em] text-gold-light"
+              style={{ animationDelay: "0.1s" }}
+            >
+              {SITE.brandEn.toUpperCase()}
+            </p>
+            <h1
+              className="animate-fade-in mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl"
+              style={{ animationDelay: "0.35s" }}
+            >
+              {SITE.brand}
+            </h1>
+            <p
+              className="animate-fade-in mt-3 text-sm leading-relaxed text-paper/75"
+              style={{ animationDelay: "0.6s" }}
+            >
+              {SITE.tagline}🌟
+              <br />
+              {SITE.taglineSub}
+            </p>
+          </div>
 
-        <div
-          className="animate-fade-in absolute inset-x-5 bottom-[7%] sm:inset-x-8"
-          style={{ animationDelay: "0.9s" }}
-        >
-          <button
-            type="button"
-            onClick={poke}
-            aria-label="逗逗小艾"
-            className="animate-float-slow absolute -bottom-1 -left-5 z-20 h-32 w-24 sm:-left-7 sm:h-36 sm:w-28"
-          >
-            {sparkle && (
-              <>
-                <span className="animate-sparkle-pop pointer-events-none absolute -top-2 left-1 text-lg" style={{ animationDelay: "0s" }}>✨</span>
-                <span className="animate-sparkle-pop pointer-events-none absolute -top-4 left-10 text-sm" style={{ animationDelay: "0.1s" }}>⭐</span>
-                <span className="animate-sparkle-pop pointer-events-none absolute -top-1 left-16 text-base" style={{ animationDelay: "0.2s" }}>✨</span>
-              </>
-            )}
-            <Image
-              src={asset("/images/entry-xiaoai-cutout.webp")}
-              alt="小艾揮手邀請旅人開始探索，點擊可以逗逗她"
-              fill
-              priority
-              className="pointer-events-none object-contain object-bottom"
-              sizes="144px"
-            />
-          </button>
-          <button
-            type="button"
-            onClick={enter}
-            className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3.5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-          >
-            開始探索艾飛樂的世界 →
-          </button>
-          <p className="mt-4 text-[11px] text-paper/55">點擊進入，開始這段插畫語錄旅程</p>
+          <div className="animate-fade-in relative" style={{ animationDelay: "0.9s" }}>
+            <button
+              type="button"
+              onClick={poke}
+              aria-label="逗逗小艾"
+              className="animate-float-slow absolute -bottom-1 -left-5 z-20 h-32 w-24 sm:-left-7 sm:h-36 sm:w-28"
+            >
+              {sparkle && (
+                <>
+                  <span className="animate-sparkle-pop pointer-events-none absolute -top-2 left-1 text-lg" style={{ animationDelay: "0s" }}>✨</span>
+                  <span className="animate-sparkle-pop pointer-events-none absolute -top-4 left-10 text-sm" style={{ animationDelay: "0.1s" }}>⭐</span>
+                  <span className="animate-sparkle-pop pointer-events-none absolute -top-1 left-16 text-base" style={{ animationDelay: "0.2s" }}>✨</span>
+                </>
+              )}
+              <Image
+                src={asset("/images/entry-xiaoai-cutout.webp")}
+                alt="小艾揮手邀請旅人開始探索，點擊可以逗逗她"
+                fill
+                priority
+                className="pointer-events-none object-contain object-bottom"
+                sizes="144px"
+              />
+            </button>
+            <button
+              type="button"
+              onClick={enter}
+              className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3.5 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
+            >
+              開始探索艾飛樂的世界 →
+            </button>
+            <p className="mt-4 text-[11px] text-paper/55">點擊進入，開始這段插畫語錄旅程</p>
+          </div>
         </div>
       </div>
     </div>
