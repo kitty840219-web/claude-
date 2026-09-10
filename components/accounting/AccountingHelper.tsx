@@ -397,21 +397,30 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
       </label>
 
       <p className="pt-1 text-xs font-semibold text-paper/60">買受人</p>
-      <div className="flex rounded-xl border border-gold/20 p-1">
-        <button
-          type="button"
-          onClick={() => setBuyerType("individual")}
-          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${buyerType === "individual" ? "bg-gold text-night-dark" : "text-paper/60"}`}
-        >
-          個人（二聯式）
-        </button>
-        <button
-          type="button"
-          onClick={() => setBuyerType("company")}
-          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${buyerType === "company" ? "bg-gold text-night-dark" : "text-paper/60"}`}
-        >
-          公司／行號（三聯式）
-        </button>
+      <div>
+        <div className="flex">
+          <button
+            type="button"
+            onClick={() => setBuyerType("company")}
+            className={`flex-1 pb-2 text-center transition ${buyerType === "company" ? "text-gold-light" : "text-paper/40"}`}
+          >
+            <span className="block text-sm font-bold">開給公司</span>
+            <span className="block text-[11px]">三聯式發票</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setBuyerType("individual")}
+            className={`flex-1 pb-2 text-center transition ${buyerType === "individual" ? "text-gold-light" : "text-paper/40"}`}
+          >
+            <span className="block text-sm font-bold">開給個人</span>
+            <span className="block text-[11px]">二聯式發票</span>
+          </button>
+        </div>
+        <div className="relative h-1 overflow-hidden rounded-full bg-night-light/30">
+          <div
+            className={`absolute inset-y-0 w-1/2 rounded-full bg-gold transition-all duration-300 ${buyerType === "company" ? "left-0" : "left-1/2"}`}
+          />
+        </div>
       </div>
       <label className="block">
         <span className="mb-1.5 block text-xs font-semibold text-paper/60">{isTriplicate ? "買受人名稱／抬頭" : "買受人姓名（選填）"}</span>
@@ -771,6 +780,14 @@ const COMPANY_QA = [
   { q: "可以用自己的住家登記公司地址嗎？", a: "可以，但公司屬獨立法人，須簽立正式租賃契約並認列租金所得；行號則可用房屋所有人、配偶或直系血親的房屋簽立無償使用同意書。" },
 ];
 
+const ACCOUNTING_FAQ = [
+  { q: "還沒辦理稅籍登記，被國稅局查獲前後有差嗎？", a: "透過網路銷售貨物或勞務，當月銷售額未達起徵點（銷售貨物 10 萬元、銷售勞務 5 萬元）可以暫免辦理稅籍登記；一旦達到起徵點，應於次月底前完成登記。查獲前主動補辦，只會就已達起徵點後至補辦登記前的銷售額補徵營業稅；查獲後才補辦，除了補稅外還會被處以罰鍰，建議一達到起徵點就儘早辦理。" },
+  { q: "什麼時候一定要開始開立統一發票？", a: "只要被國稅局核定為應使用發票的營業人，或原本免用發票、但當月營業額達到 20 萬元，就必須開始開立統一發票。" },
+  { q: "買家棄標或殺價成交，銷售額要怎麼算？", a: "可以向拍賣平台申請出具交易證明，或提供實際匯款紀錄等佐證資料，經國稅局審核認定後，就能把實際少收的差額從銷售額中扣除。" },
+  { q: "只做網路銷售，商業登記要怎麼辦？", a: "如果本身已有實體店面、只是同時在網路上販售，登記方式跟一般實體商家相同；如果完全沒有實體店面、純網路銷售，則需要在營業項目中額外加註「F399040 無店面零售業」。" },
+  { q: "網拍商品的發票要什麼時候寄給買家？", a: "原則上：還沒收到貨款的話，出貨時就要隨貨附上發票；已經先收到貨款的話，收到款項當下就要開立發票。若商品有鑑賞期、可以免費退貨，可以等鑑賞期過後再寄出紙本發票；但雲端電子發票不適用這個延後寄送的規定。" },
+];
+
 function QaAccordion({ items }: { items: { q: string; a: string }[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -1046,6 +1063,12 @@ export default function AccountingHelper() {
                     </a>
                   ))}
                 </div>
+              </section>
+
+              {/* General FAQ */}
+              <section className="mt-6">
+                <p className="mb-3 text-xs font-semibold tracking-[0.15em] text-gold-light">❓ 常見問題．稅務與網拍常見疑問</p>
+                <QaAccordion items={ACCOUNTING_FAQ} />
               </section>
 
               {/* Recent records */}
