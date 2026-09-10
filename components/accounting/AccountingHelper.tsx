@@ -771,6 +771,35 @@ const COMPANY_QA = [
   { q: "可以用自己的住家登記公司地址嗎？", a: "可以，但公司屬獨立法人，須簽立正式租賃契約並認列租金所得；行號則可用房屋所有人、配偶或直系血親的房屋簽立無償使用同意書。" },
 ];
 
+function QaAccordion({ items }: { items: { q: string; a: string }[] }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <div className="space-y-2.5">
+      {items.map((item, i) => {
+        const open = openIndex === i;
+        return (
+          <div
+            key={item.q}
+            className={`overflow-hidden rounded-2xl border transition ${open ? "border-gold/40 bg-night-light/30" : "border-gold/10 bg-night-light/15"}`}
+          >
+            <button
+              type="button"
+              onClick={() => setOpenIndex(open ? null : i)}
+              className="flex w-full items-start gap-3 p-3.5 text-left"
+            >
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold text-xs font-bold text-night-dark">?</span>
+              <span className="flex-1 text-sm font-semibold leading-5 text-paper">{item.q}</span>
+              <span className={`mt-0.5 shrink-0 text-gold-light transition-transform ${open ? "rotate-90" : ""}`}>›</span>
+            </button>
+            {open && <p className="px-3.5 pb-3.5 pl-[3.25rem] text-xs leading-5 text-paper/70">{item.a}</p>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function CompanyGuide() {
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -790,13 +819,8 @@ function CompanyGuide() {
           ))}
         </ol>
         <p className="mt-5 text-xs font-semibold tracking-[0.1em] text-gold-light">常見問題 Q&amp;A</p>
-        <div className="mt-3 space-y-3">
-          {COMPANY_QA.map((item) => (
-            <div key={item.q} className="rounded-xl bg-night-light/25 p-3.5">
-              <p className="text-sm font-semibold text-paper">Q．{item.q}</p>
-              <p className="mt-1.5 text-xs leading-5 text-paper/70">A．{item.a}</p>
-            </div>
-          ))}
+        <div className="mt-3">
+          <QaAccordion items={COMPANY_QA} />
         </div>
       </div>
       <ExportButtons
