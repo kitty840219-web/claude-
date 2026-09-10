@@ -67,19 +67,6 @@ export default function PricingPage() {
     <div className={`${styles.page} ${dmSerif.variable} ${dmMono.variable}`}>
       <div className={styles.leader}>
         <div className={`${styles.wrap} ${styles.hero}`}>
-          <div className={styles.heroTop}>
-            <div className={styles.brand}>
-              <div className={styles.brandMark}>
-                <Image src={asset("/images/mascot.webp")} alt="艾飛樂 Aifeiler Logo" width={44} height={44} />
-              </div>
-              <div className={styles.brandName}>
-                <strong>艾飛樂 Aifeiler</strong>
-                <br />
-                數位文創工作室
-              </div>
-            </div>
-          </div>
-
           <div className={styles.eyebrow} style={{ marginBottom: 14 }}>
             SERVICE RATE CARD — 2026
           </div>

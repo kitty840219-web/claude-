@@ -21,7 +21,7 @@ function NavbarInner() {
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-gold-light bg-night-light shadow-card">
             <Image
-              src={asset("/images/mascot.webp")}
+              src={asset("/images/nav/nav-about.webp")}
               alt={SITE.brand}
               fill
               sizes="40px"
