@@ -72,7 +72,7 @@ export default function AboutJourney() {
 
   return (
     <div
-      className="theme-invariant-dark fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 pt-8"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 pt-8"
       onClick={() => setOpen(false)}
     >
       <div

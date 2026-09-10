@@ -54,7 +54,7 @@ export default function EntryGate() {
     const isLast = line === JOURNEY_DIALOGUE.length - 1;
 
     return (
-      <div className={`theme-invariant-dark fixed inset-0 z-50 overflow-hidden px-4 py-4 transition-opacity duration-500 ${closing ? "pointer-events-none opacity-0" : "opacity-100"}`}>
+      <div className={`fixed inset-0 z-50 overflow-hidden bg-night-dark px-4 py-4 transition-opacity duration-500 ${closing ? "pointer-events-none opacity-0" : "opacity-100"}`}>
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-45" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(118,105,184,0.38),transparent_42%)]" />
         <div className="relative mx-auto h-[calc(100svh-2rem)] max-h-[900px] w-full max-w-sm overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
@@ -68,7 +68,7 @@ export default function EntryGate() {
             <span>{String(line + 1).padStart(2, "0")} / {String(JOURNEY_DIALOGUE.length).padStart(2, "0")}</span>
           </div>
 
-          <button type="button" onClick={nextDialogue} aria-label="點擊顯示下一段對話" className="absolute inset-x-3 bottom-3 z-20 min-h-[34%] rounded-[1.65rem] border border-gold/30 bg-[rgba(28,27,74,0.94)] p-6 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]">
+          <button type="button" onClick={nextDialogue} aria-label="點擊顯示下一段對話" className="absolute inset-x-3 bottom-3 z-20 min-h-[34%] rounded-[1.65rem] border border-gold/30 bg-night-dark/95 p-6 text-left shadow-soft backdrop-blur-md transition active:scale-[0.99]">
             <span className="block font-serif text-xl font-bold text-gold-light">{dialogue.speaker}</span>
             <span key={line} className="mt-3 block min-h-20 animate-fade-in text-base font-medium leading-relaxed text-paper">「{dialogue.text}」</span>
             <span className="mt-4 flex items-center justify-between">
@@ -98,7 +98,7 @@ export default function EntryGate() {
 
   return (
     <div
-      className={`theme-invariant-dark fixed inset-0 z-50 flex items-center justify-center overflow-hidden px-4 py-4 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-night-dark px-4 py-4 transition-opacity duration-500 ${
         closing ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
