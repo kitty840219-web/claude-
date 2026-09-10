@@ -33,8 +33,8 @@ export default function VideosPage() {
               <h1 className="font-serif text-3xl font-bold text-paper">影音創作</h1>
               <p className="mt-3 text-sm leading-6 text-paper/70">用影像記錄插畫誕生的每個瞬間</p>
             </div>
-            <div className="animate-float-slow relative h-44 w-full">
-              <Image src={asset("/images/video-creator-cutout.webp")} alt="小艾正在拍攝創作影片" fill className="object-contain" sizes="130px" />
+            <div className="relative h-44 w-full overflow-hidden rounded-2xl border border-gold/20 shadow-soft">
+              <Image src={asset("/images/journey-camera.webp")} alt="小艾拿著攝影機拍攝" fill className="object-cover" sizes="130px" />
             </div>
           </div>
         </div>
