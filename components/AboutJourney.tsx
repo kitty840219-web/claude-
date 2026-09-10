@@ -28,8 +28,9 @@ const SCENES = [
     chapter: "CHAPTER 03 · 小艾登場",
     speaker: "小艾",
     text: "戴著草帽、綁著藍色雙辮的我，是艾飛樂的陪伴角色。很高興在這段旅程裡認識你。",
-    image: "/images/about-story-xiaoai-cutout.webp",
-    alt: "揮手的小艾角色",
+    image: "/images/journey-shop.webp",
+    alt: "小艾在充滿星星小物的店裡挑選卡片",
+    cover: true,
     portrait: false,
   },
   {
