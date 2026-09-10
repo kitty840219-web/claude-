@@ -38,14 +38,10 @@ function BottomNavInner() {
             >
               <span
                 className={`relative flex h-9 w-9 items-center justify-center rounded-full transition-all ${tab.badge} ${
-                  active ? "scale-110" : "opacity-60"
+                  active ? "scale-110 shadow-[0_0_14px_4px_rgba(236,206,143,0.55)]" : "opacity-60"
                 }`}
               >
-                <span
-                  className={`relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 transition-colors ${
-                    active ? "border-gold-light" : "border-transparent"
-                  }`}
-                >
+                <span className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full">
                   <Image src={asset(tab.avatar)} alt="" fill sizes="32px" className="object-cover" />
                 </span>
               </span>
