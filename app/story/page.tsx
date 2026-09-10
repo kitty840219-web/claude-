@@ -76,8 +76,8 @@ export default function StoryPage() {
       <section className="relative overflow-hidden bg-night-dark py-20 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-2xl px-4 sm:px-6">
-          <div className="relative mx-auto mb-6 h-24 w-24">
-            <Image src={asset("/images/story-journey-cutout.webp")} alt="小艾帶著故事出發" fill className="object-contain" sizes="112px" />
+          <div className="relative mx-auto mb-6 h-56 w-full max-w-xs overflow-hidden rounded-[1.5rem] border border-gold/20 shadow-soft">
+            <Image src={asset("/images/journey-finale.webp")} alt="小艾在畫室裡持續創作故事" fill className="object-cover" sizes="320px" />
           </div>
           <SectionHeading eyebrow="TO BE CONTINUED" title="故事，還在寫" center />
           <p className="mt-4 text-sm leading-relaxed text-paper/70 sm:text-base">
