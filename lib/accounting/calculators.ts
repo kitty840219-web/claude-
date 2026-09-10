@@ -80,3 +80,18 @@ export function calcPayroll(baseSalary: number, bonus: number, insuranceDeductio
   const netPay = gross - insuranceDeduction - incomeTaxWithheld;
   return { gross, netPay };
 }
+
+// 租金扣繳：公司／行號支付租金給「個人」房東時需扣繳所得稅；月租金達 20,010 元（113 年起）需另計二代健保補充保費。
+const RENTAL_WITHHOLDING_RATE = 0.1;
+const RENTAL_SUPPLEMENTARY_PREMIUM_RATE = 0.0211;
+const RENTAL_SUPPLEMENTARY_PREMIUM_THRESHOLD = 20010;
+
+export function calcRentalWithholding(rent: number, landlordType: "individual" | "company") {
+  if (landlordType === "company") {
+    return { withholding: 0, supplementaryPremium: 0, netPayment: rent, needsWithholding: false };
+  }
+  const withholding = Math.round(rent * RENTAL_WITHHOLDING_RATE);
+  const supplementaryPremium = rent >= RENTAL_SUPPLEMENTARY_PREMIUM_THRESHOLD ? Math.round(rent * RENTAL_SUPPLEMENTARY_PREMIUM_RATE) : 0;
+  const netPayment = rent - withholding - supplementaryPremium;
+  return { withholding, supplementaryPremium, netPayment, needsWithholding: true };
+}

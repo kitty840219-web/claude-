@@ -6,7 +6,8 @@ export type AccountingToolId =
   | "tax"
   | "payroll"
   | "laborInsurance"
-  | "company";
+  | "company"
+  | "rental";
 
 export type AccountingTool = {
   id: AccountingToolId;
@@ -25,4 +26,5 @@ export const ACCOUNTING_TOOLS: AccountingTool[] = [
   { id: "company", label: "公司設立小幫手", desc: "一步步引導你完成公司設立", icon: "🏢", tone: "teal" },
   { id: "payroll", label: "薪資小幫手", desc: "計算薪資、扣繳與勞健保，讓薪資計算更輕鬆", icon: "🧑‍💼", tone: "rose" },
   { id: "laborInsurance", label: "勞健保小幫手", desc: "計算勞健保金額與公司負擔", icon: "🛡️", tone: "mint" },
+  { id: "rental", label: "租金扣繳小幫手", desc: "支付房東租金，快速算出扣繳稅額與補充保費", icon: "🏠", tone: "blue" },
 ];

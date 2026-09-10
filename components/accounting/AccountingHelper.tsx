@@ -12,6 +12,7 @@ import {
   calcLaborInsurance,
   calcPayroll,
   calcProfit,
+  calcRentalWithholding,
   calcSplit,
   type CostItem,
   type SplitShare,
@@ -423,6 +424,66 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
   );
 }
 
+function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">) => void }) {
+  const [rent, setRent] = useState("25000");
+  const [landlordType, setLandlordType] = useState<"individual" | "company">("individual");
+  const result = calcRentalWithholding(num(rent), landlordType);
+
+  return (
+    <div className="space-y-3">
+      <div className="flex rounded-xl border border-gold/20 p-1">
+        <button
+          type="button"
+          onClick={() => setLandlordType("individual")}
+          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${landlordType === "individual" ? "bg-gold text-night-dark" : "text-paper/60"}`}
+        >
+          房東是個人
+        </button>
+        <button
+          type="button"
+          onClick={() => setLandlordType("company")}
+          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${landlordType === "company" ? "bg-gold text-night-dark" : "text-paper/60"}`}
+        >
+          房東是公司／行號
+        </button>
+      </div>
+      <NumberField label="每月租金" value={rent} onChange={setRent} suffix="元" />
+      {result.needsWithholding ? (
+        <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+          <ResultRow label="租金所得扣繳稅額（10%）" value={fmt(result.withholding)} />
+          <ResultRow
+            label={num(rent) >= 20010 ? "二代健保補充保費（2.11%）" : "二代健保補充保費（未達門檻免收）"}
+            value={fmt(result.supplementaryPremium)}
+          />
+          <ResultRow label="實付房東金額" value={fmt(result.netPayment)} strong />
+        </div>
+      ) : (
+        <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+          <p className="text-sm leading-6 text-paper/80">房東是公司或行號時免辦理租金扣繳，請直接請對方開立統一發票。</p>
+        </div>
+      )}
+      <p className="text-[11px] leading-5 text-paper/50">
+        ＊房東為個人時，公司／行號支付租金需按 10% 扣繳所得稅；單次給付達 20,010 元（113 年起）需另扣 2.11% 二代健保補充保費。實際規定請以國稅局最新公告為準。
+      </p>
+      <button
+        type="button"
+        onClick={() =>
+          onDone({
+            tool: "rental",
+            toolLabel: "租金扣繳小幫手",
+            title: `租金 ${fmt(num(rent))}（${landlordType === "individual" ? "個人房東" : "公司房東"}）`,
+            resultLabel: "實付金額",
+            resultValue: fmt(result.netPayment),
+          })
+        }
+        className="w-full rounded-full bg-gold py-3 text-sm font-semibold text-night-dark transition hover:bg-gold-light"
+      >
+        儲存這筆試算
+      </button>
+    </div>
+  );
+}
+
 const COMPANY_STEPS = [
   { title: "公司名稱預查", desc: "到經濟部「公司名稱及所營事業預查系統」查詢並保留特取名稱。" },
   { title: "準備登記文件", desc: "章程、股東名冊、資本額存款證明、負責人身分證明等。" },
@@ -433,21 +494,42 @@ const COMPANY_STEPS = [
   { title: "請購統一發票", desc: "向國稅局請購統一發票，正式開始營運與開立發票。" },
 ];
 
+const COMPANY_QA = [
+  { q: "成立公司好還是行號比較好？", a: "行號設立較簡單、記帳相對單純，但負責人須負無限清償責任；公司（有限公司）則是股東以出資額為限負責，日後也能視經營規模再由行號改組為公司。" },
+  { q: "資本額要準備多少？", a: "法規並未硬性規定最低資本額，但建議至少要能支應開辦初期的必要費用，資本額過低仍可能被承辦人員要求補充說明或退件。" },
+  { q: "統一編號可以自己選嗎？", a: "統編是由主管機關隨機配發，無法指定；若拿到的號碼不滿意，可以向核發單位申請更改一次。" },
+  { q: "公司登記後還沒開始營業，需要繳稅嗎？", a: "只要完成登記即取得稅籍，仍需依規定辦理相關申報；實際是否須繳稅則視當期有無銷售額與所得而定，建議先與會計師確認。" },
+  { q: "可以用自己的住家登記公司地址嗎？", a: "可以，但公司屬獨立法人，須簽立正式租賃契約並認列租金所得；行號則可用房屋所有人、配偶或直系血親的房屋簽立無償使用同意書。" },
+];
+
 function CompanyGuide() {
   return (
-    <div className="space-y-3">
-      <p className="text-xs leading-5 text-paper/60">7 個步驟，帶你了解成立公司的大致流程（實際文件與規定請以最新公告為準）。</p>
-      <ol className="space-y-3">
-        {COMPANY_STEPS.map((s, i) => (
-          <li key={s.title} className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/15 text-xs font-bold text-gold-light">{i + 1}</span>
-            <div>
-              <p className="text-sm font-semibold text-paper">{s.title}</p>
-              <p className="mt-0.5 text-xs leading-5 text-paper/60">{s.desc}</p>
+    <div className="space-y-5">
+      <div>
+        <p className="text-xs leading-5 text-paper/60">7 個步驟，帶你了解成立公司的大致流程（實際文件與規定請以最新公告為準）。</p>
+        <ol className="mt-3 space-y-3">
+          {COMPANY_STEPS.map((s, i) => (
+            <li key={s.title} className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/15 text-xs font-bold text-gold-light">{i + 1}</span>
+              <div>
+                <p className="text-sm font-semibold text-paper">{s.title}</p>
+                <p className="mt-0.5 text-xs leading-5 text-paper/60">{s.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div>
+        <p className="text-xs font-semibold tracking-[0.1em] text-gold-light">常見問題 Q&amp;A</p>
+        <div className="mt-3 space-y-3">
+          {COMPANY_QA.map((item) => (
+            <div key={item.q} className="rounded-xl bg-night-light/25 p-3.5">
+              <p className="text-sm font-semibold text-paper">Q．{item.q}</p>
+              <p className="mt-1.5 text-xs leading-5 text-paper/70">A．{item.a}</p>
             </div>
-          </li>
-        ))}
-      </ol>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -460,6 +542,7 @@ function ToolBody({ id, onDone }: { id: AccountingToolId; onDone: (r: Omit<Accou
   if (id === "tax") return <TaxTool onDone={onDone} />;
   if (id === "payroll") return <PayrollTool onDone={onDone} />;
   if (id === "laborInsurance") return <LaborInsuranceTool onDone={onDone} />;
+  if (id === "rental") return <RentalTool onDone={onDone} />;
   return <CompanyGuide />;
 }
 

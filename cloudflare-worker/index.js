@@ -112,7 +112,7 @@ async function horoscopeResponse(input, env, origin) {
   return null;
 }
 
-const ACCOUNTING_TOOLS = ["利潤小幫手", "成本小幫手", "分潤小幫手", "發票小幫手", "營業稅小幫手", "薪資小幫手", "勞健保小幫手", "公司設立小幫手"];
+const ACCOUNTING_TOOLS = ["利潤小幫手", "成本小幫手", "分潤小幫手", "發票小幫手", "營業稅小幫手", "薪資小幫手", "勞健保小幫手", "公司設立小幫手", "租金扣繳小幫手"];
 
 const ACCOUNTING_RESOURCES = [
   { name: "勞動部", note: "勞動法規、勞資爭議申訴" },
