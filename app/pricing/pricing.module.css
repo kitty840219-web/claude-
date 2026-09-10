@@ -62,7 +62,8 @@
 }
 
 .hero {
-  padding: 56px 0 44px;
+  padding-top: 56px;
+  padding-bottom: 44px;
   position: relative;
 }
 .heroTop {
