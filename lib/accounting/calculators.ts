@@ -52,15 +52,18 @@ const HEALTH_EMPLOYEE_SHARE = 0.3;
 const HEALTH_EMPLOYER_SHARE = 0.6;
 const PENSION_EMPLOYER_RATE = 0.06; // 勞退雇主提撥（強制最低 6%）
 
+// 健保雇主負擔採全國平均眷屬數 0.56 人計算（即 1.56 人），與員工實際眷屬數無關；
+// 員工負擔則依本人實際眷屬數計算，最多計收至本人＋3 位眷屬。
+const HEALTH_EMPLOYER_AVERAGE_UNITS = 1.56;
+
 export function calcLaborInsurance(insuredSalary: number, dependents = 0) {
   const laborTotal = Math.round(insuredSalary * LABOR_INSURANCE_RATE);
   const laborEmployee = Math.round(laborTotal * LABOR_EMPLOYEE_SHARE);
   const laborEmployer = Math.round(laborTotal * LABOR_EMPLOYER_SHARE);
 
-  const healthUnits = 1 + dependents;
-  const healthTotal = Math.round(insuredSalary * HEALTH_INSURANCE_RATE * Math.min(healthUnits, 4));
-  const healthEmployee = Math.round(healthTotal * HEALTH_EMPLOYEE_SHARE);
-  const healthEmployer = Math.round(healthTotal * HEALTH_EMPLOYER_SHARE);
+  const healthEmployeeUnits = Math.min(1 + dependents, 4);
+  const healthEmployee = Math.round(insuredSalary * HEALTH_INSURANCE_RATE * healthEmployeeUnits * HEALTH_EMPLOYEE_SHARE);
+  const healthEmployer = Math.round(insuredSalary * HEALTH_INSURANCE_RATE * HEALTH_EMPLOYER_AVERAGE_UNITS * HEALTH_EMPLOYER_SHARE);
 
   const pensionEmployer = Math.round(insuredSalary * PENSION_EMPLOYER_RATE);
 
@@ -69,7 +72,7 @@ export function calcLaborInsurance(insuredSalary: number, dependents = 0) {
 
   return {
     laborTotal, laborEmployee, laborEmployer,
-    healthTotal, healthEmployee, healthEmployer,
+    healthEmployee, healthEmployer,
     pensionEmployer,
     employeeTotal, employerTotal,
   };

@@ -543,7 +543,9 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
           { label: "公司負擔合計", value: fmt(result.employerTotal) },
         ]}
       />
-      <p className="text-[11px] leading-5 text-paper/50">＊簡化參考費率，實際請以勞保局／健保署最新公告費率與級距為準。</p>
+      <p className="text-[11px] leading-5 text-paper/50">
+        ＊員工健保費依本人實際眷屬數（最多計收至本人＋3 位眷屬）計算；雇主負擔則依全國平均眷屬數 1.56 人計算，與員工實際眷屬數無關。簡化參考費率，實際請以勞保局／健保署最新公告費率與級距為準。
+      </p>
       <button
         type="button"
         onClick={() =>
