@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Star from "@/components/Star";
-import { SITE } from "@/lib/data/site";
+import { LINKS, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function ShopPage() {
       </section>
 
       {/* Phone cases promo */}
-      <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-6 sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-6 pt-6 sm:px-6">
         <div className="relative mx-auto max-w-3xl">
           <Link
             href="/phone-cases"
@@ -53,6 +53,32 @@ export default function ShopPage() {
               </span>
             </div>
           </Link>
+        </div>
+      </section>
+
+      {/* LINE sticker promo */}
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-6 sm:px-6">
+        <div className="relative mx-auto max-w-3xl">
+          <a
+            href={LINKS.lineSticker}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative block aspect-square w-full overflow-hidden rounded-[1.5rem] border border-gold/20 transition hover:border-gold/40"
+          >
+            <Image
+              src={asset("/images/shop/line-sticker-banner.webp")}
+              alt="相愛相殺日常 LINE 貼圖新上市"
+              fill
+              className="object-cover"
+              sizes="430px"
+            />
+            <div className="absolute inset-0 flex items-end bg-gradient-to-t from-night-dark/85 via-transparent to-transparent p-4">
+              <span className="flex w-full items-center justify-between">
+                <span className="font-serif text-base font-bold text-paper">相愛相殺日常 LINE 貼圖</span>
+                <span className="shrink-0 text-gold-light transition group-hover:translate-x-1">→</span>
+              </span>
+            </div>
+          </a>
         </div>
       </section>
     </div>
