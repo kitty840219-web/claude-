@@ -345,9 +345,14 @@ function SplitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date
 function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">) => void }) {
   const [mode, setMode] = useState<"taxIncluded" | "untaxed">("taxIncluded");
   const [amount, setAmount] = useState("3000");
+  const [sellerName, setSellerName] = useState("");
+  const [sellerId, setSellerId] = useState("");
+  const [buyerType, setBuyerType] = useState<"company" | "individual">("individual");
+  const [buyerName, setBuyerName] = useState("");
   const [buyerId, setBuyerId] = useState("");
   const result = mode === "taxIncluded" ? calcInvoiceFromTaxIncluded(num(amount)) : calcInvoiceFromUntaxed(num(amount));
   const resultRef = useRef<HTMLDivElement>(null);
+  const isTriplicate = buyerType === "company";
 
   return (
     <div className="space-y-3">
@@ -368,30 +373,100 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
         </button>
       </div>
       <NumberField label={mode === "taxIncluded" ? "含稅金額" : "未稅金額"} value={amount} onChange={setAmount} suffix="元" />
+
+      <p className="pt-1 text-xs font-semibold text-paper/60">賣方（開立發票方）</p>
       <label className="block">
-        <span className="mb-1.5 block text-xs font-semibold text-paper/60">買受人統編（選填，三聯式發票用）</span>
+        <span className="mb-1.5 block text-xs font-semibold text-paper/60">賣方名稱／抬頭</span>
         <input
-          value={buyerId}
-          onChange={(e) => setBuyerId(e.target.value)}
-          placeholder="12345678"
+          value={sellerName}
+          onChange={(e) => setSellerName(e.target.value)}
+          placeholder="例如：艾飛樂數位文創個人工作室"
           className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
         />
       </label>
+      <label className="block">
+        <span className="mb-1.5 block text-xs font-semibold text-paper/60">賣方統一編號</span>
+        <input
+          value={sellerId}
+          onChange={(e) => setSellerId(e.target.value)}
+          placeholder="12345678"
+          inputMode="numeric"
+          maxLength={8}
+          className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
+        />
+      </label>
+
+      <p className="pt-1 text-xs font-semibold text-paper/60">買受人</p>
+      <div className="flex rounded-xl border border-gold/20 p-1">
+        <button
+          type="button"
+          onClick={() => setBuyerType("individual")}
+          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${buyerType === "individual" ? "bg-gold text-night-dark" : "text-paper/60"}`}
+        >
+          個人（二聯式）
+        </button>
+        <button
+          type="button"
+          onClick={() => setBuyerType("company")}
+          className={`flex-1 rounded-lg py-2 text-xs font-semibold ${buyerType === "company" ? "bg-gold text-night-dark" : "text-paper/60"}`}
+        >
+          公司／行號（三聯式）
+        </button>
+      </div>
+      <label className="block">
+        <span className="mb-1.5 block text-xs font-semibold text-paper/60">{isTriplicate ? "買受人名稱／抬頭" : "買受人姓名（選填）"}</span>
+        <input
+          value={buyerName}
+          onChange={(e) => setBuyerName(e.target.value)}
+          placeholder={isTriplicate ? "例如：○○有限公司" : "選填，會印在發票上"}
+          className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
+        />
+      </label>
+      {isTriplicate && (
+        <label className="block">
+          <span className="mb-1.5 block text-xs font-semibold text-paper/60">買受人統一編號</span>
+          <input
+            value={buyerId}
+            onChange={(e) => setBuyerId(e.target.value)}
+            placeholder="12345678"
+            inputMode="numeric"
+            maxLength={8}
+            className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
+          />
+        </label>
+      )}
+
       <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
+        {(sellerName || sellerId) && (
+          <>
+            <ResultRow label="賣方" value={[sellerName, sellerId].filter(Boolean).join("　統編：")} />
+            <div className="my-2 h-px bg-gold/15" />
+          </>
+        )}
+        {(buyerName || buyerId) && (
+          <>
+            <ResultRow label="買受人" value={[buyerName, buyerId && `統編：${buyerId}`].filter(Boolean).join("　")} />
+            <div className="my-2 h-px bg-gold/15" />
+          </>
+        )}
         <ResultRow label="未稅金額" value={fmt(result.untaxed)} />
         <ResultRow label="營業稅額（5%）" value={fmt(result.tax)} />
         <ResultRow label="含稅總額" value={fmt(result.taxIncluded)} strong />
-        {buyerId && <ResultRow label="買受人統編" value={buyerId} />}
       </div>
+      <p className="text-[11px] leading-5 text-paper/50">＊{isTriplicate ? "三聯式發票" : "二聯式發票"}：{isTriplicate ? "開立給公司行號、機關團體等營業人，買受人統編為必填。" : "開立給一般消費者，買受人姓名為選填。"}</p>
       <ExportButtons
         nodeRef={resultRef}
         slug="invoice-calc"
         title="發票試算"
         rows={[
+          ...(sellerName ? [{ label: "賣方名稱", value: sellerName }] : []),
+          ...(sellerId ? [{ label: "賣方統編", value: sellerId }] : []),
+          { label: "發票種類", value: isTriplicate ? "三聯式" : "二聯式" },
+          ...(buyerName ? [{ label: "買受人名稱", value: buyerName }] : []),
+          ...(buyerId ? [{ label: "買受人統編", value: buyerId }] : []),
           { label: "未稅金額", value: fmt(result.untaxed) },
           { label: "營業稅額（5%）", value: fmt(result.tax) },
           { label: "含稅總額", value: fmt(result.taxIncluded) },
-          ...(buyerId ? [{ label: "買受人統編", value: buyerId }] : []),
         ]}
       />
       <button
@@ -400,7 +475,7 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
           onDone({
             tool: "invoice",
             toolLabel: "發票小幫手",
-            title: buyerId ? "開立三聯式發票" : "開立二聯式發票",
+            title: buyerName ? `${buyerName}．${isTriplicate ? "三聯式發票" : "二聯式發票"}` : isTriplicate ? "開立三聯式發票" : "開立二聯式發票",
             resultLabel: "含稅",
             resultValue: fmt(result.taxIncluded),
           })
@@ -568,6 +643,8 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
 function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">) => void }) {
   const [rent, setRent] = useState("25000");
   const [landlordType, setLandlordType] = useState<"individual" | "company">("individual");
+  const [landlordName, setLandlordName] = useState("");
+  const [landlordId, setLandlordId] = useState("");
   const result = calcRentalWithholding(num(rent), landlordType);
   const resultRef = useRef<HTMLDivElement>(null);
 
@@ -589,9 +666,35 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
           房東是公司／行號
         </button>
       </div>
+      <label className="block">
+        <span className="mb-1.5 block text-xs font-semibold text-paper/60">房東姓名／抬頭（選填）</span>
+        <input
+          value={landlordName}
+          onChange={(e) => setLandlordName(e.target.value)}
+          placeholder={landlordType === "individual" ? "房東姓名" : "例如：○○有限公司"}
+          className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
+        />
+      </label>
+      <label className="block">
+        <span className="mb-1.5 block text-xs font-semibold text-paper/60">
+          {landlordType === "individual" ? "房東身分證字號（選填，開立免扣繳憑單用）" : "房東統一編號（選填）"}
+        </span>
+        <input
+          value={landlordId}
+          onChange={(e) => setLandlordId(e.target.value)}
+          placeholder={landlordType === "individual" ? "A123456789" : "12345678"}
+          className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
+        />
+      </label>
       <NumberField label="每月租金" value={rent} onChange={setRent} suffix="元" />
       {result.needsWithholding ? (
         <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
+          {(landlordName || landlordId) && (
+            <>
+              <ResultRow label="房東" value={[landlordName, landlordId].filter(Boolean).join("　")} />
+              <div className="my-2 h-px bg-gold/15" />
+            </>
+          )}
           <ResultRow label="租金所得扣繳稅額（10%）" value={fmt(result.withholding)} />
           <ResultRow
             label={num(rent) >= 20010 ? "二代健保補充保費（2.11%）" : "二代健保補充保費（未達門檻免收）"}
@@ -601,6 +704,12 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
         </div>
       ) : (
         <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
+          {(landlordName || landlordId) && (
+            <>
+              <ResultRow label="房東" value={[landlordName, landlordId].filter(Boolean).join("　")} />
+              <div className="my-2 h-px bg-gold/15" />
+            </>
+          )}
           <p className="text-sm leading-6 text-paper/80">房東是公司或行號時免辦理租金扣繳，請直接請對方開立統一發票。</p>
         </div>
       )}
@@ -609,6 +718,8 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
         slug="rental-withholding-calc"
         title="租金扣繳試算"
         rows={[
+          ...(landlordName ? [{ label: "房東姓名／抬頭", value: landlordName }] : []),
+          ...(landlordId ? [{ label: landlordType === "individual" ? "房東身分證字號" : "房東統一編號", value: landlordId }] : []),
           { label: "每月租金", value: fmt(num(rent)) },
           { label: "房東類型", value: landlordType === "individual" ? "個人" : "公司／行號" },
           ...(result.needsWithholding
@@ -629,7 +740,7 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
           onDone({
             tool: "rental",
             toolLabel: "租金扣繳小幫手",
-            title: `租金 ${fmt(num(rent))}（${landlordType === "individual" ? "個人房東" : "公司房東"}）`,
+            title: landlordName ? `${landlordName}．租金 ${fmt(num(rent))}` : `租金 ${fmt(num(rent))}（${landlordType === "individual" ? "個人房東" : "公司房東"}）`,
             resultLabel: "實付金額",
             resultValue: fmt(result.netPayment),
           })
