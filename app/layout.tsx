@@ -7,7 +7,6 @@ import BottomNav from "@/components/BottomNav";
 import MainWrapper from "@/components/MainWrapper";
 import PageTransition from "@/components/PageTransition";
 import EntryGate from "@/components/EntryGate";
-import BackgroundMusic from "@/components/BackgroundMusic";
 import MeteorShower from "@/components/MeteorShower";
 import StarField from "@/components/StarField";
 import { SITE } from "@/lib/data/site";
@@ -65,7 +64,6 @@ export default function RootLayout({
         </MainWrapper>
         <Footer />
         <BottomNav />
-        <BackgroundMusic />
       </body>
     </html>
   );
