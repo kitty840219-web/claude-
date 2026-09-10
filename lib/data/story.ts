@@ -1,5 +1,3 @@
-import { LINKS } from "@/lib/data/site";
-
 export type Chapter = {
   tag: string;
   title: string;
@@ -65,38 +63,5 @@ export const CHAPTERS: Chapter[] = [
       "如果你也在找一顆屬於自己的星星，或是想邀請艾飛樂一起把你的品牌、你的故事畫下來——歡迎成為這個故事的下一段。",
     ],
     quote: "願每一個讀到這裡的你，都能被自己溫柔接住。",
-  },
-  {
-    tag: "觀測站",
-    title: "小艾的社群觀測站",
-    body: ["在旅途中停留一下，看看小艾最新的影音創作。"],
-    embed: {
-      videoId: "iYy-q9ywHaA",
-      channelHref: LINKS.youtube,
-    },
-  },
-  {
-    tag: "第八章",
-    title: "最新文章",
-    body: ["插畫語錄選粹，用一句話說出你的心事。"],
-    link: { label: "查看最新文章 →", href: "/works" },
-  },
-  {
-    tag: "第九章",
-    title: "影音創作",
-    body: ["YouTube 頻道與短影音創作紀錄。"],
-    link: { label: "觀看影音 →", href: "/videos" },
-  },
-  {
-    tag: "第十章",
-    title: "周邊商店",
-    body: ["明信片、貼紙、LINE 貼圖與客製小物。"],
-    link: { label: "前往商店 →", href: "/shop" },
-  },
-  {
-    tag: "第十一章",
-    title: "合作聯絡",
-    body: ["插畫委託、品牌合作與接案洽詢。"],
-    link: { label: "洽談合作 →", href: "/contact" },
   },
 ];
