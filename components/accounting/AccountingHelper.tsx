@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { asset } from "@/lib/basePath";
 import { askAccountingAi } from "@/lib/accounting/ai";
@@ -17,6 +17,7 @@ import {
   type CostItem,
   type SplitShare,
 } from "@/lib/accounting/calculators";
+import { exportNodeAsJpg, exportRowsAsExcel, type ExportRow } from "@/lib/accounting/export";
 import { loadAccountingHistory, saveAccountingRecord, type AccountingRecord } from "@/lib/accounting/history";
 import { ACCOUNTING_RESOURCES } from "@/lib/accounting/resources";
 import { ACCOUNTING_TOOLS, type AccountingToolId } from "@/lib/accounting/tools";
@@ -88,6 +89,52 @@ function num(v: string) {
   return isNaN(n) ? 0 : n;
 }
 
+// 檔名須用英數字：中文檔名交給瀏覽器的 <a download> 屬性在部分環境會被忽略，
+// 導致存下來的檔案沒有副檔名、也打不開。標題文字（顯示在 Excel 內容裡）維持中文即可。
+function ExportButtons({
+  nodeRef,
+  slug,
+  title,
+  rows,
+}: {
+  nodeRef: React.RefObject<HTMLElement | null>;
+  slug: string;
+  title: string;
+  rows: ExportRow[];
+}) {
+  const [savingJpg, setSavingJpg] = useState(false);
+
+  async function handleJpg() {
+    if (!nodeRef.current || savingJpg) return;
+    setSavingJpg(true);
+    try {
+      await exportNodeAsJpg(nodeRef.current, slug);
+    } finally {
+      setSavingJpg(false);
+    }
+  }
+
+  return (
+    <div className="flex gap-2">
+      <button
+        type="button"
+        onClick={handleJpg}
+        disabled={savingJpg}
+        className="flex-1 rounded-full border border-gold/30 py-2.5 text-xs font-semibold text-gold-light transition hover:border-gold/60 disabled:opacity-50"
+      >
+        {savingJpg ? "產生中…" : "📷 下載 JPG"}
+      </button>
+      <button
+        type="button"
+        onClick={() => exportRowsAsExcel(slug, title, rows)}
+        className="flex-1 rounded-full border border-gold/30 py-2.5 text-xs font-semibold text-gold-light transition hover:border-gold/60"
+      >
+        📊 下載 Excel
+      </button>
+    </div>
+  );
+}
+
 function ProfitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">) => void }) {
   const [price, setPrice] = useState("899");
   const [cost, setCost] = useState("320");
@@ -95,6 +142,7 @@ function ProfitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
   const [shipping, setShipping] = useState("60");
   const [ad, setAd] = useState("30");
   const result = calcProfit(num(price), num(cost), num(feePercent), num(shipping), num(ad));
+  const resultRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="space-y-3">
@@ -103,11 +151,26 @@ function ProfitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
       <NumberField label="平台抽成" value={feePercent} onChange={setFeePercent} suffix="%" />
       <NumberField label="物流費" value={shipping} onChange={setShipping} suffix="元" />
       <NumberField label="廣告費" value={ad} onChange={setAd} suffix="元" />
-      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="平台抽成金額" value={fmt(result.platformFee)} />
         <ResultRow label="實際利潤" value={fmt(result.profit)} strong />
         <ResultRow label="利潤率" value={`${result.margin}%`} strong />
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="profit-calc"
+        title="利潤試算"
+        rows={[
+          { label: "商品售價", value: fmt(num(price)) },
+          { label: "成本", value: fmt(num(cost)) },
+          { label: "平台抽成", value: `${feePercent}%` },
+          { label: "物流費", value: fmt(num(shipping)) },
+          { label: "廣告費", value: fmt(num(ad)) },
+          { label: "平台抽成金額", value: fmt(result.platformFee) },
+          { label: "實際利潤", value: fmt(result.profit) },
+          { label: "利潤率", value: `${result.margin}%` },
+        ]}
+      />
       <button
         type="button"
         onClick={() =>
@@ -135,6 +198,7 @@ function CostTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date"
   ]);
   const [price, setPrice] = useState("899");
   const result = calcCost(items, num(price));
+  const resultRef = useRef<HTMLDivElement>(null);
 
   function updateItem(i: number, patch: Partial<CostItem>) {
     setItems((prev) => prev.map((item, idx) => (idx === i ? { ...item, ...patch } : item)));
@@ -166,10 +230,21 @@ function CostTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date"
         ＋ 新增一項
       </button>
       <NumberField label="商品售價（選填，用來算成本率）" value={price} onChange={setPrice} suffix="元" />
-      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="總成本" value={fmt(result.total)} strong />
         {num(price) > 0 && <ResultRow label="成本率" value={`${result.ratio}%`} />}
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="cost-calc"
+        title="成本試算"
+        rows={[
+          ...items.map((item) => ({ label: item.label, value: fmt(item.amount) })),
+          { label: "商品售價", value: fmt(num(price)) },
+          { label: "總成本", value: fmt(result.total) },
+          ...(num(price) > 0 ? [{ label: "成本率", value: `${result.ratio}%` }] : []),
+        ]}
+      />
       <button
         type="button"
         onClick={() =>
@@ -198,6 +273,7 @@ function SplitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date
     { label: "成員 D", percent: 25 },
   ]);
   const result = calcSplit(num(total), shares);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   function updateShare(i: number, patch: Partial<SplitShare>) {
     setShares((prev) => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
@@ -233,11 +309,20 @@ function SplitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date
         ＋ 新增一位
       </button>
       {result.percentSum !== 100 && <p className="text-xs text-rose-300">目前比例總和 {result.percentSum}%，建議調整到 100%</p>}
-      <div className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
         {result.results.map((r) => (
           <ResultRow key={r.label} label={`${r.label}（${r.percent}%）`} value={fmt(r.amount)} />
         ))}
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="split-calc"
+        title="分潤試算"
+        rows={[
+          { label: "總金額", value: fmt(num(total)) },
+          ...result.results.map((r) => ({ label: `${r.label}（${r.percent}%）`, value: fmt(r.amount) })),
+        ]}
+      />
       <button
         type="button"
         onClick={() =>
@@ -262,6 +347,7 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
   const [amount, setAmount] = useState("3000");
   const [buyerId, setBuyerId] = useState("");
   const result = mode === "taxIncluded" ? calcInvoiceFromTaxIncluded(num(amount)) : calcInvoiceFromUntaxed(num(amount));
+  const resultRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="space-y-3">
@@ -291,12 +377,23 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
           className="w-full rounded-xl border border-gold/20 bg-night-light/20 px-3 py-2.5 text-sm text-paper outline-none"
         />
       </label>
-      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="未稅金額" value={fmt(result.untaxed)} />
         <ResultRow label="營業稅額（5%）" value={fmt(result.tax)} />
         <ResultRow label="含稅總額" value={fmt(result.taxIncluded)} strong />
         {buyerId && <ResultRow label="買受人統編" value={buyerId} />}
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="invoice-calc"
+        title="發票試算"
+        rows={[
+          { label: "未稅金額", value: fmt(result.untaxed) },
+          { label: "營業稅額（5%）", value: fmt(result.tax) },
+          { label: "含稅總額", value: fmt(result.taxIncluded) },
+          ...(buyerId ? [{ label: "買受人統編", value: buyerId }] : []),
+        ]}
+      />
       <button
         type="button"
         onClick={() =>
@@ -320,18 +417,31 @@ function TaxTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date">
   const [salesTax, setSalesTax] = useState("15000");
   const [purchaseTax, setPurchaseTax] = useState("2550");
   const result = calcBusinessTax(num(salesTax), num(purchaseTax));
+  const resultRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="space-y-3">
       <NumberField label="銷項稅額（本期銷貨）" value={salesTax} onChange={setSalesTax} suffix="元" />
       <NumberField label="進項稅額（本期進貨／費用）" value={purchaseTax} onChange={setPurchaseTax} suffix="元" />
-      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
         {result.payable > 0 ? (
           <ResultRow label="本期應繳稅額" value={fmt(result.payable)} strong />
         ) : (
           <ResultRow label="本期留抵／可退稅額" value={fmt(result.refundable)} strong />
         )}
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="vat-calc"
+        title="營業稅試算"
+        rows={[
+          { label: "銷項稅額", value: fmt(num(salesTax)) },
+          { label: "進項稅額", value: fmt(num(purchaseTax)) },
+          result.payable > 0
+            ? { label: "本期應繳稅額", value: fmt(result.payable) }
+            : { label: "本期留抵／可退稅額", value: fmt(result.refundable) },
+        ]}
+      />
       <button
         type="button"
         onClick={() =>
@@ -357,6 +467,7 @@ function PayrollTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
   const [insurance, setInsurance] = useState("1200");
   const [tax, setTax] = useState("0");
   const result = calcPayroll(num(base), num(bonus), num(insurance), num(tax));
+  const resultRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="space-y-3">
@@ -364,10 +475,23 @@ function PayrollTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
       <NumberField label="加班費／獎金" value={bonus} onChange={setBonus} suffix="元" />
       <NumberField label="勞健保自付額" value={insurance} onChange={setInsurance} suffix="元" />
       <NumberField label="代扣所得稅" value={tax} onChange={setTax} suffix="元" />
-      <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="應發薪資" value={fmt(result.gross)} />
         <ResultRow label="實領薪資" value={fmt(result.netPay)} strong />
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="payroll-calc"
+        title="薪資試算"
+        rows={[
+          { label: "底薪", value: fmt(num(base)) },
+          { label: "加班費／獎金", value: fmt(num(bonus)) },
+          { label: "勞健保自付額", value: fmt(num(insurance)) },
+          { label: "代扣所得稅", value: fmt(num(tax)) },
+          { label: "應發薪資", value: fmt(result.gross) },
+          { label: "實領薪資", value: fmt(result.netPay) },
+        ]}
+      />
       <button
         type="button"
         onClick={() =>
@@ -391,12 +515,13 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
   const [salary, setSalary] = useState("32000");
   const [dependents, setDependents] = useState("0");
   const result = calcLaborInsurance(num(salary), num(dependents));
+  const resultRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="space-y-3">
       <NumberField label="投保薪資" value={salary} onChange={setSalary} suffix="元" />
       <NumberField label="健保眷屬人數" value={dependents} onChange={setDependents} suffix="人" />
-      <div className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
+      <div ref={resultRef} className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
         <ResultRow label="勞保費（員工負擔）" value={fmt(result.laborEmployee)} />
         <ResultRow label="健保費（員工負擔）" value={fmt(result.healthEmployee)} />
         <ResultRow label="員工自付合計" value={fmt(result.employeeTotal)} strong />
@@ -404,6 +529,20 @@ function LaborInsuranceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id
         <ResultRow label="勞退提撥（雇主 6%）" value={fmt(result.pensionEmployer)} />
         <ResultRow label="公司負擔合計" value={fmt(result.employerTotal)} strong />
       </div>
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="labor-insurance-calc"
+        title="勞健保試算"
+        rows={[
+          { label: "投保薪資", value: fmt(num(salary)) },
+          { label: "健保眷屬人數", value: `${num(dependents)}人` },
+          { label: "勞保費（員工負擔）", value: fmt(result.laborEmployee) },
+          { label: "健保費（員工負擔）", value: fmt(result.healthEmployee) },
+          { label: "員工自付合計", value: fmt(result.employeeTotal) },
+          { label: "勞退提撥（雇主 6%）", value: fmt(result.pensionEmployer) },
+          { label: "公司負擔合計", value: fmt(result.employerTotal) },
+        ]}
+      />
       <p className="text-[11px] leading-5 text-paper/50">＊簡化參考費率，實際請以勞保局／健保署最新公告費率與級距為準。</p>
       <button
         type="button"
@@ -428,6 +567,7 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
   const [rent, setRent] = useState("25000");
   const [landlordType, setLandlordType] = useState<"individual" | "company">("individual");
   const result = calcRentalWithholding(num(rent), landlordType);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="space-y-3">
@@ -449,7 +589,7 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
       </div>
       <NumberField label="每月租金" value={rent} onChange={setRent} suffix="元" />
       {result.needsWithholding ? (
-        <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+        <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
           <ResultRow label="租金所得扣繳稅額（10%）" value={fmt(result.withholding)} />
           <ResultRow
             label={num(rent) >= 20010 ? "二代健保補充保費（2.11%）" : "二代健保補充保費（未達門檻免收）"}
@@ -458,10 +598,26 @@ function RentalTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "dat
           <ResultRow label="實付房東金額" value={fmt(result.netPayment)} strong />
         </div>
       ) : (
-        <div className="mt-4 rounded-xl bg-night-light/25 p-4">
+        <div ref={resultRef} className="mt-4 rounded-xl bg-night-light/25 p-4">
           <p className="text-sm leading-6 text-paper/80">房東是公司或行號時免辦理租金扣繳，請直接請對方開立統一發票。</p>
         </div>
       )}
+      <ExportButtons
+        nodeRef={resultRef}
+        slug="rental-withholding-calc"
+        title="租金扣繳試算"
+        rows={[
+          { label: "每月租金", value: fmt(num(rent)) },
+          { label: "房東類型", value: landlordType === "individual" ? "個人" : "公司／行號" },
+          ...(result.needsWithholding
+            ? [
+                { label: "租金所得扣繳稅額（10%）", value: fmt(result.withholding) },
+                { label: "二代健保補充保費（2.11%）", value: fmt(result.supplementaryPremium) },
+                { label: "實付房東金額", value: fmt(result.netPayment) },
+              ]
+            : [{ label: "備註", value: "房東是公司或行號時免辦理租金扣繳" }]),
+        ]}
+      />
       <p className="text-[11px] leading-5 text-paper/50">
         ＊房東為個人時，公司／行號支付租金需按 10% 扣繳所得稅；單次給付達 20,010 元（113 年起）需另扣 2.11% 二代健保補充保費。實際規定請以國稅局最新公告為準。
       </p>
@@ -503,9 +659,11 @@ const COMPANY_QA = [
 ];
 
 function CompanyGuide() {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="space-y-5">
-      <div>
+      <div ref={contentRef}>
         <p className="text-xs leading-5 text-paper/60">7 個步驟，帶你了解成立公司的大致流程（實際文件與規定請以最新公告為準）。</p>
         <ol className="mt-3 space-y-3">
           {COMPANY_STEPS.map((s, i) => (
@@ -518,9 +676,7 @@ function CompanyGuide() {
             </li>
           ))}
         </ol>
-      </div>
-      <div>
-        <p className="text-xs font-semibold tracking-[0.1em] text-gold-light">常見問題 Q&amp;A</p>
+        <p className="mt-5 text-xs font-semibold tracking-[0.1em] text-gold-light">常見問題 Q&amp;A</p>
         <div className="mt-3 space-y-3">
           {COMPANY_QA.map((item) => (
             <div key={item.q} className="rounded-xl bg-night-light/25 p-3.5">
@@ -530,6 +686,15 @@ function CompanyGuide() {
           ))}
         </div>
       </div>
+      <ExportButtons
+        nodeRef={contentRef}
+        slug="company-setup-guide"
+        title="公司設立指南"
+        rows={[
+          ...COMPANY_STEPS.map((s, i) => ({ label: `步驟${i + 1}．${s.title}`, value: s.desc })),
+          ...COMPANY_QA.map((item) => ({ label: `Q．${item.q}`, value: `A．${item.a}` })),
+        ]}
+      />
     </div>
   );
 }
