@@ -23,6 +23,7 @@ const CONTACTS = [
     href: LINKS.lineOA,
     cta: "開啟 LINE →",
     icon: "line" as const,
+    art: "/images/contact-line-friend-cutout.webp",
   },
   {
     key: "mail",
@@ -32,6 +33,7 @@ const CONTACTS = [
     href: `mailto:${LINKS.email}`,
     cta: "寄送 EMAIL →",
     icon: "mail" as const,
+    art: "/images/home-quotes-cutout.webp",
   },
   {
     key: "ig1",
@@ -41,6 +43,7 @@ const CONTACTS = [
     href: LINKS.instagramQuotes,
     cta: "開啟 INSTAGRAM →",
     icon: "instagram" as const,
+    art: "/images/latest-articles-cutout.webp",
   },
   {
     key: "ig2",
@@ -50,6 +53,7 @@ const CONTACTS = [
     href: LINKS.instagramIllustration,
     cta: "開啟 INSTAGRAM →",
     icon: "instagram" as const,
+    art: "/images/about-creator-cutout.webp",
   },
 ];
 
@@ -130,14 +134,16 @@ export default function ContactPage() {
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
                 className="group relative min-h-44 overflow-hidden rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-6 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
               >
-                <span className={`relative z-10 block ${c.key === "line" ? "w-[62%]" : "w-full"}`}>
+                <span className="relative z-10 block w-[62%]">
                   <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
                   <span className="mt-4 block text-[10px] font-semibold tracking-[0.22em] text-sage">{c.label}</span>
                   <span className="mt-2 block font-serif text-lg font-bold text-paper">{c.title}</span>
                   <span className="mt-2 block break-all text-sm text-paper/60">{c.value}</span>
                   <span className="mt-5 block text-xs font-semibold text-gold-light">{c.cta}</span>
                 </span>
-                {c.key === "line" && <span className="animate-float-slow pointer-events-none absolute -bottom-5 -right-2 h-44 w-36 transition duration-500 group-hover:scale-105"><Image src={asset("/images/contact-line-friend-cutout.webp")} alt="小艾邀請你加入 LINE 好友" fill className="object-contain object-bottom" sizes="144px" /></span>}
+                <span className="animate-float-slow pointer-events-none absolute -bottom-5 -right-2 h-44 w-36 transition duration-500 group-hover:scale-105">
+                  <Image src={asset(c.art)} alt="" fill className="object-contain object-bottom" sizes="144px" />
+                </span>
               </a>
             ))}
           </div>
