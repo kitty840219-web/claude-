@@ -3,7 +3,14 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-const VIDEO_ID = "2MH3zN3VCn4";
+const PLAYLIST_IDS = [
+  "2MH3zN3VCn4",
+  "0OHbgy9fxE0",
+  "oJJOO3oDEho",
+  "vBNxKI8N85Q",
+  "8N9fq_Rw3CE",
+  "XfL0qZiWDJQ",
+];
 const VOLUME_KEY = "aifeiler.music.volume";
 
 type YTPlayer = {
@@ -61,8 +68,13 @@ function BackgroundMusicInner() {
     function createPlayer() {
       if (playerRef.current || !mountRef.current || !window.YT) return;
       playerRef.current = new window.YT.Player(mountRef.current, {
-        videoId: VIDEO_ID,
-        playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: VIDEO_ID },
+        videoId: PLAYLIST_IDS[0],
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          loop: 1,
+          playlist: PLAYLIST_IDS.join(","),
+        },
         events: {
           onReady: (e) => {
             e.target.setVolume(volumeRef.current);
