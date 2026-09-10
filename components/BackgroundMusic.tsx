@@ -79,7 +79,7 @@ function BackgroundMusicInner() {
     let cancelled = false;
     Promise.all(
       PLAYLIST_IDS.map((id) =>
-        fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`)
+        fetch(`https://noembed.com/embed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`)
           .then((r) => (r.ok ? r.json() : null))
           .catch(() => null)
       )
