@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import AskAifelerModal from "@/components/accounting/AskAifelerModal";
 import Star from "@/components/Star";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
@@ -34,7 +33,7 @@ export default function ShopPage() {
       </section>
 
       {/* Phone cases promo */}
-      <section className="relative overflow-hidden bg-night-dark px-4 pt-6 sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-6 sm:px-6">
         <div className="relative mx-auto max-w-3xl">
           <Link
             href="/phone-cases"
@@ -54,13 +53,6 @@ export default function ShopPage() {
               </span>
             </div>
           </Link>
-        </div>
-      </section>
-
-      {/* Ask Aifeiler accounting Q&A */}
-      <section className="relative overflow-hidden bg-night-dark px-4 pb-20 pt-4 sm:px-6">
-        <div className="relative mx-auto max-w-3xl">
-          <AskAifelerModal />
         </div>
       </section>
     </div>
