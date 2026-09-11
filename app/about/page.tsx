@@ -72,8 +72,8 @@ export default function AboutPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">BRAND CHARACTER</p>
-                      <h4 className="mt-1 font-serif text-sm font-bold text-paper">艾飛樂的 IP 角色</h4>
-                      <p className="mt-1 text-xs leading-relaxed text-paper/60">戴著草帽、綁著雙辮，靜靜微笑、雙手合十的女孩，是艾飛樂的品牌代言角色。</p>
+                      <h4 className="mt-1 font-serif text-sm font-bold text-paper">品牌第一個 IP 角色「小艾」</h4>
+                      <p className="mt-1 text-xs leading-relaxed text-paper/60">2024 年誕生，戴著草帽、綁著雙辮，靜靜微笑、雙手合十——小艾是艾飛樂的品牌代言角色。</p>
                     </div>
                   </div>
                 )}
