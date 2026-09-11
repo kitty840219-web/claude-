@@ -70,6 +70,11 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
                 <span className="text-xs text-paper/40">{selected.date}</span>
               </div>
               <h2 className="font-serif text-xl font-bold text-paper">{selected.title}</h2>
+              {selected.heroImage && (
+                <div className="relative mt-4 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-2xl border border-gold/20">
+                  <Image src={asset(selected.heroImage)} alt={`${selected.title}主題插畫`} fill className="object-cover" sizes="398px" />
+                </div>
+              )}
               <div className="mt-4 space-y-4 text-sm leading-7 text-paper/85">
                 {selected.body.map((p, i) => (
                   <p key={i}>{p}</p>

@@ -6,6 +6,7 @@ export type Article = {
   excerpt: string;
   body: string[];
   image?: string;
+  heroImage?: string;
   link?: { href: string; label: string };
 };
 
@@ -16,6 +17,7 @@ export const ARTICLES: Article[] = [
     date: "2026-09-11",
     tag: "作品集",
     image: "/images/articles/ivy-digital-portfolio-cutout.webp",
+    heroImage: "/images/articles/ivy-digital-portfolio-dm.webp",
     excerpt: "把 11 年以上的工作經歷、AI 應用、社群經營、影音與視覺設計，整理成一冊可以線上翻閱的電子作品集。",
     body: [
       "這次，我把自己的工作經歷與創作成果整理成一份線上作品集。從國際貿易、行政與專案管理的實務背景，到數位文創、社群內容、平面設計、影片剪輯與 AI 工具應用，這些看似不同的能力，慢慢組成了現在的我。",
