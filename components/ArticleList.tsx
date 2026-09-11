@@ -28,7 +28,7 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
             key={a.id}
             type="button"
             onClick={() => setSelected(a)}
-            className="bg-grain group relative block min-h-64 w-full overflow-hidden rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
+            className="bg-grain group relative block min-h-64 w-full rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
           >
             <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
             <div className={a.image ? "relative z-10 max-w-[68%]" : "relative z-10"}>
@@ -41,7 +41,7 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
             <p className="mt-4 text-xs font-semibold text-gold-light">閱讀全文 →</p>
             </div>
             {a.image && (
-              <span className="pointer-events-none absolute -bottom-3 right-1 h-48 w-36 sm:right-4 sm:w-40">
+              <span className="pointer-events-none absolute -bottom-3 right-1 z-20 h-48 w-36 sm:right-4 sm:w-40">
                 <Image src={asset(a.image)} alt="" fill className="object-contain object-bottom" sizes="160px" />
               </span>
             )}
