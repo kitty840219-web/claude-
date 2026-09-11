@@ -175,7 +175,19 @@ function BackgroundMusicInner() {
     }
   }
 
-  function handleSelectTrack(index: number) {
+  function handleListenTrack(index: number) {
+    const player = playerRef.current;
+    if (!player) return;
+    player.setShuffle(false);
+    player.setLoop(true);
+    player.playVideoAt(index);
+    startedRef.current = true;
+    setPlaying(true);
+    setCurrentIndex(index);
+    setShowPlaylist(false);
+  }
+
+  function handleWatchTrack(index: number) {
     const player = playerRef.current;
     player?.pauseVideo();
     startedRef.current = true;
@@ -185,14 +197,25 @@ function BackgroundMusicInner() {
     setShowMv(true);
   }
 
+  function handleCloseMv() {
+    setShowMv(false);
+    const player = playerRef.current;
+    if (!player) return;
+    player.setShuffle(false);
+    player.setLoop(true);
+    player.playVideoAt(currentIndex);
+    startedRef.current = true;
+    setPlaying(true);
+  }
+
   return (
     <>
       <div ref={mountRef} className="pointer-events-none absolute h-px w-px opacity-0" aria-hidden />
 
       {showMv && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 p-3 sm:p-8" role="dialog" aria-modal="true" aria-label="動畫 MV 播放視窗" onClick={() => setShowMv(false)}>
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 p-3 sm:p-8" role="dialog" aria-modal="true" aria-label="動畫 MV 播放視窗" onClick={handleCloseMv}>
           <div className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-gold/40 bg-black shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <button type="button" onClick={() => setShowMv(false)} aria-label="關閉動畫 MV" className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gold text-2xl font-bold text-night-dark shadow-lg">×</button>
+            <button type="button" onClick={handleCloseMv} aria-label="關閉動畫 MV 並繼續播放音樂" className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gold text-2xl font-bold text-night-dark shadow-lg">×</button>
             <div className="aspect-video w-full">
               <iframe
                 src={`https://www.youtube-nocookie.com/embed/${PLAYLIST_IDS[currentIndex]}?autoplay=1&rel=0`}
@@ -211,7 +234,7 @@ function BackgroundMusicInner() {
       )}
 
       {showPlaylist && (
-        <div className="absolute right-0 top-[calc(100%+10px)] z-50 max-h-[60vh] w-64 overflow-y-auto rounded-2xl border border-gold/30 bg-night p-2 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="absolute right-0 top-[calc(100%+10px)] z-50 max-h-[70vh] w-72 overflow-y-auto rounded-2xl border border-gold/30 bg-night p-2 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:w-80">
           <div className="flex items-center justify-between px-2 py-1.5">
             <span className="text-xs font-semibold text-gold-light">播放清單</span>
             <button
@@ -231,39 +254,28 @@ function BackgroundMusicInner() {
               const track = tracks[i];
               return (
                 <li key={id}>
-                  <button
-                    type="button"
-                    onClick={() => handleSelectTrack(i)}
-                    className={`flex w-full items-center gap-2 rounded-xl p-1.5 text-left transition ${
+                  <div
+                    className={`rounded-xl p-2 transition ${
                       isActive ? "bg-gold/15" : "hover:bg-night-light"
                     }`}
                   >
-                    <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-night-light">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`}
-                        alt=""
-                        className="h-full w-full object-cover"
-                      />
-                      {isActive && (
-                        <span className="absolute inset-0 flex items-center justify-center bg-night-dark/50">
-                          <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
-                            <path d="M4 9v6h4l5 5V4L8 9H4z" fill="#ecce8f" />
-                          </svg>
-                        </span>
-                      )}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span
-                        className={`block truncate text-xs font-semibold ${isActive ? "text-gold-light" : "text-paper"}`}
-                      >
-                        {track?.title ?? `曲目 ${i + 1}`}
+                    <div className="flex items-center gap-2">
+                      <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-night-light">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt="" className="h-full w-full object-cover" />
                       </span>
-                      {track?.author && (
-                        <span className="block truncate text-[10px] text-paper/50">{track.author}</span>
-                      )}
-                    </span>
-                  </button>
+                      <span className="min-w-0 flex-1">
+                        <span
+                        className={`block truncate text-xs font-semibold ${isActive ? "text-gold-light" : "text-paper"}`}
+                        >{track?.title ?? `曲目 ${i + 1}`}</span>
+                        {track?.author && <span className="block truncate text-[10px] text-paper/50">{track.author}</span>}
+                      </span>
+                    </div>
+                    <div className="mt-2 grid grid-cols-2 gap-2">
+                      <button type="button" onClick={() => handleListenTrack(i)} className="rounded-full border border-gold/35 px-3 py-1.5 text-xs font-bold text-gold-light transition hover:bg-gold hover:text-night-dark">♫ 只聽歌曲</button>
+                      <button type="button" onClick={() => handleWatchTrack(i)} className="rounded-full bg-gold px-3 py-1.5 text-xs font-bold text-night-dark transition hover:bg-gold-light">▶ 觀看 MV</button>
+                    </div>
+                  </div>
                 </li>
               );
             })}

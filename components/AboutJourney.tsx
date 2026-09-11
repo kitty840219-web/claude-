@@ -90,15 +90,11 @@ export default function AboutJourney() {
 
         {isFirst ? (
           <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-paper text-night-dark shadow-soft">
-            <div className="relative min-h-0 flex-1 overflow-hidden">
-              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover object-[center_58%]" sizes="430px" />
+            <div className="relative min-h-0 flex-1 overflow-hidden bg-paper">
+              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-contain" sizes="430px" />
             </div>
-            <div className="shrink-0 bg-paper px-5 pb-5 pt-4 text-center">
-              <div className="flex flex-wrap justify-center gap-2 text-xs font-semibold">
-                <span className="rounded-full border border-gold-dark/40 px-4 py-2">2022 年成立</span>
-                <span className="rounded-full border border-gold-dark/40 px-4 py-2">9+ 篇語錄作品</span>
-              </div>
-              <button onClick={advance} className="mt-4 w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
+            <div className="shrink-0 bg-paper px-5 pb-5 pt-3 text-center">
+              <button onClick={advance} className="w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
                 點擊繼續 →
               </button>
             </div>
