@@ -67,17 +67,17 @@ const SERVICE_ART = [
 ];
 
 const CONTACT_VALUE_ART = [
-  "/images/contact-quality-cutout.png",
-  "/images/contact-fast-delivery-cutout.png",
-  "/images/contact-communication-cutout.png",
-  "/images/contact-transparent-price-cutout.png",
+  "/images/contact-quality-cutout.webp",
+  "/images/contact-fast-delivery-cutout.webp",
+  "/images/contact-communication-cutout.webp",
+  "/images/contact-transparent-price-cutout.webp",
 ];
 
 const PROCESS = [
-  { step: "01", title: "傳送需求", desc: "透過 Email 或 LINE 告訴我您的想法與用途", art: "/images/contact-process-send-cutout.png" },
-  { step: "02", title: "討論規劃", desc: "確認風格、尺寸、交件時間與報價", art: "/images/contact-process-plan-cutout.png" },
-  { step: "03", title: "草稿確認", desc: "提供草稿供您確認方向，可進行一次調整", art: "/images/contact-process-draft-cutout.png" },
-  { step: "04", title: "完稿交付", desc: "完成上色與細節，交付最終檔案", art: "/images/contact-process-delivery-cutout.png" },
+  { step: "01", title: "傳送需求", desc: "透過 Email 或 LINE 告訴我您的想法與用途", art: "/images/contact-process-send-cutout.webp" },
+  { step: "02", title: "討論規劃", desc: "確認風格、尺寸、交件時間與報價", art: "/images/contact-process-plan-cutout.webp" },
+  { step: "03", title: "草稿確認", desc: "提供草稿供您確認方向，可進行一次調整", art: "/images/contact-process-draft-cutout.webp" },
+  { step: "04", title: "完稿交付", desc: "完成上色與細節，交付最終檔案", art: "/images/contact-process-delivery-cutout.webp" },
 ];
 
 export default function ContactPage() {
@@ -97,7 +97,7 @@ export default function ContactPage() {
           <p className="mt-4 text-paper/70">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
             </div>
             <div className="relative mx-auto h-64 w-64 md:h-72 md:w-72">
-              <Image src={asset("/images/contact-collaboration-cutout.png")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="288px" />
+              <Image src={asset("/images/contact-collaboration-cutout.webp")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="288px" />
             </div>
           </div>
 
