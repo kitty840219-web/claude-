@@ -44,6 +44,8 @@ export default function PortfolioPage() {
 
       <PortfolioGallery />
 
+      <AifeilerBookReader />
+
       <section className="bg-paper px-5 py-14 text-ink sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
@@ -88,7 +90,6 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <AifeilerBookReader />
     </div>
   );
 }
