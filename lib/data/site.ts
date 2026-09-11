@@ -26,6 +26,7 @@ export const LINKS = {
 
 export const NAV = [
   { href: "/about", label: "關於作者與故事" },
+  { href: "/portfolio", label: "數位作品集" },
   { href: "/works", label: "最新文章" },
   { href: "/horoscope", label: "星座運勢" },
   { href: "/tarot", label: "塔羅占卜" },
