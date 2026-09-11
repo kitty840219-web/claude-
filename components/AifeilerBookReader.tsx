@@ -4,15 +4,23 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/basePath";
 
-const TOTAL = 152;
+const SOURCE_TOTAL = 152;
+const REMOVED_SOURCE_PAGES = new Set([3, 4, 5, 6, 7, 8, 9]);
+const BOOK_PAGES = Array.from({ length: SOURCE_TOTAL }, (_, index) => index + 1).filter((page) => !REMOVED_SOURCE_PAGES.has(page));
+const TOTAL = BOOK_PAGES.length;
 const BOOKMARKS = [
-  { page: 1, label: "封面" }, { page: 10, label: "目錄" }, { page: 13, label: "序言" },
-  { page: 20, label: "生命故事" }, { page: 60, label: "愛與關係" },
-  { page: 94, label: "成長與放下" }, { page: 132, label: "找回自己" }, { page: 151, label: "作者與封底" },
+  { sourcePage: 1, label: "封面" }, { sourcePage: 10, label: "目錄" }, { sourcePage: 13, label: "序言" },
+  { sourcePage: 20, label: "生命故事" }, { sourcePage: 60, label: "愛與關係" },
+  { sourcePage: 94, label: "成長與放下" }, { sourcePage: 132, label: "找回自己" }, { sourcePage: 151, label: "作者與封底" },
 ];
 
-function bookImage(page: number) {
-  return `/images/aifeiler-book/book-${String(page).padStart(3, "0")}.webp`;
+function bookImage(displayPage: number) {
+  const sourcePage = BOOK_PAGES[displayPage - 1];
+  return `/images/aifeiler-book/book-${String(sourcePage).padStart(3, "0")}.webp`;
+}
+
+function displayPageFor(sourcePage: number) {
+  return BOOK_PAGES.findIndex((page) => page >= sourcePage) + 1;
 }
 
 export default function AifeilerBookReader() {
@@ -70,7 +78,7 @@ export default function AifeilerBookReader() {
         </div>
 
         <div className="mt-7 flex flex-wrap justify-center gap-2">
-          {BOOKMARKS.map((mark) => <button key={mark.page} type="button" onClick={() => goTo(mark.page)} className="rounded-full border border-[#9b7132]/40 bg-white/40 px-3 py-2 text-sm font-bold hover:bg-white/80">{mark.label}</button>)}
+          {BOOKMARKS.map((mark) => <button key={mark.sourcePage} type="button" onClick={() => goTo(displayPageFor(mark.sourcePage))} className="rounded-full border border-[#9b7132]/40 bg-white/40 px-3 py-2 text-sm font-bold hover:bg-white/80">{mark.label}</button>)}
         </div>
 
         <div className="mx-auto mt-7 max-w-3xl overflow-hidden rounded-[1.75rem] border border-[#9b7132]/35 bg-[#17143d] shadow-2xl">
@@ -81,7 +89,7 @@ export default function AifeilerBookReader() {
             <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
               <button type="button" onClick={() => goTo(page - step)} disabled={page === 1} className="justify-self-start rounded-full border border-[#f4d892]/40 px-3 py-2.5 text-sm font-bold text-[#f4d892] disabled:opacity-30">← 上一頁</button>
               <p className="font-serif text-sm font-bold text-white"><span className="text-xl text-[#f4d892]">{pageLabel}</span> / {TOTAL}</p>
-              <button type="button" onClick={() => goTo(page + step)} disabled={page === TOTAL} className="justify-self-end rounded-full bg-[#d6a94f] px-3 py-2.5 text-sm font-bold text-[#17143d] disabled:opacity-30">下一頁 →</button>
+              <button type="button" onClick={() => goTo(page + step)} disabled={page + step > TOTAL} className="justify-self-end rounded-full bg-[#d6a94f] px-3 py-2.5 text-sm font-bold text-[#17143d] disabled:opacity-30">下一頁 →</button>
             </div>
           </div>
         </div>
