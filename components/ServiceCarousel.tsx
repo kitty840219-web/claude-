@@ -38,7 +38,7 @@ export default function ServiceCarousel({
         {services.map((s, i) => (
           <div
             key={s.title}
-            className="bg-grain relative w-full shrink-0 snap-center overflow-hidden rounded-2xl bg-night-light/40 p-6 shadow-card"
+            className="bg-grain relative w-full shrink-0 snap-center overflow-hidden rounded-2xl bg-night-light/40 p-6 text-center shadow-card"
           >
             <div className="relative mx-auto mb-3 h-32 w-full animate-float-slow">
               <Image
@@ -49,7 +49,7 @@ export default function ServiceCarousel({
                 sizes="80vw"
               />
             </div>
-            <h3 className="font-serif text-sm font-bold text-gold-light">{s.title}</h3>
+            <h3 className="font-serif text-lg font-bold text-gold-light">{s.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-paper/70">{s.desc}</p>
           </div>
         ))}
