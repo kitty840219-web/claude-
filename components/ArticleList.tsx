@@ -28,22 +28,22 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
             key={a.id}
             type="button"
             onClick={() => setSelected(a)}
-            className="bg-grain group relative block min-h-56 w-full rounded-2xl bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:-translate-y-1"
+            className="bg-grain group relative flex min-h-40 w-full items-center gap-4 rounded-2xl bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:-translate-y-1"
           >
-            <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-            <div className={a.image ? "relative z-10 max-w-[70%]" : "relative z-10"}>
-            <div className="flex items-center justify-between gap-3">
-              <TagChip tone="gold">{a.tag}</TagChip>
-              <span className="text-xs text-paper/55">{a.date}</span>
-            </div>
-            <h3 className="mt-3 font-serif text-lg font-bold leading-snug text-paper sm:text-xl">{a.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-paper/70">{a.excerpt}</p>
-            <p className="mt-4 text-xs font-semibold text-gold-light sm:text-sm">閱讀全文 →</p>
+            <div className="bg-stars pointer-events-none absolute inset-0 rounded-2xl opacity-40" />
+            <div className="relative z-10 min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-3">
+                <TagChip tone="gold">{a.tag}</TagChip>
+                <span className="text-xs text-paper/55">{a.date}</span>
+              </div>
+              <h3 className="mt-3 font-serif text-lg font-bold leading-snug text-paper sm:text-xl">{a.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-paper/70">{a.excerpt}</p>
+              <p className="mt-4 text-xs font-semibold text-gold-light sm:text-sm">閱讀全文 →</p>
             </div>
             {a.image && (
-              <span className="pointer-events-none absolute -bottom-2 right-2 z-20 h-36 w-28 sm:right-3 sm:h-40 sm:w-32">
-                <Image src={asset(a.image)} alt="" fill className="object-contain object-bottom" sizes="128px" />
-              </span>
+              <div className="relative z-10 h-32 w-28 shrink-0 sm:h-40 sm:w-32">
+                <Image src={asset(a.image)} alt="" fill className="object-contain" sizes="128px" />
+              </div>
             )}
           </button>
         ))}

@@ -103,14 +103,12 @@ export default function ContactPage() {
 
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
             {CHIPS.map((c, index) => (
-              <div key={c.t} className="relative min-h-36 rounded-2xl bg-night-light/25 p-4 shadow-card sm:min-h-40">
-                <div className="relative z-10 max-w-[64%]">
-                  <p className="text-base font-bold leading-snug text-paper sm:text-lg">{c.t}</p>
-                  <p className="mt-1.5 text-xs leading-relaxed text-paper/70 sm:text-sm">{c.d}</p>
+              <div key={c.t} className="flex min-h-36 flex-col items-center rounded-2xl bg-night-light/25 p-4 text-center shadow-card sm:min-h-40">
+                <div className="relative h-14 w-14 shrink-0 sm:h-16 sm:w-16">
+                  <Image src={asset(CONTACT_VALUE_ART[index])} alt={`小艾呈現${c.t}`} fill className="object-contain" sizes="64px" />
                 </div>
-                <div className="absolute -bottom-2 -right-2 z-20 h-24 w-20 sm:h-28 sm:w-24">
-                  <Image src={asset(CONTACT_VALUE_ART[index])} alt={`小艾呈現${c.t}`} fill className="object-contain object-bottom" sizes="112px" />
-                </div>
+                <p className="mt-2 text-base font-bold leading-snug text-paper sm:text-lg">{c.t}</p>
+                <p className="mt-1 text-xs leading-relaxed text-paper/70 sm:text-sm">{c.d}</p>
               </div>
             ))}
           </div>
@@ -151,17 +149,17 @@ export default function ContactPage() {
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group relative min-h-36 rounded-[1.75rem] bg-night-light/25 p-6 shadow-card transition hover:-translate-y-1 hover:bg-night-light/35"
+                className="group flex min-h-36 items-center gap-4 rounded-[1.75rem] bg-night-light/25 p-6 shadow-card transition hover:-translate-y-1 hover:bg-night-light/35"
               >
-                <span className="relative z-10 block w-[66%]">
+                <span className="block min-w-0 flex-1">
                   <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
                   <span className="mt-4 block text-xs font-semibold tracking-[0.2em] text-gold-light">{c.label}</span>
                   <span className="mt-2 block font-serif text-base font-bold text-paper sm:text-lg">{c.title}</span>
                   <span className="mt-2 block break-all text-sm text-paper/70">{c.value}</span>
                   <span className="mt-5 block text-xs font-semibold text-gold-light sm:text-sm">{c.cta}</span>
                 </span>
-                <span className="animate-float-slow pointer-events-none absolute -bottom-3 -right-1 z-20 h-32 w-28 transition duration-500 group-hover:scale-105 sm:h-36 sm:w-32">
-                  <Image src={asset(c.art)} alt="" fill className="object-contain object-bottom" sizes="128px" />
+                <span className="relative h-28 w-24 shrink-0 transition duration-500 group-hover:scale-105 sm:h-32 sm:w-28">
+                  <Image src={asset(c.art)} alt="" fill className="object-contain" sizes="112px" />
                 </span>
               </a>
             ))}
@@ -175,19 +173,17 @@ export default function ContactPage() {
           <div className="relative mt-10 grid gap-4">
             <div className="pointer-events-none absolute bottom-10 left-7 top-10 w-px bg-gold/25" />
             {PROCESS.map((p) => (
-              <div key={p.step} className="relative grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl bg-night-light/25 p-4 pr-24 text-left shadow-card sm:pr-28">
-                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
+              <div key={p.step} className="flex min-h-28 items-center gap-4 rounded-2xl bg-night-light/25 p-4 text-left shadow-card">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
                   {p.step}
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <h3 className="font-serif text-base font-bold text-paper sm:text-lg">{p.title}</h3>
                   <p className="mt-1 text-xs leading-relaxed text-paper/70 sm:text-sm">{p.desc}</p>
                 </div>
-                {["01", "02", "03", "04"].includes(p.step) && (
-                  <div className="absolute -bottom-2 right-2 z-20 h-20 w-16 sm:right-3 sm:h-24 sm:w-20">
-                    <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain object-bottom" sizes="96px" />
-                  </div>
-                )}
+                <div className="relative h-16 w-14 shrink-0 sm:h-20 sm:w-16">
+                  <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain" sizes="64px" />
+                </div>
               </div>
             ))}
           </div>
