@@ -38,7 +38,7 @@ function BottomNavInner() {
   return (
     <nav
       aria-label="主要導覽"
-      className="bg-stars fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-paper/10 bg-night-dark/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.4)] backdrop-blur"
+      className="site-bottom-nav bg-stars fixed bottom-0 left-1/2 z-40 w-full max-w-[430px] -translate-x-1/2 border-t border-paper/10 bg-night-dark/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.4)] backdrop-blur"
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between px-2">
         {TABS.map((tab) => {

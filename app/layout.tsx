@@ -13,6 +13,7 @@ import StarField from "@/components/StarField";
 import { SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
+import { VIEW_MODE_INIT_SCRIPT } from "@/lib/viewMode";
 
 const notoSerifTC = Noto_Serif_TC({
   subsets: ["latin"],
@@ -56,9 +57,12 @@ export default function RootLayout({
       lang="zh-Hant"
       className={`${notoSerifTC.variable} ${notoSansTC.variable} ${maShanZheng.variable}`}
     >
-      <body className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col overflow-x-hidden bg-night-dark font-sans text-paper shadow-[0_0_60px_rgba(0,0,0,0.4)] antialiased">
+      <body className="site-shell mx-auto flex min-h-screen w-full max-w-[430px] flex-col overflow-x-hidden bg-night-dark font-sans text-paper shadow-[0_0_60px_rgba(0,0,0,0.4)] antialiased">
         <Script id="theme-init" strategy="beforeInteractive">
           {THEME_INIT_SCRIPT}
+        </Script>
+        <Script id="view-mode-init" strategy="beforeInteractive">
+          {VIEW_MODE_INIT_SCRIPT}
         </Script>
         <EntryGate />
         <StarField />

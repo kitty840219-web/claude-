@@ -89,15 +89,12 @@ export default function AboutJourney() {
         </button>
 
         {isFirst ? (
-          <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark text-paper shadow-soft">
-            <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-            <div className="relative min-h-0 flex-1 overflow-hidden">
-              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-contain" />
-            </div>
-            <div className="relative px-6 pb-6 text-center">
-              <div className="flex justify-center gap-2 text-[11px] font-semibold">
-                <span className="rounded-full border border-gold/35 px-4 py-2">2022 年成立</span>
-                <span className="rounded-full border border-gold/35 px-4 py-2">9+ 篇語錄作品</span>
+          <div className="relative max-h-full overflow-y-auto rounded-[2rem] bg-paper text-night-dark shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <Image src={asset(scene.image)} alt={scene.alt} width={941} height={1672} priority className="h-auto w-full" sizes="430px" />
+            <div className="bg-paper px-5 pb-5 pt-4 text-center">
+              <div className="flex flex-wrap justify-center gap-2 text-xs font-semibold">
+                <span className="rounded-full border border-gold-dark/40 px-4 py-2">2022 年成立</span>
+                <span className="rounded-full border border-gold-dark/40 px-4 py-2">9+ 篇語錄作品</span>
               </div>
               <button onClick={advance} className="mt-4 w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
                 點擊繼續 →

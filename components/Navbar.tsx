@@ -9,6 +9,7 @@ import { asset } from "@/lib/basePath";
 import { playTwinkleSound } from "@/lib/sound";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import ThemeToggle from "@/components/ThemeToggle";
+import ViewModeToggle from "@/components/ViewModeToggle";
 
 function NavbarInner() {
   const pathname = usePathname();
@@ -38,6 +39,8 @@ function NavbarInner() {
 
         <div className="flex items-center gap-2">
           <div className="relative flex items-center rounded-full border border-gold/30 bg-night text-gold-light shadow-soft">
+            <ViewModeToggle />
+            <span className="h-5 w-px bg-gold/20" aria-hidden />
             <ThemeToggle />
             <span className="h-5 w-px bg-gold/20" aria-hidden />
             <BackgroundMusic />

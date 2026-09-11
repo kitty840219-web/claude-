@@ -46,16 +46,35 @@ body {
   color: rgb(var(--color-paper));
 }
 
-body.portfolio-site-width {
-  max-width: 860px;
+.site-shell {
+  transition: max-width 0.3s ease, box-shadow 0.3s ease;
 }
 
-body.portfolio-site-width nav[aria-label="主要導覽"] {
-  max-width: 860px;
+html[data-view-mode="mobile"] .site-shell {
+  max-width: 430px;
 }
 
-body.portfolio-site-width .floating-music {
-  right: max(1rem, calc((100vw - 860px) / 2 + 1rem));
+html[data-view-mode="desktop"] .site-shell {
+  max-width: none;
+  box-shadow: none;
+}
+
+html[data-view-mode="mobile"] .site-bottom-nav {
+  max-width: 430px;
+}
+
+html[data-view-mode="desktop"] .site-bottom-nav {
+  max-width: none;
+}
+
+html[data-view-mode="desktop"] .floating-music {
+  right: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  html[data-view-mode="desktop"] main .text-xs { font-size: 0.875rem; }
+  html[data-view-mode="desktop"] main .text-sm { font-size: 1rem; }
+  html[data-view-mode="desktop"] main .text-base { font-size: 1.125rem; }
 }
 
 [data-theme="light"] .night-only-decor {
