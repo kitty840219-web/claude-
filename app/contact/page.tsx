@@ -183,7 +183,7 @@ export default function ContactPage() {
                   <h3 className="font-serif text-base font-bold text-paper">{p.title}</h3>
                   <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
                 </div>
-                {["01", "02"].includes(p.step) && (
+                {["01", "02", "03"].includes(p.step) && (
                   <div className="absolute -bottom-5 right-1 h-32 w-28 sm:right-4 sm:h-40 sm:w-36">
                     <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain object-bottom" sizes="144px" />
                   </div>
