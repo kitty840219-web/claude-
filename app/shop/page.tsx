@@ -4,6 +4,7 @@ import Link from "next/link";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
 import { asset } from "@/lib/basePath";
+import VisualLayoutEditor from "@/components/VisualLayoutEditor";
 
 export const metadata: Metadata = {
   title: `周邊商店 ｜ ${SITE.brand}`,
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 
 export default function ShopPage() {
   return (
+    <VisualLayoutEditor>
     <div>
       <section className="relative overflow-hidden bg-night-dark pb-10 pt-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
@@ -26,7 +28,7 @@ export default function ShopPage() {
               <p className="mt-3 text-sm leading-6 text-paper/70">把語錄裡的溫柔，變成隨身攜帶的小物件</p>
             </div>
             <div className="relative h-44 w-full">
-              <Image src={asset("/images/shop-hero-cutout.webp")} alt="小艾提著周邊商品禮物籃" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="130px" />
+              <Image data-layout-id="shop-hero" data-layout-name="頁首小艾人物" src={asset("/images/shop-hero-cutout.webp")} alt="小艾提著周邊商品禮物籃" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="130px" />
             </div>
           </div>
         </div>
@@ -40,6 +42,8 @@ export default function ShopPage() {
             className="group relative block aspect-square w-full overflow-hidden rounded-[1.5rem] border border-gold/20 transition hover:border-gold/40"
           >
             <Image
+              data-layout-id="phone-case-banner"
+              data-layout-name="手機殼宣傳圖"
               src={asset("/images/phone-cases/collection-banner.webp")}
               alt="療癒插畫手機殼系列，9款透明防撞殼新上市"
               fill
@@ -66,6 +70,8 @@ export default function ShopPage() {
             className="group relative block aspect-square w-full overflow-hidden rounded-[1.5rem] border border-gold/20 transition hover:border-gold/40"
           >
             <Image
+              data-layout-id="sticker-banner"
+              data-layout-name="LINE 貼圖宣傳圖"
               src={asset("/images/shop/line-sticker-banner.webp")}
               alt="相愛相殺日常 LINE 貼圖新上市"
               fill
@@ -82,5 +88,6 @@ export default function ShopPage() {
         </div>
       </section>
     </div>
+    </VisualLayoutEditor>
   );
 }
