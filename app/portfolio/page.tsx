@@ -30,12 +30,12 @@ export default function PortfolioPage() {
   return (
     <div className="w-full overflow-hidden bg-night-dark">
       <section className="bg-stars relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-6xl text-center">
           <div>
             <p className="text-sm font-bold tracking-[0.35em] text-gold-light">IVY LEE · PORTFOLIO</p>
             <h1 className="mt-5 font-serif text-4xl font-bold leading-tight text-paper sm:text-6xl">李宛容<br />數位內容與視覺設計作品集</h1>
-            <p className="mt-6 max-w-xl text-lg leading-9 text-paper/75 sm:text-xl">把企劃、文字、影像與設計整合成完整的品牌體驗，持續探索 AI、互動媒體與商業視覺的更多可能。</p>
-            <div className="mt-7 flex flex-wrap gap-2">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-9 text-paper/75 sm:text-xl">把企劃、文字、影像與設計整合成完整的品牌體驗，持續探索 AI、互動媒體與商業視覺的更多可能。</p>
+            <div className="mt-7 flex flex-wrap justify-center gap-2">
               {SKILLS.map((skill) => <span key={skill} className="rounded-full border border-gold/35 bg-gold/10 px-3 py-2 text-sm font-medium text-gold-light">{skill}</span>)}
             </div>
           </div>
