@@ -6,12 +6,6 @@ import { asset } from "@/lib/basePath";
 import { portfolioImage } from "@/lib/data/portfolio";
 
 const TOTAL_PAGES = 41;
-const CHAPTERS = [
-  { page: 1, label: "封面" }, { page: 3, label: "關於我" }, { page: 9, label: "社群經營" },
-  { page: 13, label: "影音與 AI IP" }, { page: 19, label: "視覺設計" },
-  { page: 37, label: "AR／VR 與 3D" }, { page: 41, label: "未來期許" },
-];
-
 export default function PortfolioGallery() {
   const [page, setPage] = useState(1);
   const [expanded, setExpanded] = useState(false);
@@ -36,21 +30,8 @@ export default function PortfolioGallery() {
   return (
     <section id="portfolio-book" className="scroll-mt-24 bg-night-dark px-3 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center">
-          <p className="text-sm font-bold tracking-[0.3em] text-gold-light">DIGITAL PORTFOLIO</p>
-          <h2 className="mt-3 font-serif text-3xl font-bold text-paper sm:text-5xl">翻閱我的作品集</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-paper/70 sm:text-lg">完整收錄 41 頁作品。使用下方按鈕或鍵盤方向鍵翻頁，也可以直接跳到想看的章節。</p>
-          <a href={asset("/downloads/李宛容-Ivy-數位內容與視覺設計作品集-2026.pptx")} download className="mt-5 inline-flex rounded-full border border-gold/50 px-5 py-2.5 text-sm font-bold text-gold-light transition hover:bg-gold hover:text-night-dark">下載新版 PPT</a>
-        </div>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-2" aria-label="作品集章節">
-          {CHAPTERS.map((chapter, index) => {
-            const active = page >= chapter.page && page < (CHAPTERS[index + 1]?.page ?? TOTAL_PAGES + 1);
-            return <button key={chapter.page} type="button" onClick={() => goTo(chapter.page)} className={`rounded-full border px-3.5 py-2 text-sm font-semibold transition ${active ? "border-gold bg-gold text-night-dark" : "border-gold/30 text-gold-light hover:border-gold"}`}>{chapter.label}</button>;
-          })}
-        </div>
-
-        <div className="mt-7 overflow-hidden rounded-[1.5rem] border border-gold/45 bg-[#0b0928] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+        <h2 className="sr-only">翻閱我的作品集</h2>
+        <div className="overflow-hidden rounded-[1.5rem] border border-gold/45 bg-[#0b0928] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
           <div className="bg-paper"><Image key={page} src={asset(portfolioImage(page))} alt={`李宛容作品集第 ${page} 頁`} width={1600} height={900} sizes="(min-width: 1024px) 1150px, 100vw" className="h-auto w-full" priority={page <= 2} /></div>
           <div className="border-t border-gold/25 px-4 py-4 sm:px-6 sm:py-5">
             <div className="mb-4 flex items-center justify-between gap-3">
