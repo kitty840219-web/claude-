@@ -46,6 +46,18 @@ body {
   color: rgb(var(--color-paper));
 }
 
+body.portfolio-site-width {
+  max-width: 860px;
+}
+
+body.portfolio-site-width nav[aria-label="主要導覽"] {
+  max-width: 860px;
+}
+
+body.portfolio-site-width .floating-music {
+  right: max(1rem, calc((100vw - 860px) / 2 + 1rem));
+}
+
 [data-theme="light"] .night-only-decor {
   display: none;
 }

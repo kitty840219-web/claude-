@@ -22,6 +22,11 @@ export default function PortfolioGallery() {
   const goTo = (nextPage: number) => setPage(Math.min(TOTAL_PAGES, Math.max(1, nextPage)));
 
   useEffect(() => {
+    document.body.classList.add("portfolio-site-width");
+    return () => document.body.classList.remove("portfolio-site-width");
+  }, []);
+
+  useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft") setPage((current) => Math.max(1, current - 1));
       if (event.key === "ArrowRight") setPage((current) => Math.min(TOTAL_PAGES, current + 1));

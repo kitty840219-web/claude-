@@ -30,7 +30,7 @@ const PROJECT_LINKS = [
 
 export default function PortfolioPage() {
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-night-dark">
+    <div className="w-full overflow-hidden bg-night-dark">
       <section className="bg-stars relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(480px,1.18fr)] lg:items-center">
           <div>
