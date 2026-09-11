@@ -193,7 +193,7 @@ function BackgroundMusicInner() {
     startedRef.current = true;
     setPlaying(false);
     setCurrentIndex(index);
-    setShowPlaylist(false);
+    setShowPlaylist(true);
     setShowMv(true);
   }
 
@@ -212,29 +212,8 @@ function BackgroundMusicInner() {
     <>
       <div ref={mountRef} className="pointer-events-none absolute h-px w-px opacity-0" aria-hidden />
 
-      {showMv && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 p-3 sm:p-8" role="dialog" aria-modal="true" aria-label="動畫 MV 播放視窗" onClick={handleCloseMv}>
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-gold/40 bg-black shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <button type="button" onClick={handleCloseMv} aria-label="關閉動畫 MV 並繼續播放音樂" className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gold text-2xl font-bold text-night-dark shadow-lg">×</button>
-            <div className="aspect-video w-full">
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${PLAYLIST_IDS[currentIndex]}?autoplay=1&rel=0`}
-                title={tracks[currentIndex]?.title ?? `艾飛樂動畫 MV ${currentIndex + 1}`}
-                className="h-full w-full"
-                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                allowFullScreen
-              />
-            </div>
-            <div className="bg-night px-5 py-4 pr-16">
-              <p className="truncate font-semibold text-paper">{tracks[currentIndex]?.title ?? `動畫 MV ${currentIndex + 1}`}</p>
-              <p className="mt-1 text-xs text-paper/55">艾飛樂 Aifeiler</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {showPlaylist && (
-        <div className="absolute right-0 top-[calc(100%+10px)] z-50 max-h-[70vh] w-72 overflow-y-auto rounded-2xl border border-gold/30 bg-night p-2 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:w-80">
+        <div className="absolute right-0 top-[calc(100%+10px)] z-50 max-h-[78vh] w-80 overflow-y-auto rounded-2xl border border-gold/30 bg-night p-2 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:w-96">
           <div className="flex items-center justify-between px-2 py-1.5">
             <span className="text-xs font-semibold text-gold-light">播放清單</span>
             <button
@@ -275,6 +254,23 @@ function BackgroundMusicInner() {
                       <button type="button" onClick={() => handleListenTrack(i)} className="rounded-full border border-gold/35 px-3 py-1.5 text-xs font-bold text-gold-light transition hover:bg-gold hover:text-night-dark">♫ 只聽歌曲</button>
                       <button type="button" onClick={() => handleWatchTrack(i)} className="rounded-full bg-gold px-3 py-1.5 text-xs font-bold text-night-dark transition hover:bg-gold-light">▶ 觀看 MV</button>
                     </div>
+                    {isActive && showMv && (
+                      <div className="mt-3 overflow-hidden rounded-xl border border-gold/30 bg-black">
+                        <div className="flex items-center justify-between bg-night-light px-3 py-2">
+                          <span className="truncate pr-2 text-xs font-semibold text-paper">正在播放 MV</span>
+                          <button type="button" onClick={handleCloseMv} className="shrink-0 rounded-full border border-gold/40 px-2.5 py-1 text-[10px] font-bold text-gold-light" aria-label="收起 MV 並繼續播放音樂">收起 MV ×</button>
+                        </div>
+                        <div className="aspect-video w-full">
+                          <iframe
+                            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+                            title={track?.title ?? `艾飛樂動畫 MV ${i + 1}`}
+                            className="h-full w-full"
+                            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                            allowFullScreen
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </li>
               );
