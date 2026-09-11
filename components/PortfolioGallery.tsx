@@ -12,10 +12,6 @@ const CHAPTERS = [
   { page: 37, label: "AR／VR 與 3D" }, { page: 41, label: "未來期許" },
 ];
 
-function chapterFor(page: number) {
-  return [...CHAPTERS].reverse().find((chapter) => page >= chapter.page)?.label ?? "作品集";
-}
-
 export default function PortfolioGallery() {
   const [page, setPage] = useState(1);
   const [expanded, setExpanded] = useState(false);
@@ -54,13 +50,13 @@ export default function PortfolioGallery() {
           })}
         </div>
 
-        <div className="mt-7 overflow-hidden rounded-[1.75rem] border border-gold/35 bg-[#0f0d2f] shadow-[0_28px_80px_rgba(0,0,0,0.4)]">
-          <div className="flex items-center justify-between border-b border-gold/20 px-4 py-3 sm:px-6">
-            <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">{chapterFor(page)}</p><p className="mt-0.5 text-sm text-paper/55">李宛容 Ivy · Portfolio</p></div>
-            <button type="button" onClick={() => setExpanded(true)} className="rounded-full border border-gold/30 px-3 py-2 text-sm font-semibold text-gold-light hover:bg-gold hover:text-night-dark" aria-label="全螢幕放大目前頁面">放大 ↗</button>
-          </div>
-          <div className="bg-black/20 p-2 sm:p-5"><div className="overflow-hidden rounded-xl bg-paper shadow-2xl"><Image key={page} src={asset(portfolioImage(page))} alt={`李宛容作品集第 ${page} 頁`} width={1600} height={900} sizes="(min-width: 1024px) 1100px, 100vw" className="h-auto w-full" priority={page <= 2} /></div></div>
-          <div className="border-t border-gold/20 px-4 py-4 sm:px-6">
+        <div className="mt-7 overflow-hidden rounded-[1.5rem] border border-gold/45 bg-[#0b0928] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+          <div className="bg-paper"><Image key={page} src={asset(portfolioImage(page))} alt={`李宛容作品集第 ${page} 頁`} width={1600} height={900} sizes="(min-width: 1024px) 1150px, 100vw" className="h-auto w-full" priority={page <= 2} /></div>
+          <div className="border-t border-gold/25 px-4 py-4 sm:px-6 sm:py-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <p className="text-xs font-bold tracking-[0.2em] text-gold-light">李宛容 IVY · PORTFOLIO</p>
+              <button type="button" onClick={() => setExpanded(true)} className="rounded-full border border-gold/35 px-3 py-2 text-sm font-semibold text-gold-light transition hover:bg-gold hover:text-night-dark" aria-label="全螢幕放大目前頁面">全螢幕 ↗</button>
+            </div>
             <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-paper/10"><div className="h-full rounded-full bg-gold transition-all" style={{ width: `${(page / TOTAL_PAGES) * 100}%` }} /></div>
             <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
               <button type="button" onClick={() => goTo(page - 1)} disabled={page === 1} className="justify-self-start rounded-full border border-gold/35 px-3 py-2.5 text-sm font-bold text-gold-light disabled:cursor-not-allowed disabled:opacity-30 sm:px-4">← 上一頁</button>
