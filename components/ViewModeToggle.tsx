@@ -10,12 +10,22 @@ export default function ViewModeToggle() {
     const frame = window.requestAnimationFrame(() => {
       setMode(document.documentElement.dataset.viewMode === "desktop" ? "desktop" : "mobile");
     });
-    return () => window.cancelAnimationFrame(frame);
+    const followDevice = () => {
+      if (sessionStorage.getItem(VIEW_MODE_STORAGE_KEY)) return;
+      const nextMode: ViewMode = window.innerWidth >= 768 ? "desktop" : "mobile";
+      document.documentElement.dataset.viewMode = nextMode;
+      setMode(nextMode);
+    };
+    window.addEventListener("resize", followDevice);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", followDevice);
+    };
   }, []);
 
   function selectMode(nextMode: ViewMode) {
     document.documentElement.dataset.viewMode = nextMode;
-    localStorage.setItem(VIEW_MODE_STORAGE_KEY, nextMode);
+    sessionStorage.setItem(VIEW_MODE_STORAGE_KEY, nextMode);
     setMode(nextMode);
     window.scrollTo({ left: 0 });
   }
