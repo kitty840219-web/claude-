@@ -66,11 +66,18 @@ const SERVICE_ART = [
   "/images/home-video.webp",
 ];
 
+const CONTACT_VALUE_ART = [
+  "/images/contact-quality-cutout.png",
+  "/images/contact-fast-delivery-cutout.png",
+  "/images/contact-communication-cutout.png",
+  "/images/contact-transparent-price-cutout.png",
+];
+
 const PROCESS = [
-  { step: "01", title: "傳送需求", desc: "透過 Email 或 LINE 告訴我您的想法與用途" },
-  { step: "02", title: "討論規劃", desc: "確認風格、尺寸、交件時間與報價" },
-  { step: "03", title: "草稿確認", desc: "提供草稿供您確認方向，可進行一次調整" },
-  { step: "04", title: "完稿交付", desc: "完成上色與細節，交付最終檔案" },
+  { step: "01", title: "傳送需求", desc: "透過 Email 或 LINE 告訴我您的想法與用途", art: "/images/contact-process-send-cutout.png" },
+  { step: "02", title: "討論規劃", desc: "確認風格、尺寸、交件時間與報價", art: "/images/contact-process-plan-cutout.png" },
+  { step: "03", title: "草稿確認", desc: "提供草稿供您確認方向，可進行一次調整", art: "/images/contact-process-draft-cutout.png" },
+  { step: "04", title: "完稿交付", desc: "完成上色與細節，交付最終檔案", art: "/images/contact-process-delivery-cutout.png" },
 ];
 
 export default function ContactPage() {
@@ -95,10 +102,15 @@ export default function ContactPage() {
           </div>
 
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
-            {CHIPS.map((c) => (
-              <div key={c.t} className="rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card">
-                <p className="text-sm font-bold text-paper">{c.t}</p>
-                <p className="mt-1 text-xs leading-relaxed text-paper/60">{c.d}</p>
+            {CHIPS.map((c, index) => (
+              <div key={c.t} className="relative min-h-40 overflow-hidden rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card sm:min-h-48">
+                <div className="relative z-10 max-w-[62%]">
+                  <p className="text-sm font-bold text-paper">{c.t}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-paper/60">{c.d}</p>
+                </div>
+                <div className="absolute -bottom-3 -right-3 h-32 w-28 sm:h-40 sm:w-36">
+                  <Image src={asset(CONTACT_VALUE_ART[index])} alt={`小艾呈現${c.t}`} fill className="object-contain object-bottom" sizes="144px" />
+                </div>
               </div>
             ))}
           </div>
@@ -163,13 +175,16 @@ export default function ContactPage() {
           <div className="relative mt-10 grid gap-4">
             <div className="pointer-events-none absolute bottom-10 left-7 top-10 w-px bg-gold/25" />
             {PROCESS.map((p) => (
-              <div key={p.step} className="relative grid grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4 text-left shadow-card">
+              <div key={p.step} className="relative grid min-h-32 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 overflow-hidden rounded-2xl border border-gold/15 bg-night-light/20 p-4 pr-28 text-left shadow-card sm:pr-40">
                 <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
                   {p.step}
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-serif text-base font-bold text-paper">{p.title}</h3>
                   <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
+                </div>
+                <div className="absolute -bottom-5 right-1 h-32 w-28 sm:right-4 sm:h-40 sm:w-36">
+                  <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain object-bottom" sizes="144px" />
                 </div>
               </div>
             ))}
