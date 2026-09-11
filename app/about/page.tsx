@@ -65,6 +65,22 @@ export default function AboutPage() {
                   <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
                   <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
                 </div>
+                {i === 1 && (
+                  <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
+                    <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">PODCAST</p>
+                    <h4 className="mt-1 font-serif text-sm font-bold text-paper">第二次 Podcast 專訪</h4>
+                    <div className="relative mt-3 aspect-video overflow-hidden rounded-xl bg-black">
+                      <iframe
+                        title="第二次 Podcast 專訪"
+                        src="https://www.youtube.com/embed/RUH_crJE5Es"
+                        className="absolute inset-0 h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                )}
                 {i === 2 && (
                   <div className="relative mt-6 flex items-center gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4">
                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
