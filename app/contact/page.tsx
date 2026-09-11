@@ -78,16 +78,23 @@ export default function ContactPage() {
     <div>
       <section className="relative overflow-hidden bg-night-dark pb-12 pt-20 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
-        <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-          <div className="mb-4 flex items-center justify-center gap-2">
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="mx-auto grid max-w-4xl items-center gap-6 md:grid-cols-[1fr_18rem] md:text-left">
+            <div>
+          <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
             <Star className="h-3 w-3 text-gold-light" />
             <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">CONTACT</p>
             <Star className="h-3 w-3 text-gold-light" delay="1s" />
           </div>
           <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">洽談合作</h1>
           <p className="mt-4 text-paper/70">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
+            </div>
+            <div className="relative mx-auto h-64 w-64 md:h-72 md:w-72">
+              <Image src={asset("/images/contact-collaboration-cutout.png")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="288px" />
+            </div>
+          </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-3 text-left sm:grid-cols-4">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
             {CHIPS.map((c) => (
               <div key={c.t} className="rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card">
                 <p className="text-sm font-bold text-paper">{c.t}</p>
