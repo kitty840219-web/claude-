@@ -27,7 +27,7 @@ export default function ShopPage() {
               <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">周邊商店</h1>
               <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">把語錄裡的溫柔，變成隨身攜帶的小物件</p>
             </div>
-            <div className="relative h-44 w-full">
+            <div className="animate-float-slow relative h-44 w-full">
               <Image data-layout-id="shop-hero" data-layout-name="頁首小艾人物" src={asset("/images/shop-hero-cutout.webp")} alt="小艾提著周邊商品禮物籃" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="130px" />
             </div>
           </div>

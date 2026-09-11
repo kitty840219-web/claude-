@@ -25,7 +25,7 @@ export default function AboutPage() {
 
       <section className="relative overflow-hidden bg-night-dark">
         <div className="bg-stars relative px-5 py-10 text-center">
-          <div className="absolute right-4 top-2 h-20 w-20 sm:right-10 sm:top-4 sm:h-28 sm:w-28">
+          <div className="animate-float-slow absolute right-4 top-2 h-20 w-20 sm:right-10 sm:top-4 sm:h-28 sm:w-28">
             <Image src={asset("/images/about-story-xiaoai-cutout.webp")} alt="小艾揮手打招呼" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="112px" />
           </div>
           <div className="mb-3 flex items-center justify-center gap-2">
@@ -86,7 +86,7 @@ export default function AboutPage() {
                 像是在傾聽每個人的心事——這份安靜而溫暖的陪伴感，正是艾飛樂語錄想帶給每位讀者的感受。
               </p>
             </div>
-            <div className="relative h-44 w-full sm:h-60">
+            <div className="animate-float-slow relative h-44 w-full sm:h-60">
               <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="(min-width: 640px) 180px, 112px" />
             </div>
           </div>

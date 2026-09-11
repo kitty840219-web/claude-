@@ -96,7 +96,7 @@ export default function ContactPage() {
           <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">洽談合作</h1>
           <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
             </div>
-            <div className="relative mx-auto h-64 w-64 md:h-72 md:w-72">
+            <div className="animate-float-slow relative mx-auto h-64 w-64 md:h-72 md:w-72">
               <Image src={asset("/images/contact-collaboration-cutout.webp")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="288px" />
             </div>
           </div>
