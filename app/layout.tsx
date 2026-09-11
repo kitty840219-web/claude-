@@ -56,7 +56,7 @@ export default function RootLayout({
       lang="zh-Hant"
       className={`${notoSerifTC.variable} ${notoSansTC.variable} ${maShanZheng.variable}`}
     >
-      <body className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-night-dark font-sans text-paper shadow-[0_0_60px_rgba(0,0,0,0.4)] antialiased">
+      <body className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col overflow-x-hidden bg-night-dark font-sans text-paper shadow-[0_0_60px_rgba(0,0,0,0.4)] antialiased">
         <Script id="theme-init" strategy="beforeInteractive">
           {THEME_INIT_SCRIPT}
         </Script>
