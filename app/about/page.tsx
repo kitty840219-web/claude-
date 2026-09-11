@@ -65,7 +65,7 @@ export default function AboutPage() {
                   <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
                   <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
                 </div>
-                {i === 0 && (
+                {i === 2 && (
                   <div className="relative mt-6 flex items-center gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4">
                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
                       <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-cover" sizes="64px" />
