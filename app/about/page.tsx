@@ -52,6 +52,22 @@ export default function AboutPage() {
             />
           </div>
         </div>
+
+        {/* Timeline */}
+        <div className="relative mx-auto max-w-4xl px-5 pb-12 sm:px-8">
+          <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
+          <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8 text-left">
+            {TIMELINE.map((t) => (
+              <div key={t.title} className="relative">
+                <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
+                <p className="text-xs font-semibold tracking-widest text-gold-light">{t.year}</p>
+                <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
+                <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="grid gap-4 px-5 pb-12 sm:grid-cols-2 sm:px-8">
           <Link href="/portfolio/#portfolio-book" className="group overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
             <div className="aspect-video overflow-hidden bg-paper">
@@ -89,24 +105,6 @@ export default function AboutPage() {
             <div className="animate-float-slow relative h-44 w-full sm:h-60">
               <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="(min-width: 640px) 180px, 112px" />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="relative overflow-hidden bg-night-dark px-4 py-20 sm:px-6">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto max-w-4xl">
-          <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
-          <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8">
-            {TIMELINE.map((t) => (
-              <div key={t.title} className="relative">
-                <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
-                <p className="text-xs font-semibold tracking-widest text-gold-light">{t.year}</p>
-                <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
-                <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
