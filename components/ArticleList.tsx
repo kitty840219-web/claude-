@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { Article } from "@/lib/data/articles";
 import Star from "@/components/Star";
 import TagChip from "@/components/TagChip";
+import { asset } from "@/lib/basePath";
 
 export default function ArticleList({ articles }: { articles: Article[] }) {
   const [selected, setSelected] = useState<Article | null>(null);
@@ -26,16 +28,23 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
             key={a.id}
             type="button"
             onClick={() => setSelected(a)}
-            className="bg-grain group relative block w-full overflow-hidden rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
+            className="bg-grain group relative block min-h-64 w-full overflow-hidden rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
           >
             <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-            <div className="relative flex items-center justify-between gap-3">
+            <div className={a.image ? "relative z-10 max-w-[68%]" : "relative z-10"}>
+            <div className="flex items-center justify-between gap-3">
               <TagChip tone="gold">{a.tag}</TagChip>
               <span className="text-xs text-paper/40">{a.date}</span>
             </div>
-            <h3 className="relative mt-3 font-serif text-lg font-bold text-paper sm:text-xl">{a.title}</h3>
-            <p className="relative mt-2 text-sm leading-relaxed text-paper/70">{a.excerpt}</p>
-            <p className="relative mt-4 text-xs font-semibold text-gold-light">閱讀全文 →</p>
+            <h3 className="mt-3 font-serif text-lg font-bold text-paper sm:text-xl">{a.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-paper/70">{a.excerpt}</p>
+            <p className="mt-4 text-xs font-semibold text-gold-light">閱讀全文 →</p>
+            </div>
+            {a.image && (
+              <span className="pointer-events-none absolute -bottom-3 right-1 h-48 w-36 sm:right-4 sm:w-40">
+                <Image src={asset(a.image)} alt="" fill className="object-contain object-bottom" sizes="160px" />
+              </span>
+            )}
           </button>
         ))}
       </div>
