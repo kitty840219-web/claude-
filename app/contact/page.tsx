@@ -103,7 +103,7 @@ export default function ContactPage() {
 
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
             {CHIPS.map((c, index) => (
-              <div key={c.t} className="relative min-h-36 rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card sm:min-h-40">
+              <div key={c.t} className="relative min-h-36 rounded-2xl bg-night-light/25 p-4 shadow-card sm:min-h-40">
                 <div className="relative z-10 max-w-[64%]">
                   <p className="text-sm font-bold leading-snug text-paper sm:text-base">{c.t}</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-paper/70 sm:text-sm">{c.d}</p>
@@ -151,7 +151,7 @@ export default function ContactPage() {
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group relative min-h-36 rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-6 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+                className="group relative min-h-36 rounded-[1.75rem] bg-night-light/25 p-6 shadow-card transition hover:-translate-y-1 hover:bg-night-light/35"
               >
                 <span className="relative z-10 block w-[66%]">
                   <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
@@ -175,7 +175,7 @@ export default function ContactPage() {
           <div className="relative mt-10 grid gap-4">
             <div className="pointer-events-none absolute bottom-10 left-7 top-10 w-px bg-gold/25" />
             {PROCESS.map((p) => (
-              <div key={p.step} className="relative grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4 pr-24 text-left shadow-card sm:pr-28">
+              <div key={p.step} className="relative grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl bg-night-light/25 p-4 pr-24 text-left shadow-card sm:pr-28">
                 <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
                   {p.step}
                 </div>

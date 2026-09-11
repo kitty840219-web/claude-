@@ -28,7 +28,7 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
             key={a.id}
             type="button"
             onClick={() => setSelected(a)}
-            className="bg-grain group relative block min-h-56 w-full rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
+            className="bg-grain group relative block min-h-56 w-full rounded-2xl bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:-translate-y-1"
           >
             <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
             <div className={a.image ? "relative z-10 max-w-[70%]" : "relative z-10"}>

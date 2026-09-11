@@ -98,18 +98,21 @@ html[data-view-mode="desktop"] .floating-music {
      desktop without needing per-page overrides. Mirrors the mobile scale
      1:1 by category (eyebrow/content/subtitle/title) so every page ends up
      with the same desktop sizing for the same role. */
-  html[data-view-mode="desktop"] main .text-\[10px\] { font-size: 0.75rem; }
-  html[data-view-mode="desktop"] main .text-\[11px\] { font-size: 0.8125rem; }
-  html[data-view-mode="desktop"] main .text-xs { font-size: 0.875rem; }
-  html[data-view-mode="desktop"] main .text-sm { font-size: 1rem; }
-  html[data-view-mode="desktop"] main .text-base { font-size: 1.125rem; }
-  html[data-view-mode="desktop"] main .text-lg { font-size: 1.25rem; }
-  html[data-view-mode="desktop"] main .text-xl { font-size: 1.5rem; }
-  html[data-view-mode="desktop"] main .text-2xl { font-size: 1.75rem; }
-  html[data-view-mode="desktop"] main .text-3xl { font-size: 2.5rem; }
-  html[data-view-mode="desktop"] main .text-4xl { font-size: 3rem; }
-  html[data-view-mode="desktop"] main .text-5xl { font-size: 3.5rem; }
-  html[data-view-mode="desktop"] main .text-6xl { font-size: 4.25rem; }
+  html[data-view-mode="desktop"] main .text-\[10px\] { font-size: 0.8125rem; }
+  html[data-view-mode="desktop"] main .text-\[11px\] { font-size: 0.875rem; }
+  html[data-view-mode="desktop"] main .text-xs { font-size: 1rem; }
+  html[data-view-mode="desktop"] main .text-sm { font-size: 1.15rem; }
+  html[data-view-mode="desktop"] main .text-base { font-size: 1.3rem; }
+  html[data-view-mode="desktop"] main .text-lg { font-size: 1.5rem; }
+  html[data-view-mode="desktop"] main .text-xl { font-size: 1.75rem; }
+  html[data-view-mode="desktop"] main .text-2xl { font-size: 2.1rem; }
+  html[data-view-mode="desktop"] main .text-3xl { font-size: 2.9rem; }
+  html[data-view-mode="desktop"] main .text-4xl { font-size: 3.4rem; }
+  html[data-view-mode="desktop"] main .text-5xl { font-size: 4rem; }
+  html[data-view-mode="desktop"] main .text-6xl { font-size: 4.75rem; }
+  html[data-view-mode="desktop"] main .leading-relaxed { line-height: 1.85; }
+  html[data-view-mode="desktop"] main .leading-6 { line-height: 2rem; }
+  html[data-view-mode="desktop"] main .leading-7 { line-height: 2.15rem; }
 }
 
 [data-theme="light"] .night-only-decor {

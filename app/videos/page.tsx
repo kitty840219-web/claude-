@@ -33,7 +33,7 @@ export default function VideosPage() {
               <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">影音創作</h1>
               <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">用影像記錄插畫誕生的每個瞬間</p>
             </div>
-            <div className="relative h-44 w-full overflow-hidden rounded-2xl border border-gold/20 shadow-soft">
+            <div className="relative h-44 w-full overflow-hidden rounded-2xl shadow-soft">
               <Image src={asset("/images/journey-camera.webp")} alt="小艾拿著攝影機拍攝" fill className="object-cover" sizes="130px" />
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function VideosPage() {
           <SectionHeading eyebrow="TOPICS" title="影片主題方向" center />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {VIDEO_TOPICS.map((v) => (
-              <div key={v.title} className="rounded-2xl border border-gold/15 bg-night-light/20 p-6 shadow-card">
+              <div key={v.title} className="rounded-2xl bg-night-light/25 p-6 shadow-card">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gold text-night-dark">
                   <SocialIcon type="youtube" className="h-4 w-4" />
                 </div>
