@@ -57,12 +57,26 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-4xl px-5 pb-12 sm:px-8">
           <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
           <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8 text-left">
-            {TIMELINE.map((t) => (
-              <div key={t.title} className="relative">
-                <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
-                <p className="text-xs font-semibold tracking-widest text-gold-light">{t.year}</p>
-                <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
-                <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
+            {TIMELINE.map((t, i) => (
+              <div key={t.title}>
+                <div className="relative">
+                  <span className="absolute -left-[38px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold shadow" />
+                  <p className="text-xs font-semibold tracking-widest text-gold-light">{t.year}</p>
+                  <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
+                  <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
+                </div>
+                {i === 0 && (
+                  <div className="relative mt-6 flex items-center gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
+                      <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-cover" sizes="64px" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">BRAND CHARACTER</p>
+                      <h4 className="mt-1 font-serif text-sm font-bold text-paper">艾飛樂的 IP 角色</h4>
+                      <p className="mt-1 text-xs leading-relaxed text-paper/60">戴著草帽、綁著雙辮，靜靜微笑、雙手合十的女孩，是艾飛樂的品牌代言角色。</p>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -87,25 +101,6 @@ export default function AboutPage() {
               <span className="text-2xl text-gold-light">↗</span>
             </div>
           </Link>
-        </div>
-      </section>
-
-      {/* Brand character */}
-      <section className="relative overflow-hidden bg-night-dark py-20">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto max-w-5xl px-6 sm:px-10">
-          <div className="grid grid-cols-[minmax(0,1fr)_112px] items-center gap-4 sm:grid-cols-[minmax(0,1fr)_180px] sm:gap-8">
-            <div className="min-w-0">
-              <SectionHeading eyebrow="BRAND CHARACTER" title="艾飛樂的 IP 角色" />
-              <p className="mt-4 text-sm leading-loose text-paper/70 sm:text-base">
-                戴著草帽、綁著雙辮的女孩，是艾飛樂的品牌代言角色。她總是靜靜微笑、雙手合十，
-                像是在傾聽每個人的心事——這份安靜而溫暖的陪伴感，正是艾飛樂語錄想帶給每位讀者的感受。
-              </p>
-            </div>
-            <div className="animate-float-slow relative h-44 w-full sm:h-60">
-              <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="(min-width: 640px) 180px, 112px" />
-            </div>
-          </div>
         </div>
       </section>
 
