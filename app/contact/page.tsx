@@ -150,18 +150,16 @@ export default function ContactPage() {
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group flex min-h-36 items-center gap-4 rounded-[1.75rem] bg-night-light/25 p-6 shadow-card transition hover:-translate-y-1 hover:bg-night-light/35"
+                className="group flex min-h-36 flex-col items-center rounded-[1.75rem] bg-night-light/25 p-6 text-center shadow-card transition hover:-translate-y-1 hover:bg-night-light/35"
               >
-                <span className="block min-w-0 flex-1">
-                  <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
-                  <span className="mt-4 block text-xs font-semibold tracking-[0.2em] text-gold-light">{c.label}</span>
-                  <span className="mt-2 block font-serif text-base font-bold text-paper sm:text-lg">{c.title}</span>
-                  <span className="mt-2 block break-all text-sm text-paper/70">{c.value}</span>
-                  <span className="mt-5 block text-xs font-semibold text-gold-light sm:text-sm">{c.cta}</span>
-                </span>
-                <span className="relative h-28 w-24 shrink-0 transition duration-500 group-hover:scale-105 sm:h-32 sm:w-28">
+                <span className="relative h-24 w-24 shrink-0 transition duration-500 group-hover:scale-105 sm:h-28 sm:w-28">
                   <Image src={asset(c.art)} alt="" fill className="object-contain" sizes="112px" />
                 </span>
+                <SocialIcon type={c.icon} className="mt-2 h-6 w-6 text-paper" />
+                <span className="mt-3 block text-xs font-semibold tracking-[0.2em] text-gold-light">{c.label}</span>
+                <span className="mt-2 block font-serif text-base font-bold text-paper sm:text-lg">{c.title}</span>
+                <span className="mt-2 block break-all text-sm text-paper/70">{c.value}</span>
+                <span className="mt-5 block text-xs font-semibold text-gold-light sm:text-sm">{c.cta}</span>
               </a>
             ))}
           </div>
