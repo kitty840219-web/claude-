@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import PortfolioGallery from "@/components/PortfolioGallery";
-import { asset } from "@/lib/basePath";
-import { portfolioImage } from "@/lib/data/portfolio";
+import AifeilerBookReader from "@/components/AifeilerBookReader";
 
 export const metadata: Metadata = {
   title: "李宛容 Ivy｜數位內容與視覺設計作品集",
@@ -32,7 +30,7 @@ export default function PortfolioPage() {
   return (
     <div className="w-full overflow-hidden bg-night-dark">
       <section className="bg-stars relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(480px,1.18fr)] lg:items-center">
+        <div className="mx-auto max-w-6xl">
           <div>
             <p className="text-sm font-bold tracking-[0.35em] text-gold-light">IVY LEE · PORTFOLIO</p>
             <h1 className="mt-5 font-serif text-4xl font-bold leading-tight text-paper sm:text-6xl">李宛容<br />數位內容與視覺設計作品集</h1>
@@ -40,13 +38,11 @@ export default function PortfolioPage() {
             <div className="mt-7 flex flex-wrap gap-2">
               {SKILLS.map((skill) => <span key={skill} className="rounded-full border border-gold/35 bg-gold/10 px-3 py-2 text-sm font-medium text-gold-light">{skill}</span>)}
             </div>
-            <a href="#portfolio-book" className="mt-9 inline-flex items-center rounded-full bg-gold px-6 py-3 text-base font-bold text-night-dark shadow-soft transition hover:bg-gold-light">開啟電子作品集 ↓</a>
           </div>
-          <button type="button" className="overflow-hidden rounded-[2rem] border border-gold/25 bg-paper shadow-[0_28px_80px_rgba(0,0,0,0.35)]" aria-label="作品集封面">
-            <Image src={asset(portfolioImage(1))} alt="李宛容個人作品集封面" width={1600} height={900} priority sizes="(min-width: 1024px) 55vw, 100vw" className="h-auto w-full" />
-          </button>
         </div>
       </section>
+
+      <PortfolioGallery />
 
       <section className="bg-paper px-5 py-14 text-ink sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
@@ -92,21 +88,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <PortfolioGallery />
-
-      <section className="bg-paper px-5 py-16 text-ink sm:px-8 sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
-          <div>
-            <p className="text-sm font-bold tracking-[0.3em] text-gold-dark">NEXT CHAPTER</p>
-            <h2 className="mt-3 font-serif text-3xl font-bold sm:text-5xl">未來期許</h2>
-            <p className="mt-5 text-base leading-8 text-ink/70 sm:text-lg">期望未來的工作能結合創意與實務，持續探索 AI、互動設計與影音整合，也期待在團隊裡找到彼此互補的位置，一起完成有溫度、有影響力的作品。</p>
-            <a href="mailto:kitty840219@gmail.com" className="mt-7 inline-flex rounded-full bg-night-dark px-6 py-3 text-base font-bold text-gold-light">聯絡 Ivy</a>
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-ink/10 shadow-xl">
-            <Image src={asset(portfolioImage(41))} alt="李宛容作品集未來期許" width={1600} height={900} sizes="(min-width: 1024px) 55vw, 100vw" className="h-auto w-full" />
-          </div>
-        </div>
-      </section>
+      <AifeilerBookReader />
     </div>
   );
 }

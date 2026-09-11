@@ -44,6 +44,7 @@ export default function PortfolioGallery() {
           <p className="text-sm font-bold tracking-[0.3em] text-gold-light">DIGITAL PORTFOLIO</p>
           <h2 className="mt-3 font-serif text-3xl font-bold text-paper sm:text-5xl">翻閱我的作品集</h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-paper/70 sm:text-lg">完整收錄 41 頁作品。使用下方按鈕或鍵盤方向鍵翻頁，也可以直接跳到想看的章節。</p>
+          <a href={asset("/downloads/李宛容-Ivy-數位內容與視覺設計作品集-2026.pptx")} download className="mt-5 inline-flex rounded-full border border-gold/50 px-5 py-2.5 text-sm font-bold text-gold-light transition hover:bg-gold hover:text-night-dark">下載新版 PPT</a>
         </div>
 
         <div className="mt-8 flex flex-wrap justify-center gap-2" aria-label="作品集章節">
