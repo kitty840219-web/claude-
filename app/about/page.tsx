@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
@@ -48,13 +49,25 @@ export default function AboutPage() {
             />
           </div>
         </div>
-        <div className="relative aspect-square w-full">
-          <Image
-            src={asset("/images/xiaoai-03-about-page.webp")}
-            alt="小艾站在畫架前，手拿畫筆與水彩調色盤"
-            fill
-            className="object-cover object-[center_0%]"
-          />
+        <div className="grid gap-4 px-5 pb-12 sm:grid-cols-2 sm:px-8">
+          <Link href="/portfolio/#portfolio-book" className="group overflow-hidden rounded-3xl border border-gold/35 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold">
+            <div className="aspect-video overflow-hidden bg-paper">
+              <Image src={asset("/images/portfolio/portfolio-01.webp")} alt="李宛容數位內容與視覺設計作品集預覽" width={1600} height={900} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" />
+            </div>
+            <div className="flex items-center justify-between gap-3 px-5 py-4">
+              <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">PORTFOLIO</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">翻閱作品集 PPT</h3></div>
+              <span className="text-2xl text-gold-light">↗</span>
+            </div>
+          </Link>
+          <Link href="/portfolio/#aifeiler-book" className="group overflow-hidden rounded-3xl border border-gold/35 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold">
+            <div className="aspect-video overflow-hidden bg-[#efe4d2]">
+              <Image src={asset("/images/aifeiler-book/book-001.webp")} alt="《遺落在風中的信》電子書封面預覽" width={720} height={1023} className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" />
+            </div>
+            <div className="flex items-center justify-between gap-3 px-5 py-4">
+              <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">E-BOOK</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">閱讀《遺落在風中的信》</h3></div>
+              <span className="text-2xl text-gold-light">↗</span>
+            </div>
+          </Link>
         </div>
       </section>
 
