@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import LineGuideCarousel from "@/components/LineGuideCarousel";
 import Star from "@/components/Star";
 import { LINKS, SITE } from "@/lib/data/site";
+import { asset } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: `如何使用官方 LINE ｜ ${SITE.brand}`,
@@ -28,12 +30,15 @@ export default function LineGuidePage() {
       <section className="relative overflow-hidden bg-night-dark pb-10 pt-20">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-          <div className="rounded-[2rem] bg-night-light/15 px-6 py-7">
+          <div className="relative rounded-[2rem] bg-night-light/15 px-6 py-7">
+            <div className="animate-float-slow absolute right-4 top-4 h-24 w-24 sm:right-8 sm:h-32 sm:w-32">
+              <Image src={asset("/images/contact-line-friend-cutout.webp")} alt="小艾拿著手機開心使用 LINE" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="128px" />
+            </div>
             <div className="mb-4 flex items-center gap-2">
               <Star className="h-3 w-3 text-gold-light" />
               <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">LINE GUIDE</p>
             </div>
-            <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">如何使用官方 LINE</h1>
+            <h1 className="pr-24 font-serif text-3xl font-bold text-paper sm:pr-32 sm:text-4xl">如何使用官方 LINE</h1>
             <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">
               加入官方 LINE 後，跟著這份教學，就能看選單功能、領取大眾占卜與心理測驗。
             </p>
