@@ -67,16 +67,20 @@ export default function PricingPage() {
     <div className={`${styles.page} ${dmSerif.variable} ${dmMono.variable}`}>
       <div className={styles.leader}>
         <div className={`${styles.wrap} ${styles.hero}`}>
-          <div className={styles.eyebrow} style={{ marginBottom: 14 }}>
-            SERVICE RATE CARD — 2026
-          </div>
-          <h1>
-            插畫 <span>×</span> 剪輯 <span>×</span> 設計
-            <br />
-            一站服務報價
-          </h1>
-          <div className={styles.heroArt}>
-            <Image src={asset("/images/pricing-guide-cutout.webp")} alt="小艾介紹服務規劃" fill sizes="190px" />
+          <div className={styles.heroTop}>
+            <div>
+              <div className={styles.eyebrow} style={{ marginBottom: 14 }}>
+                SERVICE RATE CARD — 2026
+              </div>
+              <h1>
+                插畫 <span>×</span> 剪輯 <span>×</span> 設計
+                <br />
+                一站服務報價
+              </h1>
+            </div>
+            <div className={styles.heroArt}>
+              <Image src={asset("/images/pricing-guide-cutout.webp")} alt="小艾介紹服務規劃" fill sizes="160px" />
+            </div>
           </div>
           <p className={styles.heroSub}>
             語錄插畫、周邊設計、短影音剪輯、品牌視覺一手包辦。個人工作室接案，溝通直接、報價透明。
