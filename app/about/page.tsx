@@ -25,6 +25,9 @@ export default function AboutPage() {
 
       <section className="relative overflow-hidden bg-night-dark">
         <div className="bg-stars relative px-5 py-10 text-center">
+          <div className="absolute right-4 top-2 h-20 w-20 sm:right-10 sm:top-4 sm:h-28 sm:w-28">
+            <Image src={asset("/images/about-story-xiaoai-cutout.webp")} alt="小艾揮手打招呼" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="112px" />
+          </div>
           <div className="mb-3 flex items-center justify-center gap-2">
             <Star className="h-3 w-3 text-gold-light" />
             <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">ABOUT</p>
