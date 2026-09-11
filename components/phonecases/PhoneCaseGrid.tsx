@@ -25,7 +25,7 @@ export default function PhoneCaseGrid({ cases, shopHref }: { cases: PhoneCase[];
             key={c.key}
             type="button"
             onClick={() => setSelected(c)}
-            className="group overflow-hidden rounded-2xl border border-gold/15 bg-night-light/20 text-left shadow-card transition hover:border-gold/40"
+            className="group overflow-hidden rounded-2xl border border-gold/20 bg-night-light/20 text-left shadow-card transition hover:border-gold/40"
           >
             <div className="relative aspect-square w-full overflow-hidden bg-night-light/10">
               <Image

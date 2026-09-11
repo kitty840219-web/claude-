@@ -105,7 +105,7 @@ export default function ContactPage() {
             {CHIPS.map((c, index) => (
               <div key={c.t} className="relative min-h-36 rounded-2xl bg-night-light/25 p-4 shadow-card sm:min-h-40">
                 <div className="relative z-10 max-w-[64%]">
-                  <p className="text-sm font-bold leading-snug text-paper sm:text-base">{c.t}</p>
+                  <p className="text-base font-bold leading-snug text-paper sm:text-lg">{c.t}</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-paper/70 sm:text-sm">{c.d}</p>
                 </div>
                 <div className="absolute -bottom-2 -right-2 z-20 h-24 w-20 sm:h-28 sm:w-24">
@@ -156,7 +156,7 @@ export default function ContactPage() {
                 <span className="relative z-10 block w-[66%]">
                   <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
                   <span className="mt-4 block text-xs font-semibold tracking-[0.2em] text-gold-light">{c.label}</span>
-                  <span className="mt-2 block font-serif text-lg font-bold text-paper sm:text-xl">{c.title}</span>
+                  <span className="mt-2 block font-serif text-base font-bold text-paper sm:text-lg">{c.title}</span>
                   <span className="mt-2 block break-all text-sm text-paper/70">{c.value}</span>
                   <span className="mt-5 block text-xs font-semibold text-gold-light sm:text-sm">{c.cta}</span>
                 </span>

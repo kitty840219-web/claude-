@@ -50,7 +50,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="grid gap-4 px-5 pb-12 sm:grid-cols-2 sm:px-8">
-          <Link href="/portfolio/#portfolio-book" className="group overflow-hidden rounded-3xl border border-gold/35 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold">
+          <Link href="/portfolio/#portfolio-book" className="group overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
             <div className="aspect-video overflow-hidden bg-paper">
               <Image src={asset("/images/portfolio/portfolio-01.webp")} alt="李宛容數位內容與視覺設計作品集預覽" width={1600} height={900} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" />
             </div>
@@ -59,7 +59,7 @@ export default function AboutPage() {
               <span className="text-2xl text-gold-light">↗</span>
             </div>
           </Link>
-          <Link href="/portfolio/#aifeiler-book" className="group overflow-hidden rounded-3xl border border-gold/35 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold">
+          <Link href="/portfolio/#aifeiler-book" className="group overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
             <div className="aspect-video overflow-hidden bg-[#efe4d2]">
               <Image src={asset("/images/aifeiler-book/book-001.webp")} alt="《遺落在風中的信》電子書封面預覽" width={720} height={1023} className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" />
             </div>

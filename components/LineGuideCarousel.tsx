@@ -31,7 +31,7 @@ export default function LineGuideCarousel({ steps }: { steps: Step[] }) {
         <div
           ref={trackRef}
           onScroll={handleScroll}
-          className="flex w-full snap-x snap-mandatory overflow-x-auto rounded-2xl border border-gold/15 bg-night-light/20 shadow-card [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex w-full snap-x snap-mandatory overflow-x-auto rounded-2xl border border-gold/20 bg-night-light/20 shadow-card [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {steps.map((s) => (
             <div key={s.src} className="relative aspect-square w-full shrink-0 snap-center">

@@ -81,7 +81,7 @@ export default function PortfolioPage() {
           <h2 className="mt-3 font-serif text-3xl font-bold text-paper sm:text-4xl">代表作品連結</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {PROJECT_LINKS.map((link) => (
-              <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className="group rounded-2xl border border-gold/25 bg-night-light/70 p-5 transition hover:-translate-y-1 hover:border-gold/70 hover:bg-night-light">
+              <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className="group rounded-2xl border border-gold/20 bg-night-light/70 p-5 transition hover:-translate-y-1 hover:border-gold/40 hover:bg-night-light">
                 <div className="flex items-center justify-between gap-3"><h3 className="text-lg font-bold text-paper">{link.label}</h3><span className="text-xl text-gold-light transition group-hover:translate-x-1">↗</span></div>
                 <p className="mt-2 text-base leading-7 text-paper/65">{link.note}</p>
               </a>

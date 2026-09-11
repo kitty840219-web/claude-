@@ -41,7 +41,7 @@ export default function VideosPage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
-        <div className="overflow-hidden rounded-[2rem] border border-gold/15 bg-gradient-to-br from-night-light to-night shadow-soft">
+        <div className="overflow-hidden rounded-[2rem] border border-gold/20 bg-gradient-to-br from-night-light to-night shadow-soft">
           <div className="grid items-center gap-8 p-10 sm:grid-cols-[auto_1fr] sm:p-14">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-paper/10 text-paper sm:h-24 sm:w-24">
               <SocialIcon type="youtube" className="h-10 w-10" />

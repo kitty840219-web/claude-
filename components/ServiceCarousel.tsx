@@ -49,7 +49,7 @@ export default function ServiceCarousel({
                 sizes="80vw"
               />
             </div>
-            <h3 className="font-serif text-base font-bold text-gold-light">{s.title}</h3>
+            <h3 className="font-serif text-sm font-bold text-gold-light">{s.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-paper/70">{s.desc}</p>
           </div>
         ))}
