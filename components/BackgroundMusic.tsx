@@ -51,6 +51,7 @@ function BackgroundMusicInner() {
   const [volume, setVolume] = useState(50);
   const [showVolume, setShowVolume] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
+  const [showMv, setShowMv] = useState(false);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const playerRef = useRef<YTPlayer | null>(null);
@@ -176,19 +177,38 @@ function BackgroundMusicInner() {
 
   function handleSelectTrack(index: number) {
     const player = playerRef.current;
-    if (!player) return;
-    player.setShuffle(false);
-    player.setLoop(true);
-    player.playVideoAt(index);
+    player?.pauseVideo();
     startedRef.current = true;
-    setPlaying(true);
+    setPlaying(false);
     setCurrentIndex(index);
     setShowPlaylist(false);
+    setShowMv(true);
   }
 
   return (
     <>
       <div ref={mountRef} className="pointer-events-none absolute h-px w-px opacity-0" aria-hidden />
+
+      {showMv && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 p-3 sm:p-8" role="dialog" aria-modal="true" aria-label="動畫 MV 播放視窗" onClick={() => setShowMv(false)}>
+          <div className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-gold/40 bg-black shadow-2xl" onClick={(event) => event.stopPropagation()}>
+            <button type="button" onClick={() => setShowMv(false)} aria-label="關閉動畫 MV" className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gold text-2xl font-bold text-night-dark shadow-lg">×</button>
+            <div className="aspect-video w-full">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${PLAYLIST_IDS[currentIndex]}?autoplay=1&rel=0`}
+                title={tracks[currentIndex]?.title ?? `艾飛樂動畫 MV ${currentIndex + 1}`}
+                className="h-full w-full"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowFullScreen
+              />
+            </div>
+            <div className="bg-night px-5 py-4 pr-16">
+              <p className="truncate font-semibold text-paper">{tracks[currentIndex]?.title ?? `動畫 MV ${currentIndex + 1}`}</p>
+              <p className="mt-1 text-xs text-paper/55">艾飛樂 Aifeiler</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showPlaylist && (
         <div className="absolute right-0 top-[calc(100%+10px)] z-50 max-h-[60vh] w-64 overflow-y-auto rounded-2xl border border-gold/30 bg-night p-2 shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
