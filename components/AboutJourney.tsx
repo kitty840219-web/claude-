@@ -89,9 +89,11 @@ export default function AboutJourney() {
         </button>
 
         {isFirst ? (
-          <div className="relative max-h-full overflow-y-auto rounded-[2rem] bg-paper text-night-dark shadow-soft [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <Image src={asset(scene.image)} alt={scene.alt} width={941} height={1672} priority className="h-auto w-full" sizes="430px" />
-            <div className="bg-paper px-5 pb-5 pt-4 text-center">
+          <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-paper text-night-dark shadow-soft">
+            <div className="relative min-h-0 flex-1 overflow-hidden">
+              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover object-[center_58%]" sizes="430px" />
+            </div>
+            <div className="shrink-0 bg-paper px-5 pb-5 pt-4 text-center">
               <div className="flex flex-wrap justify-center gap-2 text-xs font-semibold">
                 <span className="rounded-full border border-gold-dark/40 px-4 py-2">2022 年成立</span>
                 <span className="rounded-full border border-gold-dark/40 px-4 py-2">9+ 篇語錄作品</span>

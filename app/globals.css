@@ -67,6 +67,27 @@ html[data-view-mode="desktop"] .site-bottom-nav {
   max-width: none;
 }
 
+html[data-view-mode="desktop"] .site-bottom-nav > div {
+  max-width: 72rem;
+  padding-inline: 2rem;
+}
+
+html[data-view-mode="desktop"] .site-bottom-nav a {
+  gap: 0.4rem;
+  padding-block: 0.8rem;
+  font-size: 1rem;
+}
+
+html[data-view-mode="desktop"] .site-bottom-nav a > span:first-child {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+html[data-view-mode="desktop"] .site-bottom-nav a > span:first-child > span:first-child {
+  width: 3.15rem;
+  height: 3.15rem;
+}
+
 html[data-view-mode="desktop"] .floating-music {
   right: 1.25rem;
 }

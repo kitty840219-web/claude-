@@ -12,7 +12,7 @@ export default function WorksPage() {
   return <div className="min-h-screen bg-night-dark">
     <section className="relative overflow-hidden bg-night-dark pb-10 pt-24 text-center">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-      <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full border border-gold/20 shadow-soft"><Image src={asset("/images/journey-letter.webp")} alt="小艾拿著書信與小鳥" fill className="object-cover" sizes="144px" /></div>
+      <div className="relative mx-auto h-44 w-44"><Image src={asset("/images/latest-articles-cutout.webp")} alt="小艾坐著書寫最新文章" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="176px" /></div>
       <div className="relative mt-6 overflow-hidden"><div className="animate-marquee flex w-max whitespace-nowrap">
         <span className="pr-16 font-serif text-lg text-paper sm:text-xl">「{SITE.tagline}，{SITE.taglineSub}。」</span>
         <span aria-hidden className="pr-16 font-serif text-lg text-paper sm:text-xl">「{SITE.tagline}，{SITE.taglineSub}。」</span>
