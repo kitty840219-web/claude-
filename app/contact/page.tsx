@@ -139,6 +139,7 @@ export default function ContactPage() {
               eyebrow="LET'S TALK"
               title="期待與你合作"
               desc={`我是 ${SITE.founder}，${SITE.brandFull}的創作者。無論是插畫委託、品牌視覺、客製周邊或聯名合作，都歡迎透過以下方式與我聯絡。`}
+              center
             />
           </div>
 
