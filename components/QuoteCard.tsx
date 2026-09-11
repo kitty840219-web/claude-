@@ -16,7 +16,7 @@ export default function QuoteCard({ quote, index = 0 }: { quote: Quote; index?: 
         <span className="w-fit rounded-full bg-paper/10 px-3 py-1 text-[11px] font-medium tracking-wide text-gold-light">
           {quote.tag}
         </span>
-        <span className="font-serif text-xs font-semibold tracking-widest text-paper/40">
+        <span className="font-serif text-xs font-semibold tracking-widest text-paper/55">
           #{String(index + 1).padStart(2, "0")}
         </span>
       </div>

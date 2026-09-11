@@ -30,13 +30,13 @@ export default function StoryPage() {
           <div className="absolute inset-x-0 bottom-0 px-4 pb-8 text-center sm:pb-10">
             <div className="mb-3 flex items-center justify-center gap-2">
               <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">OUR STORY</p>
+              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">OUR STORY</p>
               <Star className="h-3 w-3 text-gold-light" delay="1s" />
             </div>
             <h1 className="text-shadow-soft font-serif text-3xl font-bold text-paper sm:text-4xl">
               艾飛樂的故事
             </h1>
-            <p className="text-shadow-soft mt-2 text-sm text-paper/90">
+            <p className="text-shadow-soft mt-2 text-sm text-paper/90 sm:text-base">
               一段用插畫與文字，寫給每個黑夜的旅程
             </p>
           </div>

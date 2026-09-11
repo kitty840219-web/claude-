@@ -72,7 +72,7 @@ function BottomNavInner() {
                     </span>
                   ))}
               </span>
-              <span className={active ? "text-gold-light" : "text-paper/45"}>{tab.label}</span>
+              <span className={active ? "text-gold-light" : "text-paper/60"}>{tab.label}</span>
             </Link>
           );
         })}

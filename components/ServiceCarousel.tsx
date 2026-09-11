@@ -66,7 +66,7 @@ export default function ServiceCarousel({
           />
         ))}
       </div>
-      <p className="mt-2 text-center text-[11px] text-paper/45">左右滑動查看更多服務項目 →</p>
+      <p className="mt-2 text-center text-[11px] text-paper/60">左右滑動查看更多服務項目 →</p>
     </div>
   );
 }

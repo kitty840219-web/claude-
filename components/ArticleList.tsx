@@ -28,21 +28,21 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
             key={a.id}
             type="button"
             onClick={() => setSelected(a)}
-            className="bg-grain group relative block min-h-64 w-full rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
+            className="bg-grain group relative block min-h-56 w-full rounded-2xl border border-gold/15 bg-gradient-to-br from-night-light to-night p-6 text-left shadow-card transition hover:border-gold/40"
           >
             <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
-            <div className={a.image ? "relative z-10 max-w-[68%]" : "relative z-10"}>
+            <div className={a.image ? "relative z-10 max-w-[70%]" : "relative z-10"}>
             <div className="flex items-center justify-between gap-3">
               <TagChip tone="gold">{a.tag}</TagChip>
-              <span className="text-xs text-paper/40">{a.date}</span>
+              <span className="text-xs text-paper/55">{a.date}</span>
             </div>
-            <h3 className="mt-3 font-serif text-lg font-bold text-paper sm:text-xl">{a.title}</h3>
+            <h3 className="mt-3 font-serif text-lg font-bold leading-snug text-paper sm:text-xl">{a.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-paper/70">{a.excerpt}</p>
-            <p className="mt-4 text-xs font-semibold text-gold-light">閱讀全文 →</p>
+            <p className="mt-4 text-xs font-semibold text-gold-light sm:text-sm">閱讀全文 →</p>
             </div>
             {a.image && (
-              <span className="pointer-events-none absolute -bottom-3 right-1 z-20 h-48 w-36 sm:right-4 sm:w-40">
-                <Image src={asset(a.image)} alt="" fill className="object-contain object-bottom" sizes="160px" />
+              <span className="pointer-events-none absolute -bottom-2 right-2 z-20 h-36 w-28 sm:right-3 sm:h-40 sm:w-32">
+                <Image src={asset(a.image)} alt="" fill className="object-contain object-bottom" sizes="128px" />
               </span>
             )}
           </button>
@@ -67,7 +67,7 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
               <div className="mb-3 flex items-center gap-2">
                 <Star className="h-3 w-3 text-gold-light" />
                 <TagChip tone="gold">{selected.tag}</TagChip>
-                <span className="text-xs text-paper/40">{selected.date}</span>
+                <span className="text-xs text-paper/55">{selected.date}</span>
               </div>
               <h2 className="font-serif text-xl font-bold text-paper">{selected.title}</h2>
               {selected.heroImage && (

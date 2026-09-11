@@ -68,7 +68,7 @@ export default function StoryReader({
           })}
         </div>
       </div>
-      <p className="mt-4 text-center text-[11px] tracking-widest text-paper/40">
+      <p className="mt-4 text-center text-[11px] tracking-widest text-paper/55">
         第 {num} / {String(total).padStart(2, "0")} 章・點選節點跳至該章
       </p>
 

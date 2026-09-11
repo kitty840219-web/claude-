@@ -31,10 +31,10 @@ export default function LineGuidePage() {
           <div className="rounded-[2rem] bg-night-light/15 px-6 py-7">
             <div className="mb-4 flex items-center gap-2">
               <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">LINE GUIDE</p>
+              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">LINE GUIDE</p>
             </div>
-            <h1 className="font-serif text-3xl font-bold text-paper">如何使用官方 LINE</h1>
-            <p className="mt-3 text-sm leading-6 text-paper/70">
+            <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">如何使用官方 LINE</h1>
+            <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">
               加入官方 LINE 後，跟著這份教學，就能看選單功能、領取大眾占卜與心理測驗。
             </p>
             <a

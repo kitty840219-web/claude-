@@ -26,11 +26,11 @@ export default function PhoneCasesPage() {
           <div className="rounded-[2rem] bg-night-light/15 px-6 py-7">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <Star className="h-3 w-3 text-gold-light" />
-              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">PHONE CASES</p>
+              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">PHONE CASES</p>
               <TagChip tone="gold">AF480 預購款</TagChip>
             </div>
-            <h1 className="font-serif text-3xl font-bold text-paper">艾飛樂手機殼新上市 2026 🌙🌿</h1>
-            <p className="mt-3 text-sm leading-6 text-paper/70">
+            <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">艾飛樂手機殼新上市 2026 🌙🌿</h1>
+            <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">
               把一句溫柔的話、一幅療癒的插畫，放進每天都會拿在手上的日常裡。這次推出 {PHONE_CASES.length} 款艾飛樂療癒插畫手機殼：星夜、森林、月光、花束、玫瑰、留白幾何，每一款都有不同的情緒與陪伴感。它不只是手機殼，也是一張隨身帶著的小小鼓勵卡。願你在平凡日常裡，也能好好喜歡自己、慢慢前進、看見小小光亮。
             </p>
             <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">

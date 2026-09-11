@@ -21,7 +21,7 @@ export default function WorksPage() {
     <section className="relative overflow-hidden bg-night-dark pb-16">
       <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
-        <div className="mb-3 flex items-center justify-center gap-2"><Star className="h-3 w-3 text-gold-light" /><p className="text-xs font-semibold tracking-[0.4em] text-gold-light">LATEST</p><Star className="h-3 w-3 text-gold-light" delay="1s" /></div>
+        <div className="mb-3 flex items-center justify-center gap-2"><Star className="h-3 w-3 text-gold-light" /><p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">LATEST</p><Star className="h-3 w-3 text-gold-light" delay="1s" /></div>
         <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">最新文章</h1>
       </div>
       <div className="relative mt-8">

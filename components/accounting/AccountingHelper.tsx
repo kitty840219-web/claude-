@@ -402,7 +402,7 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
           <button
             type="button"
             onClick={() => setBuyerType("company")}
-            className={`flex-1 pb-2 text-center transition ${buyerType === "company" ? "text-gold-light" : "text-paper/40"}`}
+            className={`flex-1 pb-2 text-center transition ${buyerType === "company" ? "text-gold-light" : "text-paper/60"}`}
           >
             <span className="block text-sm font-bold">開給公司</span>
             <span className="block text-[11px]">三聯式發票</span>
@@ -410,7 +410,7 @@ function InvoiceTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "da
           <button
             type="button"
             onClick={() => setBuyerType("individual")}
-            className={`flex-1 pb-2 text-center transition ${buyerType === "individual" ? "text-gold-light" : "text-paper/40"}`}
+            className={`flex-1 pb-2 text-center transition ${buyerType === "individual" ? "text-gold-light" : "text-paper/60"}`}
           >
             <span className="block text-sm font-bold">開給個人</span>
             <span className="block text-[11px]">二聯式發票</span>
@@ -1080,7 +1080,7 @@ export default function AccountingHelper() {
                       <div key={r.id} className="rounded-xl border border-gold/15 bg-night-light/15 p-3.5 shadow-card">
                         <div className="flex items-center justify-between">
                           <span className="text-[11px] font-semibold text-gold-light">{r.toolLabel}</span>
-                          <span className="text-[11px] text-paper/40">{r.date}</span>
+                          <span className="text-[11px] text-paper/55">{r.date}</span>
                         </div>
                         <p className="mt-1 text-sm font-semibold text-paper">{r.title}</p>
                         <p className="mt-0.5 text-xs text-paper/60">

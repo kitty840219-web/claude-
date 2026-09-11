@@ -22,10 +22,10 @@ export default function ShopPage() {
             <div>
               <div className="mb-4 flex items-center gap-2">
                 <Star className="h-3 w-3 text-gold-light" />
-                <p className="text-xs font-semibold tracking-[0.35em] text-gold-light">SHOP</p>
+                <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">SHOP</p>
               </div>
-              <h1 className="font-serif text-3xl font-bold text-paper">周邊商店</h1>
-              <p className="mt-3 text-sm leading-6 text-paper/70">把語錄裡的溫柔，變成隨身攜帶的小物件</p>
+              <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">周邊商店</h1>
+              <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">把語錄裡的溫柔，變成隨身攜帶的小物件</p>
             </div>
             <div className="relative h-44 w-full">
               <Image data-layout-id="shop-hero" data-layout-name="頁首小艾人物" src={asset("/images/shop-hero-cutout.webp")} alt="小艾提著周邊商品禮物籃" fill className="object-contain drop-shadow-[0_0_18px_rgba(244,216,146,0.3)]" sizes="130px" />

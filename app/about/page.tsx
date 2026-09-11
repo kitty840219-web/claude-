@@ -27,11 +27,11 @@ export default function AboutPage() {
         <div className="bg-stars relative px-5 py-10 text-center">
           <div className="mb-3 flex items-center justify-center gap-2">
             <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">ABOUT</p>
+            <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">ABOUT</p>
             <Star className="h-3 w-3 text-gold-light" delay="1s" />
           </div>
           <h2 className="font-serif text-3xl font-bold text-paper sm:text-4xl">關於艾飛樂</h2>
-          <p className="mt-2 text-sm text-paper/80">{SITE.brandFull}</p>
+          <p className="mt-2 text-sm text-paper/80 sm:text-base">{SITE.brandFull}</p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
             <StatBadge icon={<Star className="h-3.5 w-3.5" />} label={`${SITE.established} 年成立`} />
             <StatBadge

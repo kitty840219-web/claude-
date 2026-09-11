@@ -90,11 +90,11 @@ export default function ContactPage() {
             <div>
           <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
             <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.4em] text-gold-light">CONTACT</p>
+            <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">CONTACT</p>
             <Star className="h-3 w-3 text-gold-light" delay="1s" />
           </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-5xl">洽談合作</h1>
-          <p className="mt-4 text-paper/70">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
+          <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">洽談合作</h1>
+          <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
             </div>
             <div className="relative mx-auto h-64 w-64 md:h-72 md:w-72">
               <Image src={asset("/images/contact-collaboration-cutout.webp")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="288px" />
@@ -103,13 +103,13 @@ export default function ContactPage() {
 
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
             {CHIPS.map((c, index) => (
-              <div key={c.t} className="relative min-h-40 rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card sm:min-h-48">
-                <div className="relative z-10 max-w-[62%]">
-                  <p className="text-sm font-bold text-paper">{c.t}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-paper/60">{c.d}</p>
+              <div key={c.t} className="relative min-h-36 rounded-2xl border border-gold/15 bg-night-light/20 p-4 shadow-card sm:min-h-40">
+                <div className="relative z-10 max-w-[64%]">
+                  <p className="text-sm font-bold leading-snug text-paper sm:text-base">{c.t}</p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-paper/70 sm:text-sm">{c.d}</p>
                 </div>
-                <div className="absolute -bottom-3 -right-3 z-20 h-32 w-28 sm:h-40 sm:w-36">
-                  <Image src={asset(CONTACT_VALUE_ART[index])} alt={`小艾呈現${c.t}`} fill className="object-contain object-bottom" sizes="144px" />
+                <div className="absolute -bottom-2 -right-2 z-20 h-24 w-20 sm:h-28 sm:w-24">
+                  <Image src={asset(CONTACT_VALUE_ART[index])} alt={`小艾呈現${c.t}`} fill className="object-contain object-bottom" sizes="112px" />
                 </div>
               </div>
             ))}
@@ -151,17 +151,17 @@ export default function ContactPage() {
                 href={c.href}
                 target={c.key === "mail" ? undefined : "_blank"}
                 rel={c.key === "mail" ? undefined : "noopener noreferrer"}
-                className="group relative min-h-44 rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-6 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
+                className="group relative min-h-36 rounded-[1.75rem] border border-gold/15 bg-night-light/20 p-6 shadow-card transition hover:-translate-y-1 hover:border-gold/50"
               >
-                <span className="relative z-10 block w-[62%]">
+                <span className="relative z-10 block w-[66%]">
                   <SocialIcon type={c.icon} className="h-6 w-6 text-paper" />
-                  <span className="mt-4 block text-[10px] font-semibold tracking-[0.22em] text-sage">{c.label}</span>
-                  <span className="mt-2 block font-serif text-lg font-bold text-paper">{c.title}</span>
-                  <span className="mt-2 block break-all text-sm text-paper/60">{c.value}</span>
-                  <span className="mt-5 block text-xs font-semibold text-gold-light">{c.cta}</span>
+                  <span className="mt-4 block text-xs font-semibold tracking-[0.2em] text-gold-light">{c.label}</span>
+                  <span className="mt-2 block font-serif text-lg font-bold text-paper sm:text-xl">{c.title}</span>
+                  <span className="mt-2 block break-all text-sm text-paper/70">{c.value}</span>
+                  <span className="mt-5 block text-xs font-semibold text-gold-light sm:text-sm">{c.cta}</span>
                 </span>
-                <span className="animate-float-slow pointer-events-none absolute -bottom-5 -right-2 z-20 h-44 w-36 transition duration-500 group-hover:scale-105">
-                  <Image src={asset(c.art)} alt="" fill className="object-contain object-bottom" sizes="144px" />
+                <span className="animate-float-slow pointer-events-none absolute -bottom-3 -right-1 z-20 h-32 w-28 transition duration-500 group-hover:scale-105 sm:h-36 sm:w-32">
+                  <Image src={asset(c.art)} alt="" fill className="object-contain object-bottom" sizes="128px" />
                 </span>
               </a>
             ))}
@@ -175,17 +175,17 @@ export default function ContactPage() {
           <div className="relative mt-10 grid gap-4">
             <div className="pointer-events-none absolute bottom-10 left-7 top-10 w-px bg-gold/25" />
             {PROCESS.map((p) => (
-              <div key={p.step} className="relative grid min-h-32 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4 pr-28 text-left shadow-card sm:pr-40">
+              <div key={p.step} className="relative grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4 pr-24 text-left shadow-card sm:pr-28">
                 <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gold font-serif text-lg font-bold text-night-dark">
                   {p.step}
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-serif text-base font-bold text-paper">{p.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-paper/60">{p.desc}</p>
+                  <h3 className="font-serif text-base font-bold text-paper sm:text-lg">{p.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-paper/70 sm:text-sm">{p.desc}</p>
                 </div>
                 {["01", "02", "03", "04"].includes(p.step) && (
-                  <div className="absolute -bottom-5 right-1 z-20 h-32 w-28 sm:right-4 sm:h-40 sm:w-36">
-                    <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain object-bottom" sizes="144px" />
+                  <div className="absolute -bottom-2 right-2 z-20 h-20 w-16 sm:right-3 sm:h-24 sm:w-20">
+                    <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain object-bottom" sizes="96px" />
                   </div>
                 )}
               </div>
