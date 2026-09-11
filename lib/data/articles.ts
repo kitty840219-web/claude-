@@ -32,6 +32,7 @@ export const ARTICLES: Article[] = [
     title: "艾飛樂會計小幫手上線了！",
     date: "2026-09-09",
     tag: "工具上線",
+    image: "/images/articles/accounting-helper-cutout.webp",
     excerpt: "把接案、周邊、占卜服務的記帳難題，變成點兩下就能算完的小事。",
     body: [
       "經營工作室這幾年，我發現插畫接案跟開店最頭痛的，往往不是畫圖，而是後面那一堆數字：這張圖報價多少才划算？平台抽成扣一扣還剩多少利潤？發票要開多少稅額？勞健保又該怎麼算？",
