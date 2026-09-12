@@ -57,7 +57,7 @@ const CONTACTS = [
     value: "@imabby_0219",
     href: LINKS.instagramAbby,
     cta: "開啟 INSTAGRAM →",
-    art: "/images/profile.webp",
+    art: "/images/contact-abby-portrait.webp",
   },
 ];
 
