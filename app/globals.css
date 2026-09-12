@@ -255,18 +255,33 @@ html[data-view-mode="desktop"] .floating-music {
   animation: marquee 16s linear infinite;
 }
 
-@keyframes meteor-fall {
+/* Three angle variants so trails feel like they fan out from a shared
+   radiant point rather than all falling in one identical direction. */
+@keyframes meteor-fall-25 {
+  0% { opacity: 0; transform: rotate(25deg) translate(0, 0); }
+  10% { opacity: 1; }
+  55% { opacity: 1; }
+  70%, 100% { opacity: 0; transform: rotate(25deg) translate(58px, 27px); }
+}
+@keyframes meteor-fall-35 {
   0% { opacity: 0; transform: rotate(35deg) translate(0, 0); }
   10% { opacity: 1; }
   55% { opacity: 1; }
-  70% { opacity: 0; transform: rotate(35deg) translate(48px, 34px); }
-  100% { opacity: 0; transform: rotate(35deg) translate(48px, 34px); }
+  70%, 100% { opacity: 0; transform: rotate(35deg) translate(50px, 35px); }
 }
-.animate-meteor {
-  animation-name: meteor-fall;
+@keyframes meteor-fall-48 {
+  0% { opacity: 0; transform: rotate(48deg) translate(0, 0); }
+  10% { opacity: 1; }
+  55% { opacity: 1; }
+  70%, 100% { opacity: 0; transform: rotate(48deg) translate(40px, 44px); }
+}
+.animate-meteor-25, .animate-meteor-35, .animate-meteor-48 {
   animation-timing-function: ease-in;
   animation-iteration-count: infinite;
 }
+.animate-meteor-25 { animation-name: meteor-fall-25; }
+.animate-meteor-35 { animation-name: meteor-fall-35; }
+.animate-meteor-48 { animation-name: meteor-fall-48; }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-page-in,
@@ -276,7 +291,9 @@ html[data-view-mode="desktop"] .floating-music {
   .animate-sparkle-pop,
   .animate-glow-pulse,
   .animate-marquee,
-  .animate-meteor {
+  .animate-meteor-25,
+  .animate-meteor-35,
+  .animate-meteor-48 {
     animation: none;
   }
 }
