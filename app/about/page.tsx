@@ -100,15 +100,13 @@ export default function AboutPage() {
                   </div>
                 )}
                 {i === 2 && (
-                  <div className="relative mt-6 flex items-center gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4">
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
-                      <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-cover" sizes="64px" />
+                  <div className="relative mt-14 rounded-2xl border border-gold/20 bg-night-light/25 p-4 pt-10 text-center">
+                    <div className="absolute -top-10 left-1/2 h-20 w-20 -translate-x-1/2 overflow-hidden rounded-xl shadow-soft">
+                      <Image src={asset("/images/about-creator-cutout.webp")} alt="小艾站在畫架旁創作" fill className="object-cover" sizes="80px" />
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">BRAND CHARACTER</p>
-                      <h4 className="mt-1 font-serif text-sm font-bold text-paper">品牌第一個 IP 角色「小艾」</h4>
-                      <p className="mt-1 text-xs leading-relaxed text-paper/60">2024 年誕生，戴著草帽、綁著雙辮，靜靜微笑、雙手合十——小艾是艾飛樂的品牌代言角色。</p>
-                    </div>
+                    <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">BRAND CHARACTER</p>
+                    <h4 className="mt-1 font-serif text-sm font-bold text-paper">品牌第一個 IP 角色「小艾」</h4>
+                    <p className="mt-1 text-xs leading-relaxed text-paper/60">2024 年誕生，戴著草帽、綁著雙辮，靜靜微笑、雙手合十——小艾是艾飛樂的品牌代言角色。</p>
                   </div>
                 )}
                 {i === 3 && (
