@@ -81,6 +81,15 @@ export default function AboutPage() {
                     </div>
                   </div>
                 )}
+                {i === 1 && (
+                  <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
+                    <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">EXHIBITION</p>
+                    <h4 className="mt-1 font-serif text-sm font-bold text-paper">手帳品牌聯名參展</h4>
+                    <div className="relative mt-3 aspect-video overflow-hidden rounded-xl">
+                      <Image src={asset("/images/about-timeline-2023-fair.webp")} alt="艾飛樂手帳展攤位陳列" fill className="object-cover" sizes="(min-width: 640px) 512px, 100vw" />
+                    </div>
+                  </div>
+                )}
                 {i === 2 && (
                   <div className="relative mt-6 flex items-center gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4">
                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
