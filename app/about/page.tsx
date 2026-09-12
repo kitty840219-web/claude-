@@ -6,6 +6,7 @@ import Star from "@/components/Star";
 import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
 import AboutJourney from "@/components/AboutJourney";
+import ShortsCarousel from "@/components/ShortsCarousel";
 import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
@@ -99,6 +100,15 @@ export default function AboutPage() {
                       <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">BRAND CHARACTER</p>
                       <h4 className="mt-1 font-serif text-sm font-bold text-paper">品牌第一個 IP 角色「小艾」</h4>
                       <p className="mt-1 text-xs leading-relaxed text-paper/60">2024 年誕生，戴著草帽、綁著雙辮，靜靜微笑、雙手合十——小艾是艾飛樂的品牌代言角色。</p>
+                    </div>
+                  </div>
+                )}
+                {i === 4 && (
+                  <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
+                    <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">SHORTS</p>
+                    <h4 className="mt-1 font-serif text-sm font-bold text-paper">真人 AI 短劇精選</h4>
+                    <div className="mt-3">
+                      <ShortsCarousel videoIds={["iYy-q9ywHaA", "h6KQl1rclN4", "1hFpZvN0NT0", "ONNtQSExMFo", "X2LcFcb97O4"]} />
                     </div>
                   </div>
                 )}
