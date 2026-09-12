@@ -10,7 +10,6 @@ import ShortsCarousel from "@/components/ShortsCarousel";
 import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
-import ExploreCarousel from "@/components/ExploreCarousel";
 
 export const metadata: Metadata = {
   title: `關於作者 Ivy ｜ ${SITE.brand}`,
@@ -138,9 +137,6 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
-
-      <div className="border-t border-paper/10" />
-      <ExploreCarousel />
     </div>
   );
 }
