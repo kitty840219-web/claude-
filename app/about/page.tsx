@@ -65,13 +65,13 @@ export default function AboutPage() {
                   <h3 className="mt-1 font-serif text-lg font-bold text-paper">{t.title}</h3>
                   <p className="mt-1 text-sm text-paper/60">{t.desc}</p>
                 </div>
-                {i === 1 && (
+                {i === 0 && (
                   <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
                     <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">PODCAST</p>
-                    <h4 className="mt-1 font-serif text-sm font-bold text-paper">第二次 Podcast 專訪</h4>
+                    <h4 className="mt-1 font-serif text-sm font-bold text-paper">宅宅出音podcast採訪</h4>
                     <div className="relative mt-3 aspect-video overflow-hidden rounded-xl bg-black">
                       <iframe
-                        title="第二次 Podcast 專訪"
+                        title="宅宅出音podcast採訪"
                         src="https://www.youtube.com/embed/RUH_crJE5Es"
                         className="absolute inset-0 h-full w-full"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
