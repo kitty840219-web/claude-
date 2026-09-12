@@ -85,7 +85,7 @@ export const TIMELINE = [
   {
     year: "2025",
     title: "官方 LINE 上線，跨入占卜接案",
-    desc: "建立官方 LINE 網站與 Google 商店，製作 YouTube 動畫 MV，並開始學習塔羅占卜、正式接案。官方 LINE 好友數成長到近 1500 人，也累積了許多 Google 評論與客戶好評回饋。",
+    desc: "原本規劃與出版社合作，出版第一本故事書，但因為預算有限，最後改以電子書呈現；同一年也建立官方 LINE 網站與 Google 商店，製作 YouTube 動畫 MV，並開始學習塔羅占卜、正式接案。官方 LINE 好友數成長到近 1500 人，也累積了許多 Google 評論與客戶好評回饋。",
   },
   {
     year: "2026",
