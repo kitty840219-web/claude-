@@ -92,6 +92,29 @@ html[data-view-mode="desktop"] .floating-music {
   right: 1.25rem;
 }
 
+/* Mobile type scale bump: the stock Tailwind sizes read too small on a
+   phone screen, so every text-size utility used inside <main> steps up
+   a notch, plus a touch of extra weight on unstyled body copy. Stays
+   below the desktop scale further down so desktop still reads larger. */
+main .text-\[8px\] { font-size: 0.625rem; }
+main .text-\[9px\] { font-size: 0.6875rem; }
+main .text-\[10px\] { font-size: 0.75rem; }
+main .text-\[11px\] { font-size: 0.8125rem; }
+main .text-xs { font-size: 0.875rem; }
+main .text-sm { font-size: 1rem; }
+main .text-base { font-size: 1.125rem; }
+main .text-lg { font-size: 1.25rem; }
+main .text-xl { font-size: 1.375rem; }
+main .text-2xl { font-size: 1.75rem; }
+main .text-3xl { font-size: 2.25rem; }
+main .text-4xl { font-size: 2.75rem; }
+main .text-5xl { font-size: 3.5rem; }
+main .text-6xl { font-size: 4.25rem; }
+main .leading-relaxed { line-height: 1.7; }
+main .leading-6 { line-height: 1.6rem; }
+main .leading-7 { line-height: 1.85rem; }
+main { font-weight: 500; }
+
 @media (min-width: 768px) {
   /* Desktop typography scale: every text-size utility used inside <main>
      steps up one notch so headings/body copy read consistently larger on
