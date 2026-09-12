@@ -26,7 +26,7 @@ export default function StoryPage() {
               STORYTELLER · 說故事的人
             </p>
             <h2 className="mt-1 font-serif text-xl font-bold text-paper sm:text-2xl">
-              {SITE.founder}｜織字繪心的人
+              {SITE.founder}｜用插畫說故事的人
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-paper/70">
               {SITE.brandFull}創作者。相信每一句心事，都值得被畫成一顆星星。
