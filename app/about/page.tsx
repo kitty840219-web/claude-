@@ -7,7 +7,7 @@ import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
 import AboutJourney from "@/components/AboutJourney";
 import ShortsCarousel from "@/components/ShortsCarousel";
-import { LINKS, SERVICES, SITE, TIMELINE } from "@/lib/data/site";
+import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
 
@@ -110,19 +110,21 @@ export default function AboutPage() {
                   </div>
                 )}
                 {i === 3 && (
-                  <a
-                    href={LINKS.googleReviews}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative mt-6 flex items-center justify-between gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4 transition hover:border-gold/40"
+                  <Link
+                    href="/portfolio/#aifeiler-book"
+                    className="group relative mt-6 block overflow-hidden rounded-2xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40"
                   >
-                    <div className="min-w-0">
-                      <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">GOOGLE 商店</p>
-                      <h4 className="mt-1 font-serif text-sm font-bold text-paper">查看 Google 商店與評論</h4>
-                      <p className="mt-1 text-xs leading-relaxed text-paper/60">官方 LINE 上線同一年成立的 Google 商店，累積了許多客戶好評回饋。</p>
+                    <div className="aspect-video overflow-hidden bg-[#efe4d2]">
+                      <Image src={asset("/images/aifeiler-book/book-001.webp")} alt="《遺落在風中的信》電子書封面預覽" width={720} height={1023} className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" />
                     </div>
-                    <span className="shrink-0 text-2xl text-gold-light">↗</span>
-                  </a>
+                    <div className="flex items-center justify-between gap-3 px-4 py-3">
+                      <div>
+                        <p className="text-[10px] font-bold tracking-[0.22em] text-gold-light">E-BOOK</p>
+                        <h4 className="mt-1 font-serif text-sm font-bold text-paper">閱讀《遺落在風中的信》</h4>
+                      </div>
+                      <span className="shrink-0 text-xl text-gold-light">↗</span>
+                    </div>
+                  </Link>
                 )}
                 {i === 4 && (
                   <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
@@ -136,18 +138,6 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="grid gap-4 px-5 pb-12 sm:grid-cols-2 sm:px-8">
-          <Link href="/portfolio/#aifeiler-book" className="group overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
-            <div className="aspect-video overflow-hidden bg-[#efe4d2]">
-              <Image src={asset("/images/aifeiler-book/book-001.webp")} alt="《遺落在風中的信》電子書封面預覽" width={720} height={1023} className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" />
-            </div>
-            <div className="flex items-center justify-between gap-3 px-5 py-4">
-              <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">E-BOOK</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">閱讀《遺落在風中的信》</h3></div>
-              <span className="text-2xl text-gold-light">↗</span>
-            </div>
-          </Link>
         </div>
       </section>
     </div>
