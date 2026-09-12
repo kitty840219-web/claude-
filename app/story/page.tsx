@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import Star from "@/components/Star";
-import SectionHeading from "@/components/SectionHeading";
 import StoryReader from "@/components/StoryReader";
 import { SITE } from "@/lib/data/site";
 import { CHAPTERS } from "@/lib/data/story";
@@ -58,35 +56,6 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* closing CTA */}
-      <section className="relative overflow-hidden bg-night-dark py-20 text-center">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
-        <div className="relative mx-auto max-w-2xl px-4 sm:px-6">
-          <div className="relative mx-auto mb-6 h-56 w-full max-w-xs overflow-hidden rounded-[1.5rem] border border-gold/20 shadow-soft">
-            <Image src={asset("/images/journey-finale.webp")} alt="小艾在畫室裡持續創作故事" fill className="object-cover" sizes="320px" />
-          </div>
-          <SectionHeading eyebrow="TO BE CONTINUED" title="故事，還在寫" center />
-          <p className="mt-4 text-sm leading-relaxed text-paper/70 sm:text-base">
-            如果這段故事也讓你有一點點共鳴，或者你想邀請艾飛樂一起把你的品牌、你的故事畫下來——
-            <br className="hidden sm:block" />
-            歡迎成為這個故事的下一段。
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/works"
-              className="rounded-full bg-gold px-7 py-3 text-sm font-semibold text-night-dark shadow-soft transition hover:bg-gold-light"
-            >
-              看看最新文章
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition hover:bg-paper/10"
-            >
-              邀請艾飛樂合作
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
