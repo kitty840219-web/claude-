@@ -9,6 +9,7 @@ import { playTwinkleSound } from "@/lib/sound";
 
 const TABS = [
   { href: "/about", label: "關於作者", avatar: "/images/nav/nav-about.webp", badge: "bg-gold/20" },
+  { href: "/story", label: "品牌故事", avatar: "/images/nav/nav-story.webp", badge: "bg-lavender/20" },
   { href: "/works", label: "最新文章", avatar: "/images/nav/nav-works.webp", badge: "bg-rose-300/20" },
   { href: "/horoscope", label: "星座運勢", avatar: "/images/nav/nav-horoscope.webp", badge: "bg-sky-300/20" },
   { href: "/tarot", label: "塔羅占卜", avatar: "/images/nav/nav-tarot.webp", badge: "bg-violet-300/20" },
