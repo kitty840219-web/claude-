@@ -16,21 +16,8 @@ export const metadata: Metadata = {
 export default function StoryPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-night-dark pb-10 pt-16 text-center">
-        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
-          <div className="mb-3 flex items-center justify-center gap-2">
-            <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">OUR STORY</p>
-            <Star className="h-3 w-3 text-gold-light" delay="1s" />
-          </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">艾飛樂的故事</h1>
-          <p className="mt-2 text-sm text-paper/80 sm:text-base">一段用插畫與文字，寫給每個黑夜的旅程</p>
-        </div>
-      </section>
-
       {/* character card */}
-      <section className="relative overflow-hidden bg-night-dark px-4 py-16 sm:px-6">
+      <section className="relative overflow-hidden bg-night-dark px-4 pb-6 pt-16 sm:px-6">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 rounded-[2rem] bg-night-light/25 p-8 shadow-card sm:flex-row sm:text-left">
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-gold/40 shadow-soft sm:h-28 sm:w-28">
@@ -47,6 +34,19 @@ export default function StoryPage() {
               {SITE.brandFull}創作者。相信每一句心事，都值得被畫成一顆星星。
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-night-dark pb-10 pt-6 text-center">
+        <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
+        <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <Star className="h-3 w-3 text-gold-light" />
+            <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">OUR STORY</p>
+            <Star className="h-3 w-3 text-gold-light" delay="1s" />
+          </div>
+          <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">艾飛樂的故事</h1>
+          <p className="mt-2 text-sm text-paper/80 sm:text-base">一段用插畫與文字，寫給每個黑夜的旅程</p>
         </div>
       </section>
 
