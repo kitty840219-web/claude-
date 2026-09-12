@@ -50,6 +50,15 @@ const CONTACTS = [
     cta: "開啟 INSTAGRAM →",
     art: "/images/about-creator-cutout.webp",
   },
+  {
+    key: "ig3",
+    label: "INSTAGRAM · 艾比",
+    title: "真人 IP 艾比",
+    value: "@imabby_0219",
+    href: LINKS.instagramAbby,
+    cta: "開啟 INSTAGRAM →",
+    art: "/images/profile.webp",
+  },
 ];
 
 const SERVICE_ART = [

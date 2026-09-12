@@ -13,6 +13,7 @@ export const SITE = {
 export const LINKS = {
   instagramQuotes: "https://www.instagram.com/aibi_0219/",
   instagramIllustration: "https://www.instagram.com/dreamstar_illustration/",
+  instagramAbby: "https://www.instagram.com/imabby_0219/",
   youtube: "https://www.youtube.com/@aibi_0219",
   lineSticker:
     "https://line.me/S/shop/sticker/author/1140025/new?lang=zh-Hant&utm_source=gnsh_staut",
