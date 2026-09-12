@@ -19,7 +19,7 @@ export default function PortfolioMiniReader() {
   }
 
   return (
-    <div className="group mt-6 overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:border-gold/40">
+    <div className="group mt-6 overflow-hidden rounded-3xl border border-[#f4d892]/20 bg-[#0d0b2d] shadow-2xl transition hover:border-[#f4d892]/40">
       <div
         role="button"
         tabIndex={0}
@@ -31,7 +31,7 @@ export default function PortfolioMiniReader() {
           }
         }}
         aria-label="點擊翻到下一頁"
-        className="block w-full cursor-pointer bg-paper"
+        className="block w-full cursor-pointer bg-white"
       >
         <Image
           key={page}
@@ -46,8 +46,8 @@ export default function PortfolioMiniReader() {
       </div>
       <div className="flex items-center justify-between gap-3 px-5 py-4">
         <div className="min-w-0">
-          <p className="text-xs font-bold tracking-[0.22em] text-gold-light">PORTFOLIO</p>
-          <h3 className="mt-1 font-serif text-base font-bold text-paper">翻閱作品集 PPT</h3>
+          <p className="text-xs font-bold tracking-[0.22em] text-[#f4d892]">PORTFOLIO</p>
+          <h3 className="mt-1 font-serif text-base font-bold text-white">翻閱作品集 PPT</h3>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <button
@@ -55,17 +55,17 @@ export default function PortfolioMiniReader() {
             onClick={() => goTo(page - 1)}
             disabled={page === 1}
             aria-label="上一頁"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/35 text-gold-light disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#f4d892]/35 text-[#f4d892] disabled:cursor-not-allowed disabled:opacity-30"
           >
             ‹
           </button>
-          <span className="text-xs text-paper/60">{page}/{TOTAL_PAGES}</span>
+          <span className="text-xs text-white/60">{page}/{TOTAL_PAGES}</span>
           <button
             type="button"
             onClick={() => goTo(page + 1)}
             disabled={page === TOTAL_PAGES}
             aria-label="下一頁"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/35 text-gold-light disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#f4d892]/35 text-[#f4d892] disabled:cursor-not-allowed disabled:opacity-30"
           >
             ›
           </button>

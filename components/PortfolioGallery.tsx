@@ -31,18 +31,18 @@ export default function PortfolioGallery() {
     <section id="portfolio-book" className="scroll-mt-24 bg-night-dark px-3 pb-14 pt-4 sm:px-8 sm:pb-20 sm:pt-6">
       <div className="mx-auto max-w-6xl">
         <h2 className="sr-only">翻閱我的作品集</h2>
-        <div className="overflow-hidden rounded-[1.5rem] border border-gold/45 bg-[#0b0928] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
-          <div className="bg-paper"><Image key={page} src={asset(portfolioImage(page))} alt={`李宛容作品集第 ${page} 頁`} width={1600} height={900} sizes="(min-width: 1024px) 1150px, 100vw" className="h-auto w-full" priority={page <= 2} /></div>
-          <div className="border-t border-gold/25 px-4 py-4 sm:px-6 sm:py-5">
+        <div className="overflow-hidden rounded-[1.5rem] border border-[#f4d892]/45 bg-[#0b0928] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+          <div className="bg-white"><Image key={page} src={asset(portfolioImage(page))} alt={`李宛容作品集第 ${page} 頁`} width={1600} height={900} sizes="(min-width: 1024px) 1150px, 100vw" className="h-auto w-full" priority={page <= 2} /></div>
+          <div className="border-t border-[#f4d892]/25 px-4 py-4 sm:px-6 sm:py-5">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <p className="text-xs font-bold tracking-[0.2em] text-gold-light">李宛容 IVY · PORTFOLIO</p>
-              <button type="button" onClick={() => setExpanded(true)} className="rounded-full border border-gold/35 px-3 py-2 text-sm font-semibold text-gold-light transition hover:bg-gold hover:text-night-dark" aria-label="全螢幕放大目前頁面">全螢幕 ↗</button>
+              <p className="text-xs font-bold tracking-[0.2em] text-[#f4d892]">李宛容 IVY · PORTFOLIO</p>
+              <button type="button" onClick={() => setExpanded(true)} className="rounded-full border border-[#f4d892]/35 px-3 py-2 text-sm font-semibold text-[#f4d892] transition hover:bg-[#d6a94f] hover:text-[#17143d]" aria-label="全螢幕放大目前頁面">全螢幕 ↗</button>
             </div>
-            <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-paper/10"><div className="h-full rounded-full bg-gold transition-all" style={{ width: `${(page / TOTAL_PAGES) * 100}%` }} /></div>
+            <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-[#d6a94f] transition-all" style={{ width: `${(page / TOTAL_PAGES) * 100}%` }} /></div>
             <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
-              <button type="button" onClick={() => goTo(page - 1)} disabled={page === 1} className="justify-self-start rounded-full border border-gold/35 px-3 py-2.5 text-sm font-bold text-gold-light disabled:cursor-not-allowed disabled:opacity-30 sm:px-4">← 上一頁</button>
-              <p className="font-serif text-sm font-bold text-paper sm:text-base"><span className="text-lg text-gold-light sm:text-xl">{page}</span> / {TOTAL_PAGES}</p>
-              <button type="button" onClick={() => goTo(page + 1)} disabled={page === TOTAL_PAGES} className="justify-self-end rounded-full bg-gold px-3 py-2.5 text-sm font-bold text-night-dark disabled:cursor-not-allowed disabled:opacity-30 sm:px-4">下一頁 →</button>
+              <button type="button" onClick={() => goTo(page - 1)} disabled={page === 1} className="justify-self-start rounded-full border border-[#f4d892]/35 px-3 py-2.5 text-sm font-bold text-[#f4d892] disabled:cursor-not-allowed disabled:opacity-30 sm:px-4">← 上一頁</button>
+              <p className="font-serif text-sm font-bold text-white sm:text-base"><span className="text-lg text-[#f4d892] sm:text-xl">{page}</span> / {TOTAL_PAGES}</p>
+              <button type="button" onClick={() => goTo(page + 1)} disabled={page === TOTAL_PAGES} className="justify-self-end rounded-full bg-[#d6a94f] px-3 py-2.5 text-sm font-bold text-[#17143d] disabled:cursor-not-allowed disabled:opacity-30 sm:px-4">下一頁 →</button>
             </div>
           </div>
         </div>

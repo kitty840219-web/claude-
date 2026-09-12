@@ -19,7 +19,7 @@ export default function AifeilerBookMiniReader() {
   }
 
   return (
-    <div className="group mt-6 overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:border-gold/40">
+    <div className="group mt-6 overflow-hidden rounded-3xl border border-[#f4d892]/20 bg-[#0d0b2d] shadow-2xl transition hover:border-[#f4d892]/40">
       <div
         role="button"
         tabIndex={0}
@@ -48,8 +48,8 @@ export default function AifeilerBookMiniReader() {
       </div>
       <div className="flex items-center justify-between gap-3 px-5 py-4">
         <div className="min-w-0">
-          <p className="text-xs font-bold tracking-[0.22em] text-gold-light">E-BOOK</p>
-          <h3 className="mt-1 font-serif text-base font-bold text-paper">閱讀《遺落在風中的信》</h3>
+          <p className="text-xs font-bold tracking-[0.22em] text-[#f4d892]">E-BOOK</p>
+          <h3 className="mt-1 font-serif text-base font-bold text-white">閱讀《遺落在風中的信》</h3>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <button
@@ -57,17 +57,17 @@ export default function AifeilerBookMiniReader() {
             onClick={() => goTo(page - 2)}
             disabled={page === 1}
             aria-label="上一頁"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/35 text-gold-light disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#f4d892]/35 text-[#f4d892] disabled:cursor-not-allowed disabled:opacity-30"
           >
             ‹
           </button>
-          <span className="text-xs text-paper/60">{pageLabel}/{TOTAL}</span>
+          <span className="text-xs text-white/60">{pageLabel}/{TOTAL}</span>
           <button
             type="button"
             onClick={() => goTo(page + 2)}
             disabled={page + 2 > TOTAL}
             aria-label="下一頁"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/35 text-gold-light disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#f4d892]/35 text-[#f4d892] disabled:cursor-not-allowed disabled:opacity-30"
           >
             ›
           </button>

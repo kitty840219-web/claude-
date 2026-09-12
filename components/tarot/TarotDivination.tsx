@@ -655,7 +655,7 @@ export default function TarotDivination() {
                 <p className="mt-2 line-clamp-3 break-words text-sm leading-6 text-paper">{entry.question}</p>
                 <span className="mt-3 block text-xs text-gold-light">開啟完整報告 →</span>
               </button>
-              <button onClick={() => removeHistory(entry.id)} className="mt-3 text-xs text-rose-200/80" aria-label={`刪除 ${entry.date} 的占卜紀錄`}>刪除紀錄</button>
+              <button onClick={() => removeHistory(entry.id)} className="mt-3 text-xs text-blush/80" aria-label={`刪除 ${entry.date} 的占卜紀錄`}>刪除紀錄</button>
             </div>
           ))}
         </section>
@@ -913,7 +913,7 @@ export default function TarotDivination() {
             <p className="animate-pulse text-sm text-gold-light/70">牌陣已經排好，正在針對你的問題解讀⋯</p>
           ) : (
             <div className="space-y-3">
-              <p className="text-sm text-rose-200">{readingError}</p>
+              <p className="text-sm text-blush">{readingError}</p>
               <button onClick={retryReading} className="rounded-xl border border-gold-light/40 px-5 py-2 text-sm text-paper">
                 重新解牌
               </button>
@@ -950,7 +950,7 @@ export default function TarotDivination() {
                 <img src={exportUrl} alt="完整塔羅報告 JPG 預覽" className="mt-3 h-auto w-full rounded" />
               </details>
             </div>}
-            {exportError && <p role="alert" className="text-sm text-rose-200">{exportError}</p>}
+            {exportError && <p role="alert" className="text-sm text-blush">{exportError}</p>}
           </div>
 
           <h3 className="text-lg font-semibold text-paper">個性分析</h3>
@@ -986,7 +986,7 @@ export default function TarotDivination() {
             <h3 className="mb-3 font-semibold text-paper">總結與建議</h3>
             <p className="whitespace-pre-line text-sm leading-7 text-paper/90">{reading.summary}</p>
           </section>
-          {readingError && <p role="alert" className="text-sm text-rose-200">{readingError}</p>}
+          {readingError && <p role="alert" className="text-sm text-blush">{readingError}</p>}
           <FollowUpPanel
             followUps={followUps}
             draft={followUpDraft}

@@ -308,7 +308,7 @@ function SplitTool({ onDone }: { onDone: (r: Omit<AccountingRecord, "id" | "date
       >
         ＋ 新增一位
       </button>
-      {result.percentSum !== 100 && <p className="text-xs text-rose-300">目前比例總和 {result.percentSum}%，建議調整到 100%</p>}
+      {result.percentSum !== 100 && <p className="text-xs text-blush">目前比例總和 {result.percentSum}%，建議調整到 100%</p>}
       <div ref={resultRef} className="mt-4 space-y-1 rounded-xl bg-night-light/25 p-4">
         {result.results.map((r) => (
           <ResultRow key={r.label} label={`${r.label}（${r.percent}%）`} value={fmt(r.amount)} />
@@ -995,7 +995,7 @@ export default function AccountingHelper() {
                 </div>
 
                 {asking && <p className="mt-4 text-xs text-paper/60">艾飛樂正在想...</p>}
-                {askError && <p className="mt-4 text-xs text-rose-300">{askError}</p>}
+                {askError && <p className="mt-4 text-xs text-blush">{askError}</p>}
                 {answer && (
                   <div className="mt-4 rounded-2xl border border-gold/15 bg-night-light/20 p-4">
                     <p className="text-sm leading-6 text-paper/90">{answer.text}</p>
