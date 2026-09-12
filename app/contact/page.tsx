@@ -163,16 +163,16 @@ export default function ContactPage() {
       <section className="bg-night-dark py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <SectionHeading eyebrow="PROCESS" title="合作流程" center />
-          <div className="relative mt-10 grid gap-4">
+          <div className="relative mt-12 grid gap-8">
             {PROCESS.map((p) => (
-              <div key={p.step} className="flex min-h-28 flex-col items-center rounded-2xl bg-night-light/25 p-5 text-center shadow-card">
+              <div key={p.step} className="relative flex flex-col items-center rounded-2xl bg-night-light/25 p-5 pt-9 text-center shadow-card">
+                <span className="absolute -top-4 left-1/2 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full bg-gold font-serif text-sm font-bold text-night-dark shadow-soft">
+                  {p.step}
+                </span>
                 <div className="relative h-24 w-24 shrink-0 sm:h-28 sm:w-28">
                   <Image src={asset(p.art)} alt={`小艾示範${p.title}`} fill className="object-contain" sizes="112px" />
                 </div>
-                <div className="mt-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold font-serif text-base font-bold text-night-dark">
-                  {p.step}
-                </div>
-                <h3 className="mt-2 font-serif text-base font-bold text-paper sm:text-lg">{p.title}</h3>
+                <h3 className="mt-3 font-serif text-base font-bold text-paper sm:text-lg">{p.title}</h3>
                 <p className="mt-1 text-xs leading-relaxed text-paper/70 sm:text-sm">{p.desc}</p>
               </div>
             ))}
