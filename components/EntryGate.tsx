@@ -53,22 +53,22 @@ export default function EntryGate() {
       >
         <div className="pointer-events-none absolute inset-x-0 bottom-[2%] h-[42%] rounded-[2rem] border border-gold/40" />
 
-        <div className="absolute inset-x-5 top-[56%] bottom-[4%] z-10 flex flex-col justify-between sm:inset-x-8">
+        <div className="absolute inset-x-5 top-[56%] bottom-[4%] z-10 flex flex-col justify-between text-center sm:inset-x-8">
           <div>
             <p
-              className="animate-fade-in text-[11px] font-semibold tracking-[0.35em] text-gold-light"
+              className="animate-fade-in text-xs font-semibold tracking-[0.35em] text-gold-light"
               style={{ animationDelay: "0.1s" }}
             >
               {SITE.brandEn.toUpperCase()}
             </p>
             <h1
-              className="animate-fade-in mt-2 font-serif text-2xl font-bold text-paper sm:text-3xl"
+              className="animate-fade-in mt-2 font-serif text-3xl font-bold text-paper sm:text-4xl"
               style={{ animationDelay: "0.35s" }}
             >
               {SITE.brand}
             </h1>
             <p
-              className="animate-fade-in mt-3 text-sm leading-relaxed text-paper/75"
+              className="animate-fade-in mt-3 text-base leading-relaxed text-paper/75"
               style={{ animationDelay: "0.6s" }}
             >
               {SITE.tagline}🌟
