@@ -35,7 +35,7 @@ export default function StoryPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-night-dark pb-10 pt-6 text-center">
+      <section className="relative overflow-hidden bg-night-dark pb-2 pt-6 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
           <div className="mb-3 flex items-center justify-center gap-2">
@@ -49,7 +49,7 @@ export default function StoryPage() {
       </section>
 
       {/* paginated dialogue reader */}
-      <section className="relative overflow-hidden bg-night-dark py-16">
+      <section className="relative overflow-hidden bg-night-dark pb-16 pt-2">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative">
           <StoryReader chapters={CHAPTERS} />
