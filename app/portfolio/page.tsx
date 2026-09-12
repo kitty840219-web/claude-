@@ -29,7 +29,7 @@ const PROJECT_LINKS = [
 export default function PortfolioPage() {
   return (
     <div className="w-full overflow-hidden bg-night-dark">
-      <section className="bg-stars relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20">
+      <section className="bg-stars relative px-5 pb-4 pt-14 sm:px-8 sm:pb-6 sm:pt-20">
         <div className="mx-auto max-w-6xl text-center">
           <div>
             <p className="text-sm font-bold tracking-[0.35em] text-gold-light">IVY LEE · PORTFOLIO</p>

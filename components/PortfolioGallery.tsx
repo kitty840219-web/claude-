@@ -28,7 +28,7 @@ export default function PortfolioGallery() {
   }, [expanded]);
 
   return (
-    <section id="portfolio-book" className="scroll-mt-24 bg-night-dark px-3 py-14 sm:px-8 sm:py-20">
+    <section id="portfolio-book" className="scroll-mt-24 bg-night-dark px-3 pb-14 pt-4 sm:px-8 sm:pb-20 sm:pt-6">
       <div className="mx-auto max-w-6xl">
         <h2 className="sr-only">翻閱我的作品集</h2>
         <div className="overflow-hidden rounded-[1.5rem] border border-gold/45 bg-[#0b0928] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
