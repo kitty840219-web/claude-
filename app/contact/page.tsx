@@ -90,19 +90,17 @@ export default function ContactPage() {
       <section className="relative overflow-hidden bg-night-dark pb-12 pt-20 text-center">
         <div className="bg-stars pointer-events-none absolute inset-0 opacity-50" />
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="mx-auto grid max-w-4xl items-center gap-6 md:grid-cols-[1fr_18rem] md:text-left">
-            <div>
-          <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
-            <Star className="h-3 w-3 text-gold-light" />
-            <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">CONTACT</p>
-            <Star className="h-3 w-3 text-gold-light" delay="1s" />
-          </div>
-          <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">洽談合作</h1>
-          <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
+          <div className="relative mx-auto max-w-4xl">
+            <div className="animate-float-slow absolute -right-2 top-0 h-24 w-24 sm:right-2 sm:h-28 sm:w-28">
+              <Image src={asset("/images/contact-collaboration-cutout.webp")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="112px" />
             </div>
-            <div className="animate-float-slow relative mx-auto h-64 w-64 md:h-72 md:w-72">
-              <Image src={asset("/images/contact-collaboration-cutout.webp")} alt="小艾展示合作企劃，邀請洽談合作" fill priority className="object-contain" sizes="288px" />
+            <div className="mb-4 flex items-center justify-center gap-2">
+              <Star className="h-3 w-3 text-gold-light" />
+              <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">CONTACT</p>
+              <Star className="h-3 w-3 text-gold-light" delay="1s" />
             </div>
+            <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">洽談合作</h1>
+            <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
           </div>
 
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
