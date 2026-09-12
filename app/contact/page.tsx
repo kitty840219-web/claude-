@@ -3,7 +3,6 @@ import Image from "next/image";
 import PricingPreviewButton from "@/components/PricingPreviewButton";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCarousel from "@/components/ServiceCarousel";
-import SocialIcon from "@/components/SocialIcon";
 import Star from "@/components/Star";
 import { LINKS, SERVICES, SITE } from "@/lib/data/site";
 import { CHIPS } from "@/lib/data/pricing";
@@ -22,7 +21,6 @@ const CONTACTS = [
     value: "@153yhemn",
     href: LINKS.lineOA,
     cta: "開啟 LINE →",
-    icon: "line" as const,
     art: "/images/contact-line-friend-cutout.webp",
   },
   {
@@ -32,7 +30,6 @@ const CONTACTS = [
     value: LINKS.email,
     href: `mailto:${LINKS.email}`,
     cta: "寄送 EMAIL →",
-    icon: "mail" as const,
     art: "/images/home-quotes-cutout.webp",
   },
   {
@@ -42,7 +39,6 @@ const CONTACTS = [
     value: "@aibi_0219",
     href: LINKS.instagramQuotes,
     cta: "開啟 INSTAGRAM →",
-    icon: "instagram" as const,
     art: "/images/latest-articles-cutout.webp",
   },
   {
@@ -52,7 +48,6 @@ const CONTACTS = [
     value: "dreamstar_illustration",
     href: LINKS.instagramIllustration,
     cta: "開啟 INSTAGRAM →",
-    icon: "instagram" as const,
     art: "/images/about-creator-cutout.webp",
   },
 ];
@@ -155,7 +150,6 @@ export default function ContactPage() {
                 <span className="relative h-24 w-24 shrink-0 transition duration-500 group-hover:scale-105 sm:h-28 sm:w-28">
                   <Image src={asset(c.art)} alt="" fill className="object-contain" sizes="112px" />
                 </span>
-                <SocialIcon type={c.icon} className="mt-2 h-6 w-6 text-paper" />
                 <span className="mt-3 block text-xs font-semibold tracking-[0.2em] text-gold-light">{c.label}</span>
                 <span className="mt-2 block font-serif text-base font-bold text-paper sm:text-lg">{c.title}</span>
                 <span className="mt-2 block break-all text-sm text-paper/70">{c.value}</span>
