@@ -195,11 +195,11 @@ html[data-view-mode="desktop"] .floating-music {
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.4; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.1); }
+  0%, 100% { opacity: 0.2; transform: scale(0.75); }
+  50% { opacity: 1; transform: scale(1.3); }
 }
 .animate-twinkle {
-  animation: twinkle 3s ease-in-out infinite;
+  animation: twinkle 2.2s ease-in-out infinite;
 }
 
 @keyframes float-slow {
@@ -259,8 +259,8 @@ html[data-view-mode="desktop"] .floating-music {
   0% { opacity: 0; transform: rotate(35deg) translate(0, 0); }
   10% { opacity: 1; }
   55% { opacity: 1; }
-  70% { opacity: 0; transform: rotate(35deg) translate(150px, 105px); }
-  100% { opacity: 0; transform: rotate(35deg) translate(150px, 105px); }
+  70% { opacity: 0; transform: rotate(35deg) translate(48px, 34px); }
+  100% { opacity: 0; transform: rotate(35deg) translate(48px, 34px); }
 }
 .animate-meteor {
   animation-name: meteor-fall;

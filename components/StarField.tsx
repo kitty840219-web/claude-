@@ -35,7 +35,7 @@ export default function StarField() {
   return (
     <div
       aria-hidden="true"
-      className="night-only-decor pointer-events-none fixed left-1/2 top-0 -z-10 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
+      className="night-only-decor pointer-events-none fixed left-1/2 top-0 z-20 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
     >
       {STARS.map((s, i) => (
         <span

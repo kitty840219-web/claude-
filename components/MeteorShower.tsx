@@ -2,20 +2,22 @@
 
 type Meteor = { top: string; left: string; length: number; delay: string; duration: string };
 
+/* Kept along the far left margin so the falling trail never crosses the
+   hero text/character artwork, which almost always sits center-right. */
 const METEORS: Meteor[] = [
-  { top: "6%", left: "18%", length: 90, delay: "0s", duration: "7s" },
-  { top: "14%", left: "62%", length: 110, delay: "2.4s", duration: "8.5s" },
-  { top: "32%", left: "8%", length: 80, delay: "5.1s", duration: "7.8s" },
-  { top: "48%", left: "75%", length: 100, delay: "1.3s", duration: "9s" },
-  { top: "65%", left: "30%", length: 90, delay: "3.6s", duration: "8s" },
-  { top: "78%", left: "55%", length: 70, delay: "6.4s", duration: "7.2s" },
+  { top: "3%", left: "1%", length: 50, delay: "0s", duration: "7s" },
+  { top: "18%", left: "2%", length: 55, delay: "2.6s", duration: "8s" },
+  { top: "34%", left: "1%", length: 45, delay: "5.1s", duration: "7.5s" },
+  { top: "52%", left: "2%", length: 50, delay: "1.4s", duration: "8.5s" },
+  { top: "70%", left: "1%", length: 45, delay: "4.2s", duration: "7.8s" },
+  { top: "86%", left: "2%", length: 50, delay: "6.4s", duration: "7.2s" },
 ];
 
 export default function MeteorShower() {
   return (
     <div
       aria-hidden="true"
-      className="night-only-decor pointer-events-none fixed left-1/2 top-0 -z-10 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
+      className="night-only-decor pointer-events-none fixed left-1/2 top-0 z-20 h-full w-full max-w-[430px] -translate-x-1/2 overflow-hidden"
     >
       {METEORS.map((m, i) => (
         <span
