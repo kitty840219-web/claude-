@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import Star from "@/components/Star";
@@ -7,6 +6,8 @@ import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
 import AboutJourney from "@/components/AboutJourney";
 import ShortsCarousel from "@/components/ShortsCarousel";
+import PortfolioMiniReader from "@/components/PortfolioMiniReader";
+import AifeilerBookMiniReader from "@/components/AifeilerBookMiniReader";
 import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
@@ -56,15 +57,7 @@ export default function AboutPage() {
         {/* Timeline */}
         <div className="relative mx-auto max-w-4xl px-5 pb-12 sm:px-8">
           <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
-          <Link href="/portfolio/#portfolio-book" className="group mt-6 block overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
-            <div className="aspect-video overflow-hidden bg-paper">
-              <Image src={asset("/images/portfolio/portfolio-01.webp")} alt="李宛容數位內容與視覺設計作品集預覽" width={1600} height={900} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" />
-            </div>
-            <div className="flex items-center justify-between gap-3 px-5 py-4">
-              <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">PORTFOLIO</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">翻閱作品集 PPT</h3></div>
-              <span className="text-2xl text-gold-light">↗</span>
-            </div>
-          </Link>
+          <PortfolioMiniReader />
           <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8 text-left">
             {TIMELINE.map((t, i) => (
               <div key={t.title}>
@@ -109,23 +102,7 @@ export default function AboutPage() {
                     <p className="mt-1 text-xs leading-relaxed text-paper/60">2024 年誕生，戴著草帽、綁著雙辮，靜靜微笑、雙手合十——小艾是艾飛樂的品牌代言角色。</p>
                   </div>
                 )}
-                {i === 3 && (
-                  <Link
-                    href="/portfolio/#aifeiler-book"
-                    className="group relative mt-6 block overflow-hidden rounded-2xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40"
-                  >
-                    <div className="aspect-video overflow-hidden bg-[#efe4d2]">
-                      <Image src={asset("/images/aifeiler-book/book-001.webp")} alt="《遺落在風中的信》電子書封面預覽" width={720} height={1023} className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" />
-                    </div>
-                    <div className="flex items-center justify-between gap-3 px-4 py-3">
-                      <div>
-                        <p className="text-[10px] font-bold tracking-[0.22em] text-gold-light">E-BOOK</p>
-                        <h4 className="mt-1 font-serif text-sm font-bold text-paper">閱讀《遺落在風中的信》</h4>
-                      </div>
-                      <span className="shrink-0 text-xl text-gold-light">↗</span>
-                    </div>
-                  </Link>
-                )}
+                {i === 3 && <AifeilerBookMiniReader />}
                 {i === 4 && (
                   <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
                     <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">SHORTS</p>

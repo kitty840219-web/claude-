@@ -34,3 +34,37 @@ export function playTwinkleSound() {
     osc.stop(now + note.start + note.duration + 0.02);
   }
 }
+
+// A short filtered-noise "swish", synthesized on the fly, for flipping a page.
+export function playPageTurnSound() {
+  const audioCtx = getContext();
+  if (!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+  const duration = 0.26;
+  const bufferSize = Math.floor(audioCtx.sampleRate * duration);
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+  }
+
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = buffer;
+
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.Q.value = 0.7;
+  filter.frequency.setValueAtTime(2400, now);
+  filter.frequency.exponentialRampToValueAtTime(800, now + duration);
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0.22, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioCtx.destination);
+  noise.start(now);
+  noise.stop(now + duration + 0.02);
+}

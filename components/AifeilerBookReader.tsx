@@ -3,21 +3,13 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/basePath";
+import { BOOK_PAGES, BOOK_TOTAL_PAGES as TOTAL, bookImage } from "@/lib/data/book";
 
-const SOURCE_TOTAL = 152;
-const REMOVED_SOURCE_PAGES = new Set([3, 4, 5, 6, 7, 8, 9]);
-const BOOK_PAGES = Array.from({ length: SOURCE_TOTAL }, (_, index) => index + 1).filter((page) => !REMOVED_SOURCE_PAGES.has(page));
-const TOTAL = BOOK_PAGES.length;
 const BOOKMARKS = [
   { sourcePage: 1, label: "封面" }, { sourcePage: 10, label: "目錄" }, { sourcePage: 13, label: "序言" },
   { sourcePage: 20, label: "生命故事" }, { sourcePage: 60, label: "愛與關係" },
   { sourcePage: 94, label: "成長與放下" }, { sourcePage: 132, label: "找回自己" }, { sourcePage: 151, label: "作者與封底" },
 ];
-
-function bookImage(displayPage: number) {
-  const sourcePage = BOOK_PAGES[displayPage - 1];
-  return `/images/aifeiler-book/book-${String(sourcePage).padStart(3, "0")}.webp`;
-}
 
 function displayPageFor(sourcePage: number) {
   return BOOK_PAGES.findIndex((page) => page >= sourcePage) + 1;
