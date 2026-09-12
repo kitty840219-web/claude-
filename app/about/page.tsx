@@ -57,6 +57,15 @@ export default function AboutPage() {
         {/* Timeline */}
         <div className="relative mx-auto max-w-4xl px-5 pb-12 sm:px-8">
           <SectionHeading eyebrow="TIMELINE" title="創作歷程" center />
+          <Link href="/portfolio/#portfolio-book" className="group mt-6 block overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
+            <div className="aspect-video overflow-hidden bg-paper">
+              <Image src={asset("/images/portfolio/portfolio-01.webp")} alt="李宛容數位內容與視覺設計作品集預覽" width={1600} height={900} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" />
+            </div>
+            <div className="flex items-center justify-between gap-3 px-5 py-4">
+              <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">PORTFOLIO</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">翻閱作品集 PPT</h3></div>
+              <span className="text-2xl text-gold-light">↗</span>
+            </div>
+          </Link>
           <div className="relative mt-12 space-y-10 border-l-2 border-dashed border-lavender/40 pl-8 text-left">
             {TIMELINE.map((t, i) => (
               <div key={t.title}>
@@ -124,15 +133,6 @@ export default function AboutPage() {
             </div>
             <div className="flex items-center justify-between gap-3 px-5 py-4">
               <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">E-BOOK</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">閱讀《遺落在風中的信》</h3></div>
-              <span className="text-2xl text-gold-light">↗</span>
-            </div>
-          </Link>
-          <Link href="/portfolio/#portfolio-book" className="group overflow-hidden rounded-3xl border border-gold/20 bg-[#0d0b2d] shadow-2xl transition hover:-translate-y-1 hover:border-gold/40">
-            <div className="aspect-video overflow-hidden bg-paper">
-              <Image src={asset("/images/portfolio/portfolio-01.webp")} alt="李宛容數位內容與視覺設計作品集預覽" width={1600} height={900} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" />
-            </div>
-            <div className="flex items-center justify-between gap-3 px-5 py-4">
-              <div><p className="text-xs font-bold tracking-[0.22em] text-gold-light">PORTFOLIO</p><h3 className="mt-1 font-serif text-xl font-bold text-paper">翻閱作品集 PPT</h3></div>
               <span className="text-2xl text-gold-light">↗</span>
             </div>
           </Link>
