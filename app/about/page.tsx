@@ -7,7 +7,7 @@ import StatBadge from "@/components/StatBadge";
 import SocialIcon from "@/components/SocialIcon";
 import AboutJourney from "@/components/AboutJourney";
 import ShortsCarousel from "@/components/ShortsCarousel";
-import { SERVICES, SITE, TIMELINE } from "@/lib/data/site";
+import { LINKS, SERVICES, SITE, TIMELINE } from "@/lib/data/site";
 import { QUOTES } from "@/lib/data/quotes";
 import { asset } from "@/lib/basePath";
 
@@ -110,6 +110,21 @@ export default function AboutPage() {
                       <p className="mt-1 text-xs leading-relaxed text-paper/60">2024 年誕生，戴著草帽、綁著雙辮，靜靜微笑、雙手合十——小艾是艾飛樂的品牌代言角色。</p>
                     </div>
                   </div>
+                )}
+                {i === 3 && (
+                  <a
+                    href={LINKS.googleReviews}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative mt-6 flex items-center justify-between gap-4 rounded-2xl border border-gold/20 bg-night-light/25 p-4 transition hover:border-gold/40"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-semibold tracking-[0.2em] text-gold-light">GOOGLE 商店</p>
+                      <h4 className="mt-1 font-serif text-sm font-bold text-paper">查看 Google 商店與評論</h4>
+                      <p className="mt-1 text-xs leading-relaxed text-paper/60">官方 LINE 上線同一年成立的 Google 商店，累積了許多客戶好評回饋。</p>
+                    </div>
+                    <span className="shrink-0 text-2xl text-gold-light">↗</span>
+                  </a>
                 )}
                 {i === 4 && (
                   <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/20 bg-night-light/25 p-4">
