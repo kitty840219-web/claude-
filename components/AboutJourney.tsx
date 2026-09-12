@@ -5,68 +5,9 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { asset } from "@/lib/basePath";
 
-const SCENES = [
-  {
-    chapter: "CHAPTER 01 · 品牌的起點",
-    speaker: "艾飛樂語錄",
-    text: "天空越黑，星星越亮。這裡收藏著 Ivy 用插畫與文字寫下的每一份共鳴。",
-    image: "/images/about-brand-poster.webp",
-    alt: "艾飛樂語錄品牌宣傳圖：天空越黑，星星越亮，寫出我們的共鳴",
-    cover: true,
-    portrait: false,
-  },
-  {
-    chapter: "CHAPTER 02 · 關於創作者",
-    speaker: "嗨，我是 Ivy",
-    text: "我在 2022 年成立艾飛樂數位文創工作室，把生活裡說不出口的心事，畫成一顆顆陪伴你的星星。",
-    image: "/images/profile.webp",
-    alt: "艾飛樂創辦人 Ivy",
-    portrait: true,
-  },
-  {
-    chapter: "CHAPTER 03 · 小艾登場",
-    speaker: "小艾",
-    text: "戴著草帽、綁著藍色雙辮的我，是艾飛樂的陪伴角色。很高興在這段旅程裡認識你。",
-    image: "/images/journey-shop.webp",
-    alt: "小艾在充滿星星小物的店裡挑選卡片",
-    cover: true,
-    portrait: false,
-  },
-  {
-    chapter: "CHAPTER 04 · 創作的日常",
-    speaker: "Ivy",
-    text: "從插畫語錄、品牌視覺到客製周邊，每一件作品都想溫柔接住一個真實的心情。",
-    image: "/images/xiaoai-04-works-page.webp",
-    alt: "小艾抱著一疊語錄卡片",
-    cover: true,
-    portrait: false,
-  },
-  {
-    chapter: "CHAPTER 05 · 故事正要開始",
-    speaker: "小艾",
-    text: "準備好了嗎？接下來，一起翻開艾飛樂從第一顆星星開始的故事。",
-    image: "/images/xiaoai-02-story-page.webp",
-    alt: "小艾抱著故事與信件",
-    cover: true,
-    portrait: false,
-  },
-];
-
 export default function AboutJourney() {
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
-  const [index, setIndex] = useState(0);
-  const scene = SCENES[index];
-  const isFirst = index === 0;
-  const isLast = index === SCENES.length - 1;
-
-  function advance() {
-    if (isLast) {
-      setOpen(false);
-      return;
-    }
-    setIndex((value) => value + 1);
-  }
 
   if (pathname === "/" || !open) return null;
 
@@ -88,60 +29,23 @@ export default function AboutJourney() {
           ✕
         </button>
 
-        {isFirst ? (
-          <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-paper text-night-dark shadow-soft">
-            <div className="relative min-h-0 flex-1 overflow-hidden bg-paper">
-              <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-contain" sizes="430px" />
-            </div>
-            <div className="shrink-0 bg-paper px-5 pb-5 pt-3 text-center">
-              <button onClick={advance} className="w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
-                點擊繼續 →
-              </button>
-            </div>
+        <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-paper text-night-dark shadow-soft">
+          <div className="relative min-h-0 flex-1 overflow-hidden bg-paper">
+            <Image
+              src={asset("/images/about-brand-poster.webp")}
+              alt="艾飛樂語錄品牌宣傳圖：天空越黑，星星越亮，寫出我們的共鳴"
+              fill
+              priority
+              className="object-contain"
+              sizes="430px"
+            />
           </div>
-        ) : (
-          <div className="relative flex h-full flex-col">
-            <div className="mb-4 flex items-center justify-between text-[10px] font-semibold tracking-[0.18em] text-paper/55">
-              <span>{scene.chapter}</span>
-              <span>{String(index + 1).padStart(2, "0")} / {String(SCENES.length).padStart(2, "0")}</span>
-            </div>
-
-            <div className="relative flex flex-1 flex-col overflow-hidden rounded-[2rem] border border-gold/35 bg-night-dark shadow-soft">
-              <div className="relative min-h-0 flex-1">
-                {scene.portrait ? (
-                  <div className="absolute inset-0 flex animate-fade-in items-center justify-center">
-                    <div className="relative h-56 w-56 overflow-hidden rounded-full border-4 border-gold/40 shadow-soft">
-                      <Image src={asset(scene.image)} alt={scene.alt} fill priority className="object-cover" />
-                    </div>
-                  </div>
-                ) : (
-                  <Image
-                    key={scene.image}
-                    src={asset(scene.image)}
-                    alt={scene.alt}
-                    fill
-                    priority
-                    className={scene.cover ? "animate-fade-in object-cover object-center" : "animate-fade-in object-contain p-5"}
-                  />
-                )}
-                {!scene.portrait && <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-night-dark/90 to-transparent" />}
-              </div>
-
-              <button type="button" onClick={advance} className="relative m-4 rounded-[1.6rem] border border-gold/30 bg-night-dark/95 p-6 text-left">
-                <p className="font-serif text-xl font-bold text-gold-light">{scene.speaker}</p>
-                <p className="mt-4 text-sm leading-loose text-paper/90">「{scene.text}」</p>
-                <div className="mt-6 flex items-end justify-between gap-4">
-                  <div className="flex gap-1.5">
-                    {SCENES.map((_, dot) => (
-                      <span key={dot} className={`h-1.5 rounded-full ${dot === index ? "w-7 bg-gold" : "w-1.5 bg-paper/25"}`} />
-                    ))}
-                  </div>
-                  <span className="text-xs font-semibold text-gold-light">{isLast ? "進入故事 →" : "點擊繼續 →"}</span>
-                </div>
-              </button>
-            </div>
+          <div className="shrink-0 bg-paper px-5 pb-5 pt-3 text-center">
+            <button onClick={() => setOpen(false)} className="w-full rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-night-dark shadow-soft">
+              進入遊戲 →
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
