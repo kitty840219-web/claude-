@@ -83,14 +83,18 @@
   padding-top: 56px;
   padding-bottom: 44px;
   position: relative;
+  text-align: center;
 }
 .heroTop {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 20px;
-  flex-wrap: wrap;
   margin-bottom: 18px;
+}
+.heroTop > div:first-child {
+  text-align: center;
 }
 .heroTop h1 {
   margin-bottom: 0;
@@ -139,6 +143,7 @@
   flex-shrink: 0;
   animation: pricing-float 6s ease-in-out infinite;
   filter: drop-shadow(0 0 18px rgba(236, 206, 143, 0.28));
+  margin-inline: auto;
 }
 @media (min-width: 640px) {
   .heroArt {

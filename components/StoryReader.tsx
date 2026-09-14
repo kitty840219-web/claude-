@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Chapter } from "@/lib/data/story";
 
-const PALETTES = ["from-night-light to-night-dark", "from-lavender-dark to-night-dark"];
-
 export default function StoryReader({
   chapters,
   finish,
@@ -20,7 +18,6 @@ export default function StoryReader({
   const chapter = chapters[index];
   const num = String(index + 1).padStart(2, "0");
   const isLast = index === total - 1;
-  const palette = PALETTES[index % PALETTES.length];
   const finishLabel = finish?.label ?? "故事讀完了，看看最新文章 →";
 
   const advance = () => {
@@ -85,16 +82,16 @@ export default function StoryReader({
             }
           }}
           aria-label={isLast ? finishLabel : "點擊查看下一章"}
-          className={`bg-grain group relative cursor-pointer overflow-hidden rounded-[1.75rem] bg-gradient-to-br ${palette} p-6 shadow-soft transition sm:p-9`}
+          className="bg-grain group relative cursor-pointer overflow-hidden rounded-[1.75rem] border border-[#d9c79f]/35 bg-[#f5ecd8] p-6 shadow-soft transition sm:p-9"
         >
-          <div className="bg-stars pointer-events-none absolute inset-0 opacity-40" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#efe3c8]/70 via-transparent to-white/40" />
           <div className="relative">
-            <p className="text-[11px] font-semibold tracking-[0.2em] text-gold-light">
+            <p className="text-[11px] font-semibold tracking-[0.2em] text-[#94601d]">
               艾飛樂的故事 ・ {chapter.tag.toUpperCase()} ・ 第 {num} / {String(total).padStart(2, "0")} 章
             </p>
-            <h3 className="mt-2 font-serif text-xl font-bold text-paper sm:text-2xl">{chapter.title}</h3>
+            <h3 className="mt-2 font-serif text-xl font-bold text-[#3b326c] sm:text-2xl">{chapter.title}</h3>
 
-            <div className="mt-5 space-y-4 text-justify text-sm leading-loose text-paper/85 sm:text-base">
+            <div className="mt-5 space-y-4 text-justify text-sm leading-loose text-[#514a78] sm:text-base">
               {chapter.body.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
@@ -115,7 +112,7 @@ export default function StoryReader({
                   href={chapter.embed.channelHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-block text-xs font-semibold text-gold-light"
+                  className="mt-3 inline-block text-xs font-semibold text-[#94601d]"
                 >
                   前往頻道 →
                 </a>
@@ -123,7 +120,7 @@ export default function StoryReader({
             )}
 
             {chapter.quote && (
-              <blockquote className="mt-6 border-l-4 border-gold py-1 pl-4 font-serif text-base italic text-gold-light sm:text-lg">
+              <blockquote className="mt-6 border-l-4 border-[#bf8428] py-1 pl-4 font-serif text-base italic text-[#94601d] sm:text-lg">
                 「{chapter.quote}」
               </blockquote>
             )}
@@ -132,13 +129,13 @@ export default function StoryReader({
               <Link
                 href={chapter.link.href}
                 onClick={(e) => e.stopPropagation()}
-                className="mt-5 inline-block text-xs font-semibold text-gold-light"
+                className="mt-5 inline-block text-xs font-semibold text-[#94601d]"
               >
                 {chapter.link.label}
               </Link>
             )}
 
-            <p className="mt-6 text-right text-xs font-semibold text-gold-light transition group-hover:text-gold">
+            <p className="mt-6 text-right text-xs font-semibold text-[#94601d] transition group-hover:text-[#6f4512]">
               {isLast ? finishLabel : "點擊繼續下一章 →"}
             </p>
           </div>

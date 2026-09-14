@@ -99,7 +99,6 @@ export default function ContactPage() {
               <p className="text-xs font-semibold tracking-[0.35em] text-gold-light sm:text-sm">CONTACT</p>
               <Star className="h-3 w-3 text-gold-light" delay="1s" />
             </div>
-            </div>
             <h1 className="font-serif text-3xl font-bold text-paper sm:text-4xl">洽談合作</h1>
             <p className="mt-3 text-sm leading-6 text-paper/70 sm:text-base sm:leading-7">插畫委託、品牌合作與客製周邊，歡迎與我聯繫</p>
           </div>
