@@ -50,6 +50,7 @@ export const ARTICLES: Article[] = [
     date: "2026-09-10",
     tag: "報價公開",
     image: "/images/articles/service-rate-card-cutout.webp",
+    heroImage: "/images/articles/service-rate-card-dm.webp",
     excerpt: "接案價格到底怎麼算？這次把插畫、剪輯、設計的報價全部攤開來給你看，還能線上試算。",
     body: [
       "常常有人私訊問我：「畫一張語錄圖卡大概多少錢？」「剪一支影片要抓多久？」每次都要重新報價、來回溝通，說真的蠻花時間的，你我都是。",
