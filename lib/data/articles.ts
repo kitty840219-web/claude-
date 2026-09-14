@@ -63,7 +63,7 @@ export const ARTICLES: Article[] = [
     title: "塔羅占卜服務項目更新了，單次到 VIP 包月都有",
     date: "2026-09-10",
     tag: "服務項目",
-    image: "/images/tarot-reader-cutout.webp",
+    image: "/images/articles/tarot-service-menu-cutout.webp",
     excerpt: "一次占卜、5 個問題，指引方向、看見答案；單次服務跟 VIP 包月方案這次一次整理給你看。",
     body: [
       "很多人第一次找我占卜，都會問：「我只是想問一個問題，也可以嗎？」「如果想常常來問，有沒有比較划算的方案？」這次把大家常問的整理成一頁服務項目，單次到長期都有對應的選擇。",
