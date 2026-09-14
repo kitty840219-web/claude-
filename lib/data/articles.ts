@@ -78,7 +78,7 @@ export const ARTICLES: Article[] = [
     title: "31 則真實客戶回饋，是我們前進的動力",
     date: "2026-09-10",
     tag: "客戶回饋",
-    image: "/images/tarot-reader-cutout.webp",
+    image: "/images/articles/tarot-testimonials-cutout.webp",
     excerpt: "每一則留言都認真看過，也整理成一頁分享給還在猶豫的你，看看其他人怎麼說。",
     body: [
       "占卜這件事很私人，很多人第一次來之前，都會猶豫：「這真的準嗎？」「花這筆錢值得嗎？」比起我自己說再多，不如讓真的來過的人告訴你。",
